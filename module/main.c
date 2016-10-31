@@ -260,27 +260,27 @@ static void cvTimer_callback(void* o) {
         }
 
     if (r) {
-        spi_selectChip(SPI, DAC_SPI);
-        spi_write(SPI, 0x31);
+        spi_selectChip(DAC_SPI, DAC_SPI_NPCS);
+        spi_write(DAC_SPI, 0x31);
         a = aout[2].now >> 2;
-        spi_write(SPI, a >> 4);
-        spi_write(SPI, a << 4);
-        spi_write(SPI, 0x31);
+        spi_write(DAC_SPI, a >> 4);
+        spi_write(DAC_SPI, a << 4);
+        spi_write(DAC_SPI, 0x31);
         a = aout[0].now >> 2;
-        spi_write(SPI, a >> 4);
-        spi_write(SPI, a << 4);
-        spi_unselectChip(SPI, DAC_SPI);
+        spi_write(DAC_SPI, a >> 4);
+        spi_write(DAC_SPI, a << 4);
+        spi_unselectChip(DAC_SPI, DAC_SPI_NPCS);
 
-        spi_selectChip(SPI, DAC_SPI);
-        spi_write(SPI, 0x38);
+        spi_selectChip(DAC_SPI, DAC_SPI_NPCS);
+        spi_write(DAC_SPI, 0x38);
         a = aout[3].now >> 2;
-        spi_write(SPI, a >> 4);
-        spi_write(SPI, a << 4);
-        spi_write(SPI, 0x38);
+        spi_write(DAC_SPI, a >> 4);
+        spi_write(DAC_SPI, a << 4);
+        spi_write(DAC_SPI, 0x38);
         a = aout[1].now >> 2;
-        spi_write(SPI, a >> 4);
-        spi_write(SPI, a << 4);
-        spi_unselectChip(SPI, DAC_SPI);
+        spi_write(DAC_SPI, a >> 4);
+        spi_write(DAC_SPI, a << 4);
+        spi_unselectChip(DAC_SPI, DAC_SPI_NPCS);
     }
 }
 
@@ -2340,11 +2340,11 @@ int main(void) {
     tele_usb_disk();
 
     // setup daisy chain for two dacs
-    spi_selectChip(SPI, DAC_SPI);
-    spi_write(SPI, 0x80);
-    spi_write(SPI, 0xff);
-    spi_write(SPI, 0xff);
-    spi_unselectChip(SPI, DAC_SPI);
+    spi_selectChip(DAC_SPI, DAC_SPI_NPCS);
+    spi_write(DAC_SPI, 0x80);
+    spi_write(DAC_SPI, 0xff);
+    spi_write(DAC_SPI, 0xff);
+    spi_unselectChip(DAC_SPI, DAC_SPI_NPCS);
 
     timer_add(&clockTimer, RATE_CLOCK, &clockTimer_callback, NULL);
     timer_add(&cvTimer, RATE_CV, &cvTimer_callback, NULL);
