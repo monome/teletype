@@ -51,6 +51,7 @@ http://msgpack.org
 #include "timers.h"
 #include "util.h"
 // #include "ftdi.h"
+#include "conf_tc_irq.h"
 #include "font.h"
 #include "hid.h"
 #include "region.h"
@@ -129,7 +130,7 @@ struct {
     uint8_t d[I2C_DATA_LENGTH_MAX];
 } i2c_queue[I2C_QUEUE_SIZE];
 
-uint8_t i2c_waiting_count;
+volatile uint8_t i2c_waiting_count;
 
 #define FIRSTRUN_KEY 0x22
 
@@ -843,9 +844,9 @@ static void handler_II(s32 data) {
 }
 
 static void handler_IItx(s32 data) {
-    i2c_queue[data].waiting = false;
-    i2c_waiting_count--;
     i2c_master_tx(i2c_queue[data].addr, i2c_queue[data].d, i2c_queue[data].l);
+    i2c_waiting_count--;
+    i2c_queue[data].waiting = false;
 }
 
 
@@ -1794,18 +1795,33 @@ void tele_ii(uint8_t i, int16_t d) {
 }
 
 void tele_ii_tx(uint8_t addr, uint8_t* data, uint8_t l) {
-    int i = 0, n;
+    int i, n;
+    bool space = false;
 
-    if (i2c_waiting_count < I2C_QUEUE_SIZE) {
-        while (i2c_queue[i].waiting == true) i++;
+    if (i2c_waiting_count >= I2C_QUEUE_SIZE) {
+        print_dbg("\r\ni2c queue full");
+        return;
+    }
 
-        i2c_queue[i].waiting = true;
-        i2c_queue[i].addr = addr;
-        i2c_queue[i].l = l;
+    for (i = 0; i < I2C_QUEUE_SIZE; i++) {
+        if (i2c_queue[i].waiting == false) {
+            space = true;
+            break;
+        }
+    }
+
+    if (space) {
+        cpu_irq_disable_level(APP_TC_IRQ_PRIORITY);
 
         for (n = 0; n < l; n++) i2c_queue[i].d[n] = data[n];
 
+        i2c_queue[i].l = l;
+        i2c_queue[i].addr = addr;
+        i2c_queue[i].waiting = true;
+
         i2c_waiting_count++;
+
+        cpu_irq_enable_level(APP_TC_IRQ_PRIORITY);
 
         static event_t e;
         e.type = kEventIItx;
@@ -1813,7 +1829,7 @@ void tele_ii_tx(uint8_t addr, uint8_t* data, uint8_t l) {
         event_post(&e);
     }
     else {
-        print_dbg("\r\ni2c queue full");
+        print_dbg("\r\ni2c queue, no space");
     }
 }
 
