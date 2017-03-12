@@ -14,7 +14,6 @@
 #ifdef SIM
 #define DBG printf("%s", dbg);
 #else
-#include "print_funcs.h"
 #define DBG print_dbg(dbg);
 #endif
 
