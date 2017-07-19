@@ -81,8 +81,8 @@ def common_md():
     print(f"Using ops docs directory: {OP_DOCS_DIR}")
     print()
 
-    op_table_template = env.get_template("op_table.jinga2.md")
-    op_extended_template = env.get_template("op_extended.jinga2.md")
+    op_table_template = env.get_template("op_table.jinja2.md")
+    op_extended_template = env.get_template("op_extended.jinja2.md")
 
     output = ""
     output += Path(DOCS_DIR / "whats_new.md").read_text() + "\n\n"
@@ -172,7 +172,7 @@ def main():
                             "--toc-depth=2",
                             "--css=" + str(TEMPLATE_DIR / "docs.css")])
         elif ext == ".pdf" or ext == ".tex":
-            latex_preamble = env.get_template("latex_preamble.jinga2.md")
+            latex_preamble = env.get_template("latex_preamble.jinja2.md")
             latex = latex_preamble.render(fonts_dir=FONTS_DIR)
             latex += output
             pypandoc.convert_text(
