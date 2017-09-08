@@ -56,5 +56,6 @@ extern const tele_op_t op_SYM_LEFT_ANGLED_x2;      // << alias LSH
 extern const tele_op_t op_SYM_RIGHT_ANGLED_x2;     // >> alias RSH
 extern const tele_op_t op_SYM_AMPERSAND_x2;        // && alias AND
 extern const tele_op_t op_SYM_PIPE_x2;             // || alias OR
+extern const tele_op_t op_MZ;
 
 #endif

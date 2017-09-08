@@ -23,6 +23,10 @@ prototype = "MOD x y"
 aliases = ["%"]
 short = "find the remainder after division of `x` by `y`"
 
+[MZ]
+prototype = "MZ x y"
+short = "true if `MOD x y` equals zero"
+
 [RAND]
 prototype = "RAND x"
 short = "generate a random number between `0` and `x` inclusive"

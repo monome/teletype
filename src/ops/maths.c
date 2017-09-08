@@ -74,6 +74,8 @@ static void op_VV_get(const void *data, scene_state_t *ss, exec_state_t *es,
                       command_state_t *cs);
 static void op_ER_get(const void *data, scene_state_t *ss, exec_state_t *es,
                       command_state_t *cs);
+static void op_MZ_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                       command_state_t *cs);
 
 
 // clang-format off
@@ -130,6 +132,8 @@ const tele_op_t op_SYM_LEFT_ANGLED_x2     = MAKE_ALIAS_OP(<<, op_LSH_get, NULL, 
 const tele_op_t op_SYM_RIGHT_ANGLED_x2    = MAKE_ALIAS_OP(>>, op_RSH_get, NULL, 2, true);
 const tele_op_t op_SYM_AMPERSAND_x2       = MAKE_ALIAS_OP(&&, op_AND_get, NULL, 2, true);
 const tele_op_t op_SYM_PIPE_x2            = MAKE_ALIAS_OP(||, op_OR_get , NULL, 2, true);
+
+const tele_op_t op_MZ    = MAKE_GET_OP(MZ      , op_MZ_get      , 2, true);
 // clang-format on
 
 
@@ -453,4 +457,10 @@ static void op_ER_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
     int16_t len = cs_pop(cs);
     int16_t step = cs_pop(cs);
     cs_push(cs, euclidean(fill, len, step));
+}
+
+static void op_MZ_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+                      exec_state_t *NOTUSED(es), command_state_t *cs) {
+
+    cs_push(cs, cs_pop(cs) % cs_pop(cs) == 0);
 }
