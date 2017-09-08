@@ -105,8 +105,10 @@ static void op_SCENE_get(const void *NOTUSED(data), scene_state_t *ss,
 static void op_SCENE_set(const void *NOTUSED(data), scene_state_t *ss,
                          exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t scene = cs_pop(cs);
-    ss->variables.scene = scene;
-    tele_scene(scene);
+    if (!ss->initializing) {
+        ss->variables.scene = scene;
+        tele_scene(scene);
+    }
 }
 
 static void op_SCRIPT_get(const void *NOTUSED(data), scene_state_t *ss,

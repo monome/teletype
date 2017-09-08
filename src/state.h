@@ -94,6 +94,7 @@ typedef struct {
 } scene_script_t;
 
 typedef struct {
+    bool initializing;
     scene_variables_t variables;
     scene_pattern_t patterns[PATTERN_COUNT];
     scene_delay_t delay;

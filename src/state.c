@@ -11,6 +11,7 @@
 // scene init
 
 void ss_init(scene_state_t *ss) {
+    ss->initializing = true;
     ss_variables_init(ss);
     ss_patterns_init(ss);
     ss->delay.count = 0;

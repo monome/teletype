@@ -96,6 +96,7 @@ description = """
 Load scene `x` (0-31).
 
 Does _not_ execute the `I` script.
+Will _not_ execute from the `I` script on scene load.  Will execute on subsequent calls to the `I` script.
 
 **WARNING**: You will lose any unsaved changes to your scene.
 """

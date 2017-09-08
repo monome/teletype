@@ -736,6 +736,7 @@ int main(void) {
     delay_ms(50);
 
     run_script(&scene_state, INIT_SCRIPT);
+    scene_state.initializing = false;
 
     while (true) { check_events(); }
 }
