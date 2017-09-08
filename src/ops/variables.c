@@ -6,6 +6,8 @@
 #include "ops/op.h"
 
 
+static void op_LAST_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                         command_state_t *cs);
 static void op_DRUNK_get(const void *data, scene_state_t *ss, exec_state_t *es,
                          command_state_t *cs);
 static void op_DRUNK_set(const void *data, scene_state_t *ss, exec_state_t *es,
@@ -35,6 +37,7 @@ const tele_op_t op_O_WRAP     = MAKE_SIMPLE_VARIABLE_OP(O.WRAP    , variables.o_
 const tele_op_t op_T          = MAKE_SIMPLE_VARIABLE_OP(T         , variables.t         );
 const tele_op_t op_TIME       = MAKE_SIMPLE_VARIABLE_OP(TIME      , variables.time      );
 const tele_op_t op_TIME_ACT   = MAKE_SIMPLE_VARIABLE_OP(TIME.ACT  , variables.time_act  );
+const tele_op_t op_LAST       =             MAKE_GET_OP(LAST  , op_LAST_get, 0, true);
 const tele_op_t op_X          = MAKE_SIMPLE_VARIABLE_OP(X         , variables.x         );
 const tele_op_t op_Y          = MAKE_SIMPLE_VARIABLE_OP(Y         , variables.y         );
 const tele_op_t op_Z          = MAKE_SIMPLE_VARIABLE_OP(Z         , variables.z         );
@@ -44,7 +47,12 @@ const tele_op_t op_FLIP  = MAKE_GET_SET_OP(FLIP , op_FLIP_get , op_FLIP_set , 0,
 const tele_op_t op_O     = MAKE_GET_SET_OP(O    , op_O_get    , op_O_set    , 0, true);
 // clang-format on
 
-
+static void op_LAST_get(const void *NOTUSED(data), scene_state_t *ss,
+                        exec_state_t *es, command_state_t *cs) {
+    int16_t last = ss_get_script_last(ss, es->script_number);
+    cs_push(cs, last);
+}
+        
 static void op_DRUNK_get(const void *NOTUSED(data), scene_state_t *ss,
                          exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t min = ss->variables.drunk_min;

@@ -234,6 +234,17 @@ size_t ss_scripts_size() {
     return sizeof(scene_script_t) * SCRIPT_COUNT;
 }
 
+int16_t ss_get_script_last(scene_state_t *ss, size_t idx) {
+    int16_t now = ss->variables.time;
+    int16_t last = ss->scripts[idx].last_time;
+    if (now < last) 
+        return (INT16_MAX - last) + (now - INT16_MIN); // I must be dense? 
+    return now - last;
+}
+
+void ss_update_script_last(scene_state_t *ss, size_t idx) {
+    ss->scripts[idx].last_time = ss->variables.time;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // EXEC STATE //////////////////////////////////////////////////////////////////
@@ -241,6 +252,7 @@ size_t ss_scripts_size() {
 void es_init(exec_state_t *es) {
     es->if_else_condition = true;
     es->exec_depth = 0;
+    es->script_number = INIT_SCRIPT;
 }
 
 
