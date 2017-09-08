@@ -80,8 +80,8 @@ The pattern mode clipboard is independent of text and code clipboard.
 | `]`                 | increment by 1                                                                        |
 | `<backspace>`       | delete a digit                                                                        |
 | `shift-<backspace>` | delete an entry, shift numbers up                                                     |
-| `<enter>`           | move down (increase length only if on the entry immediately after the current length) |
-| `shift-<enter>`     | duplicate entry and shift downwards (increase length as `<enter>`)                    |
+| `<enter>`           | commit edit (increase length if cursor in position after last entry)                  |
+| `shift-<enter>`     | commit edit, then duplicate entry and shift downwards (increase length as `<enter>`)  |
 | `alt-x`             | cut value (n.b. `ctrl-x` not supported)                                               |
 | `alt-c`             | copy value (n.b. `ctrl-c` not supported)                                              |
 | `alt-v`             | paste value (n.b. `ctrl-v` not supported)                                             |
