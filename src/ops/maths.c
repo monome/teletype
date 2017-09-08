@@ -277,7 +277,11 @@ static void op_QT_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
 
 static void op_AVG_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                        exec_state_t *NOTUSED(es), command_state_t *cs) {
-    cs_push(cs, (cs_pop(cs) + cs_pop(cs)) >> 1);
+    int32_t ret = (((int32_t)cs_pop(cs) * 2) +
+                    ((int32_t)cs_pop(cs) * 2))/2;
+    if (ret % 2)
+        ret += 1;
+    cs_push(cs,(int16_t)(ret / 2));
 }
 
 static void op_EQ_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
