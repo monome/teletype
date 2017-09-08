@@ -161,6 +161,8 @@
         "SCRIPT"      => { MATCH_OP(E_OP_SCRIPT); };
         "KILL"        => { MATCH_OP(E_OP_KILL); };
         "SCENE"       => { MATCH_OP(E_OP_SCENE); };
+        "BREAK"       => { MATCH_OP(E_OP_BREAK); };
+        "BRK"         => { MATCH_OP(E_OP_BRK); };
 
         # delay
         "DEL.CLR"     => { MATCH_OP(E_OP_DEL_CLR); };

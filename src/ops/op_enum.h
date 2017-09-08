@@ -134,6 +134,8 @@ typedef enum {
     E_OP_SCRIPT,
     E_OP_KILL,
     E_OP_SCENE,
+    E_OP_BREAK,
+    E_OP_BRK,
     E_OP_DEL_CLR,
     E_OP_WW_PRESET,
     E_OP_WW_POS,

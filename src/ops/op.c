@@ -67,7 +67,7 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     &op_S_ALL, &op_S_POP, &op_S_CLR, &op_S_L,
 
     // controlflow
-    &op_SCRIPT, &op_KILL, &op_SCENE,
+    &op_SCRIPT, &op_KILL, &op_SCENE, &op_BREAK, &op_BRK,
 
     // delay
     &op_DEL_CLR,

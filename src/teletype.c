@@ -149,12 +149,14 @@ process_result_t run_script_with_exec_state(scene_state_t *ss, exec_state_t *es,
     if (es->exec_depth > 8) { return result; }
 
     for (size_t i = 0; i < ss_get_script_len(ss, script_no); i++) {
-        result =
-            process_command(ss, es, ss_get_script_command(ss, script_no, i));
+	if (!es->breaking)
+            result = process_command(ss, es,
+                                     ss_get_script_command(ss, script_no, i));
     }
 
     // decrease the depth once the commands have been run
     es->exec_depth--;
+    es->breaking = false;
 
     return result;
 }

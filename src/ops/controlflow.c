@@ -29,6 +29,8 @@ static void op_SCRIPT_get(const void *data, scene_state_t *ss, exec_state_t *es,
                           command_state_t *cs);
 static void op_KILL_get(const void *data, scene_state_t *ss, exec_state_t *es,
                         command_state_t *cs);
+static void op_BREAK_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                        command_state_t *cs);
 
 
 const tele_mod_t mod_PROB = MAKE_MOD(PROB, mod_PROB_func, 1);
@@ -41,6 +43,8 @@ const tele_op_t op_SCRIPT = MAKE_GET_OP(SCRIPT, op_SCRIPT_get, 1, false);
 const tele_op_t op_KILL = MAKE_GET_OP(KILL, op_KILL_get, 0, false);
 const tele_op_t op_SCENE =
     MAKE_GET_SET_OP(SCENE, op_SCENE_get, op_SCENE_set, 0, true);
+const tele_op_t op_BREAK = MAKE_GET_OP(BREAK, op_BREAK_get, 0, false);
+const tele_op_t op_BRK = MAKE_ALIAS_OP(BRK, op_BREAK_get, NULL, 0, false);
 
 
 static void mod_PROB_func(scene_state_t *ss, exec_state_t *es,
@@ -122,4 +126,9 @@ static void op_KILL_get(const void *NOTUSED(data), scene_state_t *ss,
                         command_state_t *NOTUSED(cs)) {
     clear_delays(ss);
     tele_kill();
+}
+
+static void op_BREAK_get(const void *NOTUSED(data), scene_state_t *ss,
+                        exec_state_t *es, command_state_t *NOTUSED(cs)) {
+    es->breaking = true;
 }

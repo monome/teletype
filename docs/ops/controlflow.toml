@@ -103,3 +103,7 @@ Does _not_ execute the `I` script.
 [KILL]
 prototype = "KILL"
 short = "clears stack, clears delays, cancels pulses, cancels slews"
+
+[BREAK]
+prototype = "BREAK"
+short = "halts execution of the current script"
