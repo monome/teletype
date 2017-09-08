@@ -161,6 +161,11 @@ void process_edit_keys(uint8_t k, uint8_t m, bool is_held_key) {
         dirty |= D_LIST;
         dirty |= D_INPUT;
     }
+    // alt-slash comment toggle current line
+    else if (match_alt(m, k, HID_SLASH)) {
+        ss_toggle_script_comment(&scene_state, script, line_no);
+        dirty |= D_LIST;
+    }
     else {  // pass the key though to the line editor
         bool processed = line_editor_process_keys(&le, k, m, is_held_key);
         if (processed) dirty |= D_INPUT;
@@ -209,12 +214,14 @@ bool screen_refresh_edit() {
     if (dirty & D_LIST) {
         for (int i = 0; i < 6; i++) {
             uint8_t a = line_no == i;
+            uint8_t fg = ss_get_script_comment(&scene_state, script, i)
+                                                    ? 0x7 : 0xf;
             region_fill(&line[i], a);
             if (ss_get_script_len(&scene_state, script) > i) {
                 char s[32];
                 print_command(ss_get_script_command(&scene_state, script, i),
                               s);
-                region_string(&line[i], s, 2, 0, 0xf, a, 0);
+                region_string(&line[i], s, 2, 0, fg, a, 0);
             }
         }
 

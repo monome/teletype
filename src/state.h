@@ -91,6 +91,7 @@ typedef struct {
 typedef struct {
     uint8_t l;
     tele_command_t c[SCRIPT_MAX_COMMANDS];
+    bool comment[SCRIPT_MAX_COMMANDS];
 } scene_script_t;
 
 typedef struct {
@@ -135,6 +136,10 @@ extern size_t ss_patterns_size(void);
 
 uint8_t ss_get_script_len(scene_state_t *ss, size_t idx);
 const tele_command_t *ss_get_script_command(scene_state_t *ss,
+                                            size_t script_idx, size_t c_idx);
+bool ss_get_script_comment(scene_state_t *ss,
+                                            size_t script_idx, size_t c_idx);
+void ss_toggle_script_comment(scene_state_t *ss,
                                             size_t script_idx, size_t c_idx);
 void ss_overwrite_script_command(scene_state_t *ss, size_t script_idx,
                                  size_t command_idx, const tele_command_t *cmd);

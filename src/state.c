@@ -166,6 +166,17 @@ static void ss_set_script_command(scene_state_t *ss, size_t script_idx,
     memcpy(&ss->scripts[script_idx].c[c_idx], cmd, sizeof(tele_command_t));
 }
 
+bool ss_get_script_comment(scene_state_t *ss, size_t script_idx,
+                                size_t c_idx) {
+    return ss->scripts[script_idx].comment[c_idx];
+}
+
+void ss_toggle_script_comment(scene_state_t *ss, size_t script_idx,
+                                size_t c_idx) {
+    ss->scripts[script_idx].comment[c_idx] = !
+        ss->scripts[script_idx].comment[c_idx];
+} 
+
 void ss_overwrite_script_command(scene_state_t *ss, size_t script_idx,
                                  size_t command_idx,
                                  const tele_command_t *cmd) {

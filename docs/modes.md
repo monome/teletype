@@ -61,6 +61,7 @@ In most cases, the clipboard is shared between _live_, _edit_ and the 2 _preset_
 | `]`                | next script               |
 | `<enter>`          | enter command             |
 | `shift-<enter>`    | insert command            |
+| `alt-/`            | toggle line comment       |
 
 ## Pattern mode
 
