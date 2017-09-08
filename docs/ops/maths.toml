@@ -161,6 +161,10 @@ For more info, see the post on [samdoshi.com][samdoshi_com_euclidean]
 [^euclidean_rhythm_citation]: Toussaint, G. T. (2005, July). The Euclidean algorithm generates traditional musical rhythms. _In Proceedings of BRIDGES: Mathematical Connections in Art, Music and Science_ (pp. 47-56).
 """
 
+[MSPB]
+prototype = "MSPB x"
+short = "milliseconds per beat in BPM `x`"
+
 [N]
 prototype = "N x"
 short = "converts an equal temperament note number to a value usable by the CV outputs (`x` in the range `-127` to `127`)"

@@ -110,6 +110,7 @@ typedef enum {
     E_OP_V,
     E_OP_VV,
     E_OP_ER,
+    E_OP_MSPB,
     E_OP_XOR,
     E_OP_SYM_PLUS,
     E_OP_SYM_DASH,

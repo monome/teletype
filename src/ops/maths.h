@@ -37,6 +37,7 @@ extern const tele_op_t op_N;
 extern const tele_op_t op_V;
 extern const tele_op_t op_VV;
 extern const tele_op_t op_ER;
+extern const tele_op_t op_MSPB;
 
 extern const tele_op_t op_XOR;  // XOR alias NE
 
