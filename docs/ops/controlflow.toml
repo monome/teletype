@@ -76,6 +76,22 @@ L 4 1: TR.PULSE I   => pulse outputs 4, 3, 2 and 1
 ```
 """
 
+[W]
+prototype = "W x: ..."
+short = "run the command while condition x is true"
+description = """
+Runs the command while the condition `x` is true or the loop iterations exceed 10000.
+
+For example, to find the first iterated power of 2 greater than 100:
+
+```
+A 2
+W LT A 100: A * A A 
+```
+
+A will be 256.
+"""
+
 [PROB]
 prototype = "PROB x: ..."
 short = "potentially execute command with probability `x` (0-100)"

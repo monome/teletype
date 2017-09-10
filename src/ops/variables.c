@@ -18,6 +18,10 @@ static void op_O_get(const void *data, scene_state_t *ss, exec_state_t *es,
                      command_state_t *cs);
 static void op_O_set(const void *data, scene_state_t *ss, exec_state_t *es,
                      command_state_t *cs);
+static void op_I_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                     command_state_t *cs);
+static void op_I_set(const void *data, scene_state_t *ss, exec_state_t *es,
+                     command_state_t *cs);
 
 // clang-format off
 const tele_op_t op_A          = MAKE_SIMPLE_VARIABLE_OP(A         , variables.a         );
@@ -27,7 +31,6 @@ const tele_op_t op_D          = MAKE_SIMPLE_VARIABLE_OP(D         , variables.d 
 const tele_op_t op_DRUNK_MAX  = MAKE_SIMPLE_VARIABLE_OP(DRUNK.MAX , variables.drunk_max );
 const tele_op_t op_DRUNK_MIN  = MAKE_SIMPLE_VARIABLE_OP(DRUNK.MIN , variables.drunk_min );
 const tele_op_t op_DRUNK_WRAP = MAKE_SIMPLE_VARIABLE_OP(DRUNK.WRAP, variables.drunk_wrap);
-const tele_op_t op_I          = MAKE_SIMPLE_VARIABLE_OP(I         , variables.i         );
 const tele_op_t op_O_INC      = MAKE_SIMPLE_VARIABLE_OP(O.INC     , variables.o_inc     );
 const tele_op_t op_O_MAX      = MAKE_SIMPLE_VARIABLE_OP(O.MAX     , variables.o_max     );
 const tele_op_t op_O_MIN      = MAKE_SIMPLE_VARIABLE_OP(O.MIN     , variables.o_min     );
@@ -42,6 +45,7 @@ const tele_op_t op_Z          = MAKE_SIMPLE_VARIABLE_OP(Z         , variables.z 
 const tele_op_t op_DRUNK = MAKE_GET_SET_OP(DRUNK, op_DRUNK_get, op_DRUNK_set, 0, true);
 const tele_op_t op_FLIP  = MAKE_GET_SET_OP(FLIP , op_FLIP_get , op_FLIP_set , 0, true);
 const tele_op_t op_O     = MAKE_GET_SET_OP(O    , op_O_get    , op_O_set    , 0, true);
+const tele_op_t op_I     = MAKE_GET_SET_OP(I    , op_I_get, op_I_set, 0, true);
 // clang-format on
 
 
@@ -96,4 +100,14 @@ static void op_O_get(const void *NOTUSED(data), scene_state_t *ss,
 static void op_O_set(const void *NOTUSED(data), scene_state_t *ss,
                      exec_state_t *NOTUSED(es), command_state_t *cs) {
     ss->variables.o = cs_pop(cs);
+}
+
+static void op_I_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+                     exec_state_t *es, command_state_t *cs) {
+    cs_push(cs, es_variables(es)->i);
+}
+
+static void op_I_set(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+                     exec_state_t *es, command_state_t *cs) {
+    es_variables(es)->i = cs_pop(cs);
 }

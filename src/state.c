@@ -239,10 +239,36 @@ size_t ss_scripts_size() {
 // EXEC STATE //////////////////////////////////////////////////////////////////
 
 void es_init(exec_state_t *es) {
-    es->if_else_condition = true;
     es->exec_depth = 0;
+    es->overflow = false;
 }
 
+size_t es_depth(exec_state_t *es) {
+    return es->exec_depth;
+}
+
+size_t es_push(exec_state_t *es) {
+    if (es->exec_depth < EXEC_DEPTH) {
+        es->variables[es->exec_depth].while_depth = 0;
+        es->variables[es->exec_depth].while_continue = false;
+        es->variables[es->exec_depth].if_else_condition = true;
+        es->variables[es->exec_depth].i = 0;
+        es->exec_depth += 1;                   // exec_depth = 1 at the root
+    }
+    else
+        es->overflow = true;
+    return es->exec_depth;
+}
+
+size_t es_pop(exec_state_t *es) {
+    if (es->exec_depth > 0)
+        es->exec_depth -= 1; 
+    return es->exec_depth;
+}
+
+exec_vars_t *es_variables(exec_state_t *es) {
+    return &es->variables[es->exec_depth - 1]; // but array is 0-indexed
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // COMMAND STATE ///////////////////////////////////////////////////////////////

@@ -8,6 +8,7 @@ extern const tele_mod_t mod_IF;
 extern const tele_mod_t mod_ELIF;
 extern const tele_mod_t mod_ELSE;
 extern const tele_mod_t mod_L;
+extern const tele_mod_t mod_W;
 
 extern const tele_op_t op_SCRIPT;
 extern const tele_op_t op_KILL;

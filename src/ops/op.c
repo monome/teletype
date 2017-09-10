@@ -150,7 +150,7 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
 
 const tele_mod_t *tele_mods[E_MOD__LENGTH] = {
     // controlflow
-    &mod_IF, &mod_ELIF, &mod_ELSE, &mod_L, &mod_PROB,
+    &mod_IF, &mod_ELIF, &mod_ELSE, &mod_L, &mod_W, &mod_PROB,
 
     // delay
     &mod_DEL,

@@ -18,6 +18,8 @@
 #define PATTERN_LENGTH 64
 #define SCRIPT_MAX_COMMANDS 6
 #define SCRIPT_COUNT 10
+#define EXEC_DEPTH 8
+#define WHILE_DEPTH 10000
 
 #define METRO_SCRIPT 8
 #define INIT_SCRIPT 9
@@ -42,7 +44,6 @@ typedef struct {
     int16_t drunk_min;
     int16_t drunk_wrap;
     int16_t flip;
-    int16_t i;
     int16_t in;
     int16_t m;
     bool m_act;
@@ -152,10 +153,22 @@ size_t ss_scripts_size(void);
 
 typedef struct {
     bool if_else_condition;
+    int16_t i;
+    bool while_continue;
+    uint16_t while_depth;
+} exec_vars_t;
+
+typedef struct {
+    exec_vars_t variables[EXEC_DEPTH];
     uint8_t exec_depth;
+    bool overflow;
 } exec_state_t;
 
 extern void es_init(exec_state_t *es);
+extern size_t es_depth(exec_state_t *es);
+extern size_t es_push(exec_state_t *es);
+extern size_t es_pop(exec_state_t *es);
+extern exec_vars_t *es_variables(exec_state_t *es);
 
 ////////////////////////////////////////////////////////////////////////////////
 // COMMAND STATE ///////////////////////////////////////////////////////////////
