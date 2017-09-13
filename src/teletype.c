@@ -134,6 +134,7 @@ error_t validate(const tele_command_t *c,
 process_result_t run_script(scene_state_t *ss, size_t script_no) {
     exec_state_t es;
     es_init(&es);
+    es_push(&es);
     return run_script_with_exec_state(ss, &es, script_no);
 }
 

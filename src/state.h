@@ -21,8 +21,18 @@
 #define EXEC_DEPTH 8
 #define WHILE_DEPTH 10000
 
-#define METRO_SCRIPT 8
-#define INIT_SCRIPT 9
+typedef enum {
+    TT_SCRIPT_1=0,
+    TT_SCRIPT_2,
+    TT_SCRIPT_3,
+    TT_SCRIPT_4,
+    TT_SCRIPT_5,
+    TT_SCRIPT_6,
+    TT_SCRIPT_7,
+    TT_SCRIPT_8,
+    METRO_SCRIPT,
+    INIT_SCRIPT
+} script_number_t;
 
 #define METRO_MIN_MS 25
 #define METRO_MIN_UNSUPPORTED_MS 2
@@ -137,24 +147,24 @@ extern void ss_set_pattern_val(scene_state_t *ss, size_t pattern, size_t idx,
 extern scene_pattern_t *ss_patterns_ptr(scene_state_t *ss);
 extern size_t ss_patterns_size(void);
 
-uint8_t ss_get_script_len(scene_state_t *ss, size_t idx);
+uint8_t ss_get_script_len(scene_state_t *ss, script_number_t idx);
 const tele_command_t *ss_get_script_command(scene_state_t *ss,
-                                            size_t script_idx, size_t c_idx);
+                                            script_number_t script_idx, size_t c_idx);
 bool ss_get_script_comment(scene_state_t *ss,
-                                            size_t script_idx, size_t c_idx);
+                                            script_number_t script_idx, size_t c_idx);
 void ss_toggle_script_comment(scene_state_t *ss,
-                                            size_t script_idx, size_t c_idx);
-void ss_overwrite_script_command(scene_state_t *ss, size_t script_idx,
+                                            script_number_t script_idx, size_t c_idx);
+void ss_overwrite_script_command(scene_state_t *ss, script_number_t script_idx,
                                  size_t command_idx, const tele_command_t *cmd);
-void ss_insert_script_command(scene_state_t *ss, size_t script_idx,
+void ss_insert_script_command(scene_state_t *ss, script_number_t script_idx,
                               size_t command_idx, const tele_command_t *cmd);
-void ss_delete_script_command(scene_state_t *ss, size_t script_idx,
+void ss_delete_script_command(scene_state_t *ss, script_number_t script_idx,
                               size_t command_idx);
 
 scene_script_t *ss_scripts_ptr(scene_state_t *ss);
 size_t ss_scripts_size(void);
-int16_t ss_get_script_last(scene_state_t *ss, size_t idx);
-void ss_update_script_last(scene_state_t *ss, size_t idx);
+int16_t ss_get_script_last(scene_state_t *ss, script_number_t idx);
+void ss_update_script_last(scene_state_t *ss, script_number_t idx);
 
 ////////////////////////////////////////////////////////////////////////////////
 // EXEC STATE //////////////////////////////////////////////////////////////////
@@ -166,7 +176,7 @@ typedef struct {
     bool while_continue;
     uint16_t while_depth;
     bool breaking;
-    uint8_t script_number;
+    script_number_t script_number;
 } exec_vars_t;
 
 typedef struct {

@@ -147,38 +147,38 @@ size_t ss_patterns_size() {
 
 // script manipulation
 
-uint8_t ss_get_script_len(scene_state_t *ss, size_t idx) {
+uint8_t ss_get_script_len(scene_state_t *ss, script_number_t idx) {
     return ss->scripts[idx].l;
 }
 
 // private
-static void ss_set_script_len(scene_state_t *ss, size_t idx, uint8_t l) {
+static void ss_set_script_len(scene_state_t *ss, script_number_t idx, uint8_t l) {
     ss->scripts[idx].l = l;
 }
 
 const tele_command_t *ss_get_script_command(scene_state_t *ss,
-                                            size_t script_idx, size_t c_idx) {
+                                            script_number_t script_idx, size_t c_idx) {
     return &ss->scripts[script_idx].c[c_idx];
 }
 
 // private
-static void ss_set_script_command(scene_state_t *ss, size_t script_idx,
+static void ss_set_script_command(scene_state_t *ss, script_number_t script_idx,
                                   size_t c_idx, const tele_command_t *cmd) {
     memcpy(&ss->scripts[script_idx].c[c_idx], cmd, sizeof(tele_command_t));
 }
 
-bool ss_get_script_comment(scene_state_t *ss, size_t script_idx,
+bool ss_get_script_comment(scene_state_t *ss, script_number_t script_idx,
                                 size_t c_idx) {
     return ss->scripts[script_idx].comment[c_idx];
 }
 
-void ss_toggle_script_comment(scene_state_t *ss, size_t script_idx,
+void ss_toggle_script_comment(scene_state_t *ss, script_number_t script_idx,
                                 size_t c_idx) {
     ss->scripts[script_idx].comment[c_idx] = !
         ss->scripts[script_idx].comment[c_idx];
 } 
 
-void ss_overwrite_script_command(scene_state_t *ss, size_t script_idx,
+void ss_overwrite_script_command(scene_state_t *ss, script_number_t script_idx,
                                  size_t command_idx,
                                  const tele_command_t *cmd) {
     if (command_idx >= SCRIPT_MAX_COMMANDS) return;
@@ -192,7 +192,7 @@ void ss_overwrite_script_command(scene_state_t *ss, size_t script_idx,
     }
 }
 
-void ss_insert_script_command(scene_state_t *ss, size_t script_idx,
+void ss_insert_script_command(scene_state_t *ss, script_number_t script_idx,
                               size_t command_idx, const tele_command_t *cmd) {
     if (command_idx >= SCRIPT_MAX_COMMANDS) return;
 
@@ -216,7 +216,7 @@ void ss_insert_script_command(scene_state_t *ss, size_t script_idx,
     ss_overwrite_script_command(ss, script_idx, command_idx, cmd);
 }
 
-void ss_delete_script_command(scene_state_t *ss, size_t script_idx,
+void ss_delete_script_command(scene_state_t *ss, script_number_t script_idx,
                               size_t command_idx) {
     if (command_idx >= SCRIPT_MAX_COMMANDS) return;
 
@@ -246,7 +246,7 @@ size_t ss_scripts_size() {
     return sizeof(scene_script_t) * SCRIPT_COUNT;
 }
 
-int16_t ss_get_script_last(scene_state_t *ss, size_t idx) {
+int16_t ss_get_script_last(scene_state_t *ss, script_number_t idx) {
     int16_t now = ss->variables.time;
     int16_t last = ss->scripts[idx].last_time;
     if (now < last) 
@@ -254,7 +254,7 @@ int16_t ss_get_script_last(scene_state_t *ss, size_t idx) {
     return now - last;
 }
 
-void ss_update_script_last(scene_state_t *ss, size_t idx) {
+void ss_update_script_last(scene_state_t *ss, script_number_t idx) {
     ss->scripts[idx].last_time = ss->variables.time;
 }
 
