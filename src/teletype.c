@@ -12,6 +12,8 @@
 #include "util.h"
 
 
+bool processing_delays = false;
+
 /////////////////////////////////////////////////////////////////
 // DELAY ////////////////////////////////////////////////////////
 
@@ -134,6 +136,7 @@ error_t validate(const tele_command_t *c,
 process_result_t run_script(scene_state_t *ss, size_t script_no) {
     exec_state_t es;
     es_init(&es);
+    es_push(&es);
     return run_script_with_exec_state(ss, &es, script_no);
 }
 
@@ -141,7 +144,7 @@ process_result_t run_script_with_exec_state(scene_state_t *ss, exec_state_t *es,
                                             size_t script_no) {
     process_result_t result = {.has_value = false, .value = 0 };
 
-    es_variables(es)->script_number = script_no;
+    es_set_script_number(es, script_no);
 
     for (size_t i = 0; i < ss_get_script_len(ss, script_no); i++) {
         if (ss_get_script_comment(ss, script_no, i))
@@ -285,7 +288,16 @@ void tele_tick(scene_state_t *ss, uint8_t time) {
                 //     from seeing a perfectly-timed delay slot as empty
                 //     while it's still being processed. 
                 ss->delay.time[i] = 1;
-                run_command(ss, &ss->delay.commands[i]);
+
+                ss_clear_script(ss, TEMP_SCRIPT);
+                ss_overwrite_script_command(ss, TEMP_SCRIPT, 0, 
+                        &ss->delay.commands[i]);
+                exec_state_t es;
+                es_init(&es);
+                es_push(&es);
+                es_variables(&es)->script_number = ss->delay.origin[i];
+                es_variables(&es)->delayed = true;
+                run_script_with_exec_state(ss, &es, TEMP_SCRIPT);
                 ss->delay.time[i] = 0;
                 ss->delay.count--;
                 if (ss->delay.count == 0) tele_has_delays(false);

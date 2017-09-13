@@ -25,6 +25,7 @@ typedef enum {
     E_OP_TIME,
     E_OP_TIME_ACT,
     E_OP_LAST,
+    E_OP_THIS,
     E_OP_X,
     E_OP_Y,
     E_OP_Z,

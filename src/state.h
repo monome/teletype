@@ -17,12 +17,13 @@
 #define PATTERN_COUNT 4
 #define PATTERN_LENGTH 64
 #define SCRIPT_MAX_COMMANDS 6
-#define SCRIPT_COUNT 10
+#define SCRIPT_COUNT 11
 #define EXEC_DEPTH 8
 #define WHILE_DEPTH 10000
 
 #define METRO_SCRIPT 8
 #define INIT_SCRIPT 9
+#define TEMP_SCRIPT 10
 
 #define METRO_MIN_MS 25
 #define METRO_MIN_UNSUPPORTED_MS 2
@@ -79,8 +80,10 @@ typedef struct {
 } scene_pattern_t;
 
 typedef struct {
+    // TODO add a delay variables struct?
     tele_command_t commands[DELAY_SIZE];
     int16_t time[DELAY_SIZE];
+    uint8_t origin[DELAY_SIZE];
     uint8_t count;
 } scene_delay_t;
 
@@ -150,6 +153,7 @@ void ss_insert_script_command(scene_state_t *ss, size_t script_idx,
                               size_t command_idx, const tele_command_t *cmd);
 void ss_delete_script_command(scene_state_t *ss, size_t script_idx,
                               size_t command_idx);
+void ss_clear_script(scene_state_t *ss, size_t script_idx);
 
 scene_script_t *ss_scripts_ptr(scene_state_t *ss);
 size_t ss_scripts_size(void);
@@ -167,6 +171,7 @@ typedef struct {
     uint16_t while_depth;
     bool breaking;
     uint8_t script_number;
+    bool delayed;
 } exec_vars_t;
 
 typedef struct {
@@ -179,6 +184,7 @@ extern void es_init(exec_state_t *es);
 extern size_t es_depth(exec_state_t *es);
 extern size_t es_push(exec_state_t *es);
 extern size_t es_pop(exec_state_t *es);
+extern void es_set_script_number(exec_state_t *es, uint8_t script_number);
 extern exec_vars_t *es_variables(exec_state_t *es);
 
 ////////////////////////////////////////////////////////////////////////////////

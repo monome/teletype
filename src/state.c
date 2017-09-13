@@ -238,6 +238,12 @@ void ss_delete_script_command(scene_state_t *ss, size_t script_idx,
     }
 }
 
+void ss_clear_script(scene_state_t *ss, size_t script_idx) {
+    for (uint8_t i = 0; i < SCRIPT_MAX_COMMANDS; i++)
+        if (ss_get_script_len(ss, script_idx))
+            ss_delete_script_command(ss, script_idx, i);
+}
+
 scene_script_t *ss_scripts_ptr(scene_state_t *ss) {
     return ss->scripts;
 }
@@ -272,6 +278,7 @@ size_t es_depth(exec_state_t *es) {
 
 size_t es_push(exec_state_t *es) {
     if (es->exec_depth < EXEC_DEPTH) {
+        es->variables[es->exec_depth].delayed = false;
         es->variables[es->exec_depth].while_depth = 0;
         es->variables[es->exec_depth].while_continue = false;
         es->variables[es->exec_depth].if_else_condition = true;
@@ -288,6 +295,11 @@ size_t es_pop(exec_state_t *es) {
     if (es->exec_depth > 0)
         es->exec_depth -= 1; 
     return es->exec_depth;
+}
+
+void es_set_script_number(exec_state_t *es, uint8_t script_number) {
+    if (!es_variables(es)->delayed)
+        es_variables(es)->script_number = script_number;
 }
 
 exec_vars_t *es_variables(exec_state_t *es) {
