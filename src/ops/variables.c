@@ -53,7 +53,7 @@ const tele_op_t op_I     = MAKE_GET_SET_OP(I    , op_I_get, op_I_set, 0, true);
 
 static void op_LAST_get(const void *NOTUSED(data), scene_state_t *ss,
                         exec_state_t *es, command_state_t *cs) {
-    int16_t last = ss_get_script_last(ss, es->script_number);
+    int16_t last = ss_get_script_last(ss, es_variables(es)->script_number);
     cs_push(cs, last);
 }
         

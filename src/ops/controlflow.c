@@ -163,7 +163,7 @@ static void op_KILL_get(const void *NOTUSED(data), scene_state_t *ss,
     tele_kill();
 }
 
-static void op_BREAK_get(const void *NOTUSED(data), scene_state_t *ss,
+static void op_BREAK_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                         exec_state_t *es, command_state_t *NOTUSED(cs)) {
-    es->breaking = true;
+    es_variables(es)->breaking = true;
 }

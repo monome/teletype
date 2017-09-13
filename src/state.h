@@ -165,14 +165,14 @@ typedef struct {
     int16_t i;
     bool while_continue;
     uint16_t while_depth;
+    bool breaking;
+    uint8_t script_number;
 } exec_vars_t;
 
 typedef struct {
     exec_vars_t variables[EXEC_DEPTH];
     uint8_t exec_depth;
     bool overflow;
-    bool breaking;
-    uint16_t script_number;
 } exec_state_t;
 
 extern void es_init(exec_state_t *es);

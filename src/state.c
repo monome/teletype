@@ -264,8 +264,6 @@ void ss_update_script_last(scene_state_t *ss, size_t idx) {
 void es_init(exec_state_t *es) {
     es->exec_depth = 0;
     es->overflow = false;
-    es->breaking = false;
-    es->script_number = INIT_SCRIPT;
 }
 
 size_t es_depth(exec_state_t *es) {
@@ -278,6 +276,7 @@ size_t es_push(exec_state_t *es) {
         es->variables[es->exec_depth].while_continue = false;
         es->variables[es->exec_depth].if_else_condition = true;
         es->variables[es->exec_depth].i = 0;
+        es->variables[es->exec_depth].breaking = false;
         es->exec_depth += 1;                   // exec_depth = 1 at the root
     }
     else
