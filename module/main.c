@@ -657,7 +657,10 @@ void tele_scene(uint8_t i) {
 }
 
 void tele_kill() {
-    for (int i = 0; i < 4; i++) aout[i].step = 1;
+    for (int i = 0; i < 4; i++) {
+        aout[i].step = 1;
+        tele_tr(i, 0);
+    }
 }
 
 
