@@ -23,6 +23,7 @@ void ss_init(scene_state_t *ss) {
 void ss_variables_init(scene_state_t *ss) {
     const scene_variables_t default_variables = {
         // variables that haven't been explicitly initialised, will be set to 0
+        // TODO: verify no missing 
         .a = 1,
         .b = 2,
         .c = 3,
@@ -76,7 +77,7 @@ void ss_set_scene(scene_state_t *ss, int16_t value) {
 }
 
 // mutes
-
+// TODO: size_t SHOULD be a script_number_t
 bool ss_get_mute(scene_state_t *ss, size_t idx) {
     return ss->variables.mutes[idx];
 }
@@ -181,6 +182,14 @@ void ss_toggle_script_comment(scene_state_t *ss, script_number_t script_idx,
 void ss_overwrite_script_command(scene_state_t *ss, script_number_t script_idx,
                                  size_t command_idx,
                                  const tele_command_t *cmd) {
+    // Few of the commands in this file bounds-check.
+    // Are we trusting calling code in this file or not?
+    // If so, why here?  If not, we need much more bounds-checking
+    // If we start running up against processor limits, we should not
+    // Well-validated upstream code doesn't _need_ bounds-checking here IMO
+    // -- burnsauce (sliderule)
+
+    // TODO: why check upper bound here but not lower?
     if (command_idx >= SCRIPT_MAX_COMMANDS) return;
 
     ss_set_script_command(ss, script_idx, command_idx, cmd);
@@ -277,6 +286,8 @@ size_t es_depth(exec_state_t *es) {
 }
 
 size_t es_push(exec_state_t *es) {
+    // I'd cache es->variables[es->exec_depth] as an optimization,
+    // but the compiler will probably do it for me?
     if (es->exec_depth < EXEC_DEPTH) {
         es->variables[es->exec_depth].delayed = false;
         es->variables[es->exec_depth].while_depth = 0;

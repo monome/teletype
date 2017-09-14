@@ -140,6 +140,8 @@ process_result_t run_script(scene_state_t *ss, size_t script_no) {
     return run_script_with_exec_state(ss, &es, script_no);
 }
 
+// Everything needs to call this to execute code.  An execution
+// context is required for proper operation of DEL, THIS, L, W, IF
 process_result_t run_script_with_exec_state(scene_state_t *ss, exec_state_t *es,
                                             size_t script_no) {
     process_result_t result = {.has_value = false, .value = 0 };
@@ -147,13 +149,18 @@ process_result_t run_script_with_exec_state(scene_state_t *ss, exec_state_t *es,
     es_set_script_number(es, script_no);
 
     for (size_t i = 0; i < ss_get_script_len(ss, script_no); i++) {
+        // Commented code doesn't run.
         if (ss_get_script_comment(ss, script_no, i))
 		    continue;
-        if (es_variables(es)->breaking)
+
+        // BREAK implemented with break... 
+        if (es_variables(es)->breaking) 
             break;
         do {
+            // TODO: Check for 0-length commands before we bother?
             result = process_command(ss, es,
                                      ss_get_script_command(ss, script_no, i));
+        // and WHILE implemented with while!
         } while (es_variables(es)->while_continue && !es_variables(es)->breaking);
     }
 
@@ -162,10 +169,16 @@ process_result_t run_script_with_exec_state(scene_state_t *ss, exec_state_t *es,
     return result;
 }
 
+// Does anybody call this anymore?
+// Nothing in 2.1.0-beta2 does, and nothing should (see above)
 process_result_t run_command(scene_state_t *ss, const tele_command_t *cmd) {
     exec_state_t es;
     process_result_t o;
     es_init(&es);
+    es_push(&es);
+    // the lack of a script number here is a bug, so if you use this code,
+    // something needs to set the script number
+    // es_variables(es)->script_number = 
     do {
         o = process_command(ss, &es, cmd);
     } while (es_variables(&es)->while_continue && !es_variables(&es)->breaking);
@@ -275,7 +288,8 @@ process_result_t process_command(scene_state_t *ss, exec_state_t *es,
 // TICK /////////////////////////////////////////////////////////
 
 void tele_tick(scene_state_t *ss, uint8_t time) {
-    // inc time
+    // time is the basic resolution of all code henceforth called
+    // hardware 2.0: get an RTC!
     if (ss->variables.time_act) ss->variables.time += time;
 
     // process delays
@@ -289,18 +303,33 @@ void tele_tick(scene_state_t *ss, uint8_t time) {
                 //     while it's still being processed. 
                 ss->delay.time[i] = 1;
 
+                // Instead of just running the command, we use the TEMP script
+                // to execute it.  This is required for THIS to be tracked, as
+                // it needs to have a script number.
+                // TODO: dynamically allocate scripts to prevent waste
                 ss_clear_script(ss, TEMP_SCRIPT);
                 ss_overwrite_script_command(ss, TEMP_SCRIPT, 0, 
                         &ss->delay.commands[i]);
+                
+                // We always need to execute from within an execution context
+                // TODO: ensure all code does so!
+                // New execution context setup needs to es_push, but it's
+                // decoupled to allow SCRIPT to work
                 exec_state_t es;
                 es_init(&es);
                 es_push(&es);
-                es_variables(&es)->script_number = ss->delay.origin[i];
+                
+                // The delay flag is required to protect the script number
+                // TODO: investigate delayed nested SCRIPTs
                 es_variables(&es)->delayed = true;
+                es_variables(&es)->script_number = ss->delay.origin[i];
+
                 run_script_with_exec_state(ss, &es, TEMP_SCRIPT);
+
                 ss->delay.time[i] = 0;
                 ss->delay.count--;
-                if (ss->delay.count == 0) tele_has_delays(false);
+                if (ss->delay.count == 0)
+                    tele_has_delays(false);
             }
         }
     }
