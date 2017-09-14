@@ -101,15 +101,27 @@ static void mod_L_func(scene_state_t *ss, exec_state_t *es, command_state_t *cs,
     // iterator, allowing users to roll back a loop or advance it faster
     int16_t *i = &es_variables(es)->i;
 
+    // Forward loop
     if (a < b) {
-        for(*i = a; *i <= b; (*i)++)
+        // continue the loop whenever the _pointed-to_ I meets the condition
+        // this means that I can be interacted with inside the loop command 
+        for (*i = a; *i <= b; (*i)++) {
+            // the increment statement has careful syntax, because the
+            // ++ operator has precedence over the dereference * operator
             process_command(ss, es, post_command);
-        (*i)--;  // leave es_variables.i in the correct state
+            if (es_variables(es)->breaking)
+                break;
+        }
+            
+        if (!es_variables(es)->breaking) 
+            (*i)--;  // past end of loop, leave I in the correct state
     }
+    // Reverse loop (also works for equal values (either loop would))
     else {
-        for(*i = a; *i >= b; (*i)--) 
+        for (*i = a; *i >= b && !es_variables(es)->breaking; (*i)--) 
             process_command(ss, es, post_command);
-        (*i)++;
+        if (!es_variables(es)->breaking) 
+            (*i)++;
     }
 }
 
