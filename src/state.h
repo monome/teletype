@@ -43,6 +43,33 @@ typedef enum {
 ////////////////////////////////////////////////////////////////////////////////
 
 typedef struct {
+    uint16_t x;         // higher resolution to permit fixed-point math
+    uint16_t y;
+} turtle_position_t;
+
+typedef struct {
+    uint8_t x1;
+    uint8_t y1;
+    uint8_t x2;
+    uint8_t y2;
+} turtle_fence_t;
+
+typedef enum {
+    TURTLE_WRAP,
+    TURTLE_BUMP,
+    TURTLE_BOUNCE
+} turtle_mode_t;
+
+typedef struct {
+    turtle_position_t   home;
+    turtle_position_t   position;
+    turtle_fence_t      fence;
+    turtle_mode_t       mode;
+    uint16_t            heading;
+    int8_t              velocity;
+} scene_turtle_t;
+
+typedef struct {
     int16_t a;
     int16_t b;
     int16_t c;
@@ -117,6 +144,7 @@ typedef struct {
     scene_stack_op_t stack_op;
     int16_t tr_pulse_timer[TR_COUNT];
     scene_script_t scripts[SCRIPT_COUNT];
+    scene_turtle_t turtle;
 } scene_state_t;
 
 extern void ss_init(scene_state_t *ss);
@@ -169,6 +197,36 @@ scene_script_t *ss_scripts_ptr(scene_state_t *ss);
 size_t ss_scripts_size(void);
 int16_t ss_get_script_last(scene_state_t *ss, script_number_t idx);
 void ss_update_script_last(scene_state_t *ss, script_number_t idx);
+
+////////////////////////////////////////////////////////////////////////////////
+// TURTLE STATE :) /////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+//
+void     scene_set_turtle(scene_state_t*, scene_turtle_t*);
+scene_turtle_t*
+         scene_get_turtle(scene_state_t*);
+void     turtle_init(scene_turtle_t*);
+void     turtle_normalize_position(scene_turtle_t *, turtle_position_t*);
+void     turtle_resolve_position(scene_turtle_t *, turtle_position_t*);
+uint8_t  turtle_get_x(scene_turtle_t*);
+void     turtle_set_x(scene_turtle_t*, uint8_t);
+uint8_t  turtle_get_y(scene_turtle_t*);
+void     turtle_set_y(scene_turtle_t*, uint8_t);
+void     turtle_goto(scene_turtle_t*, turtle_position_t*);
+void     turtle_move(scene_turtle_t*, turtle_position_t*);
+int16_t  turtle_get(scene_turtle_t*);
+void     turtle_set(scene_turtle_t*, int16_t);
+void     turtle_set_home(scene_turtle_t*, uint8_t, uint8_t);
+uint8_t  turtle_get_home_x(scene_turtle_t*);
+uint8_t  turtle_get_home_y(scene_turtle_t*);
+void     turtle_set_fence(scene_turtle_t*, uint8_t, uint8_t, uint8_t, uint8_t);
+turtle_mode_t
+         turtle_get_mode(scene_turtle_t*);
+void     turtle_set_mode(scene_turtle_t*, turtle_mode_t);
+uint16_t turtle_get_heading(scene_turtle_t*);
+void     turtle_set_heading(scene_turtle_t*, uint16_t);
+uint8_t  turtle_get_velocity(scene_turtle_t*);
+void     turtle_set_velocity(scene_turtle_t*, int8_t);
 
 ////////////////////////////////////////////////////////////////////////////////
 // EXEC STATE //////////////////////////////////////////////////////////////////
