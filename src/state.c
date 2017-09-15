@@ -1,6 +1,7 @@
 #include "state.h"
 
 #include <string.h>
+#include <math.h>
 
 #include "teletype_io.h"
 
@@ -17,6 +18,15 @@ void ss_init(scene_state_t *ss) {
     ss->delay.count = 0;
     for (size_t i = 0; i < TR_COUNT; i++) { ss->tr_pulse_timer[i] = 0; }
     ss->stack_op.top = 0;
+    scene_turtle_t t = { 
+            .home = { .x = 0, .y = 0 },
+            .position = { .x = 0, .y = 0},
+            .fence = { .x1 = 0, .y1 = 0, .x2 = 3, .y2 = 63},
+            .mode = TURTLE_BUMP,
+            .heading = 180,
+            .velocity = 1
+            };
+    ss->turtle = t;
     memset(&ss->scripts, 0, ss_scripts_size());
 }
 
@@ -327,3 +337,236 @@ void cs_init(command_state_t *cs) {
 int16_t cs_stack_size(command_state_t *cs) {
     return cs->stack.top;
 }
+
+
+////////////////////////////////////////////////////////////////////////////////
+// TURTLE STATE ////////////////////////////////////////////////////////////////
+
+
+void scene_set_turtle(scene_state_t *ss, scene_turtle_t *ts) {
+    //TODO validate the turtle?
+    ss->turtle = *ts; // structs copy with value assignment
+}
+
+
+scene_turtle_t* scene_get_turtle(scene_state_t *ss) {
+    return &ss->turtle;
+}
+
+typedef struct {
+    uint16_t x1, y1, x2, y2;
+} normal_fence_t;
+
+// 0-63 is 6 bits, so on a 16-bit signed integer, we have 9 to use.
+// :. the internal turtle position system has 9 bits right of the point.
+#define TURTLE_QBITS 9
+
+static inline normal_fence_t normalize_fence(turtle_fence_t in) {
+    normal_fence_t out;
+
+    out.x1 = in.x1 << TURTLE_QBITS;
+    out.x2 = in.x2 << TURTLE_QBITS;
+    out.y1 = in.y1 << TURTLE_QBITS;
+    out.y2 = in.y2 << TURTLE_QBITS;
+    return out;
+}
+
+#define min(X, Y) ((X) < (Y) ? (X) : (Y))
+#define max(X, Y) ((X) > (Y) ? (X) : (Y))
+
+void turtle_normalize_position(scene_turtle_t *t, turtle_position_t *tp, 
+        turtle_mode_t mode) {
+    normal_fence_t f = normalize_fence(t->fence);
+    uint16_t fxl = f.x2 - f.x1 + 1; // fences are inclusive so 0 to 0 is L:1
+    uint16_t fyl = f.y2 - f.y1 + 1;
+  
+    switch (mode) {
+        case TURTLE_BUMP:
+            tp->x = max(min(tp->x, f.x2), f.x1);
+            tp->y = max(min(tp->y, f.y2), f.y1);
+            break;
+        case TURTLE_WRAP:
+            tp->x = (tp->x % (f.x2 + 1)) + f.x1;
+            tp->y = (tp->y % (f.x2 + 1)) + f.y1;
+            break;
+        // TODO: check these maths and finish
+        // HINT: it's not correct at the edges for offsets larger than the
+        //       pattern, needs to wavefold.
+        case TURTLE_BOUNCE:
+            if (tp->x > f.x2)
+                tp->x = f.x2 - ((tp->x - f.x1) % fxl);
+            else if (tp->x < f.x1)
+                tp->x = f.x1 + (-(tp->x - f.x1) % fxl); 
+            if (tp->y > f.y2)
+                tp->y = f.y2 - ((tp->y - f.y1) % fyl);
+            else if (tp->x < f.x1)
+                tp->y = f.y1 + (-(tp->y - f.y1) % fyl); 
+            break;
+    }
+}
+#undef min
+#undef max
+
+#define Q_1 (1 << TURTLE_QBITS)
+#define Q_POINT_5 (1 << (TURTLE_QBITS - 1))
+void turtle_resolve_position(scene_turtle_t *t, turtle_position_t *src,
+                             turtle_position_t *dst) {
+    *dst = *src;
+    if (dst->x % Q_1 >= Q_POINT_5)
+        dst->x = dst->x / Q_1 + 1;
+    else
+        dst->x = dst->x / Q_1;
+    if (dst->y % Q_1 >= Q_POINT_5)
+        dst->y = dst->y / Q_1 + 1;
+    else
+        dst->y = dst->y / Q_1;
+
+}
+#undef Q_1
+#undef Q_POINT_5
+
+uint8_t turtle_get_x(scene_turtle_t *st) {
+    turtle_position_t t;
+    turtle_resolve_position(st, &st->position, &t);
+    return t.x;
+}
+
+void turtle_set_x(scene_turtle_t *st, uint8_t x) {
+    st->position.x = x << TURTLE_QBITS;
+    turtle_normalize_position(st, &st->position, TURTLE_BUMP);
+}
+
+uint8_t turtle_get_y(scene_turtle_t *st) {
+    turtle_position_t t;
+    turtle_resolve_position(st, &st->position, &t);
+    return t.y;
+}
+
+void turtle_set_y(scene_turtle_t *st, uint8_t y) {
+    st->position.y = y << TURTLE_QBITS;
+    turtle_normalize_position(st, &st->position, TURTLE_BUMP);
+}
+
+void turtle_goto(scene_turtle_t *st, turtle_position_t *tp) {
+    st->position = *tp;
+    turtle_normalize_position(st, &st->position, TURTLE_BUMP);
+}
+
+void turtle_step(scene_turtle_t *st) {
+    // TODO watch out, it's a doozie ;)
+    int16_t dx, dy, sign;
+
+    // Sorry, little processor!
+    // TODO: fixed point sin()
+    double h_rad = st->heading * M_PI / 180;
+    double dx_d = 5 * cos(h_rad);
+    double dy_d = 5 * sin(h_rad);
+
+    dx = dx_d;
+    dy = dy_d;
+    dx_d -= dx;
+    dy_d -= dy;
+    sign = dx < 0 ? -1 : 1;
+    dx_d *= sign;
+    if (dx_d * sign >= 0.5)
+        dx += sign;
+    sign = dy < 0 ? -1 : 1;
+    if (dy_d * sign >= 0.5)
+        dy += sign;
+
+    st->position.x += dx << TURTLE_QBITS;
+    st->position.y += dy << TURTLE_QBITS;
+    turtle_normalize_position(st, &st->position, st->mode);
+}
+
+int16_t  turtle_get(scene_state_t *ss, scene_turtle_t *st) {
+    turtle_position_t p;
+    turtle_resolve_position(st, &st->position, &p);
+    return ss_get_pattern_val(ss, p.x, p.y);
+}
+
+void turtle_set(scene_state_t *ss, scene_turtle_t *st, int16_t val) {
+    turtle_position_t p;
+    turtle_resolve_position(st, &st->position, &p);
+    return ss_set_pattern_val(ss, p.x, p.y, val);
+}
+
+void turtle_set_home(scene_turtle_t *st, uint8_t x, uint8_t y) {
+    turtle_position_t h = { .x = x << TURTLE_QBITS, .y = y << TURTLE_QBITS };
+    st->home = h;
+    turtle_normalize_position(st, &st->home, TURTLE_BUMP);
+}
+
+uint8_t  turtle_get_home_x(scene_turtle_t *st) {
+    turtle_position_t t;
+    turtle_resolve_position(st, &st->home, &t);
+    return t.x;
+}
+
+uint8_t  turtle_get_home_y(scene_turtle_t *st) {
+    turtle_position_t t;
+    turtle_resolve_position(st, &st->home, &t);
+    return t.y;
+}
+
+turtle_fence_t turtle_get_fence(scene_turtle_t *st) {
+    return st->fence;
+}
+
+void turtle_set_fence(scene_turtle_t *st, uint8_t x1, uint8_t y1, 
+                                          uint8_t x2, uint8_t y2) {
+    uint8_t t;
+    x1 = x1 > 3 ? 3 : x1;
+    x2 = x2 > 3 ? 3 : x2; 
+    y1 = y1 > 63 ? 63 : y1;
+    y2 = y2 > 63 ? 63 : y2; 
+    
+    if (x1 > x2) {
+        t = x2;
+        x2 = x1;
+        x1 = t;
+    }
+    if (y1 > y2) {
+        t = y2;
+        y2 = y1;
+        y1 = t;
+    }
+
+    turtle_fence_t f = { .x1 = x1, .y1 = y1, .x2 = x2, .y2 = y2 };
+    st->fence = f;
+    turtle_normalize_position(st, &st->position, TURTLE_BUMP);
+}
+
+turtle_mode_t turtle_get_mode(scene_turtle_t *st) {
+    return st->mode;
+}
+
+void turtle_set_mode(scene_turtle_t *st, turtle_mode_t m) {
+    if (m < TURTLE_WRAP)
+        m = TURTLE_WRAP;
+    if (m > TURTLE_BOUNCE)
+        m = TURTLE_BOUNCE;
+    st->mode = m;
+}
+
+uint16_t turtle_get_heading(scene_turtle_t *st) {
+    return st->heading;   
+}
+
+void turtle_set_heading(scene_turtle_t *st, uint16_t h) {
+    st->heading = h % 360;
+}
+
+void turtle_turn(scene_turtle_t *st, uint16_t h) {
+    st->heading = (st->heading + h) % 360;
+}
+
+uint8_t turtle_get_velocity(scene_turtle_t *st) {
+    return st->velocity;
+}
+
+void turtle_set_velocity(scene_turtle_t *st, int8_t v) {
+    st->velocity = v;
+}
+
+#undef TURTLE_QBITS

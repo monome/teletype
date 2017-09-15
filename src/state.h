@@ -43,8 +43,8 @@ typedef enum {
 ////////////////////////////////////////////////////////////////////////////////
 
 typedef struct {
-    uint16_t x;         // higher resolution to permit fixed-point math
-    uint16_t y;
+    int16_t x;         // higher resolution to permit fixed-point math
+    int16_t y;
 } turtle_position_t;
 
 typedef struct {
@@ -201,30 +201,34 @@ void ss_update_script_last(scene_state_t *ss, script_number_t idx);
 ////////////////////////////////////////////////////////////////////////////////
 // TURTLE STATE :) /////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
-//
+
 void     scene_set_turtle(scene_state_t*, scene_turtle_t*);
 scene_turtle_t*
          scene_get_turtle(scene_state_t*);
-void     turtle_init(scene_turtle_t*);
-void     turtle_normalize_position(scene_turtle_t *, turtle_position_t*);
-void     turtle_resolve_position(scene_turtle_t *, turtle_position_t*);
+void     turtle_normalize_position(scene_turtle_t*, turtle_position_t*,
+                                   turtle_mode_t);
+void     turtle_resolve_position(scene_turtle_t*, turtle_position_t*,
+                                                  turtle_position_t*);
 uint8_t  turtle_get_x(scene_turtle_t*);
 void     turtle_set_x(scene_turtle_t*, uint8_t);
 uint8_t  turtle_get_y(scene_turtle_t*);
 void     turtle_set_y(scene_turtle_t*, uint8_t);
 void     turtle_goto(scene_turtle_t*, turtle_position_t*);
-void     turtle_move(scene_turtle_t*, turtle_position_t*);
-int16_t  turtle_get(scene_turtle_t*);
-void     turtle_set(scene_turtle_t*, int16_t);
+void     turtle_step(scene_turtle_t*);
+int16_t  turtle_get(scene_state_t*, scene_turtle_t*);
+void     turtle_set(scene_state_t*, scene_turtle_t*, int16_t);
 void     turtle_set_home(scene_turtle_t*, uint8_t, uint8_t);
 uint8_t  turtle_get_home_x(scene_turtle_t*);
 uint8_t  turtle_get_home_y(scene_turtle_t*);
+turtle_fence_t
+         turtle_get_fence(scene_turtle_t*);
 void     turtle_set_fence(scene_turtle_t*, uint8_t, uint8_t, uint8_t, uint8_t);
 turtle_mode_t
          turtle_get_mode(scene_turtle_t*);
 void     turtle_set_mode(scene_turtle_t*, turtle_mode_t);
 uint16_t turtle_get_heading(scene_turtle_t*);
 void     turtle_set_heading(scene_turtle_t*, uint16_t);
+void     turtle_turn(scene_turtle_t*, uint16_t);
 uint8_t  turtle_get_velocity(scene_turtle_t*);
 void     turtle_set_velocity(scene_turtle_t*, int8_t);
 
