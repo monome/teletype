@@ -460,15 +460,15 @@ void turtle_goto(scene_turtle_t *st, turtle_position_t *tp) {
     turtle_normalize_position(st, &st->position, TURTLE_BUMP);
 }
 
-void turtle_step(scene_turtle_t *st) {
+void turtle_step(scene_turtle_t *st, int16_t h, int16_t v) {
     // TODO watch out, it's a doozie ;)
     int16_t dx, dy, sign;
 
     // Sorry, little processor!
     // TODO: fixed point sin()
-    double h_rad = st->heading * M_PI / 180;
-    double dx_d = st->velocity * cos(h_rad);
-    double dy_d = st->velocity * sin(h_rad);
+    double h_rad = h * M_PI / 180;
+    double dx_d = v * cos(h_rad);
+    double dy_d = v * sin(h_rad);
 
     dx = dx_d;
     dy = dy_d;
@@ -513,16 +513,36 @@ void turtle_set_home(scene_turtle_t *st, int16_t x, int16_t y) {
     turtle_normalize_position(st, &st->home, TURTLE_BUMP);
 }
 
-uint8_t  turtle_get_home_x(scene_turtle_t *st) {
+uint8_t turtle_get_home_x(scene_turtle_t *st) {
     turtle_position_t t;
     turtle_resolve_position(st, &st->home, &t);
     return t.x;
+}
+
+void turtle_set_home_x(scene_turtle_t *st, int16_t x) {
+    if (x > 3)
+        x = 3;
+    else if (x < 0)
+        x = 0;
+    turtle_position_t h = { .x = x << TURTLE_QBITS, .y = st->home.y };
+    st->home = h;
+    turtle_normalize_position(st, &st->home, TURTLE_BUMP);
 }
 
 uint8_t  turtle_get_home_y(scene_turtle_t *st) {
     turtle_position_t t;
     turtle_resolve_position(st, &st->home, &t);
     return t.y;
+}
+
+void turtle_set_home_y(scene_turtle_t *st, int16_t y) {
+    if (y > 63)
+        y = 63;
+    else if (y < 0)
+        y = 0;
+    turtle_position_t h = { .x = st->home.x, .y = y << TURTLE_QBITS };
+    st->home = h;
+    turtle_normalize_position(st, &st->home, TURTLE_BUMP);
 }
 
 turtle_fence_t turtle_get_fence(scene_turtle_t *st) {
@@ -588,5 +608,10 @@ void turtle_set_velocity(scene_turtle_t *st, int16_t v) {
         v = INT8_MIN;
     st->velocity = v;
 }
+
+void turtle_forward(scene_turtle_t *st, int16_t v) {
+    turtle_step(st, st->heading, v);
+}
+
 
 #undef TURTLE_QBITS

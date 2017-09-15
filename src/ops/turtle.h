@@ -1,6 +1,8 @@
 #ifndef _OPS_TURTLE_H
 #define _OPS_TURTLE_H
 
+#include "ops/op.h"
+
 extern const tele_op_t op_TURTLE;
 extern const tele_op_t op_TURTLE_UP;
 extern const tele_op_t op_TURTLE_DOWN;

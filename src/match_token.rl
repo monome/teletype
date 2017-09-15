@@ -42,6 +42,28 @@
         "X"           => { MATCH_OP(E_OP_X); };
         "Y"           => { MATCH_OP(E_OP_Y); };
         "Z"           => { MATCH_OP(E_OP_Z); };
+        
+        # turtle
+        "@"           => { MATCH_OP(E_OP_TURTLE); };
+        "@UP"         => { MATCH_OP(E_OP_TURTLE_UP); };
+        "@DOWN"       => { MATCH_OP(E_OP_TURTLE_DOWN); };
+        "@LEFT"       => { MATCH_OP(E_OP_TURTLE_LEFT); };
+        "@RIGHT"      => { MATCH_OP(E_OP_TURTLE_RIGHT); };
+        "@BUMP"       => { MATCH_OP(E_OP_TURTLE_BUMP); };
+        "@WRAP"       => { MATCH_OP(E_OP_TURTLE_WRAP); };
+        "@BOUNCE"     => { MATCH_OP(E_OP_TURTLE_BOUNCE); };
+        "@DIR"        => { MATCH_OP(E_OP_TURTLE_DIR); };
+        "@SPEED"      => { MATCH_OP(E_OP_TURTLE_SPEED); };
+        "@POS"        => { MATCH_OP(E_OP_TURTLE_POS); };
+        "@STEP"       => { MATCH_OP(E_OP_TURTLE_STEP); };
+        "@FWD"        => { MATCH_OP(E_OP_TURTLE_FWD); };
+        "@REV"        => { MATCH_OP(E_OP_TURTLE_REV); };
+        "@TURN"       => { MATCH_OP(E_OP_TURTLE_TURN); };
+        "@X"          => { MATCH_OP(E_OP_TURTLE_X); };
+        "@Y"          => { MATCH_OP(E_OP_TURTLE_Y); };
+        "@HOME"       => { MATCH_OP(E_OP_TURTLE_HOME); };
+        "@SHOW"       => { MATCH_OP(E_OP_TURTLE_SHOW); };
+        "@FENCE"      => { MATCH_OP(E_OP_TURTLE_FENCE); };
 
         # metronome
         "M"           => { MATCH_OP(E_OP_M); };

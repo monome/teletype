@@ -96,6 +96,7 @@ CSRCS = \
 	../src/ops/telex.c					\
 	../src/ops/variables.c					\
 	../src/ops/whitewhale.c					\
+	../src/ops/turtle.c					\
 	../libavr32/src/adc.c					\
 	../libavr32/src/events.c				\
 	../libavr32/src/euclidean/euclidean.c			\
@@ -189,10 +190,10 @@ INC_PATH = \
 	common/utils
 
 # Additional search paths for libraries.
-LIB_PATH =
+LIB_PATH = 
 
 # List of libraries to use during linking.
-LIBS =
+LIBS = m
 
 # Path relative to top level directory pointing to a linker script.
 LINKER_SCRIPT = ../src/link_uc3b0512.lds
