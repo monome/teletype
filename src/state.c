@@ -431,7 +431,11 @@ uint8_t turtle_get_x(scene_turtle_t *st) {
     return t.x;
 }
 
-void turtle_set_x(scene_turtle_t *st, uint8_t x) {
+void turtle_set_x(scene_turtle_t *st, int16_t x) {
+    if (x > 3)
+        x = 3;
+    else if (x < 0)
+        x = 0;
     st->position.x = x << TURTLE_QBITS;
     turtle_normalize_position(st, &st->position, TURTLE_BUMP);
 }
@@ -442,7 +446,11 @@ uint8_t turtle_get_y(scene_turtle_t *st) {
     return t.y;
 }
 
-void turtle_set_y(scene_turtle_t *st, uint8_t y) {
+void turtle_set_y(scene_turtle_t *st, int16_t y) {
+    if (y > 63)
+        y = 63;
+    else if (y < 0)
+        y = 0;
     st->position.y = y << TURTLE_QBITS;
     turtle_normalize_position(st, &st->position, TURTLE_BUMP);
 }
@@ -459,8 +467,8 @@ void turtle_step(scene_turtle_t *st) {
     // Sorry, little processor!
     // TODO: fixed point sin()
     double h_rad = st->heading * M_PI / 180;
-    double dx_d = 5 * cos(h_rad);
-    double dy_d = 5 * sin(h_rad);
+    double dx_d = st->velocity * cos(h_rad);
+    double dy_d = st->velocity * sin(h_rad);
 
     dx = dx_d;
     dy = dy_d;
@@ -491,7 +499,15 @@ void turtle_set(scene_state_t *ss, scene_turtle_t *st, int16_t val) {
     return ss_set_pattern_val(ss, p.x, p.y, val);
 }
 
-void turtle_set_home(scene_turtle_t *st, uint8_t x, uint8_t y) {
+void turtle_set_home(scene_turtle_t *st, int16_t x, int16_t y) {
+    if (x > 3)
+        x = 3;
+    else if (x < 0)
+        x = 0;
+    if (y > 63)
+        y = 63;
+    else if (y < 0)
+        y = 0;
     turtle_position_t h = { .x = x << TURTLE_QBITS, .y = y << TURTLE_QBITS };
     st->home = h;
     turtle_normalize_position(st, &st->home, TURTLE_BUMP);
@@ -513,8 +529,8 @@ turtle_fence_t turtle_get_fence(scene_turtle_t *st) {
     return st->fence;
 }
 
-void turtle_set_fence(scene_turtle_t *st, uint8_t x1, uint8_t y1, 
-                                          uint8_t x2, uint8_t y2) {
+void turtle_set_fence(scene_turtle_t *st, int16_t x1, int16_t y1, 
+                                          int16_t x2, int16_t y2) {
     uint8_t t;
     x1 = x1 > 3 ? 3 : x1;
     x2 = x2 > 3 ? 3 : x2; 
@@ -565,7 +581,11 @@ uint8_t turtle_get_velocity(scene_turtle_t *st) {
     return st->velocity;
 }
 
-void turtle_set_velocity(scene_turtle_t *st, int8_t v) {
+void turtle_set_velocity(scene_turtle_t *st, int16_t v) {
+    if (v > INT8_MAX)
+        v = INT8_MAX;
+    else if (v < INT8_MIN)
+        v = INT8_MIN;
     st->velocity = v;
 }
 
