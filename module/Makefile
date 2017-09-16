@@ -79,4 +79,4 @@ include $(MAKEFILE_PATH)
 
 # Add the git commit id to a file for use when printing out the version
 ../module/gitversion.c: ../.git/HEAD ../.git/index
-	echo "const char *git_version = \"$(shell git describe --always | tr '[a-z]' '[A-Z]')-beta2\";" > $@
+	echo "const char *git_version = \"$(shell git describe --always | tr '[a-z]' '[A-Z]')-beta3\";" > $@
