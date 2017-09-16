@@ -193,7 +193,7 @@ INC_PATH = \
 LIB_PATH = 
 
 # List of libraries to use during linking.
-LIBS = m
+LIBS = 
 
 # Path relative to top level directory pointing to a linker script.
 LINKER_SCRIPT = ../src/link_uc3b0512.lds

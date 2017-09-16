@@ -85,8 +85,8 @@ const tele_op_t op_TURTLE_WRAP = MAKE_GET_OP(@WRAP, op_TURTLE_WRAP_get, 0, false
 const tele_op_t op_TURTLE_BOUNCE = MAKE_GET_OP(@BOUNCE, op_TURTLE_BOUNCE_get, 0, false);
 const tele_op_t op_TURTLE_TURN = MAKE_GET_OP(@TURN, op_TURTLE_TURN_get, 1, false);
 const tele_op_t op_TURTLE_STEP = MAKE_GET_OP(@STEP, op_TURTLE_STEP_get, 0, false);
-const tele_op_t op_TURTLE_FWD = MAKE_GET_OP(@FWD, op_TURTLE_FWD_get, 0, false);
-const tele_op_t op_TURTLE_REV = MAKE_GET_OP(@REV, op_TURTLE_REV_get, 0, false);
+const tele_op_t op_TURTLE_FWD = MAKE_GET_OP(@FWD, op_TURTLE_FWD_get, 1, false);
+const tele_op_t op_TURTLE_REV = MAKE_GET_OP(@REV, op_TURTLE_REV_get, 1, false);
 const tele_op_t op_TURTLE_FENCE = MAKE_GET_OP(@FENCE, op_TURTLE_FENCE_get, 4, false);
 const tele_op_t op_TURTLE_POS = MAKE_GET_OP(@POS, op_TURTLE_POS_get, 2, false);
 
@@ -159,7 +159,7 @@ static void op_TURTLE_WRAP_get(const void *NOTUSED(data), scene_state_t *ss,
 
 static void op_TURTLE_BOUNCE_get(const void *NOTUSED(data), scene_state_t *ss,
         exec_state_t *NOTUSED(es), command_state_t *NOTUSED(cs)) {
-    turtle_set_mode(&ss->turtle, TURTLE_WRAP);
+    turtle_set_mode(&ss->turtle, TURTLE_BOUNCE);
 }
 
 static void op_TURTLE_DIR_get(const void *NOTUSED(data), scene_state_t *ss,
@@ -253,6 +253,10 @@ static void op_TURTLE_SHOW_set(const void *NOTUSED(data), scene_state_t *ss,
 
 static void op_TURTLE_FENCE_get(const void *NOTUSED(data), scene_state_t *ss,
         exec_state_t *NOTUSED(es), command_state_t *cs) {
-    turtle_set_fence(&ss->turtle, cs_pop(cs), cs_pop(cs), cs_pop(cs),
-            cs_pop(cs));
+    int16_t x1 = cs_pop(cs);
+    int16_t y1 = cs_pop(cs);
+    int16_t x2 = cs_pop(cs);
+    int16_t y2 = cs_pop(cs);
+
+    turtle_set_fence(&ss->turtle, x1, y1, x2, y2);
 }

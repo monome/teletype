@@ -1,7 +1,6 @@
 #include "state.h"
 
 #include <string.h>
-#include <math.h>
 
 #include "teletype_io.h"
 
@@ -354,7 +353,7 @@ scene_turtle_t* scene_get_turtle(scene_state_t *ss) {
 }
 
 typedef struct {
-    uint16_t x1, y1, x2, y2;
+    int16_t x1, y1, x2, y2;
 } normal_fence_t;
 
 // 0-63 is 6 bits, so on a 16-bit signed integer, we have 9 to use.
@@ -376,53 +375,51 @@ static inline normal_fence_t normalize_fence(turtle_fence_t in) {
 
 void turtle_normalize_position(scene_turtle_t *t, turtle_position_t *tp, 
         turtle_mode_t mode) {
+    // a normal_fence operates in fixed-point at Q = TURTLE_QBITS
     normal_fence_t f = normalize_fence(t->fence);
-    uint16_t fxl = f.x2 - f.x1 + 1; // fences are inclusive so 0 to 0 is L:1
-    uint16_t fyl = f.y2 - f.y1 + 1;
+    
+    // fence values are inclusive so 0 to 0 is L:1
+    // literally avoid a fencepost error ;)
+    int16_t fxl = f.x2 - f.x1 + (1 << TURTLE_QBITS);
+    int16_t fyl = f.y2 - f.y1 + (1 << TURTLE_QBITS);
   
-    switch (mode) {
-        case TURTLE_BUMP:
-            tp->x = max(min(tp->x, f.x2), f.x1);
-            tp->y = max(min(tp->y, f.y2), f.y1);
-            break;
-        case TURTLE_WRAP:
-            tp->x = (tp->x % (f.x2 + 1)) + f.x1;
-            tp->y = (tp->y % (f.x2 + 1)) + f.y1;
-            break;
-        // TODO: check these maths and finish
-        // HINT: it's not correct at the edges for offsets larger than the
-        //       pattern, needs to wavefold.
-        case TURTLE_BOUNCE:
-            if (tp->x > f.x2)
-                tp->x = f.x2 - ((tp->x - f.x1) % fxl);
-            else if (tp->x < f.x1)
-                tp->x = f.x1 + (-(tp->x - f.x1) % fxl); 
-            if (tp->y > f.y2)
-                tp->y = f.y2 - ((tp->y - f.y1) % fyl);
-            else if (tp->x < f.x1)
-                tp->y = f.y1 + (-(tp->y - f.y1) % fyl); 
-            break;
+    if (mode == TURTLE_BUMP) {
+        tp->x = max(min(tp->x, f.x2), f.x1);
+        tp->y = max(min(tp->y, f.y2), f.y1);
+    }
+    else if (mode == TURTLE_WRAP) {
+        if (tp->x < f.x1)
+            tp->x = f.x2 + tp->x - f.x1 + (1 << TURTLE_QBITS);
+        else if (tp->x > f.x2)
+            tp->x = f.x2 - tp->x + f.x1;
+        
+        if (tp->y < f.y1)
+            tp->y = f.y2 + tp->y + f.y1 + (1 << TURTLE_QBITS);
+        else if (tp->x > f.y2)
+            tp->y = f.y2 - tp->y + f.y1;
+    }
+    else if (mode == TURTLE_BOUNCE) {
+    // it's not correct offsets larger than the pattern, needs to wavefold.
+        if (tp->x > f.x2)
+            tp->x = f.x2 - ((tp->x - f.x1) % fxl) - (1 << TURTLE_QBITS);
+        else if (tp->x < f.x1)
+            tp->x = f.x1 - ((f.x1 + tp->x) % fxl); 
+        if (tp->y > f.y2)
+            tp->y = f.y2 - ((tp->y - f.y1) % fyl) - (1 << TURTLE_QBITS);
+        else if (tp->y < f.y1)
+            tp->y = f.y1 - ((f.y1 + tp->y) % fyl);
     }
 }
 #undef min
 #undef max
 
-#define Q_1 (1 << TURTLE_QBITS)
 #define Q_POINT_5 (1 << (TURTLE_QBITS - 1))
 void turtle_resolve_position(scene_turtle_t *t, turtle_position_t *src,
                              turtle_position_t *dst) {
     *dst = *src;
-    if (dst->x % Q_1 >= Q_POINT_5)
-        dst->x = dst->x / Q_1 + 1;
-    else
-        dst->x = dst->x / Q_1;
-    if (dst->y % Q_1 >= Q_POINT_5)
-        dst->y = dst->y / Q_1 + 1;
-    else
-        dst->y = dst->y / Q_1;
-
+    dst->x = (dst->x + Q_POINT_5) >> TURTLE_QBITS;
+    dst->y = (dst->y + Q_POINT_5) >> TURTLE_QBITS;
 }
-#undef Q_1
 #undef Q_POINT_5
 
 uint8_t turtle_get_x(scene_turtle_t *st) {
@@ -457,33 +454,72 @@ void turtle_set_y(scene_turtle_t *st, int16_t y) {
 
 void turtle_goto(scene_turtle_t *st, turtle_position_t *tp) {
     st->position = *tp;
-    turtle_normalize_position(st, &st->position, TURTLE_BUMP);
+    turtle_normalize_position(st, &st->position, st->mode);
+}
+
+/// http://www.coranac.com/2009/07/sines/
+/// A sine approximation via a third-order approx.
+/// @param x    Angle (with 2^15 units/circle) (Q13)
+/// @return     Sine value (Q12)
+static inline int32_t sin(uint32_t x)
+{
+    // S(x) = x * ( (3<<p) - (x*x>>r) ) >> s
+    // n : Q-pos for quarter circle             13
+    // A : Q-pos for output                     12
+    // p : Q-pos for parentheses intermediate   15
+    // r = 2n-p                                 11
+    // s = A-1-p-n                              17
+
+    static const int qN = 13, qA= 12, qP= 15, qR= 2*qN-qP, qS= qN+qP+1-qA;
+
+    x= x<<(30-qN);          // shift to full s32 range (Q13->Q30)
+
+    if( (x^(x<<1)) < 0)     // test for quadrant 1 or 2
+        x= (1<<31) - x;
+
+    x= x>>(30-qN);
+
+    return x * ( (3<<qP) - (x*x>>qR) ) >> qS;
 }
 
 void turtle_step(scene_turtle_t *st, int16_t h, int16_t v) {
     // TODO watch out, it's a doozie ;)
-    int16_t dx, dy, sign;
+    int32_t dx = 0, dy = 0;
+    uint32_t h1, h2;
 
-    // Sorry, little processor!
-    // TODO: fixed point sin()
-    double h_rad = h * M_PI / 180;
-    double dx_d = v * cos(h_rad);
-    double dy_d = v * sin(h_rad);
+    // Kludgey hack due to sin() errors
+    switch(h) {
+        case 0:
+            dy = (-v) << TURTLE_QBITS;
+            break;
+        case 90:
+            dx = v << TURTLE_QBITS;
+            break;
+        case 180:
+            dy = v << TURTLE_QBITS;
+            break;
+        case 270:
+            dx = (-v) << TURTLE_QBITS;
+            break;
+        default:
+            h1 = ((h % 360) << 12) / 180;
+            h2 = (((h + 180) % 360) << 12) / 180;
 
-    dx = dx_d;
-    dy = dy_d;
-    dx_d -= dx;
-    dy_d -= dy;
-    sign = dx < 0 ? -1 : 1;
-    dx_d *= sign;
-    if (dx_d * sign >= 0.5)
-        dx += sign;
-    sign = dy < 0 ? -1 : 1;
-    if (dy_d * sign >= 0.5)
-        dy += sign;
+            int32_t  dy_d_q12 = v * sin(h1);
+            int32_t  dx_d_q12 = v * sin(h2); 
+            
+            if (dx_d_q12 < 0)
+                dx = ((dx_d_q12 >> (11 - TURTLE_QBITS)) - 1) >> 1;
+            else
+                dx = ((dx_d_q12 >> (11 - TURTLE_QBITS)) + 1) >> 1;
+            if (dy_d_q12 < 0)
+                dy = ((dy_d_q12 >> (11 - TURTLE_QBITS)) - 1) >> 1;
+            else
+                dy = ((dy_d_q12 >> (11 - TURTLE_QBITS)) + 1) >> 1;
+    }
 
-    st->position.x += dx << TURTLE_QBITS;
-    st->position.y += dy << TURTLE_QBITS;
+    st->position.x += dx;
+    st->position.y += dy;
     turtle_normalize_position(st, &st->position, st->mode);
 }
 
@@ -578,10 +614,8 @@ turtle_mode_t turtle_get_mode(scene_turtle_t *st) {
 }
 
 void turtle_set_mode(scene_turtle_t *st, turtle_mode_t m) {
-    if (m < TURTLE_WRAP)
-        m = TURTLE_WRAP;
-    if (m > TURTLE_BOUNCE)
-        m = TURTLE_BOUNCE;
+    if (m != TURTLE_WRAP && m != TURTLE_BUMP && m != TURTLE_BOUNCE)
+        m = TURTLE_BUMP;
     st->mode = m;
 }
 
