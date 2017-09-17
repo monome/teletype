@@ -213,7 +213,7 @@ TEST test_turtle_bounce() {
     char *test34[3] = { "@BOUNCE", "@MOVE -2 0", "@X" };
     CHECK_CALL(process_helper(3, test34, 2));
     char *test35[3] = { "@BOUNCE", "@MOVE 4 0", "@X" };
-    CHECK_CALL(process_helper(3, test34, 3));
+    CHECK_CALL(process_helper(3, test35, 3));
     PASS();
 }
 
