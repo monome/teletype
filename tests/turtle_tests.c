@@ -222,8 +222,8 @@ TEST test_turtle_bounce() {
 }
 
 TEST test_turtle_vars() {
-    char *test1[2] = { "@X 1", "@X" };
-    CHECK_CALL(process_helper(2, test1, 1));
+    char *test37[2] = { "@X 1", "@X" };
+    CHECK_CALL(process_helper(2, test37, 1));
     PASS();
 }
 
