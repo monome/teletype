@@ -378,7 +378,7 @@ scene_turtle_t* scene_get_turtle(scene_state_t *ss) {
 #define Q_ROUND(X) ((((X >> (Q_BITS - 1)) + 1) >> 1) << Q_BITS)   // (int)(X + 0.5)
 #define QT int16_t
 #define TO_Q(X) (X << Q_BITS) 
-#define TO_I(X) ((Q_ROUND(X) >> Q_BITS) & 0xFFFF)
+#define TO_I(X) ((X >> Q_BITS) & 0xFFFF)
 
 typedef struct {
     QT x1, y1, x2, y2;
@@ -403,6 +403,7 @@ void turtle_normalize_position(scene_turtle_t *t, turtle_position_t *tp,
     QT fxl = f.x2 - f.x1 + Q_1;
     QT fyl = f.y2 - f.y1 + Q_1;
   
+    // 
     if (mode == TURTLE_BUMP) {
         tp->x = min(f.x2, max(f.x1, tp->x));
         tp->y = min(f.y2, max(f.y1, tp->y));
@@ -435,8 +436,8 @@ void turtle_normalize_position(scene_turtle_t *t, turtle_position_t *tp,
 void turtle_resolve_position(scene_turtle_t *t, turtle_position_t *src,
                              turtle_position_t *dst) {
     *dst = *src;
-    dst->x = TO_I(Q_ROUND(dst->x));
-    dst->y = TO_I(Q_ROUND(dst->y));
+    dst->x = TO_I(dst->x);
+    dst->y = TO_I(dst->y);
 }
 
 // Round the position to the nearest cell
@@ -520,8 +521,8 @@ void turtle_step(scene_turtle_t *st, int16_t h, int16_t v) {
             dx = TO_Q(-v);
             break;
         default:
-            h1 = ((h % 360) << 12) / 180;
-            h2 = (((h + 180) % 360) << 12) / 180; // sin() is phased cos()
+            h1 = ((h % 360) << 14) / 180;
+            h2 = (((h + 180) % 360) << 14) / 180; // sin() is phased cos()
 
             int32_t  dy_d_Q12 = v * sin(h1);
             int32_t  dx_d_Q12 = v * sin(h2); 
@@ -554,8 +555,8 @@ void turtle_set(scene_state_t *ss, scene_turtle_t *st, int16_t val) {
     turtle_position_t p;
     turtle_resolve_position(st, &st->position, &p);
     if (p.x > 3 || p.x < 0 || p.y > 63 || p.y < 0)
-        return 0;
-    return ss_set_pattern_val(ss, p.x, p.y, val);
+        return;
+    ss_set_pattern_val(ss, p.x, p.y, val);
 }
 
 void turtle_set_home(scene_turtle_t *st, int16_t x, int16_t y) {
