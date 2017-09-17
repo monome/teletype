@@ -37,11 +37,13 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     &op_Y, &op_Z,
 
     // turtle
-    &op_TURTLE, &op_TURTLE_UP, &op_TURTLE_DOWN, &op_TURTLE_LEFT,
-    &op_TURTLE_RIGHT, &op_TURTLE_BUMP, &op_TURTLE_WRAP, &op_TURTLE_BOUNCE,
+    &op_TURTLE, &op_TURTLE_N, &op_TURTLE_S, &op_TURTLE_W, &op_TURTLE_E,
+    &op_TURTLE_BUMP, &op_TURTLE_WRAP, &op_TURTLE_BOUNCE,
     &op_TURTLE_DIR, &op_TURTLE_SPEED, &op_TURTLE_POS, &op_TURTLE_STEP,
     &op_TURTLE_FWD, &op_TURTLE_REV, &op_TURTLE_TURN, &op_TURTLE_X,
     &op_TURTLE_Y, &op_TURTLE_HOME, &op_TURTLE_SHOW, &op_TURTLE_FENCE,
+    &op_TURTLE_FX1, &op_TURTLE_FY1, &op_TURTLE_FX2, &op_TURTLE_FY2, 
+    &op_TURTLE_HX, &op_TURTLE_HY,
 
     // metronome
     &op_M, &op_M_SYM_EXCLAMATION, &op_M_ACT, &op_M_RESET,

@@ -222,8 +222,9 @@ uint8_t  turtle_get_home_x(scene_turtle_t*);
 uint8_t  turtle_get_home_y(scene_turtle_t*);
 void     turtle_set_home_x(scene_turtle_t*, int16_t);
 void     turtle_set_home_y(scene_turtle_t*, int16_t);
-turtle_fence_t
+turtle_fence_t *
          turtle_get_fence(scene_turtle_t*);
+void     turtle_correct_fence(scene_turtle_t*);
 void     turtle_set_fence(scene_turtle_t*, int16_t, int16_t, int16_t, int16_t);
 turtle_mode_t
          turtle_get_mode(scene_turtle_t*);

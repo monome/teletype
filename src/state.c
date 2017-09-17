@@ -4,6 +4,9 @@
 
 #include "teletype_io.h"
 
+#define min(X, Y) ((X) < (Y) ? (X) : (Y))
+#define max(X, Y) ((X) > (Y) ? (X) : (Y))
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // SCENE STATE /////////////////////////////////////////////////////////////////
@@ -272,6 +275,10 @@ size_t ss_scripts_size() {
 
 int16_t ss_get_script_last(scene_state_t *ss, script_number_t idx) {
     int16_t now = ss->variables.time;
+    if (idx < TT_SCRIPT_1)
+        return 0;
+    if (idx > INIT_SCRIPT)
+        return 0;
     int16_t last = ss->scripts[idx].last_time;
     if (now < last) 
         return (INT16_MAX - last) + (now - INT16_MIN); // I must be dense? 
@@ -340,8 +347,7 @@ int16_t cs_stack_size(command_state_t *cs) {
 
 ////////////////////////////////////////////////////////////////////////////////
 // TURTLE STATE ////////////////////////////////////////////////////////////////
-
-
+//
 void scene_set_turtle(scene_state_t *ss, scene_turtle_t *ts) {
     //TODO validate the turtle?
     ss->turtle = *ts; // structs copy with value assignment
@@ -352,75 +358,97 @@ scene_turtle_t* scene_get_turtle(scene_state_t *ss) {
     return &ss->turtle;
 }
 
+
+// In this code, we use signed fixed-point maths.  This means that the int16_t
+// is used to store a signed number with both an integer and a fraction part.
+//
+// Q_BITS represents how many are used for the fractional component.  Because
+// we work with signed integers, 1 bit facilitates the sign component.
+// Therefore, INT_BITS = 16 - Q_BITS - 1
+//
+// The main thing we do in fixed-point is keep a fractional index into the
+// pattern data, so it will be our main reference point.
+//
+// 63 is 6 bits, so Q_BITS = 16 - 6 - 1 = 9
+// The notation for this system is Q6.9
+
+#define Q_BITS 9
+#define Q_1 (1 << Q_BITS)                           // 1.0
+#define Q_05 (1 << (Q_BITS - 1))                    // 0.5
+#define Q_ROUND(X) ((((X >> (Q_BITS - 1)) + 1) >> 1) << Q_BITS)   // (int)(X + 0.5)
+#define QT int16_t
+#define TO_Q(X) (X << Q_BITS) 
+#define TO_I(X) (Q_ROUND(X) >> Q_BITS)
+
 typedef struct {
-    int16_t x1, y1, x2, y2;
-} normal_fence_t;
+    QT x1, y1, x2, y2;
+} Q_fence_t;
 
-// 0-63 is 6 bits, so on a 16-bit signed integer, we have 9 to use.
-// :. the internal turtle position system has 9 bits right of the point.
-#define TURTLE_QBITS 9
+static inline Q_fence_t normalize_fence(turtle_fence_t in) {
+    Q_fence_t out;
 
-static inline normal_fence_t normalize_fence(turtle_fence_t in) {
-    normal_fence_t out;
-
-    out.x1 = in.x1 << TURTLE_QBITS;
-    out.x2 = in.x2 << TURTLE_QBITS;
-    out.y1 = in.y1 << TURTLE_QBITS;
-    out.y2 = in.y2 << TURTLE_QBITS;
+    out.x1 = in.x1 << Q_BITS;
+    out.x2 = in.x2 << Q_BITS;
+    out.y1 = in.y1 << Q_BITS;
+    out.y2 = in.y2 << Q_BITS;
     return out;
 }
 
-#define min(X, Y) ((X) < (Y) ? (X) : (Y))
-#define max(X, Y) ((X) > (Y) ? (X) : (Y))
 
 void turtle_normalize_position(scene_turtle_t *t, turtle_position_t *tp, 
         turtle_mode_t mode) {
-    // a normal_fence operates in fixed-point at Q = TURTLE_QBITS
-    normal_fence_t f = normalize_fence(t->fence);
+    // a normal_fence operates in fixed-point at Q = Q_BITS
+    Q_fence_t f = normalize_fence(t->fence);
     
     // fence values are inclusive so 0 to 0 is L:1
     // literally avoid a fencepost error ;)
-    int16_t fxl = f.x2 - f.x1 + (1 << TURTLE_QBITS);
-    int16_t fyl = f.y2 - f.y1 + (1 << TURTLE_QBITS);
+    QT fxl = f.x2 - f.x1 + Q_1;
+    QT fyl = f.y2 - f.y1 + Q_1;
   
     if (mode == TURTLE_BUMP) {
-        tp->x = max(min(tp->x, f.x2), f.x1);
-        tp->y = max(min(tp->y, f.y2), f.y1);
+        tp->x = min(f.x2, max(f.x1, tp->x));
+        tp->y = min(f.y2, max(f.y1, tp->y));
     }
     else if (mode == TURTLE_WRAP) {
         if (tp->x < f.x1)
-            tp->x = f.x2 + tp->x - f.x1 + (1 << TURTLE_QBITS);
+            tp->x = f.x2 + tp->x - f.x1 + Q_1;
         else if (tp->x > f.x2)
-            tp->x = f.x2 - tp->x + f.x1;
+            tp->x = f.x1 + tp->x - f.x2 - Q_1;
         
         if (tp->y < f.y1)
-            tp->y = f.y2 + tp->y + f.y1 + (1 << TURTLE_QBITS);
-        else if (tp->x > f.y2)
-            tp->y = f.y2 - tp->y + f.y1;
+            tp->y = f.y2 + tp->y + f.y1 + Q_1;
+        else if (tp->y > f.y2)
+            tp->y = f.y1 + tp->y - f.y2 - Q_1;
     }
     else if (mode == TURTLE_BOUNCE) {
-    // it's not correct offsets larger than the pattern, needs to wavefold.
+    // it's not correct with offsets larger than the pattern, needs to wavefold.
         if (tp->x > f.x2)
-            tp->x = f.x2 - ((tp->x - f.x1) % fxl) - (1 << TURTLE_QBITS);
+            tp->x = f.x2 - ((tp->x - f.x1) % fxl) - Q_1;
         else if (tp->x < f.x1)
             tp->x = f.x1 - ((f.x1 + tp->x) % fxl); 
         if (tp->y > f.y2)
-            tp->y = f.y2 - ((tp->y - f.y1) % fyl) - (1 << TURTLE_QBITS);
+            tp->y = f.y2 - ((tp->y - f.y1) % fyl) - Q_1;
         else if (tp->y < f.y1)
             tp->y = f.y1 - ((f.y1 + tp->y) % fyl);
     }
 }
-#undef min
-#undef max
 
-#define Q_POINT_5 (1 << (TURTLE_QBITS - 1))
+// Produce rounded Q0 positions in dst, for external use only
 void turtle_resolve_position(scene_turtle_t *t, turtle_position_t *src,
                              turtle_position_t *dst) {
     *dst = *src;
-    dst->x = (dst->x + Q_POINT_5) >> TURTLE_QBITS;
-    dst->y = (dst->y + Q_POINT_5) >> TURTLE_QBITS;
+    dst->x = TO_I(Q_ROUND(dst->x));
+    dst->y = TO_I(Q_ROUND(dst->y));
 }
-#undef Q_POINT_5
+
+// Round the position to the nearest cell
+// This effectively sets the turtle in the middle of each cell
+static inline void turtle_Q_position(scene_turtle_t *t, turtle_position_t *src,
+                             turtle_position_t *dst) {
+    *dst = *src;
+    dst->x = Q_ROUND(dst->x);
+    dst->y = Q_ROUND(dst->y);
+}
 
 uint8_t turtle_get_x(scene_turtle_t *st) {
     turtle_position_t t;
@@ -429,11 +457,7 @@ uint8_t turtle_get_x(scene_turtle_t *st) {
 }
 
 void turtle_set_x(scene_turtle_t *st, int16_t x) {
-    if (x > 3)
-        x = 3;
-    else if (x < 0)
-        x = 0;
-    st->position.x = x << TURTLE_QBITS;
+    st->position.x = TO_Q(x);
     turtle_normalize_position(st, &st->position, TURTLE_BUMP);
 }
 
@@ -444,11 +468,7 @@ uint8_t turtle_get_y(scene_turtle_t *st) {
 }
 
 void turtle_set_y(scene_turtle_t *st, int16_t y) {
-    if (y > 63)
-        y = 63;
-    else if (y < 0)
-        y = 0;
-    st->position.y = y << TURTLE_QBITS;
+    st->position.y = TO_Q(y);
     turtle_normalize_position(st, &st->position, TURTLE_BUMP);
 }
 
@@ -470,7 +490,7 @@ static inline int32_t sin(uint32_t x)
     // r = 2n-p                                 11
     // s = A-1-p-n                              17
 
-    static const int qN = 13, qA= 12, qP= 15, qR= 2*qN-qP, qS= qN+qP+1-qA;
+    int qN = 13, qA= 12, qP= 15, qR= 2*qN-qP, qS= qN+qP+1-qA;
 
     x= x<<(30-qN);          // shift to full s32 range (Q13->Q30)
 
@@ -490,32 +510,33 @@ void turtle_step(scene_turtle_t *st, int16_t h, int16_t v) {
     // Kludgey hack due to sin() errors
     switch(h) {
         case 0:
-            dy = (-v) << TURTLE_QBITS;
+            dy = TO_Q(-v);
             break;
         case 90:
-            dx = v << TURTLE_QBITS;
+            dx = TO_Q(v);
             break;
         case 180:
-            dy = v << TURTLE_QBITS;
+            dy = TO_Q(v);
             break;
         case 270:
-            dx = (-v) << TURTLE_QBITS;
+            dx = TO_Q(-v);
             break;
         default:
             h1 = ((h % 360) << 12) / 180;
-            h2 = (((h + 180) % 360) << 12) / 180;
+            h2 = (((h + 180) % 360) << 12) / 180; // sin() is phased cos()
 
-            int32_t  dy_d_q12 = v * sin(h1);
-            int32_t  dx_d_q12 = v * sin(h2); 
+            int32_t  dy_d_Q12 = v * sin(h1);
+            int32_t  dx_d_Q12 = v * sin(h2); 
             
-            if (dx_d_q12 < 0)
-                dx = ((dx_d_q12 >> (11 - TURTLE_QBITS)) - 1) >> 1;
+            if (dx_d_Q12 < 0)
+                // delta x = round(v *sin(heading))
+                dx = ((dx_d_Q12 >> (11 - Q_BITS)) - 1) >> 1;
             else
-                dx = ((dx_d_q12 >> (11 - TURTLE_QBITS)) + 1) >> 1;
-            if (dy_d_q12 < 0)
-                dy = ((dy_d_q12 >> (11 - TURTLE_QBITS)) - 1) >> 1;
+                dx = ((dx_d_Q12 >> (11 - Q_BITS)) + 1) >> 1;
+            if (dy_d_Q12 < 0)
+                dy = ((dy_d_Q12 >> (11 - Q_BITS)) - 1) >> 1;
             else
-                dy = ((dy_d_q12 >> (11 - TURTLE_QBITS)) + 1) >> 1;
+                dy = ((dy_d_Q12 >> (11 - Q_BITS)) + 1) >> 1;
     }
 
     st->position.x += dx;
@@ -544,8 +565,8 @@ void turtle_set_home(scene_turtle_t *st, int16_t x, int16_t y) {
         y = 63;
     else if (y < 0)
         y = 0;
-    turtle_position_t h = { .x = x << TURTLE_QBITS, .y = y << TURTLE_QBITS };
-    st->home = h;
+    st->home.x = TO_Q(x);
+    st->home.y = TO_Q(y);
     turtle_normalize_position(st, &st->home, TURTLE_BUMP);
 }
 
@@ -560,8 +581,7 @@ void turtle_set_home_x(scene_turtle_t *st, int16_t x) {
         x = 3;
     else if (x < 0)
         x = 0;
-    turtle_position_t h = { .x = x << TURTLE_QBITS, .y = st->home.y };
-    st->home = h;
+    st->home.x = TO_Q(x);
     turtle_normalize_position(st, &st->home, TURTLE_BUMP);
 }
 
@@ -576,37 +596,39 @@ void turtle_set_home_y(scene_turtle_t *st, int16_t y) {
         y = 63;
     else if (y < 0)
         y = 0;
-    turtle_position_t h = { .x = st->home.x, .y = y << TURTLE_QBITS };
+    turtle_position_t h = { .x = st->home.x, .y = y << Q_BITS };
     st->home = h;
     turtle_normalize_position(st, &st->home, TURTLE_BUMP);
 }
 
-turtle_fence_t turtle_get_fence(scene_turtle_t *st) {
-    return st->fence;
+inline void turtle_correct_fence(scene_turtle_t *st) {
+    int16_t t;
+    st->fence.x1 = min(3, max(0, st->fence.x1));
+    st->fence.x2 = min(3, max(0, st->fence.x2));
+    st->fence.y1 = min(63, max(0, st->fence.y1));
+    st->fence.y2 = min(63, max(0, st->fence.y2));
+
+    if (st->fence.x1 > st->fence.x2) {
+        t = st->fence.x2;
+        st->fence.x2 = st->fence.x1;
+        st->fence.x1 = t;
+    }
+    if (st->fence.y1 > st->fence.y2) {
+        t = st->fence.y2;
+        st->fence.y2 = st->fence.y1;
+        st->fence.y1 = t;
+    }
+    turtle_normalize_position(st, &st->position, TURTLE_BUMP);
 }
 
 void turtle_set_fence(scene_turtle_t *st, int16_t x1, int16_t y1, 
                                           int16_t x2, int16_t y2) {
-    uint8_t t;
-    x1 = x1 > 3 ? 3 : x1;
-    x2 = x2 > 3 ? 3 : x2; 
-    y1 = y1 > 63 ? 63 : y1;
-    y2 = y2 > 63 ? 63 : y2; 
-    
-    if (x1 > x2) {
-        t = x2;
-        x2 = x1;
-        x1 = t;
-    }
-    if (y1 > y2) {
-        t = y2;
-        y2 = y1;
-        y1 = t;
-    }
 
-    turtle_fence_t f = { .x1 = x1, .y1 = y1, .x2 = x2, .y2 = y2 };
-    st->fence = f;
-    turtle_normalize_position(st, &st->position, TURTLE_BUMP);
+    st->fence.x1 = min(3, max(0, x1));
+    st->fence.x2 = min(3, max(0, x2));
+    st->fence.y1 = min(63, max(0, y1));
+    st->fence.y2 = min(63, max(0, y2));
+    turtle_correct_fence(st);
 }
 
 turtle_mode_t turtle_get_mode(scene_turtle_t *st) {
@@ -646,6 +668,3 @@ void turtle_set_velocity(scene_turtle_t *st, int16_t v) {
 void turtle_forward(scene_turtle_t *st, int16_t v) {
     turtle_step(st, st->heading, v);
 }
-
-
-#undef TURTLE_QBITS
