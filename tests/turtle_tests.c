@@ -122,35 +122,35 @@ TEST process_helper(size_t n, char* lines[], int16_t answer) {
 
 TEST test_turtle_fence_normal() {
     // Proper fence usage
-    char *test1[2] = { "@FENCE 1 2 3 4", "@FX1" };
+    char *test1[2] = { "@F 1 2 3 4", "@FX1" };
     CHECK_CALL(process_helper(2, test1, 1));
-    char *test2[2] = { "@FENCE 1 2 3 4", "@FY1" };
+    char *test2[2] = { "@F 1 2 3 4", "@FY1" };
     CHECK_CALL(process_helper(2, test2, 2));
-    char *test3[2] = { "@FENCE 1 2 3 4", "@FX2" };
+    char *test3[2] = { "@F 1 2 3 4", "@FX2" };
     CHECK_CALL(process_helper(2, test3, 3));
-    char *test4[2] = { "@FENCE 1 2 3 4", "@FY2" };
+    char *test4[2] = { "@F 1 2 3 4", "@FY2" };
     CHECK_CALL(process_helper(2, test4, 4));
     PASS();
 }
 TEST test_turtle_fence_swapped() {
-    char *test5[2] = { "@FENCE 3 4 1 2", "@FX1" };
+    char *test5[2] = { "@F 3 4 1 2", "@FX1" };
     CHECK_CALL(process_helper(2, test5, 1));
-    char *test6[2] = { "@FENCE 3 4 1 2", "@FY1" };
+    char *test6[2] = { "@F 3 4 1 2", "@FY1" };
     CHECK_CALL(process_helper(2, test6, 2));
-    char *test7[2] = { "@FENCE 3 4 1 2", "@FX2" };
+    char *test7[2] = { "@F 3 4 1 2", "@FX2" };
     CHECK_CALL(process_helper(2, test7, 3));
-    char *test8[2] = { "@FENCE 3 4 1 2", "@FY2" };
+    char *test8[2] = { "@F 3 4 1 2", "@FY2" };
     CHECK_CALL(process_helper(2, test8, 4));
     PASS();
 }
 TEST test_turtle_fence_oob() {
-    char *test9[2] = { "@FENCE -1 -1 4 100", "@FX1" };
+    char *test9[2] = { "@F -1 -1 4 100", "@FX1" };
     CHECK_CALL(process_helper(2, test9, 0));
-    char *test10[2] = { "@FENCE -1 -1 4 100", "@FY1" };
+    char *test10[2] = { "@F -1 -1 4 100", "@FY1" };
     CHECK_CALL(process_helper(2, test10, 0));
-    char *test11[2] = { "@FENCE -1 -1 4 100", "@FX2" };
+    char *test11[2] = { "@F -1 -1 4 100", "@FX2" };
     CHECK_CALL(process_helper(2, test11, 3));
-    char *test12[2] = { "@FENCE -1 -1 4 100", "@FY2" };
+    char *test12[2] = { "@F -1 -1 4 100", "@FY2" };
     CHECK_CALL(process_helper(2, test12, 63));
     PASS();
 }
@@ -190,36 +190,30 @@ TEST test_turtle_fence_ind_oob() {
 }
 
 TEST test_turtle_wrap() {
-    char *test25[3] = { "@WRAP", "@REV 1", "@Y" };
+    char *test25[3] = { "@WRAP", "@MOVE 0 -1", "@Y" };
     CHECK_CALL(process_helper(3, test25, 63));
-    char *test26[4] = { "@WRAP", "@FY2 1", "@REV 1", "@Y" };
+    char *test26[4] = { "@WRAP", "@FY2 1", "@MOVE 0 -1", "@Y" };
     CHECK_CALL(process_helper(4, test26, 1));
-    char *test27[4] = { "@WRAP", "@TURN -90", "@REV 1", "@X" };
+    char *test27[3] = { "@WRAP", "@MOVE -1 0", "@X" };
     CHECK_CALL(process_helper(4, test27, 3));
-    char *test28[5] = { "@WRAP", "@TURN -90", "@FX2 1", "@REV 1", "@X" };
+    char *test28[4] = { "@WRAP", "@FX 1", "@MOVE -1 0", "@X" };
     CHECK_CALL(process_helper(5, test28, 1));
-    char *test29[3] = { "@WRAP", "@N 1", "@Y" };
-    CHECK_CALL(process_helper(3, test29, 63));
-    char *test30[4] = { "@Y 2", "@FENCE 0 0 0 0", "@Y" };
-    CHECK_CALL(process_helper(3, test30, 0));
     PASS();
 }
 
 TEST test_turtle_bounce() {
-    char *test30[3] = { "@BOUNCE", "@REV 1", "@Y" };
+    char *test30[3] = { "@BOUNCE", "@MOVE 0 -1", "@Y" };
     CHECK_CALL(process_helper(3, test30, 1));
-    char *test31[3] = { "@BOUNCE", "@REV 2", "@Y" };
+    char *test31[3] = { "@BOUNCE", "@MOVE 0 -2", "@Y" };
     CHECK_CALL(process_helper(3, test31, 2));
-    char *test32[3] = { "@BOUNCE", "@FWD 64", "@Y" };
+    char *test32[3] = { "@BOUNCE", "@MOVE 0 64", "@Y" };
     CHECK_CALL(process_helper(3, test32, 62));
-    char *test33[3] = { "@BOUNCE", "@N 1", "@Y" };
+    char *test33[3] = { "@BOUNCE", "@MOVE -1 0", "@X" };
     CHECK_CALL(process_helper(3, test33, 1));
-    char *test34[3] = { "@BOUNCE", "@S 64", "@Y" };
-    CHECK_CALL(process_helper(3, test34, 62));
-    char *test35[3] = { "@BOUNCE", "@W 1", "@X" };
-    CHECK_CALL(process_helper(3, test35, 1));
-    char *test36[3] = { "@BOUNCE", "@E 4", "@X" };
-    CHECK_CALL(process_helper(3, test36, 2));
+    char *test34[3] = { "@BOUNCE", "@MOVE -2 0", "@X" };
+    CHECK_CALL(process_helper(3, test34, 2));
+    char *test35[3] = { "@BOUNCE", "@MOVE 4 0", "@X" };
+    CHECK_CALL(process_helper(3, test35, 3));
     PASS();
 }
 

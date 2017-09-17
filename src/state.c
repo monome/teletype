@@ -471,6 +471,12 @@ void turtle_set_y(scene_turtle_t *st, int16_t y) {
     turtle_normalize_position(st, &st->position, TURTLE_BUMP);
 }
 
+void turtle_move(scene_turtle_t *st, int16_t x, int16_t y) {
+    st->position.y += TO_Q(y);
+    st->position.x += TO_Q(x);
+    turtle_normalize_position(st, &st->position, TURTLE_BUMP);
+}
+
 void turtle_goto(scene_turtle_t *st, turtle_position_t *tp) {
     st->position = *tp;
     turtle_normalize_position(st, &st->position, st->mode);
