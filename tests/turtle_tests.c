@@ -115,7 +115,7 @@ TEST process_helper(size_t n, char* lines[], int16_t answer) {
     PASS();
 }
 
-TEST test_turtle_fence() {
+TEST test_turtle_fence_normal() {
     // Proper fence usage
     char *test1[2] = { "@FENCE 1 2 3 4", "@FX1" };
     CHECK_CALL(process_helper(2, test1, 1));
@@ -125,7 +125,9 @@ TEST test_turtle_fence() {
     CHECK_CALL(process_helper(2, test3, 3));
     char *test4[2] = { "@FENCE 1 2 3 4", "@FY2" };
     CHECK_CALL(process_helper(2, test4, 4));
-    // Swapped edges
+    PASS();
+}
+TEST test_turtle_fence_swapped() {
     char *test5[2] = { "@FENCE 3 4 1 2", "@FX1" };
     CHECK_CALL(process_helper(2, test5, 1));
     char *test6[2] = { "@FENCE 3 4 1 2", "@FY1" };
@@ -134,7 +136,9 @@ TEST test_turtle_fence() {
     CHECK_CALL(process_helper(2, test7, 3));
     char *test8[2] = { "@FENCE 3 4 1 2", "@FY2" };
     CHECK_CALL(process_helper(2, test8, 4));
-    // Out of bounds
+    PASS();
+}
+TEST test_turtle_fence_oob() {
     char *test9[2] = { "@FENCE -1 -1 4 100", "@FX1" };
     CHECK_CALL(process_helper(2, test9, 0));
     char *test10[2] = { "@FENCE -1 -1 4 100", "@FY1" };
@@ -143,8 +147,9 @@ TEST test_turtle_fence() {
     CHECK_CALL(process_helper(2, test11, 3));
     char *test12[2] = { "@FENCE -1 -1 4 100", "@FY2" };
     CHECK_CALL(process_helper(2, test12, 63));
-    
-    // Individual proper usage
+    PASS();
+}
+TEST test_turtle_fence_individual() {
     char *test13[2] = { "@FX1 1", "@FX1" };
     CHECK_CALL(process_helper(2, test13, 1));
     char *test14[2] = { "@FY1 1", "@FY1" };
@@ -153,7 +158,9 @@ TEST test_turtle_fence() {
     CHECK_CALL(process_helper(2, test15, 1));
     char *test16[2] = { "@FY2 1", "@FY2" };
     CHECK_CALL(process_helper(2, test16, 1));
-    // Swapped edges
+    PASS();
+}
+TEST test_turtle_fence_ind_swapped() {
     char *test17[3] = { "@FX1 1", "@FX2 0", "@FX1" };
     CHECK_CALL(process_helper(3, test17, 0));
     char *test18[3] = { "@FY1 1", "@FY2 0", "@FY1" };
@@ -162,7 +169,9 @@ TEST test_turtle_fence() {
     CHECK_CALL(process_helper(3, test19, 1));
     char *test20[3] = { "@FY1 1", "@FY2 0", "@FY2" };
     CHECK_CALL(process_helper(3, test20, 1));
-    // Out of bounds
+    PASS();
+}
+TEST test_turtle_fence_ind_oob() {
     char *test21[2] = { "@FX1 -1", "@FX1" };
     CHECK_CALL(process_helper(2, test21, 0));
     char *test22[2] = { "@FY1 -1", "@FY1" };
@@ -171,11 +180,11 @@ TEST test_turtle_fence() {
     CHECK_CALL(process_helper(2, test23, 3));
     char *test24[2] = { "@FY2 63", "@FY2" };
     CHECK_CALL(process_helper(2, test24, 63));
+    // TODO more tests
     PASS();
 }
 
 TEST test_turtle_wrap() {
-    // up
     char *test1[3] = { "@WRAP", "@REV 1", "@Y" };
     CHECK_CALL(process_helper(3, test1, 63));
     char *test2[4] = { "@WRAP", "@FY2 1", "@REV 1", "@Y" };
@@ -188,7 +197,12 @@ TEST test_turtle_wrap() {
 }
 
 SUITE(turtle_suite) {
-    RUN_TEST(test_turtle_fence);
+    RUN_TEST(test_turtle_fence_normal);
+    RUN_TEST(test_turtle_fence_swapped);
+    RUN_TEST(test_turtle_fence_oob);
+    RUN_TEST(test_turtle_fence_individual);
+    RUN_TEST(test_turtle_fence_ind_swapped);
+    RUN_TEST(test_turtle_fence_ind_oob);
     RUN_TEST(test_turtle_wrap);
 }
 

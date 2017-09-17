@@ -105,8 +105,8 @@ const tele_op_t op_TURTLE_FY2 = MAKE_GET_SET_OP(@FY2, op_TURTLE_FY2_get,
                                                 op_TURTLE_FY2_set, 0, true);
 const tele_op_t op_TURTLE_HX = MAKE_GET_SET_OP(@HX, op_TURTLE_HX_get,
                                                 op_TURTLE_HX_set, 0, true);
-const tele_op_t op_TURTLE_HY = MAKE_GET_SET_OP(@HY, op_TURTLE_HX_get,
-                                                op_TURTLE_HX_set, 0, true);
+const tele_op_t op_TURTLE_HY = MAKE_GET_SET_OP(@HY, op_TURTLE_HY_get,
+                                                op_TURTLE_HY_set, 0, true);
 // TODO: Is this okay?  HOME_get takes no args, HOME_set takes 2
 //                     NOPE!  Fails stack size test.
 const tele_op_t op_TURTLE_HOME = MAKE_GET_SET_OP(@HOME, op_TURTLE_HOME_get,
