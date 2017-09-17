@@ -39,6 +39,8 @@ TEST op_stack_size() {
                                     // (needs dedicated initaliser)
             exec_state_t es;
             es_init(&es);
+            es_push(&es);
+            es_variables(&es)->script_number = 1;
             command_state_t cs;
             cs_init(&cs);
 
