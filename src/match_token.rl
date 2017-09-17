@@ -45,31 +45,24 @@
         
         # turtle
         "@"           => { MATCH_OP(E_OP_TURTLE); };
-        "@N"          => { MATCH_OP(E_OP_TURTLE_N); };
-        "@S"          => { MATCH_OP(E_OP_TURTLE_S); };
-        "@W"          => { MATCH_OP(E_OP_TURTLE_W); };
-        "@E"          => { MATCH_OP(E_OP_TURTLE_E); };
-        "@BUMP"       => { MATCH_OP(E_OP_TURTLE_BUMP); };
-        "@WRAP"       => { MATCH_OP(E_OP_TURTLE_WRAP); };
-        "@BOUNCE"     => { MATCH_OP(E_OP_TURTLE_BOUNCE); };
-        "@DIR"        => { MATCH_OP(E_OP_TURTLE_DIR); };
-        "@SPEED"      => { MATCH_OP(E_OP_TURTLE_SPEED); };
-        "@POS"        => { MATCH_OP(E_OP_TURTLE_POS); };
-        "@STEP"       => { MATCH_OP(E_OP_TURTLE_STEP); };
-        "@FWD"        => { MATCH_OP(E_OP_TURTLE_FWD); };
-        "@REV"        => { MATCH_OP(E_OP_TURTLE_REV); };
-        "@TURN"       => { MATCH_OP(E_OP_TURTLE_TURN); };
         "@X"          => { MATCH_OP(E_OP_TURTLE_X); };
         "@Y"          => { MATCH_OP(E_OP_TURTLE_Y); };
-        "@HOME"       => { MATCH_OP(E_OP_TURTLE_HOME); };
-        "@SHOW"       => { MATCH_OP(E_OP_TURTLE_SHOW); };
-        "@FENCE"      => { MATCH_OP(E_OP_TURTLE_FENCE); };
+        "@MOVE"       => { MATCH_OP(E_OP_TURTLE_MOVE); };
+        "@F"          => { MATCH_OP(E_OP_TURTLE_F); };
         "@FX1"        => { MATCH_OP(E_OP_TURTLE_FX1); };
         "@FY1"        => { MATCH_OP(E_OP_TURTLE_FY1); };
         "@FX2"        => { MATCH_OP(E_OP_TURTLE_FX2); };
         "@FY2"        => { MATCH_OP(E_OP_TURTLE_FY2); };
-        "@HX"         => { MATCH_OP(E_OP_TURTLE_HX); };
-        "@HY"         => { MATCH_OP(E_OP_TURTLE_HY); };
+        "@SPEED"      => { MATCH_OP(E_OP_TURTLE_SPEED); };
+        "@DIR"        => { MATCH_OP(E_OP_TURTLE_DIR); };
+        "@FRICTION"   => { MATCH_OP(E_OP_TURTLE_FRICTION); };
+        "@ACCEL"      => { MATCH_OP(E_OP_TURTLE_ACCEL); };
+        "@STEP"       => { MATCH_OP(E_OP_TURTLE_STEP); };
+        "@BUMP"       => { MATCH_OP(E_OP_TURTLE_BUMP); };
+        "@WRAP"       => { MATCH_OP(E_OP_TURTLE_WRAP); };
+        "@BOUNCE"     => { MATCH_OP(E_OP_TURTLE_BOUNCE); };
+        "@SCRIPT"     => { MATCH_OP(E_OP_TURTLE_SCRIPT); };
+        "@SHOW"       => { MATCH_OP(E_OP_TURTLE_SHOW); };
 
         # metronome
         "M"           => { MATCH_OP(E_OP_M); };
