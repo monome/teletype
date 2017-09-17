@@ -545,12 +545,16 @@ void turtle_step(scene_turtle_t *st, int16_t h, int16_t v) {
 int16_t  turtle_get(scene_state_t *ss, scene_turtle_t *st) {
     turtle_position_t p;
     turtle_resolve_position(st, &st->position, &p);
+    if (p.x > 3 || p.x < 0 || p.y > 63 || p.y < 0)
+        return 0;
     return ss_get_pattern_val(ss, p.x, p.y);
 }
 
 void turtle_set(scene_state_t *ss, scene_turtle_t *st, int16_t val) {
     turtle_position_t p;
     turtle_resolve_position(st, &st->position, &p);
+    if (p.x > 3 || p.x < 0 || p.y > 63 || p.y < 0)
+        return 0;
     return ss_set_pattern_val(ss, p.x, p.y, val);
 }
 
