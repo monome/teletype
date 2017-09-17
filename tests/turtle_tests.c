@@ -9,9 +9,11 @@
 
 char tbuf[20][140]; // let it go wide
 int  tbuf_r = 0;
+int32_t count = 0;
 
 #define BUF_CR() (tbuf_r++)
 #define BUF tbuf[tbuf_r]
+#define BUF_NEWTEST() (count = 0)
 
 static inline void clear_log() {
     for (;tbuf_r--;)
@@ -47,7 +49,6 @@ static const char *error_message(error_t e) {
 // correct (allows contiuation of state)
 TEST process_helper_state(scene_state_t* ss, size_t n, char* lines[],
                           int16_t answer) {
-    static int32_t count=0;
     count++;
     process_result_t result = {.has_value = false, .value = 0 };
     exec_state_t es;
@@ -121,7 +122,7 @@ TEST process_helper(size_t n, char* lines[], int16_t answer) {
 }
 
 TEST test_turtle_fence_normal() {
-    // Proper fence usage
+    BUF_NEWTEST();
     char *test1[2] = { "@F 1 2 3 4", "@FX1" };
     CHECK_CALL(process_helper(2, test1, 1));
     char *test2[2] = { "@F 1 2 3 4", "@FY1" };
@@ -133,93 +134,127 @@ TEST test_turtle_fence_normal() {
     PASS();
 }
 TEST test_turtle_fence_swapped() {
-    char *test5[2] = { "@F 3 4 1 2", "@FX1" };
-    CHECK_CALL(process_helper(2, test5, 1));
-    char *test6[2] = { "@F 3 4 1 2", "@FY1" };
-    CHECK_CALL(process_helper(2, test6, 2));
-    char *test7[2] = { "@F 3 4 1 2", "@FX2" };
-    CHECK_CALL(process_helper(2, test7, 3));
-    char *test8[2] = { "@F 3 4 1 2", "@FY2" };
-    CHECK_CALL(process_helper(2, test8, 4));
+    BUF_NEWTEST();
+    char *test1[2] = { "@F 3 4 1 2", "@FX1" };
+    CHECK_CALL(process_helper(2, test1, 1));
+    char *test2[2] = { "@F 3 4 1 2", "@FY1" };
+    CHECK_CALL(process_helper(2, test2, 2));
+    char *test3[2] = { "@F 3 4 1 2", "@FX2" };
+    CHECK_CALL(process_helper(2, test3, 3));
+    char *test4[2] = { "@F 3 4 1 2", "@FY2" };
+    CHECK_CALL(process_helper(2, test4, 4));
     PASS();
 }
 TEST test_turtle_fence_oob() {
-    char *test9[2] = { "@F -1 -1 4 100", "@FX1" };
-    CHECK_CALL(process_helper(2, test9, 0));
-    char *test10[2] = { "@F -1 -1 4 100", "@FY1" };
-    CHECK_CALL(process_helper(2, test10, 0));
-    char *test11[2] = { "@F -1 -1 4 100", "@FX2" };
-    CHECK_CALL(process_helper(2, test11, 3));
-    char *test12[2] = { "@F -1 -1 4 100", "@FY2" };
-    CHECK_CALL(process_helper(2, test12, 63));
+    BUF_NEWTEST();
+    char *test1[2] = { "@F -1 -1 4 100", "@FX1" };
+    CHECK_CALL(process_helper(2, test1, 0));
+    char *test2[2] = { "@F -1 -1 4 100", "@FY1" };
+    CHECK_CALL(process_helper(2, test2, 0));
+    char *test3[2] = { "@F -1 -1 4 100", "@FX2" };
+    CHECK_CALL(process_helper(2, test3, 3));
+    char *test4[2] = { "@F -1 -1 4 100", "@FY2" };
+    CHECK_CALL(process_helper(2, test4, 63));
     PASS();
 }
 TEST test_turtle_fence_individual() {
-    char *test13[2] = { "@FX1 1", "@FX1" };
-    CHECK_CALL(process_helper(2, test13, 1));
-    char *test14[2] = { "@FY1 1", "@FY1" };
-    CHECK_CALL(process_helper(2, test14, 1));
-    char *test15[2] = { "@FX2 1", "@FX2" };
-    CHECK_CALL(process_helper(2, test15, 1));
-    char *test16[2] = { "@FY2 1", "@FY2" };
-    CHECK_CALL(process_helper(2, test16, 1));
+    BUF_NEWTEST();
+    char *test1[2] = { "@FX1 1", "@FX1" };
+    CHECK_CALL(process_helper(2, test1, 1));
+    char *test2[2] = { "@FY1 1", "@FY1" };
+    CHECK_CALL(process_helper(2, test2, 1));
+    char *test3[2] = { "@FX2 1", "@FX2" };
+    CHECK_CALL(process_helper(2, test3, 1));
+    char *test4[2] = { "@FY2 1", "@FY2" };
+    CHECK_CALL(process_helper(2, test4, 1));
     PASS();
 }
 TEST test_turtle_fence_ind_swapped() {
-    char *test17[3] = { "@FX1 1", "@FX2 0", "@FX1" };
-    CHECK_CALL(process_helper(3, test17, 0));
-    char *test18[3] = { "@FY1 1", "@FY2 0", "@FY1" };
-    CHECK_CALL(process_helper(3, test18, 0));
-    char *test19[3] = { "@FX1 1", "@FX2 0", "@FX2" };
-    CHECK_CALL(process_helper(3, test19, 1));
-    char *test20[3] = { "@FY1 1", "@FY2 0", "@FY2" };
-    CHECK_CALL(process_helper(3, test20, 1));
+    BUF_NEWTEST();
+    char *test1[3] = { "@FX1 1", "@FX2 0", "@FX1" };
+    CHECK_CALL(process_helper(3, test1, 0));
+    char *test2[3] = { "@FY1 1", "@FY2 0", "@FY1" };
+    CHECK_CALL(process_helper(3, test2, 0));
+    char *test3[3] = { "@FX1 1", "@FX2 0", "@FX2" };
+    CHECK_CALL(process_helper(3, test3, 1));
+    char *test4[3] = { "@FY1 1", "@FY2 0", "@FY2" };
+    CHECK_CALL(process_helper(3, test4, 1));
     PASS();
 }
 TEST test_turtle_fence_ind_oob() {
-    char *test21[2] = { "@FX1 -1", "@FX1" };
-    CHECK_CALL(process_helper(2, test21, 0));
-    char *test22[2] = { "@FY1 -1", "@FY1" };
-    CHECK_CALL(process_helper(2, test22, 0));
-    char *test23[2] = { "@FX2 4", "@FX2" };
-    CHECK_CALL(process_helper(2, test23, 3));
-    char *test24[2] = { "@FY2 63", "@FY2" };
-    CHECK_CALL(process_helper(2, test24, 63));
+    BUF_NEWTEST();
+    char *test1[2] = { "@FX1 -1", "@FX1" };
+    CHECK_CALL(process_helper(2, test1, 0));
+    char *test2[2] = { "@FY1 -1", "@FY1" };
+    CHECK_CALL(process_helper(2, test2, 0));
+    char *test3[2] = { "@FX2 4", "@FX2" };
+    CHECK_CALL(process_helper(2, test3, 3));
+    char *test4[2] = { "@FY2 63", "@FY2" };
+    CHECK_CALL(process_helper(2, test4, 63));
     // TODO more tests
     PASS();
 }
 
 TEST test_turtle_wrap() {
-    char *test25[3] = { "@WRAP", "@MOVE 0 -1", "@Y" };
-    CHECK_CALL(process_helper(3, test25, 63));
-    char *test26[4] = { "@WRAP", "@FY2 1", "@MOVE 0 -1", "@Y" };
-    CHECK_CALL(process_helper(4, test26, 1));
-    char *test27[3] = { "@WRAP", "@MOVE -1 0", "@X" };
-    CHECK_CALL(process_helper(4, test27, 3));
-    char *test28[4] = { "@WRAP", "@FX 1", "@MOVE -1 0", "@X" };
-    CHECK_CALL(process_helper(5, test28, 1));
+    BUF_NEWTEST();
+    char *test1[3] = { "@WRAP 1", "@MOVE 0 -1", "@Y" };
+    CHECK_CALL(process_helper(3, test1, 63));
+    char *test2[4] = { "@WRAP 1", "@FY2 1", "@MOVE 0 -1", "@Y" };
+    CHECK_CALL(process_helper(4, test2, 1));
+    char *test3[3] = { "@WRAP 1", "@MOVE -1 0", "@X" };
+    CHECK_CALL(process_helper(3, test3, 3));
+    char *test4[4] = { "@WRAP 1", "@FX1 1", "@MOVE -1 0", "@X" };
+    CHECK_CALL(process_helper(4, test4, 3));
     PASS();
 }
 
 TEST test_turtle_bounce() {
-    char *test30[3] = { "@BOUNCE", "@MOVE 0 -1", "@Y" };
-    CHECK_CALL(process_helper(3, test30, 1));
-    char *test31[3] = { "@BOUNCE", "@MOVE 0 -2", "@Y" };
-    CHECK_CALL(process_helper(3, test31, 2));
-    char *test32[3] = { "@BOUNCE", "@MOVE 0 64", "@Y" };
-    CHECK_CALL(process_helper(3, test32, 62));
-    char *test33[3] = { "@BOUNCE", "@MOVE -1 0", "@X" };
-    CHECK_CALL(process_helper(3, test33, 1));
-    char *test34[3] = { "@BOUNCE", "@MOVE -2 0", "@X" };
-    CHECK_CALL(process_helper(3, test34, 2));
-    char *test35[3] = { "@BOUNCE", "@MOVE 4 0", "@X" };
-    CHECK_CALL(process_helper(3, test35, 3));
+    BUF_NEWTEST();
+    // TODO change bounce behaviour, then this to check for DIR
+    char *test1[3] = { "@BOUNCE 1", "@MOVE 0 -2", "@Y" };
+    CHECK_CALL(process_helper(3, test1, 2));
+    char *test2[3] = { "@BOUNCE 1", "@MOVE 0 64", "@Y" };
+    CHECK_CALL(process_helper(3, test2, 62));
+    char *test3[3] = { "@BOUNCE 1", "@MOVE -1 0", "@X" };
+    CHECK_CALL(process_helper(3, test3, 1));
+    char *test4[3] = { "@BOUNCE 1", "@MOVE -2 0", "@X" };
+    CHECK_CALL(process_helper(3, test4, 2));
+    char *test5[3] = { "@BOUNCE 1", "@MOVE 4 0", "@X" };
+    CHECK_CALL(process_helper(3, test5, 2));
+    char *test6[3] = { "@BOUNCE 1", "@MOVE 0 -1", "@Y" };
+    CHECK_CALL(process_helper(3, test6, 1));
     PASS();
 }
 
+/*
+
+TEST test_turtle_F() {
+    char *testX[Y] = {
+        "@",
+        "@",
+        "@",
+        "@",
+        "@",
+        "@"
+    };
+    CHECK_CALL(process_helper(Y, testX, xpct));
+    PASS();
+} 
+
+*/
+
+TEST test_turtle_step() {
+    char *test1[2] = {
+        "@STEP",
+        "@Y"
+    };
+    CHECK_CALL(process_helper(2, test1, 1));
+    PASS();
+} 
 TEST test_turtle_vars() {
-    char *test37[2] = { "@X 1", "@X" };
-    CHECK_CALL(process_helper(2, test37, 1));
+    BUF_NEWTEST();
+    char *test1[2] = { "@X 1", "@X" };
+    CHECK_CALL(process_helper(2, test1, 1));
     PASS();
 }
 
@@ -232,6 +267,7 @@ SUITE(turtle_suite) {
     RUN_TEST(test_turtle_fence_ind_oob);
     RUN_TEST(test_turtle_wrap);
     RUN_TEST(test_turtle_bounce);
+    RUN_TEST(test_turtle_step);
     RUN_TEST(test_turtle_vars);
 }
 
