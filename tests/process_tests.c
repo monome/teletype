@@ -233,9 +233,8 @@ TEST test_Q() {
 
     // 1+2+3+4+5+6+7+8+9+10+11+12+13+14+15+16 = 136
     // 136 / 16 = 8.5
-    // TODO fix Q.AVG to return 9 in this circumstance
     char* test4[1] = { "Q.AVG" };
-    CHECK_CALL(process_helper_state(&ss, 1, test4, 8));
+    CHECK_CALL(process_helper_state(&ss, 1, test4, 9));
 
     char* test5[2] = { "Q.AVG 5", "Q.AVG" };
     CHECK_CALL(process_helper_state(&ss, 2, test5, 5));

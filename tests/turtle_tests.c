@@ -200,6 +200,8 @@ TEST test_turtle_wrap() {
     CHECK_CALL(process_helper(5, test28, 1));
     char *test29[3] = { "@WRAP", "@N 1", "@Y" };
     CHECK_CALL(process_helper(3, test29, 63));
+    char *test30[4] = { "@Y 2", "@FENCE 0 0 0 0", "@Y" };
+    CHECK_CALL(process_helper(3, test30, 0));
     PASS();
 }
 
