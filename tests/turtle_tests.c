@@ -51,7 +51,10 @@ TEST process_helper_state(scene_state_t* ss, size_t n, char* lines[],
     count++;
     process_result_t result = {.has_value = false, .value = 0 };
     exec_state_t es;
+    memset(&es, 0, sizeof(es));
     es_init(&es);
+    es_push(&es);
+    es_variables(&es)->script_number = 1;
 
     clear_log();
     sprintf(BUF, "---- Test #%d ---- Command: ", count);
@@ -78,7 +81,8 @@ TEST process_helper_state(scene_state_t* ss, size_t n, char* lines[],
             print_log();
             FAILm("Parser failure.");
         }
-        if (validate(&cmd, error_msg) != E_OK) {
+        error = validate(&cmd, error_msg);
+        if (error != E_OK) {
             strncat(BUF, error_message(error), 140 - strlen(BUF));
             strncat(BUF, ": ", 140 - strlen(BUF));
             strncat(BUF, error_msg, 140 - strlen(BUF));
@@ -108,6 +112,7 @@ TEST process_helper_state(scene_state_t* ss, size_t n, char* lines[],
 // correct
 TEST process_helper(size_t n, char* lines[], int16_t answer) {
     scene_state_t ss;
+    memset(&ss, 0, sizeof(ss));
     ss_init(&ss);
 
     CHECK_CALL(process_helper_state(&ss, n, lines, answer));
@@ -185,14 +190,40 @@ TEST test_turtle_fence_ind_oob() {
 }
 
 TEST test_turtle_wrap() {
-    char *test1[3] = { "@WRAP", "@REV 1", "@Y" };
-    CHECK_CALL(process_helper(3, test1, 63));
-    char *test2[4] = { "@WRAP", "@FY2 1", "@REV 1", "@Y" };
-    CHECK_CALL(process_helper(4, test2, 1));
-    char *test3[4] = { "@WRAP", "@TURN -90", "@REV 1", "@X" };
-    CHECK_CALL(process_helper(4, test3, 3));
-    char *test4[5] = { "@WRAP", "@TURN -90", "@FX2 1", "@REV 1", "@X" };
-    CHECK_CALL(process_helper(5, test4, 1));
+    char *test25[3] = { "@WRAP", "@REV 1", "@Y" };
+    CHECK_CALL(process_helper(3, test25, 63));
+    char *test26[4] = { "@WRAP", "@FY2 1", "@REV 1", "@Y" };
+    CHECK_CALL(process_helper(4, test26, 1));
+    char *test27[4] = { "@WRAP", "@TURN -90", "@REV 1", "@X" };
+    CHECK_CALL(process_helper(4, test27, 3));
+    char *test28[5] = { "@WRAP", "@TURN -90", "@FX2 1", "@REV 1", "@X" };
+    CHECK_CALL(process_helper(5, test28, 1));
+    char *test29[3] = { "@WRAP", "@N 1", "@Y" };
+    CHECK_CALL(process_helper(3, test29, 63));
+    PASS();
+}
+
+TEST test_turtle_bounce() {
+    char *test30[3] = { "@BOUNCE", "@REV 1", "@Y" };
+    CHECK_CALL(process_helper(3, test30, 1));
+    char *test31[3] = { "@BOUNCE", "@REV 2", "@Y" };
+    CHECK_CALL(process_helper(3, test31, 2));
+    char *test32[3] = { "@BOUNCE", "@FWD 64", "@Y" };
+    CHECK_CALL(process_helper(3, test32, 62));
+    char *test33[3] = { "@BOUNCE", "@N 1", "@Y" };
+    CHECK_CALL(process_helper(3, test33, 1));
+    char *test34[3] = { "@BOUNCE", "@S 64", "@Y" };
+    CHECK_CALL(process_helper(3, test34, 62));
+    char *test35[3] = { "@BOUNCE", "@W 1", "@X" };
+    CHECK_CALL(process_helper(3, test35, 1));
+    char *test36[3] = { "@BOUNCE", "@E 4", "@X" };
+    CHECK_CALL(process_helper(3, test36, 2));
+    PASS();
+}
+
+TEST test_turtle_vars() {
+    char *test1[2] = { "@X 1", "@X" };
+    CHECK_CALL(process_helper(2, test1, 1));
     PASS();
 }
 
@@ -204,5 +235,7 @@ SUITE(turtle_suite) {
     RUN_TEST(test_turtle_fence_ind_swapped);
     RUN_TEST(test_turtle_fence_ind_oob);
     RUN_TEST(test_turtle_wrap);
+    RUN_TEST(test_turtle_bounce);
+    RUN_TEST(test_turtle_vars);
 }
 

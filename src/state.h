@@ -43,8 +43,8 @@ typedef enum {
 ////////////////////////////////////////////////////////////////////////////////
 
 typedef struct {
-    int16_t x;         // higher resolution to permit fixed-point math
-    int16_t y;
+    int32_t x;         // higher resolution to permit fixed-point math
+    int32_t y;
 } turtle_position_t;
 
 typedef struct {

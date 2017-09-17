@@ -28,7 +28,7 @@ void ss_init(scene_state_t *ss) {
             .heading = 180,
             .velocity = 1
             };
-    ss->turtle = t;
+    memcpy(&ss->turtle, &t, sizeof(t));
     memset(&ss->scripts, 0, ss_scripts_size());
 }
 
@@ -421,7 +421,7 @@ void turtle_normalize_position(scene_turtle_t *t, turtle_position_t *tp,
             tp->y = f.y1 + tp->y - f.y2 - Q_1;
     }
     else if (mode == TURTLE_BOUNCE) {
-    // it's not correct with offsets larger than the pattern, needs to wavefold.
+    // it's not correct with offsets larger than the pattern, needs to wavefold
         if (tp->x > f.x2)
             tp->x = f.x2 - ((tp->x - f.x1) % fxl) - Q_1;
         else if (tp->x < f.x1)

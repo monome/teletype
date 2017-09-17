@@ -14,6 +14,8 @@ TEST process_helper_state(scene_state_t* ss, size_t n, char* lines[],
     process_result_t result = {.has_value = false, .value = 0 };
     exec_state_t es;
     es_init(&es);
+    es_push(&es);
+    es_variables(&es)->script_number = 1;
     for (size_t i = 0; i < n; i++) {
         tele_command_t cmd;
         char error_msg[TELE_ERROR_MSG_LENGTH];
@@ -278,6 +280,8 @@ TEST test_blank_command() {
     ss_init(&ss);
     exec_state_t es;
     es_init(&es);
+    es_push(&es);
+    es_variables(&es)->script_number = 1;
     tele_command_t cmd;
     char error_msg[TELE_ERROR_MSG_LENGTH];
 
