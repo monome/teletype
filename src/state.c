@@ -378,7 +378,7 @@ scene_turtle_t* scene_get_turtle(scene_state_t *ss) {
 #define Q_ROUND(X) ((((X >> (Q_BITS - 1)) + 1) >> 1) << Q_BITS)   // (int)(X + 0.5)
 #define QT int16_t
 #define TO_Q(X) (X << Q_BITS) 
-#define TO_I(X) (Q_ROUND(X) >> Q_BITS)
+#define TO_I(X) ((Q_ROUND(X) >> Q_BITS) & 0xFFFF)
 
 typedef struct {
     QT x1, y1, x2, y2;
@@ -394,10 +394,8 @@ static inline Q_fence_t normalize_fence(turtle_fence_t in) {
     return out;
 }
 
-
 void turtle_normalize_position(scene_turtle_t *t, turtle_position_t *tp, 
         turtle_mode_t mode) {
-    // a normal_fence operates in fixed-point at Q = Q_BITS
     Q_fence_t f = normalize_fence(t->fence);
     
     // fence values are inclusive so 0 to 0 is L:1
@@ -411,14 +409,14 @@ void turtle_normalize_position(scene_turtle_t *t, turtle_position_t *tp,
     }
     else if (mode == TURTLE_WRAP) {
         if (tp->x < f.x1)
-            tp->x = f.x2 + tp->x - f.x1 + Q_1;
+            tp->x = f.x2 + ((tp->x - f.x1) % fxl) + Q_1;
         else if (tp->x > f.x2)
-            tp->x = f.x1 + tp->x - f.x2 - Q_1;
+            tp->x = f.x1 + ((tp->x - f.x1) % fxl);
         
         if (tp->y < f.y1)
-            tp->y = f.y2 + tp->y + f.y1 + Q_1;
+            tp->y = f.y2 + ((tp->y - f.y1) % fyl) + Q_1;
         else if (tp->y > f.y2)
-            tp->y = f.y1 + tp->y - f.y2 - Q_1;
+            tp->y = f.y1 + ((tp->y - f.y1) % fyl);
     }
     else if (mode == TURTLE_BOUNCE) {
     // it's not correct with offsets larger than the pattern, needs to wavefold
@@ -639,6 +637,7 @@ void turtle_set_mode(scene_turtle_t *st, turtle_mode_t m) {
     if (m != TURTLE_WRAP && m != TURTLE_BUMP && m != TURTLE_BOUNCE)
         m = TURTLE_BUMP;
     st->mode = m;
+    turtle_normalize_position(st, &st->position, m);
 }
 
 uint16_t turtle_get_heading(scene_turtle_t *st) {
