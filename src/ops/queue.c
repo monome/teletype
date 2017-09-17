@@ -39,14 +39,17 @@ static void op_Q_AVG_get(const void *NOTUSED(data), scene_state_t *ss,
     int32_t avg = 0;
     int16_t *q = ss->variables.q;
     int16_t q_n = ss->variables.q_n;
-    for (int16_t i = 0; i < q_n; i++) {
-        avg += q[i];
+    if(q_n == 0)
+        cs_push(cs, 0);
+    else {
+        for (int16_t i = 0; i < q_n; i++) {
+            avg += q[i];
+        }
+        avg = (avg * 2) / q_n;
+        if (avg % 2)
+            avg += 1;
+        cs_push(cs, (int16_t)(avg / 2));
     }
-    avg = (avg * 2) / q_n;
-    if (avg % 2)
-        avg += 1;
-
-    cs_push(cs, (int16_t)(avg / 2));
 }
 
 static void op_Q_AVG_set(const void *NOTUSED(data), scene_state_t *ss,
