@@ -66,8 +66,9 @@ typedef struct {
     turtle_fence_t      fence;
     turtle_mode_t       mode;
     uint16_t            heading;
-    int8_t              velocity;
+    int16_t             speed;
     script_number_t     script_number;
+    bool                stepping;
     bool                stepped;
 } scene_turtle_t;
 
@@ -218,7 +219,7 @@ void     turtle_set_x(scene_turtle_t*, int16_t);
 uint8_t  turtle_get_y(scene_turtle_t*);
 void     turtle_set_y(scene_turtle_t*, int16_t);
 void     turtle_move(scene_turtle_t*, int16_t, int16_t);
-void     turtle_step(scene_turtle_t*, int16_t, int16_t);
+void     turtle_step(scene_turtle_t*);
 int16_t  turtle_get(scene_state_t*, scene_turtle_t*);
 void     turtle_set(scene_state_t*, scene_turtle_t*, int16_t);
 /*
@@ -236,9 +237,9 @@ turtle_mode_t
          turtle_get_mode(scene_turtle_t*);
 void     turtle_set_mode(scene_turtle_t*, turtle_mode_t);
 uint16_t turtle_get_heading(scene_turtle_t*);
-void     turtle_set_heading(scene_turtle_t*, uint16_t);
-uint8_t  turtle_get_velocity(scene_turtle_t*);
-void     turtle_set_velocity(scene_turtle_t*, int16_t);
+void     turtle_set_heading(scene_turtle_t*, int16_t);
+int16_t  turtle_get_speed(scene_turtle_t*);
+void     turtle_set_speed(scene_turtle_t*, int16_t);
 script_number_t
          turtle_get_script(scene_turtle_t*);
 void     turtle_set_script(scene_turtle_t*, script_number_t);

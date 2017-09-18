@@ -26,7 +26,7 @@ void ss_init(scene_state_t *ss) {
             .fence = { .x1 = 0, .y1 = 0, .x2 = 3, .y2 = 63},
             .mode = TURTLE_BUMP,
             .heading = 180,
-            .velocity = 1,
+            .speed = 100,
             .stepped = false,
             .script_number = 0
             };
@@ -378,7 +378,7 @@ scene_turtle_t* scene_get_turtle(scene_state_t *ss) {
 #define Q_1 (1 << Q_BITS)                           // 1.0
 #define Q_05 (1 << (Q_BITS - 1))                    // 0.5
 #define Q_ROUND(X) ((((X >> (Q_BITS - 1)) + 1) >> 1) << Q_BITS)   // (int)(X + 0.5)
-#define QT int16_t
+#define QT int32_t
 #define TO_Q(X) (X << Q_BITS) 
 #define TO_I(X) ((X >> Q_BITS) & 0xFFFF)
 
@@ -413,32 +413,69 @@ void turtle_normalize_position(scene_turtle_t *t, turtle_position_t *tp,
     QT fxl = f.x2 - f.x1 + Q_1;
     QT fyl = f.y2 - f.y1 + Q_1;
   
-    // 
-    if (mode == TURTLE_BUMP) {
-        tp->x = min(f.x2, max(f.x1, tp->x));
-        tp->y = min(f.y2, max(f.y1, tp->y));
-    }
-    else if (mode == TURTLE_WRAP) {
-        if (tp->x < f.x1)
-            tp->x = f.x2 + ((tp->x - f.x1) % fxl) + Q_1;
-        else if (tp->x > f.x2)
+    if (fxl == Q_1 && fyl == Q_1)
+        mode = TURTLE_BUMP;
+    if (mode == TURTLE_WRAP) {
+        if (fxl > Q_1 && tp->x < f.x1)
+            tp->x = f.x2 + Q_1 + ((tp->x - f.x1) % fxl);
+        else if (fxl > Q_1 && tp->x > f.x2)
             tp->x = f.x1 + ((tp->x - f.x1) % fxl);
         
-        if (tp->y < f.y1)
-            tp->y = f.y2 + ((tp->y - f.y1) % fyl) + Q_1;
-        else if (tp->y > f.y2)
+        if (fyl > Q_1 && tp->y < f.y1)
+            tp->y = f.y2 + Q_1 + ((tp->y - f.y1) % fyl);
+        else if (fyl > Q_1 && tp->y > f.y2)
             tp->y = f.y1 + ((tp->y - f.y1) % fyl);
     }
     else if (mode == TURTLE_BOUNCE) {
-    // it's not correct with offsets larger than the pattern, needs to wavefold
-        if (tp->x > f.x2)
-            tp->x = f.x2 - ((tp->x - f.x1) % fxl) - Q_1;
-        else if (tp->x < f.x1)
-            tp->x = f.x1 - ((f.x1 + tp->x) % fxl); 
-        if (tp->y > f.y2)
-            tp->y = f.y2 - ((tp->y - f.y1) % fyl) - Q_1;
-        else if (tp->y < f.y1)
-            tp->y = f.y1 - ((f.y1 + tp->y) % fyl);
+        // pretty sure you can do this with a % but I couldn't get it right
+        // what with the edge bounceback effectively changing the length
+        // so here's a crappy while() loop wavefolder. --burnsauce / sliderule
+        turtle_position_t last, here;
+        turtle_resolve_position(t, &t->position, &last);
+        bool adjusted = false;
+        while (fxl > Q_1 && (tp->x > f.x2 || tp->x < f.x1)) {
+            if (tp->x > f.x2) {
+                if (t->stepping)
+                    turtle_set_heading(t, 360 - t->heading);
+                tp->x = f.x2 - (tp->x - f.x2);
+            }
+            else if (tp->x < f.x1 ) {
+                if (t->stepping)
+                    turtle_set_heading(t, 360 - t->heading);
+                tp->x = f.x1 + (f.x1 - tp->x);
+            } 
+            turtle_resolve_position(t, &t->position, &here);
+            if (here.x == last.x)
+                break;
+            last = here;
+            adjusted = true;
+        }
+        while (fyl > Q_1 && (tp->y > f.y2 || tp->y < f.y1)) {
+            if (tp->y > f.y2) {
+                if (t->stepping)
+                    turtle_set_heading(t, 180 - t->heading);
+                tp->y = f.y2 - (tp->y - f.y2);
+            }
+            else if (tp->y < f.y1 ) {
+                if (t->stepping)
+                    turtle_set_heading(t, 180 - t->heading);
+                tp->y = f.y1 + (f.y1 - tp->y);
+            } 
+            turtle_resolve_position(t, &t->position, &here);
+            if (here.y == last.y)
+                break;
+            last = here;
+            adjusted = true;
+        }
+
+        if (adjusted) {
+           //t->position.x = TO_Q(last.x);
+           //t->position.y = TO_Q(last.y);
+        }
+    }
+    if (mode == TURTLE_BUMP) {
+        tp->x = min(f.x2, max(f.x1, tp->x));
+        tp->y = min(f.y2, max(f.y1, tp->y));
     }
     turtle_check_step(t);
 }
@@ -476,7 +513,7 @@ void turtle_set_y(scene_turtle_t *st, int16_t y) {
 void turtle_move(scene_turtle_t *st, int16_t x, int16_t y) {
     st->position.y += TO_Q(y);
     st->position.x += TO_Q(x);
-    turtle_normalize_position(st, &st->position, TURTLE_BUMP);
+    turtle_normalize_position(st, &st->position, st->mode);
 }
 /*
 void turtle_goto(scene_turtle_t *st, turtle_position_t *tp) {
@@ -486,9 +523,9 @@ void turtle_goto(scene_turtle_t *st, turtle_position_t *tp) {
 */
 /// http://www.coranac.com/2009/07/sines/
 /// A sine approximation via a third-order approx.
-/// @param x    Angle (with 2^15 units/circle) (Q13)
+/// @param x    Angle (with 2^15 units/circle) (Q15)
 /// @return     Sine value (Q12)
-static inline int32_t sin(uint32_t x)
+static inline int32_t sin(int32_t x)
 {
     // S(x) = x * ( (3<<p) - (x*x>>r) ) >> s
     // n : Q-pos for quarter circle             13
@@ -508,32 +545,35 @@ static inline int32_t sin(uint32_t x)
 
     return x * ( (3<<qP) - (x*x>>qR) ) >> qS;
 }
+#define Q15_PI 102943
 
-void turtle_step(scene_turtle_t *st, int16_t h, int16_t v) {
+void turtle_step(scene_turtle_t *st) {
     // TODO watch out, it's a doozie ;)
     int32_t dx = 0, dy = 0;
-    uint32_t h1, h2;
+    int32_t h1 = st->heading, h2 = st->heading;
 
     // Kludgey hack due to sin() errors
-    switch(h) {
+    switch(h1) {
         case 0:
-            dy = TO_Q(-v);
+            dy = TO_Q(-st->speed);
             break;
         case 90:
-            dx = TO_Q(v);
+            dx = TO_Q(st->speed);
             break;
         case 180:
-            dy = TO_Q(v);
+            dy = TO_Q(st->speed);
             break;
         case 270:
-            dx = TO_Q(-v);
+            dx = TO_Q(-st->speed);
             break;
         default:
-            h1 = ((h % 360) << 14) / 180;
-            h2 = (((h + 180) % 360) << 14) / 180; // sin() is phased cos()
+            // Something is wrong here...
+            h1 = ((h1 % 360) << 14) / 360;
+            h2 = (((h2 + 90) % 360) << 14) / 360;
 
-            int32_t  dy_d_Q12 = v * sin(h1);
-            int32_t  dx_d_Q12 = v * sin(h2); 
+            // headroom?
+            int32_t  dy_d_Q12 = (st->speed * sin(h1)) / 100;
+            int32_t  dx_d_Q12 = (st->speed * sin(h2)) / 100; 
             
             if (dx_d_Q12 < 0)
                 // delta x = round(v *sin(heading))
@@ -548,7 +588,9 @@ void turtle_step(scene_turtle_t *st, int16_t h, int16_t v) {
 
     st->position.x += dx;
     st->position.y += dy;
+    st->stepping = true;
     turtle_normalize_position(st, &st->position, st->mode);
+    st->stepping = false;
 }
 
 int16_t  turtle_get(scene_state_t *ss, scene_turtle_t *st) {
@@ -658,20 +700,18 @@ uint16_t turtle_get_heading(scene_turtle_t *st) {
     return st->heading;   
 }
 
-void turtle_set_heading(scene_turtle_t *st, uint16_t h) {
+void turtle_set_heading(scene_turtle_t *st, int16_t h) {
+    while(h < 0)
+        h += 360;
     st->heading = h % 360;
 }
 
-uint8_t turtle_get_velocity(scene_turtle_t *st) {
-    return st->velocity;
+int16_t turtle_get_speed(scene_turtle_t *st) {
+    return st->speed;
 }
 
-void turtle_set_velocity(scene_turtle_t *st, int16_t v) {
-    if (v > INT8_MAX)
-        v = INT8_MAX;
-    else if (v < INT8_MIN)
-        v = INT8_MIN;
-    st->velocity = v;
+void turtle_set_speed(scene_turtle_t *st, int16_t v) {
+    st->speed = v;
 }
 
 void turtle_set_script(scene_turtle_t *st, script_number_t sn) {

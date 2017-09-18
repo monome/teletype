@@ -152,7 +152,9 @@ static void op_TURTLE_Y_set(const void *NOTUSED(data), scene_state_t *ss,
 
 static void op_TURTLE_MOVE_get(const void *NOTUSED(data), scene_state_t *ss,
         exec_state_t *NOTUSED(es), command_state_t *cs) {
-    turtle_move(&ss->turtle, cs_pop(cs), cs_pop(cs));
+    int16_t x = cs_pop(cs);
+    int16_t y = cs_pop(cs);
+    turtle_move(&ss->turtle, x, y);
 }
 
 static void op_TURTLE_F_get(const void *NOTUSED(data), scene_state_t *ss,
@@ -215,12 +217,12 @@ static void op_TURTLE_FY2_set(const void *NOTUSED(data), scene_state_t *ss,
 
 static void op_TURTLE_SPEED_get(const void *NOTUSED(data), scene_state_t *ss,
         exec_state_t *NOTUSED(es), command_state_t *cs) {
-    cs_push(cs, turtle_get_velocity(&ss->turtle));
+    cs_push(cs, turtle_get_speed(&ss->turtle));
 }
 
 static void op_TURTLE_SPEED_set(const void *NOTUSED(data), scene_state_t *ss,
     exec_state_t *NOTUSED(es), command_state_t *cs) {
-    turtle_set_velocity(&ss->turtle, cs_pop(cs));
+    turtle_set_speed(&ss->turtle, cs_pop(cs));
 }
 
 static void op_TURTLE_DIR_get(const void *NOTUSED(data), scene_state_t *ss,
@@ -259,7 +261,7 @@ static void op_TURTLE_ACCEL_set(const void *NOTUSED(data), scene_state_t *ss,
 
 static void op_TURTLE_STEP_get(const void *NOTUSED(data), scene_state_t *ss,
         exec_state_t *NOTUSED(es), command_state_t *NOTUSED(cs)) {
-    turtle_step(&ss->turtle, ss->turtle.heading, ss->turtle.velocity);
+    turtle_step(&ss->turtle);
 }
 
 static void op_TURTLE_BUMP_get(const void *NOTUSED(data), scene_state_t *ss,
