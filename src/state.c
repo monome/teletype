@@ -21,12 +21,14 @@ void ss_init(scene_state_t *ss) {
     for (size_t i = 0; i < TR_COUNT; i++) { ss->tr_pulse_timer[i] = 0; }
     ss->stack_op.top = 0;
     scene_turtle_t t = { 
-            .home = { .x = 0, .y = 0 },
             .position = { .x = 0, .y = 0},
+            .last = { .x = 0, .y = 0 },
             .fence = { .x1 = 0, .y1 = 0, .x2 = 3, .y2 = 63},
             .mode = TURTLE_BUMP,
             .heading = 180,
-            .velocity = 1
+            .velocity = 1,
+            .stepped = false,
+            .script_number = 0
             };
     memcpy(&ss->turtle, &t, sizeof(t));
     memset(&ss->scripts, 0, ss_scripts_size());
@@ -387,17 +389,25 @@ typedef struct {
 static inline Q_fence_t normalize_fence(turtle_fence_t in) {
     Q_fence_t out;
 
-    out.x1 = in.x1 << Q_BITS;
-    out.x2 = in.x2 << Q_BITS;
-    out.y1 = in.y1 << Q_BITS;
-    out.y2 = in.y2 << Q_BITS;
+    out.x1 = TO_Q(in.x1);
+    out.x2 = TO_Q(in.x2);
+    out.y1 = TO_Q(in.y1);
+    out.y2 = TO_Q(in.y2);
     return out;
+}
+
+void turtle_check_step(scene_turtle_t *t) {
+    turtle_position_t here;
+    turtle_resolve_position(t, &t->position, &here);
+    if (here.x != t->last.x || here.y != t->last.y) {
+        t->last = here;
+        t->stepped = true;
+    }
 }
 
 void turtle_normalize_position(scene_turtle_t *t, turtle_position_t *tp, 
         turtle_mode_t mode) {
     Q_fence_t f = normalize_fence(t->fence);
-    
     // fence values are inclusive so 0 to 0 is L:1
     // literally avoid a fencepost error ;)
     QT fxl = f.x2 - f.x1 + Q_1;
@@ -430,6 +440,7 @@ void turtle_normalize_position(scene_turtle_t *t, turtle_position_t *tp,
         else if (tp->y < f.y1)
             tp->y = f.y1 - ((f.y1 + tp->y) % fyl);
     }
+    turtle_check_step(t);
 }
 
 // Produce rounded Q0 positions in dst, for external use only
@@ -438,15 +449,6 @@ void turtle_resolve_position(scene_turtle_t *t, turtle_position_t *src,
     *dst = *src;
     dst->x = TO_I(dst->x);
     dst->y = TO_I(dst->y);
-}
-
-// Round the position to the nearest cell
-// This effectively sets the turtle in the middle of each cell
-static inline void turtle_Q_position(scene_turtle_t *t, turtle_position_t *src,
-                             turtle_position_t *dst) {
-    *dst = *src;
-    dst->x = Q_ROUND(dst->x);
-    dst->y = Q_ROUND(dst->y);
 }
 
 uint8_t turtle_get_x(scene_turtle_t *st) {
@@ -476,12 +478,12 @@ void turtle_move(scene_turtle_t *st, int16_t x, int16_t y) {
     st->position.x += TO_Q(x);
     turtle_normalize_position(st, &st->position, TURTLE_BUMP);
 }
-
+/*
 void turtle_goto(scene_turtle_t *st, turtle_position_t *tp) {
     st->position = *tp;
     turtle_normalize_position(st, &st->position, st->mode);
 }
-
+*/
 /// http://www.coranac.com/2009/07/sines/
 /// A sine approximation via a third-order approx.
 /// @param x    Angle (with 2^15 units/circle) (Q13)
@@ -564,7 +566,7 @@ void turtle_set(scene_state_t *ss, scene_turtle_t *st, int16_t val) {
         return;
     ss_set_pattern_val(ss, p.x, p.y, val);
 }
-
+/*
 void turtle_set_home(scene_turtle_t *st, int16_t x, int16_t y) {
     if (x > 3)
         x = 3;
@@ -609,6 +611,7 @@ void turtle_set_home_y(scene_turtle_t *st, int16_t y) {
     st->home = h;
     turtle_normalize_position(st, &st->home, TURTLE_BUMP);
 }
+*/
 
 inline void turtle_correct_fence(scene_turtle_t *st) {
     int16_t t;
@@ -659,10 +662,6 @@ void turtle_set_heading(scene_turtle_t *st, uint16_t h) {
     st->heading = h % 360;
 }
 
-void turtle_turn(scene_turtle_t *st, uint16_t h) {
-    st->heading = (st->heading + h) % 360;
-}
-
 uint8_t turtle_get_velocity(scene_turtle_t *st) {
     return st->velocity;
 }
@@ -675,6 +674,13 @@ void turtle_set_velocity(scene_turtle_t *st, int16_t v) {
     st->velocity = v;
 }
 
-void turtle_forward(scene_turtle_t *st, int16_t v) {
-    turtle_step(st, st->heading, v);
+void turtle_set_script(scene_turtle_t *st, script_number_t sn) {
+    if (sn >= METRO_SCRIPT)
+        st->script_number = TEMP_SCRIPT;
+    if (sn > 0 && sn < METRO_SCRIPT)
+        st->script_number = sn;
+}
+
+script_number_t turtle_get_script(scene_turtle_t *st) {
+    return st->script_number;
 }

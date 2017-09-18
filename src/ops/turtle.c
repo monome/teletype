@@ -297,14 +297,16 @@ static void op_TURTLE_BOUNCE_set(const void *NOTUSED(data), scene_state_t *ss,
 
 static void op_TURTLE_SCRIPT_get(const void *NOTUSED(data), scene_state_t *ss,
         exec_state_t *NOTUSED(es), command_state_t *cs) {
-    // TODO implement
-    cs_push(cs, 0);
+    cs_push(cs, turtle_get_script(&ss->turtle) + 1);
 }
 
 static void op_TURTLE_SCRIPT_set(const void *NOTUSED(data), scene_state_t *ss,
         exec_state_t *NOTUSED(es), command_state_t *cs) {
-    // TODO implement
-    cs_pop(cs);
+    int16_t sn = cs_pop(cs);
+    if (sn == 0)
+        turtle_set_script(&ss->turtle, TEMP_SCRIPT); // magic number
+    else
+        turtle_set_script(&ss->turtle, sn - 1);
 }
 
 static void op_TURTLE_SHOW_get(const void *NOTUSED(data), scene_state_t *ss,

@@ -169,8 +169,9 @@ process_result_t run_script_with_exec_state(scene_state_t *ss, exec_state_t *es,
     return result;
 }
 
-// Does anybody call this anymore?
-// Nothing in 2.1.0-beta2 does, and nothing should (see above)
+// Only the test framework should call this, and it needs to follow up its
+// es_init() with an es_push().
+// es_variables()->script_number should be set to test SCRIPT
 process_result_t run_command(scene_state_t *ss, const tele_command_t *cmd) {
     exec_state_t es;
     process_result_t o;
@@ -291,6 +292,13 @@ void tele_tick(scene_state_t *ss, uint8_t time) {
     // time is the basic resolution of all code henceforth called
     // hardware 2.0: get an RTC!
     if (ss->variables.time_act) ss->variables.time += time;
+
+    // could be a while() if there is reason to expect a user to cascade moves
+    // with SCRIPTs without the tick delay
+    if (ss->turtle.stepped && ss->turtle.script_number != TEMP_SCRIPT) {
+        ss->turtle.stepped = false;
+        run_script(ss, turtle_get_script(&ss->turtle));
+    }
 
     // process delays
     for (int16_t i = 0; i < DELAY_SIZE; i++) {
