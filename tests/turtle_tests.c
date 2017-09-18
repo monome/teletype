@@ -233,8 +233,34 @@ TEST test_turtle_bounce() {
     CHECK_CALL(process_helper(3, test10, 2));
     char *test11[3] = { "@BOUNCE 1", "@MOVE 7 0", "@X" };
     CHECK_CALL(process_helper(3, test11, 1));
-    char *test12[4] = { "@BOUNCE 1", "@DIR 135", "@STEP", "@X" };
+    char *test12[4] = { "@BOUNCE 1; @SPEED 141", "@DIR 135", "@STEP", "@X" };
     CHECK_CALL(process_helper(4, test12, 1));
+    char *test13[5] = {
+        "@F 0 0 1 1",
+        "@BOUNCE 1",
+        "@SPEED 300",
+        "@STEP",
+        "@DIR"
+    };
+    CHECK_CALL(process_helper(5, test13, 180));
+    char *test14[6] = {
+        "@F 0 0 1 1",
+        "@BOUNCE 1",
+        "@SPEED 400",
+        "@DIR 135",
+        "@STEP",
+        "@DIR"
+    };
+    CHECK_CALL(process_helper(6, test14, 315));
+    char *test15[6] = {
+        "@F 0 0 1 1",
+        "@BOUNCE 1",
+        "@SPEED 141",
+        "@DIR 135",
+        "@STEP",
+        "@Y"
+    };
+    CHECK_CALL(process_helper(6, test15, 1));
     PASS();
 }
 

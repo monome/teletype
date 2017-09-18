@@ -79,6 +79,7 @@ CSRCS = \
 	../src/state.c						\
 	../src/table.c						\
 	../src/teletype.c					\
+	../src/turtle.c					\
 	../src/ops/op.c						\
 	../src/ops/ansible.c					\
 	../src/ops/controlflow.c				\

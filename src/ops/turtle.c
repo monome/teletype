@@ -4,6 +4,7 @@
 #include "ops/op.h"
 #include "teletype.h"
 #include "turtle.h"
+#include "state.h"
 
 static void op_TURTLE_get(const void *data, scene_state_t *ss, exec_state_t *es,
                        command_state_t *cs); 
@@ -122,12 +123,12 @@ const tele_op_t op_TURTLE_SHOW =
 
 static void op_TURTLE_get(const void *NOTUSED(data), scene_state_t *ss,
         exec_state_t *NOTUSED(es), command_state_t *cs) {
-    cs_push(cs, turtle_get(ss, &ss->turtle));
+    cs_push(cs, ss_turtle_get_val(ss, &ss->turtle));
 }
 
 static void op_TURTLE_set(const void *NOTUSED(data), scene_state_t *ss,
         exec_state_t *NOTUSED(es), command_state_t *cs) {
-    turtle_set(ss, &ss->turtle, cs_pop(cs));
+    ss_turtle_set_val(ss, &ss->turtle, cs_pop(cs));
 }
 
 static void op_TURTLE_X_get(const void *NOTUSED(data), scene_state_t *ss,
