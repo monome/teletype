@@ -28,6 +28,9 @@ tests: main.o \
 test: tests
 	@./tests | greatest/greenest
 
+test-travis:
+	@./tests
+
 clean:
 	rm -f tests
 	rm -rf tests.dSYM

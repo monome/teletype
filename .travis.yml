@@ -16,5 +16,4 @@ script:
   - cd ../simulator
   - make clean && make
   - cd ../tests
-  - make clean && make test
-
+  - make clean && make test-travis
