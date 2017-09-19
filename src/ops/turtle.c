@@ -300,7 +300,11 @@ static void op_TURTLE_BOUNCE_set(const void *NOTUSED(data), scene_state_t *ss,
 
 static void op_TURTLE_SCRIPT_get(const void *NOTUSED(data), scene_state_t *ss,
         exec_state_t *NOTUSED(es), command_state_t *cs) {
-    cs_push(cs, turtle_get_script(&ss->turtle) + 1);
+    script_number_t s = turtle_get_script(&ss->turtle);
+    if (s == TEMP_SCRIPT)
+        cs_push(cs, 0);
+    else
+        cs_push(cs, turtle_get_script(&ss->turtle) + 1);
 }
 
 static void op_TURTLE_SCRIPT_set(const void *NOTUSED(data), scene_state_t *ss,

@@ -3,6 +3,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <string.h>
 
 // In this code, we use signed fixed-point maths.  This means that the int16_t
 // is used to store a signed number with both an integer and a fraction part.
@@ -77,6 +78,7 @@ void     scene_set_turtle(scene_state_t*, scene_turtle_t*);
 scene_turtle_t*
          scene_get_turtle(scene_state_t*);
 */
+void     turtle_init(scene_turtle_t*);
 void     turtle_normalize_position(scene_turtle_t*, turtle_position_t*,
                                    turtle_mode_t);
 void     turtle_resolve_position(scene_turtle_t*, turtle_position_t*,

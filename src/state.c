@@ -14,18 +14,8 @@ void ss_init(scene_state_t *ss) {
     ss->delay.count = 0;
     for (size_t i = 0; i < TR_COUNT; i++) { ss->tr_pulse_timer[i] = 0; }
     ss->stack_op.top = 0;
-    scene_turtle_t t = { 
-            .position = { .x = 0, .y = 0},
-            .last = { .x = 0, .y = 0 },
-            .fence = { .x1 = 0, .y1 = 0, .x2 = 3, .y2 = 63},
-            .mode = TURTLE_BUMP,
-            .heading = 180,
-            .speed = 100,
-            .stepped = false,
-            .script_number = 0
-            };
-    memcpy(&ss->turtle, &t, sizeof(t));
     memset(&ss->scripts, 0, ss_scripts_size());
+    turtle_init(&ss->turtle);
 }
 
 void ss_variables_init(scene_state_t *ss) {
