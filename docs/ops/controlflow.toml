@@ -119,7 +119,7 @@ Will _not_ execute from the `I` script on scene load.  Will execute on subsequen
 
 [KILL]
 prototype = "KILL"
-short = "clears stack, clears delays, cancels pulses, cancels slews"
+short = "clears stack, clears delays, cancels pulses, cancels slews, disables metronome"
 
 [BREAK]
 prototype = "BREAK"

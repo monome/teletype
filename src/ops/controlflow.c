@@ -172,6 +172,12 @@ static void op_SCRIPT_get(const void *NOTUSED(data), scene_state_t *ss,
 static void op_KILL_get(const void *NOTUSED(data), scene_state_t *ss,
                         exec_state_t *NOTUSED(es),
                         command_state_t *NOTUSED(cs)) {
+    // clear stack
+    ss->stack_op.top = 0;
+    tele_has_stack(false);
+    // disable metronome
+    ss->variables.m_act = 0;
+    tele_metro_updated();
     clear_delays(ss);
     tele_kill();
 }

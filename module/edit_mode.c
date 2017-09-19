@@ -172,6 +172,9 @@ void process_edit_keys(uint8_t k, uint8_t m, bool is_held_key) {
     }
 }
 
+void screen_mutes_updated() {
+    dirty |= D_INPUT;
+}
 
 bool screen_refresh_edit() {
     bool screen_dirty = false;
@@ -184,6 +187,11 @@ bool screen_refresh_edit() {
             prefix = 'I';
 
         line_editor_draw(&le, prefix, &line[7]);
+        // maybe find a better way than stomping it?
+        if (ss_get_mute(&scene_state, script)) {
+            char shaded[2] = { prefix, '\0' };
+            font_string_region_clip(&line[7], shaded , 0, 0, 0x4, 0);
+        }
         screen_dirty = true;
         dirty &= ~D_INPUT;
     }

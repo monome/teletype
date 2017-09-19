@@ -535,6 +535,19 @@ bool process_global_keys(uint8_t k, uint8_t m, bool is_held_key) {
         set_mode(M_EDIT);
         return true;
     }
+    // ctrl-<F1> through ctrl-<F8> mute triggers
+    // ctrl-<F9> toggle metro
+    else if (mod_only_ctrl(m) && k >= HID_F1 && k <= HID_F8) {
+        bool muted = ss_get_mute(&scene_state, (k - HID_F1));
+        ss_set_mute(&scene_state, (k - HID_F1), !muted);
+        screen_mutes_updated();
+        return true;
+    }
+    else if (mod_only_ctrl(m) && k == HID_F9) {
+        scene_state.variables.m_act = !scene_state.variables.m_act;
+        tele_metro_updated();
+        return true;
+    }
     // <numpad-1> through <numpad-8>: run corresponding script
     else if (no_mod(m) && k >= HID_KEYPAD_1 && k <= HID_KEYPAD_8) {
         run_script(&scene_state, k - HID_KEYPAD_1);
@@ -579,7 +592,7 @@ void render_init(void) {
 void tele_metro_updated() {
     uint32_t metro_time = scene_state.variables.m;
 
-    bool m_act = scene_state.variables.m_act > 0;
+    bool m_act = scene_state.variables.m_act;
     if (metro_time < METRO_MIN_UNSUPPORTED_MS) {
         metro_time = METRO_MIN_UNSUPPORTED_MS;
     }
