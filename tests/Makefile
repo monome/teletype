@@ -28,7 +28,7 @@ tests: main.o \
 test: tests
 	@./tests | greatest/greenest
 
-test-travis:
+test-travis: tests
 	@./tests
 
 clean:
