@@ -246,7 +246,7 @@ TEST test_turtle_bounce() {
         "@STEP",
         "@DIR"
     };
-    CHECK_CALL(process_helper(5, test13, 180));
+    CHECK_CALL(process_helper(5, test13, 0));
     char *test14[6] = {
         "@F 0 0 1 1",
         "@BOUNCE 1",
@@ -255,7 +255,7 @@ TEST test_turtle_bounce() {
         "@STEP",
         "@DIR"
     };
-    CHECK_CALL(process_helper(6, test14, 315));
+    CHECK_CALL(process_helper(6, test14, 135));
     char *test15[6] = {
         "@F 0 0 1 1",
         "@BOUNCE 1",
