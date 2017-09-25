@@ -5,31 +5,13 @@
 Teletype version 2.0 represents a large rewrite of the Teletype code base. There are many new language additions, some small breaking changes and a lot of under the hood enhancements.
 
 
-### Breaking changes
-
-  - **Removed the need for the `II` `OP`.**
-
-    For example, `II MP.PRESET 1` will become just `MP.PRESET 1`.
- 
-  - **Merge `MUTE` and `UNMUTE` `OP`s to `MUTE x` / `MUTE x y`.**
-  
-    See the documentation for `MUTE` for more information.
-
-  - **Remove unused Meadowphysics `OP`s.**
-
-    Removed: `MP.SYNC`, `MP.MUTE`, `MP.UNMUTE`, `MP.FREEZE`, `MP.UNFREEZE`.
-
-  - **Rename Ansible Meadowphysics `OP`s to start with `ME`.**
-
-    This was done to avoid conflicts with the Meadowphysics `OP`s.
-   
- **WARNING**: If you restore your scripts from a USB memory stick, please manually fix any changes first. Alternatively, incorrect commands (due to the above changes) will be skipped when imported, please re-add them.
-
 ### Major new features
 
 #### Sub commands
-  
-e.g. `IF X: CV 1 N 60 TR.PULSE 1`. 
+
+Several commands on one line, separated by semicolons.
+
+e.g. `CV 1 N 60; TR.PULSE 1` 
 
 See the section on "Sub commands" for more information.
     
@@ -84,13 +66,28 @@ It should also be significantly more reliable with a wider ranger of memory stic
  - Limited script recursion now allowed (max recursion depth is 8) including self recursion.
  - Metro scripts limited to 25ms, but new `M!` op to set it as low as 2ms (at your own risk), see "Metronome" `OP` section for more.
 
+### Breaking changes
+
+  - **Removed the need for the `II` `OP`.**
+
+    For example, `II MP.PRESET 1` will become just `MP.PRESET 1`.
+ 
+  - **Merge `MUTE` and `UNMUTE` `OP`s to `MUTE x` / `MUTE x y`.**
+  
+    See the documentation for `MUTE` for more information.
+
+  - **Remove unused Meadowphysics `OP`s.**
+
+    Removed: `MP.SYNC`, `MP.MUTE`, `MP.UNMUTE`, `MP.FREEZE`, `MP.UNFREEZE`.
+
+  - **Rename Ansible Meadowphysics `OP`s to start with `ME`.**
+
+    This was done to avoid conflicts with the Meadowphysics `OP`s.
+   
+ **WARNING**: If you restore your scripts from a USB memory stick, please manually fix any changes first. Alternatively, incorrect commands (due to the above changes) will be skipped when imported, please re-add them.
+
 ### Known issues
 
 #### Visual glitches
 
-The cause of these is well understood, and they are essentially harmless. Changing modes with the `<tab>` key will force the screen to redraw. A fix should hopefully be coming in version 2.1.
-
-#### Tables in the PDF documentation
-
-Unfortunately the tables in the PDF documentation are somewhat hard to read due to the lack of horizontal lines between rows.
-
+The cause of these is well understood, and they are essentially harmless. Changing modes with the `<tab>` key will force the screen to redraw. A fix is coming in version 2.1.

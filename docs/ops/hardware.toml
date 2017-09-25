@@ -49,8 +49,8 @@ Get the value of the PARAM knob. This returns a valuue in the range 0-16383.
 """
 
 ["TR"]
-prototype = "TR"
-prototype_set = "TR"
+prototype = "TR x"
+prototype_set = "TR x y"
 short = "Set trigger output x to y (0-1)"
 description = """
 Get the current state of trigger output `x`. Set the state of trigger 
@@ -85,7 +85,7 @@ Flip the state of trigger output `x`.
 
 ["TR.PULSE"]
 prototype = "TR.PULSE x"
-aliases = ["TR.P"]
+aliases = ["TR.P x"]
 short = "Pulse trigger output x"
 description = """
 Pulse trigger output x.

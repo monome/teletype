@@ -2,17 +2,70 @@ body {
     font-family: Helvetica, arial, sans-serif;
     font-size: 14px;
     line-height: 1.6;
-    padding-top: 10px;
-    padding-bottom: 10px;
     background-color: white;
-    padding: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    height: 100vh;
 }
-body > *:first-child {
-    margin-top: 0 !important;
+
+.NavBar {
+    width: 100%;
+    background: #848992;
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    text-transform: uppercase;
+    align-items: center;
+    cursor: pointer;
+    position: fixed;
 }
-body > *:last-child {
-    margin-bottom: 0 !important;
+
+.NavBar .Icon {
+    height: 15px;
+    width: 15px;
+    fill: #fff;
+    margin-right: 20px;
+    margin-top: -2px;
 }
+
+#TOC {
+    width: 250px;
+    height: calc(100% - 62px);
+    overflow-y: scroll;
+    padding: 10px;
+    margin-top: 42px;
+}
+
+.content {
+    padding: 0 20px;
+    height: calc(100% - 62px);
+    overflow-y: scroll;
+    max-width: 100%;
+    overflow-x: hidden;
+    flex: 1;
+    margin-top: 42px;
+}
+.content-inner {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.CopyLink {
+    font-size: 12px;
+    font-weight: 400;
+    margin-left: 10px;
+    display: none;
+}
+
+h1:hover .CopyLink,
+h2:hover .CopyLink,
+h3:hover .CopyLink,
+h4:hover .CopyLink {
+    display: inline;
+}
+
 a {
     color: #4183C4;
 }
@@ -41,6 +94,9 @@ h6 {
     -webkit-font-smoothing: antialiased;
     cursor: text;
     position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
 }
 h1:hover a.anchor,
 h2:hover a.anchor,
@@ -75,7 +131,7 @@ h6 code {
     font-size: inherit;
 }
 h1 {
-    font-size: 28px;
+    font-size: 32px;
     color: black;
 }
 h2 {
@@ -205,6 +261,8 @@ blockquote >:last-child {
 }
 table {
     padding: 0;
+    width: 100%;
+    table-layout: fixed;
 }
 table tr {
     border-top: 1px solid #cccccc;
@@ -221,6 +279,7 @@ table tr th {
     text-align: left;
     margin: 0;
     padding: 6px 13px;
+    word-break: break-word;
 }
 table tr td {
     border: 1px solid #cccccc;
@@ -318,10 +377,12 @@ tt {
     font-family: Menlo, Consolas, monospace;
     margin: 0 2px;
     padding: 0 5px;
-    white-space: nowrap;
     border: 1px solid #eaeaea;
     background-color: #f8f8f8;
     border-radius: 3px;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-x: auto;
 }
 pre code {
     margin: 0;

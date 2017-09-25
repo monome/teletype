@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html$if(lang)$ lang="$lang$"$endif$$if(dir)$ dir="$dir$"$endif$>
+    <head>
+        <meta charset="utf-8">
+        <meta name="generator" content="pandoc">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+        $for(author-meta)$
+            <meta name="author" content="$author-meta$">
+        $endfor$
+
+        $if(date-meta)$
+            <meta name="dcterms.date" content="$date-meta$">
+        $endif$
+
+        $if(keywords)$
+            <meta name="keywords" content="$for(keywords)$$keywords$$sep$, $endfor$">
+        $endif$
+
+        <title>$if(title-prefix)$$title-prefix$ – $endif$$pagetitle$</title>
+        <style type="text/css">code{white-space: pre;}</style>
+
+        $if(quotes)$
+            <style type="text/css">q { quotes: "“" "”" "‘" "’"; }</style>
+        $endif$
+
+        $if(highlighting-css)$
+            <style type="text/css">
+                $highlighting-css$
+            </style>
+        $endif$
+
+        $for(css)$
+            <link rel="stylesheet" href="$css$">
+        $endfor$
+
+        $if(math)$
+            $math$
+        $endif$
+
+        <!--[if lt IE 9]>
+            <script
+                src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js">
+            </script>
+        <![endif]-->
+
+        $for(header-includes)$
+            $header-includes$
+        $endfor$
+    </head>
+    <body>
+        $for(include-before)$
+            $include-before$
+        $endfor$
+
+        $if(title)$
+            <header>
+                <h1 class="title">$title$</h1>
+
+                $if(subtitle)$
+                    <p class="subtitle">$subtitle$</p>
+                $endif$
+
+                $for(author)$
+                    <p class="author">$author$</p>
+                $endfor$
+
+                $if(date)$
+                    <p class="date">$date$</p>
+                $endif$
+            </header>
+        $endif$
+
+        <svg style="display: none;">
+            <symbol id="custom-hamburger-icon" viewBox="0 0 1792 1792"
+                xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1664 1344v128q0 26-19 45t-45 19h-1408q-26 0-45-19t-19-45v-128q0-26 19-45t45-19h1408q26 0 45 19t19 45zm0-512v128q0 26-19 45t-45 19h-1408q-26 0-45-19t-19-45v-128q0-26 19-45t45-19h1408q26 0 45 19t19 45zm0-512v128q0 26-19 45t-45 19h-1408q-26 0-45-19t-19-45v-128q0-26 19-45t45-19h1408q26 0 45 19t19 45z"/>
+            </symbol>
+            <symbol id="custom-close-icon" viewBox="0 0 1792 1792"
+                xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z"/>
+            </symbol>
+        </svg>
+
+        <div class="NavBar" id="NavBar">
+            <svg class="Icon Icon--open Icon--hide" id="NavBar-openIcon">
+                <use xlink:href="#custom-hamburger-icon"></use>
+            </svg>
+            <svg class="Icon Icon--close Icon--hide" id="NavBar-closeIcon">
+                <use xlink:href="#custom-close-icon"></use>
+            </svg>
+
+            Table of Contents
+        </div>
+
+        $if(toc)$
+            <nav id="$idprefix$TOC">
+                $toc$
+            </nav>
+        $endif$
+
+        <script>
+            var navBar = document.getElementById("NavBar"),
+                navOpenIcon = document.getElementById("NavBar-openIcon"),
+                navCloseIcon = document.getElementById("NavBar-closeIcon"),
+                TOC = document.getElementById("TOC");
+
+            toggleNavBar = function() {
+                if (hidden) {
+                    navCloseIcon.style.display = 'block';
+                    navOpenIcon.style.display = 'none';
+                    TOC.style.display = 'block';
+                } else {
+                    navCloseIcon.style.display = 'none';
+                    navOpenIcon.style.display = 'block';
+                    TOC.style.display = 'none';
+                }
+                hidden = !hidden;
+            }
+
+            navBar.onclick = toggleNavBar;
+
+            var hidden;
+
+            if (window.innerWidth < 700) {
+                hidden = false;
+            } else {
+                hidden = true;
+            }
+
+            toggleNavBar();
+        </script>
+        <div class="content">
+            <div class="content-inner">
+$body$
+
+                $for(include-after)$
+                    $include-after$
+                $endfor$
+
+            </div>
+        </div>
+    </body>
+    <script>
+        // All non-internal links should open new tab/window
+        [].forEach.call(document.getElementsByTagName("a"), val => {
+            if (val.getAttribute("href").charAt(0) !== '#') {
+                val.setAttribute("target", "_blank");
+            }
+        });
+
+        // Make headers clickable and copy link to section
+        [].forEach.call(document.querySelectorAll('h1,h2,h3,h4'), val => {
+            // see: https://stackoverflow.com/questions/400212/how-do-i-copy-to-the-clipboard-in-javascript
+            function copyTextToClipboard(text) {
+                var textArea = document.createElement("textarea");
+                textArea.style.position = 'fixed';
+                textArea.style.top = 0;
+                textArea.style.left = 0;
+                textArea.style.width = '2em';
+                textArea.style.height = '2em';
+                textArea.style.padding = 0;
+                textArea.style.border = 'none';
+                textArea.style.outline = 'none';
+                textArea.style.boxShadow = 'none';
+                textArea.style.background = 'transparent';
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+            }
+
+            var newElem = document.createElement("span");
+            newElem.classList.add("CopyLink");
+            newElem.innerHTML = "Copy link to clipboard";
+            val.appendChild(newElem);
+
+            val.addEventListener('click', function(event) {
+                var fullLink = window.location.origin + window.location.pathname +
+                    "#" + val.getAttribute("id");
+                copyTextToClipboard(fullLink);
+                newElem.innerHTML = "Copied!";
+            });
+
+            val.addEventListener('mouseout', function(event) {
+                newElem.innerHTML = "Copy link to clipboard";
+            });
+        });
+    </script>
+</html>

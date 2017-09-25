@@ -67,8 +67,8 @@ In most cases, the clipboard is shared between _live_, _edit_ and the 2 _preset_
 
 The pattern mode clipboard is independent of text and code clipboard.
 
-| Key                 | Action                                                                                |
-|---------------------|---------------------------------------------------------------------------------------|
+| Key                 | Action                                          |
+|---------------------|-------------------------------------------------|
 | `<down>`            | move down                                                                             |
 | `alt-<down>`        | move a page down                                                                      |
 | `<up>`              | move up                                                                               |
