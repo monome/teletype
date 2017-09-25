@@ -8,11 +8,7 @@
 #include "command.h"
 #include "state.h"
 
-<<<<<<< HEAD
 #define TELETYPE_VERSION "TELETYPE 2.1.0"
-=======
-#define TELETYPE_VERSION "TELETYPE 2.0.1"
->>>>>>> master
 #define TELE_ERROR_MSG_LENGTH 16
 
 typedef enum {
