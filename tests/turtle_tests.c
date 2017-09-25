@@ -6,26 +6,11 @@
 #include "greatest/greatest.h"
 
 #include "teletype.h"
+#include "log.h"
 
-char tbuf[20][140]; // let it go wide
-int  tbuf_r = 0;
 int32_t count = 0;
 
-#define BUF_CR() (tbuf_r++)
-#define BUF tbuf[tbuf_r]
-#define BUF_NEWTEST() (count = 0)
-
-static inline void clear_log() {
-    for (;tbuf_r--;)
-       tbuf[tbuf_r][0] = 0;
-    tbuf_r = 0;
-} 
-
-static inline void print_log() {
-    printf("\n");
-    for (int i = 0; i <= tbuf_r; i++)
-        printf("%s\n", tbuf[i]);
-}
+#define NEWTEST() count = 0;
 
 static const char *error_message(error_t e) {
     static const char *em[] = {
@@ -45,6 +30,7 @@ static const char *error_message(error_t e) {
     };
     return em[e];
 }
+
 // runs multiple lines of commands and then asserts that the final answer is
 // correct (allows contiuation of state)
 TEST process_helper_state(scene_state_t* ss, size_t n, char* lines[],
@@ -57,52 +43,41 @@ TEST process_helper_state(scene_state_t* ss, size_t n, char* lines[],
     es_push(&es);
     es_variables(&es)->script_number = 1;
 
-    clear_log();
-    sprintf(BUF, "---- Test #%d ---- Command: ", count);
-    BUF_CR();
+    log_clear();
+    lprintf("---- Test #%d ----", count);
+    lcat("Command: ");
     // Format multi-line commands into one line
-    ssize_t size = 0;
     for (size_t i = 0; i < n; i++) {
-        size += strlen(lines[i]) + 3;  // 3 extra chars fo ' | '
+        lcat(lines[i]);
+        if (i < n - 1) lcat(" | ");
     }
-    for (size_t i = 0; i < n; i++) {
-        strncat(BUF, lines[i], 140 - strlen(BUF));
-        if (i < n - 1) strncat(BUF, " | ", 140 - strlen(BUF));
-    }
-    BUF_CR();
 
     for (size_t i = 0; i < n; i++) {
         tele_command_t cmd;
         char error_msg[TELE_ERROR_MSG_LENGTH];
         error_t error = parse(lines[i], &cmd, error_msg);
         if (error != E_OK) {
-            strncat(BUF, error_message(error), 140 - strlen(BUF));
-            strncat(BUF, ": ", 140 - strlen(BUF));
-            strncat(BUF, error_msg, 140 - strlen(BUF));
-            print_log();
+            lprintf("%s: %s", error_message(error), error_msg);
+            log_print();
             FAILm("Parser failure.");
         }
         error = validate(&cmd, error_msg);
         if (error != E_OK) {
-            strncat(BUF, error_message(error), 140 - strlen(BUF));
-            strncat(BUF, ": ", 140 - strlen(BUF));
-            strncat(BUF, error_msg, 140 - strlen(BUF));
-            print_log();
+            lprintf("%s: %s", error_message(error), error_msg);
+            log_print();
             FAILm("Validation failure");
         }
         result = process_command(ss, &es, &cmd);
     }
 
     if (result.has_value != true) {
-        snprintf(BUF, 140 - strlen(BUF),"Expected a value, found none.");
-        print_log();
+        lprintf("Expected a value, found none.");
+        log_print();
         FAIL();
     }
     if (result.value != answer) {
-        snprintf(BUF, 140 - strlen(BUF),
-                "Value incorrect.  Expected %d, got %d",
-                answer, result.value);
-        print_log();
+        lprintf("Value incorrect.  Expected %d, got %d", answer, result.value);
+        log_print();
         FAIL();
     }
 
@@ -122,7 +97,7 @@ TEST process_helper(size_t n, char* lines[], int16_t answer) {
 }
 
 TEST test_turtle_fence_normal() {
-    BUF_NEWTEST();
+    NEWTEST();
     char *test1[2] = { "@F 1 2 3 4", "@FX1" };
     CHECK_CALL(process_helper(2, test1, 1));
     char *test2[2] = { "@F 1 2 3 4", "@FY1" };
@@ -134,7 +109,7 @@ TEST test_turtle_fence_normal() {
     PASS();
 }
 TEST test_turtle_fence_swapped() {
-    BUF_NEWTEST();
+    NEWTEST();
     char *test1[2] = { "@F 3 4 1 2", "@FX1" };
     CHECK_CALL(process_helper(2, test1, 1));
     char *test2[2] = { "@F 3 4 1 2", "@FY1" };
@@ -146,7 +121,7 @@ TEST test_turtle_fence_swapped() {
     PASS();
 }
 TEST test_turtle_fence_oob() {
-    BUF_NEWTEST();
+    NEWTEST();
     char *test1[2] = { "@F -1 -1 4 100", "@FX1" };
     CHECK_CALL(process_helper(2, test1, 0));
     char *test2[2] = { "@F -1 -1 4 100", "@FY1" };
@@ -158,7 +133,7 @@ TEST test_turtle_fence_oob() {
     PASS();
 }
 TEST test_turtle_fence_individual() {
-    BUF_NEWTEST();
+    NEWTEST();
     char *test1[2] = { "@FX1 1", "@FX1" };
     CHECK_CALL(process_helper(2, test1, 1));
     char *test2[2] = { "@FY1 1", "@FY1" };
@@ -170,7 +145,7 @@ TEST test_turtle_fence_individual() {
     PASS();
 }
 TEST test_turtle_fence_ind_swapped() {
-    BUF_NEWTEST();
+    NEWTEST();
     char *test1[3] = { "@FX1 1", "@FX2 0", "@FX1" };
     CHECK_CALL(process_helper(3, test1, 0));
     char *test2[3] = { "@FY1 1", "@FY2 0", "@FY1" };
@@ -182,7 +157,7 @@ TEST test_turtle_fence_ind_swapped() {
     PASS();
 }
 TEST test_turtle_fence_ind_oob() {
-    BUF_NEWTEST();
+    NEWTEST();
     char *test1[2] = { "@FX1 -1", "@FX1" };
     CHECK_CALL(process_helper(2, test1, 0));
     char *test2[2] = { "@FY1 -1", "@FY1" };
@@ -196,11 +171,21 @@ TEST test_turtle_fence_ind_oob() {
 }
 
 TEST test_turtle_wrap() {
-    BUF_NEWTEST();
+    NEWTEST();
     char *test1[3] = { "@WRAP 1", "@MOVE 0 -1", "@Y" };
     CHECK_CALL(process_helper(3, test1, 63));
+    char *test1b[3] = { "@WRAP 1", "@MOVE 0 -1", "@X" };
+    CHECK_CALL(process_helper(3, test1b, 0));
+    char *test1c[3] = { "@WRAP 1", "@F 0 0 1 1; @MOVE 0 3", "@Y" };
+    CHECK_CALL(process_helper(3, test1c, 1));
+    char *test1d[3] = { "@WRAP 1", "@F 0 0 1 1; @MOVE 0 3", "@X" };
+    CHECK_CALL(process_helper(3, test1d, 0));
+    char *test1e[3] = { "@WRAP 1", "@STEP", "@X" };
+    CHECK_CALL(process_helper(3, test1e, 0));
     char *test2[4] = { "@WRAP 1", "@FY2 1", "@MOVE 0 -1", "@Y" };
     CHECK_CALL(process_helper(4, test2, 1));
+    char *test2b[4] = { "@WRAP 1", "@FY2 1", "@MOVE 0 -1", "@X" };
+    CHECK_CALL(process_helper(4, test2b, 0));
     char *test3[3] = { "@WRAP 1", "@MOVE -1 0", "@X" };
     CHECK_CALL(process_helper(3, test3, 3));
     char *test4[4] = { "@WRAP 1", "@FX1 1", "@MOVE -1 0", "@X" };
@@ -209,7 +194,7 @@ TEST test_turtle_wrap() {
 }
 
 TEST test_turtle_bounce() {
-    BUF_NEWTEST();
+    NEWTEST();
     // TODO check for DIR
     char *test1[3] = { "@BOUNCE 1", "@MOVE 0 -2", "@Y" };
     CHECK_CALL(process_helper(3, test1, 1));
@@ -255,7 +240,7 @@ TEST test_turtle_bounce() {
         "@STEP",
         "@DIR"
     };
-    CHECK_CALL(process_helper(6, test14, 135));
+    CHECK_CALL(process_helper(6, test14, 315));
     char *test15[6] = {
         "@F 0 0 1 1",
         "@BOUNCE 1",
@@ -285,22 +270,29 @@ TEST test_turtle_F() {
 
 */
 
+TEST test_turtle_vars() {
+    NEWTEST();
+    char *test1[2] = { "@X 1", "@X" };
+    CHECK_CALL(process_helper(2, test1, 1));
+    PASS();
+}
+
 TEST test_turtle_step() {
     char *test1[2] = {
         "@STEP",
         "@Y"
     };
     CHECK_CALL(process_helper(2, test1, 1));
+    char *test2[2] = {
+        "@STEP",
+        "@X"
+    };
+    CHECK_CALL(process_helper(2, test2, 0));
     PASS();
 } 
-TEST test_turtle_vars() {
-    BUF_NEWTEST();
-    char *test1[2] = { "@X 1", "@X" };
-    CHECK_CALL(process_helper(2, test1, 1));
-    PASS();
-}
 
 SUITE(turtle_suite) {
+    log_init();
     RUN_TEST(test_turtle_fence_normal);
     RUN_TEST(test_turtle_fence_swapped);
     RUN_TEST(test_turtle_fence_oob);
@@ -309,7 +301,6 @@ SUITE(turtle_suite) {
     RUN_TEST(test_turtle_fence_ind_oob);
     RUN_TEST(test_turtle_wrap);
     RUN_TEST(test_turtle_bounce);
-    RUN_TEST(test_turtle_step);
     RUN_TEST(test_turtle_vars);
+    RUN_TEST(test_turtle_step);
 }
-

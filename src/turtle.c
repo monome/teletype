@@ -184,11 +184,11 @@ void turtle_step(scene_turtle_t *st) {
     QT dx = 0, dy = 0;
     QT h1 = st->heading, h2 = st->heading;
 
-    h1 = ((h1 % 360) << 14) / 360;
-    h2 = (((h2 + 90) % 360) << 14) / 360;
+    h1 = ((h1 % 360) << 15) / 360;
+    h2 = (((h2 + 360 - 90) % 360) << 15) / 360;
 
-    int32_t  dy_d_Q12 = (st->speed * sin(h1)) / 100;
-    int32_t  dx_d_Q12 = (st->speed * sin(h2)) / 100; 
+    int32_t  dx_d_Q12 = (st->speed * sin(h1)) / 100;
+    int32_t  dy_d_Q12 = (st->speed * sin(h2)) / 100; 
     
     
     if (dx_d_Q12 < 0)

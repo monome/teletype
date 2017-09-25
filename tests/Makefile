@@ -2,6 +2,7 @@
 CFLAGS = -std=c99 -g -Wall -fno-common -DSIM -I../src -I../libavr32/src
 
 tests: main.o \
+	log.o \
 	match_token_tests.o op_mod_tests.o \
 	parser_tests.o process_tests.o \
 	turtle_tests.o \
