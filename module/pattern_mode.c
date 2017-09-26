@@ -436,6 +436,16 @@ bool screen_refresh_pattern() {
                                   0xf, 0);
     }
 
+    if (scene_state.turtle.shown) {
+        int16_t y =  turtle_get_y(&scene_state.turtle);
+        int16_t x =  turtle_get_x(&scene_state.turtle);
+        if (y >= offset && y < offset + 8) {
+            font_string_region_clip_right(&line[y - offset], "@", (x + 1) * 30 + 10, 0,
+                                  0xf, 0);
+        }
+    }
+    
+
     for (uint8_t y = 0; y < 64; y += 2) {
         line[y >> 3].data[(y & 0x7) * 128 + 8] = 1;
     }

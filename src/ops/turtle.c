@@ -3,6 +3,7 @@
 
 #include "ops/op.h"
 #include "teletype.h"
+#include "teletype_io.h"
 #include "turtle.h"
 #include "state.h"
 
@@ -129,6 +130,7 @@ static void op_TURTLE_get(const void *NOTUSED(data), scene_state_t *ss,
 static void op_TURTLE_set(const void *NOTUSED(data), scene_state_t *ss,
         exec_state_t *NOTUSED(es), command_state_t *cs) {
     ss_turtle_set_val(ss, &ss->turtle, cs_pop(cs));
+    tele_pattern_updated();
 }
 
 static void op_TURTLE_X_get(const void *NOTUSED(data), scene_state_t *ss,
@@ -139,6 +141,7 @@ static void op_TURTLE_X_get(const void *NOTUSED(data), scene_state_t *ss,
 static void op_TURTLE_X_set(const void *NOTUSED(data), scene_state_t *ss,
         exec_state_t *NOTUSED(es), command_state_t *cs) {
     turtle_set_x(&ss->turtle, cs_pop(cs));
+    tele_pattern_updated();
 }
 
 static void op_TURTLE_Y_get(const void *NOTUSED(data), scene_state_t *ss,
@@ -149,6 +152,7 @@ static void op_TURTLE_Y_get(const void *NOTUSED(data), scene_state_t *ss,
 static void op_TURTLE_Y_set(const void *NOTUSED(data), scene_state_t *ss,
         exec_state_t *NOTUSED(es), command_state_t *cs) {
     turtle_set_y(&ss->turtle, cs_pop(cs));
+    tele_pattern_updated();
 }
 
 static void op_TURTLE_MOVE_get(const void *NOTUSED(data), scene_state_t *ss,
@@ -156,6 +160,7 @@ static void op_TURTLE_MOVE_get(const void *NOTUSED(data), scene_state_t *ss,
     int16_t x = cs_pop(cs);
     int16_t y = cs_pop(cs);
     turtle_move(&ss->turtle, x, y);
+    tele_pattern_updated();
 }
 
 static void op_TURTLE_F_get(const void *NOTUSED(data), scene_state_t *ss,
@@ -166,6 +171,7 @@ static void op_TURTLE_F_get(const void *NOTUSED(data), scene_state_t *ss,
     int16_t y2 = cs_pop(cs);
 
     turtle_set_fence(&ss->turtle, x1, y1, x2, y2);
+    tele_pattern_updated();
 }
 
 static void op_TURTLE_FX1_get(const void *NOTUSED(data), scene_state_t *ss,
@@ -178,6 +184,7 @@ static void op_TURTLE_FX1_set(const void *NOTUSED(data), scene_state_t *ss,
     int16_t v = cs_pop(cs);
     ss->turtle.fence.x1 = v > 0 ? v : 0;
     turtle_correct_fence(&ss->turtle);
+    tele_pattern_updated();
 }
 
 static void op_TURTLE_FY1_get(const void *NOTUSED(data), scene_state_t *ss,
@@ -190,6 +197,7 @@ static void op_TURTLE_FY1_set(const void *NOTUSED(data), scene_state_t *ss,
     int16_t v = cs_pop(cs);
     ss->turtle.fence.y1 = v > 0 ? v : 0;
     turtle_correct_fence(&ss->turtle);
+    tele_pattern_updated();
 }
 
 static void op_TURTLE_FX2_get(const void *NOTUSED(data), scene_state_t *ss,
@@ -202,6 +210,7 @@ static void op_TURTLE_FX2_set(const void *NOTUSED(data), scene_state_t *ss,
     int16_t v = cs_pop(cs);
     ss->turtle.fence.x2 = v > 0 ? v : 0;
     turtle_correct_fence(&ss->turtle);
+    tele_pattern_updated();
 }
 
 static void op_TURTLE_FY2_get(const void *NOTUSED(data), scene_state_t *ss,
@@ -214,6 +223,7 @@ static void op_TURTLE_FY2_set(const void *NOTUSED(data), scene_state_t *ss,
     int16_t v = cs_pop(cs);
     ss->turtle.fence.y2 = v > 0 ? v : 0;
     turtle_correct_fence(&ss->turtle);
+    tele_pattern_updated();
 }
 
 static void op_TURTLE_SPEED_get(const void *NOTUSED(data), scene_state_t *ss,
@@ -263,6 +273,7 @@ static void op_TURTLE_ACCEL_set(const void *NOTUSED(data), scene_state_t *ss,
 static void op_TURTLE_STEP_get(const void *NOTUSED(data), scene_state_t *ss,
         exec_state_t *NOTUSED(es), command_state_t *NOTUSED(cs)) {
     turtle_step(&ss->turtle);
+    tele_pattern_updated();
 }
 
 static void op_TURTLE_BUMP_get(const void *NOTUSED(data), scene_state_t *ss,
@@ -274,6 +285,7 @@ static void op_TURTLE_BUMP_set(const void *NOTUSED(data), scene_state_t *ss,
         exec_state_t *NOTUSED(es), command_state_t *cs) {
     if (cs_pop(cs))
         turtle_set_mode(&ss->turtle, TURTLE_BUMP);
+    tele_pattern_updated();
 }
 
 static void op_TURTLE_WRAP_get(const void *NOTUSED(data), scene_state_t *ss,
@@ -285,6 +297,7 @@ static void op_TURTLE_WRAP_set(const void *NOTUSED(data), scene_state_t *ss,
         exec_state_t *NOTUSED(es), command_state_t *cs) {
     if (cs_pop(cs))
         turtle_set_mode(&ss->turtle, TURTLE_WRAP);
+    tele_pattern_updated();
 }
 
 static void op_TURTLE_BOUNCE_get(const void *NOTUSED(data), scene_state_t *ss,
@@ -296,6 +309,7 @@ static void op_TURTLE_BOUNCE_set(const void *NOTUSED(data), scene_state_t *ss,
         exec_state_t *NOTUSED(es), command_state_t *cs) {
     if (cs_pop(cs))
         turtle_set_mode(&ss->turtle, TURTLE_BOUNCE);
+    tele_pattern_updated();
 }
 
 static void op_TURTLE_SCRIPT_get(const void *NOTUSED(data), scene_state_t *ss,
@@ -318,13 +332,14 @@ static void op_TURTLE_SCRIPT_set(const void *NOTUSED(data), scene_state_t *ss,
 
 static void op_TURTLE_SHOW_get(const void *NOTUSED(data), scene_state_t *ss,
         exec_state_t *NOTUSED(es), command_state_t *cs) {
-    // TODO implement
-    cs_push(cs, 0);
+    cs_push(cs, ss->turtle.shown ? 1 : 0);
+    tele_pattern_updated();
 }
 
 static void op_TURTLE_SHOW_set(const void *NOTUSED(data), scene_state_t *ss,
         exec_state_t *NOTUSED(es), command_state_t *cs) {
-    // TODO implement
-    cs_pop(cs);
+    int16_t shown = cs_pop(cs);
+    ss->turtle.shown = shown != 0;
+    tele_pattern_updated();
 }
 

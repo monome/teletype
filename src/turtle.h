@@ -71,6 +71,7 @@ typedef struct {
     script_number_t     script_number;
     bool                stepping;
     bool                stepped;
+    bool                shown;
 } scene_turtle_t;
 
 /*
