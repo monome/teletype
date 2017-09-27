@@ -10,7 +10,7 @@
 
 #define STACK_SIZE 8
 #define CV_COUNT 4
-#define Q_LENGTH 16
+#define Q_LENGTH 64
 #define TR_COUNT 4
 #define TRIGGER_INPUTS 8
 #define DELAY_SIZE 8
