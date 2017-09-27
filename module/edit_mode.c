@@ -86,7 +86,7 @@ void process_edit_keys(uint8_t k, uint8_t m, bool is_held_key) {
         status = E_OK;
         error_msg[0] = 0;
         script++;
-        if (script >= SCRIPT_COUNT) script = 0;
+        if (script > SCRIPT_COUNT) script = 0; // not >= due to TEMP_SCRIPT
         if (line_no > ss_get_script_len(&scene_state, script))
             line_no = ss_get_script_len(&scene_state, script);
         line_editor_set_command(
