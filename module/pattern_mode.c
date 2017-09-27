@@ -440,7 +440,7 @@ bool screen_refresh_pattern() {
         int16_t y =  turtle_get_y(&scene_state.turtle);
         int16_t x =  turtle_get_x(&scene_state.turtle);
         if (y >= offset && y < offset + 8) {
-            font_string_region_clip_right(&line[y - offset], "@", (x + 1) * 30 + 10, 0,
+            font_string_region_clip_right(&line[y - offset], "<", (x + 1) * 30 + 9, 0,
                                   0xf, 0);
         }
     }
