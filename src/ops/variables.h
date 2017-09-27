@@ -22,7 +22,6 @@ extern const tele_op_t op_T;
 extern const tele_op_t op_TIME;
 extern const tele_op_t op_TIME_ACT;
 extern const tele_op_t op_LAST;
-extern const tele_op_t op_THIS;
 extern const tele_op_t op_X;
 extern const tele_op_t op_Y;
 extern const tele_op_t op_Z;

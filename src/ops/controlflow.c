@@ -29,6 +29,8 @@ static void op_SCENE_set(const void *data, scene_state_t *ss, exec_state_t *es,
                          command_state_t *cs);
 static void op_SCRIPT_get(const void *data, scene_state_t *ss, exec_state_t *es,
                           command_state_t *cs);
+static void op_SCRIPT_set(const void *data, scene_state_t *ss, exec_state_t *es,
+                          command_state_t *cs);
 static void op_KILL_get(const void *data, scene_state_t *ss, exec_state_t *es,
                         command_state_t *cs);
 static void op_BREAK_get(const void *data, scene_state_t *ss, exec_state_t *es,
@@ -42,7 +44,8 @@ const tele_mod_t mod_ELSE = MAKE_MOD(ELSE, mod_ELSE_func, 0);
 const tele_mod_t mod_L = MAKE_MOD(L, mod_L_func, 2);
 const tele_mod_t mod_W = MAKE_MOD(W, mod_W_func, 1);
 
-const tele_op_t op_SCRIPT = MAKE_GET_OP(SCRIPT, op_SCRIPT_get, 1, false);
+const tele_op_t op_SCRIPT =
+    MAKE_GET_SET_OP(SCRIPT, op_SCRIPT_get, op_SCRIPT_set, 0, true);
 const tele_op_t op_KILL = MAKE_GET_OP(KILL, op_KILL_get, 0, false);
 const tele_op_t op_SCENE =
     MAKE_GET_SET_OP(SCENE, op_SCENE_get, op_SCENE_set, 0, true);
@@ -156,6 +159,11 @@ static void op_SCENE_set(const void *NOTUSED(data), scene_state_t *ss,
 }
 
 static void op_SCRIPT_get(const void *NOTUSED(data), scene_state_t *ss,
+                        exec_state_t *es, command_state_t *cs) {
+    cs_push(cs, (int16_t)es_variables(es)->script_number + 1);
+}
+
+static void op_SCRIPT_set(const void *NOTUSED(data), scene_state_t *ss,
                           exec_state_t *es, command_state_t *cs) {
     uint16_t a = cs_pop(cs) - 1;
     if (a > TT_SCRIPT_8 || a < TT_SCRIPT_1)

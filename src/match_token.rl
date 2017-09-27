@@ -38,7 +38,6 @@
         "TIME"        => { MATCH_OP(E_OP_TIME); };
         "TIME.ACT"    => { MATCH_OP(E_OP_TIME_ACT); };
         "LAST"        => { MATCH_OP(E_OP_LAST); };
-        "THIS"        => { MATCH_OP(E_OP_THIS); };
         "X"           => { MATCH_OP(E_OP_X); };
         "Y"           => { MATCH_OP(E_OP_Y); };
         "Z"           => { MATCH_OP(E_OP_Z); };

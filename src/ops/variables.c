@@ -9,8 +9,6 @@
 
 static void op_LAST_get(const void *data, scene_state_t *ss, exec_state_t *es,
                          command_state_t *cs);
-static void op_THIS_get(const void *data, scene_state_t *ss, exec_state_t *es,
-                         command_state_t *cs);
 static void op_DRUNK_get(const void *data, scene_state_t *ss, exec_state_t *es,
                          command_state_t *cs);
 static void op_DRUNK_set(const void *data, scene_state_t *ss, exec_state_t *es,
@@ -44,7 +42,6 @@ const tele_op_t op_T          = MAKE_SIMPLE_VARIABLE_OP(T         , variables.t 
 const tele_op_t op_TIME       = MAKE_SIMPLE_VARIABLE_OP(TIME      , variables.time      );
 const tele_op_t op_TIME_ACT   = MAKE_SIMPLE_VARIABLE_OP(TIME.ACT  , variables.time_act  );
 const tele_op_t op_LAST       =             MAKE_GET_OP(LAST  , op_LAST_get, 1, true);
-const tele_op_t op_THIS       =             MAKE_GET_OP(THIS, op_THIS_get, 0, true);
 const tele_op_t op_X          = MAKE_SIMPLE_VARIABLE_OP(X         , variables.x         );
 const tele_op_t op_Y          = MAKE_SIMPLE_VARIABLE_OP(Y         , variables.y         );
 const tele_op_t op_Z          = MAKE_SIMPLE_VARIABLE_OP(Z         , variables.z         );
@@ -62,11 +59,6 @@ static void op_LAST_get(const void *NOTUSED(data), scene_state_t *ss,
     cs_push(cs, last);
 }
 
-static void op_THIS_get(const void *NOTUSED(data), scene_state_t *ss,
-                        exec_state_t *es, command_state_t *cs) {
-    cs_push(cs, (int16_t)es_variables(es)->script_number + 1);
-}
-        
 static void op_DRUNK_get(const void *NOTUSED(data), scene_state_t *ss,
                          exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t min = ss->variables.drunk_min;
