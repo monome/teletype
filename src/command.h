@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#define COMMAND_MAX_LENGTH 12
+#define COMMAND_MAX_LENGTH 16
 
 typedef enum { NUMBER, OP, MOD, PRE_SEP, SUB_SEP } tele_word_t;
 
