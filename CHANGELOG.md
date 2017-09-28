@@ -7,7 +7,8 @@
 - **NEW**: new op: `BPM` to get milliseconds per beat in given BPM
 - **NEW**: script lines can be disabled / enabled with ctrl-/
 - **NEW**: shift-enter in scene write mode now inserts a line
-- **NEW**: new ops: `LAST x` for the last time script `x` was called, and `THIS` for the current script number.
+- **NEW**: new ops: `LAST x` for the last time script `x` was called
+- **NEW**: `SCRIPT` with no arguments gets the current script number.
 - **FIX**: `AVG` and `Q.AVG` now round up properly
 - **NEW**: new op: `BREAK` to stop the remainder of the script
 - **NEW**: new mod: `W [condition]: [statement]` will execute `statement` as long as `condition` is true (up to an iteration limit).
@@ -17,6 +18,7 @@
 - **FIX**: KILL now clears TR output as well as disabling the METRO script.
 - **FIX**: if / else conditions no longer transcend their script
 - **IMP**: functional exectuion stack for `SCRIPT` operations
+
 ## v2.0
 - **BREAKING**: remove `II` op. Ops that required it will now work with out it. (e.g. `II MP.PRESET 1` will become just `MP.PRESET 1`)
 - **BREAKING**: merge the `MUTE` and `UNMUTE` ops. Now `MUTE x` will return the mute status for trigger `x` (`0` is unmuted, `1` is muted), and `MUTE x y` will set the mute for trigger `x` (`y = 0` to unmute, `y = 1` to mute)
