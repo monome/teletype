@@ -89,7 +89,8 @@ def common_md():
     output = ""
     output += Path(DOCS_DIR / "intro.md").read_text() + "\n\n"
     output += Path(DOCS_DIR / "whats_new.md").read_text() + "\n\n"
-    output += Path(DOCS_DIR / "modes.md").read_text() + "\n\n"
+    output += Path(DOCS_DIR / "quickstart.md").read_text() + "\n\n"
+    output += Path(DOCS_DIR / "keys.md").read_text() + "\n\n"
     output += Path(DOCS_DIR / "ops.md").read_text() + "\n\n"
 
     all_ops = set(list_ops()) | set(list_mods())
