@@ -160,7 +160,10 @@ static void op_SCENE_set(const void *NOTUSED(data), scene_state_t *ss,
 
 static void op_SCRIPT_get(const void *NOTUSED(data), scene_state_t *ss,
                         exec_state_t *es, command_state_t *cs) {
-    cs_push(cs, (int16_t)es_variables(es)->script_number + 1);
+    int16_t sn = es_variables(es)->script_number + 1;
+    if (sn == 11)
+        sn = 0;
+    cs_push(cs, sn);
 }
 
 static void op_SCRIPT_set(const void *NOTUSED(data), scene_state_t *ss,
