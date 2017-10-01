@@ -41,17 +41,6 @@ If `x` is not zero execute command
                        (see example 2)
     ```
 
-  5. Dependent scripts
-
-    ```text
-    SCRIPT 1:
-    IF 0: TR.P 1    => do nothing
-    SCRIPT 2        => will pulse output 2
-
-    SCRIPT 2:
-    ELSE: TR.P 2    => will not pulse output 2 if called directly,
-                       but will if called from script 1
-    ```
 """
 
 [ELIF]
@@ -97,8 +86,9 @@ prototype = "PROB x: ..."
 short = "potentially execute command with probability `x` (0-100)"
 
 [SCRIPT]
-prototype = "SCRIPT x"
-short = "execute script `x` (1-8), recursion allowed"
+prototype = "SCRIPT"
+prototype_set = "SCRIPT x"
+short = "get current script number, or execute script `x` (1-8), recursion allowed"
 description = """
 Execute script `x` (1-8), recursion allowed.
 
@@ -106,8 +96,9 @@ There is a limit of 8 for the maximum number of nested calls to `SCRIPT` to stop
 """
 
 [SCENE]
-prototype = "SCENE x"
-short = "load scene `x` (0-31)"
+prototype = "SCENE"
+prototype_set = "SCENE x"
+short = "get the current scene number, or load scene `x` (0-31)"
 description = """
 Load scene `x` (0-31).
 

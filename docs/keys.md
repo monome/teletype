@@ -17,6 +17,8 @@ These bindings work everywhere.
 | `alt-<F1>` to `alt-<F8>`     | edit corresponding script                      |
 | `alt-<F9>`                   | edit metro script                              |
 | `alt-<F10>`                  | edit init script                               |
+| `ctrl-<F1>` to `ctrl-<F8>`   | mute/unmute corresponding script               |
+| `ctrl-<F9>`                  | enable/disable metro script                    |
 | `<numpad-1>` to `<numpad-8>` | run corresponding script                       |
 | `<num lock>` / `<F11>`       | jump to pattern mode                           |
 | `<print screen>` / `<F12>`   | jump to live mode                              |
@@ -67,8 +69,8 @@ In most cases, the clipboard is shared between _live_, _edit_ and the 2 _preset_
 
 The tracker mode clipboard is independent of text and code clipboard.
 
-| Key                 | Action                                          |
-|---------------------|-------------------------------------------------|
+| Key                 | Action                                                                                |
+|---------------------|---------------------------------------------------------------------------------------|
 | `<down>`            | move down                                                                             |
 | `alt-<down>`        | move a page down                                                                      |
 | `<up>`              | move up                                                                               |

@@ -64,7 +64,24 @@ def _convert_struct_name_to_op_name(name):
         "SYM_RIGHT_ANGLED_x2":    ">>",
         "SYM_AMPERSAND_x2":       "&&",
         "SYM_PIPE_x2":            "||",
-        "M_SYM_EXCLAMATION":      "M!"
+        "M_SYM_EXCLAMATION":      "M!",
+        "TURTLE":                 "@",
+        "TURTLE_X":               "@X",
+        "TURTLE_Y":               "@Y",
+        "TURTLE_MOVE":            "@MOVE",
+        "TURTLE_DIR":             "@DIR",
+        "TURTLE_SPEED":           "@SPEED",
+        "TURTLE_STEP":            "@STEP",
+        "TURTLE_F":               "@F",
+        "TURTLE_FX1":             "@FX1",
+        "TURTLE_FX2":             "@FX2",
+        "TURTLE_FY1":             "@FY1",
+        "TURTLE_FY2":             "@FY2",
+        "TURTLE_BUMP":            "@BUMP",
+        "TURTLE_WRAP":            "@WRAP",
+        "TURTLE_BOUNCE":          "@BOUNCE",
+        "TURTLE_SCRIPT":          "@SCRIPT",
+        "TURTLE_SHOW":            "@SHOW"
     }
 
     if stripped in MAPPINGS:

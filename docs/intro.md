@@ -8,7 +8,7 @@ Teletype is a dynamic, musical event triggering platform.
 &mdash; [PDF scene recall sheet](https://monome.org/docs/modular/teletype/TT_scene_RECALL_sheet.pdf)
 &mdash; [Default scenes](http://monome.org/docs/modular/teletype/scenes-1.0/)
 
-* Current version: 2.0.1 
+* Current version: 2.1.0 
 &mdash; [Firmware update procedure](https://monome.org/docs/modular/update/)
 
 

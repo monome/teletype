@@ -39,6 +39,7 @@ OPS_SECTIONS = [
     "delay",
     "stack",
     "queue",
+    "turtle",
     "ansible",
     "whitewhale",
     "meadowphysics",

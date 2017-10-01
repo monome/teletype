@@ -178,7 +178,7 @@ The *INIT* script (represented as `I`) is executed when a preset is recalled. Th
 * VALUE -- a number
 * OPERATOR -- a function, may need value(s) as argument(s), may return value
 * VARIABLE -- named memory storage
-* MOD -- condition/rule that applies to rest of the *command*, ie del, prob, if, s
+* MOD -- condition/rule that applies to rest of the *command*, e.g.: del, prob, if, s
 
 ### Syntax
 

@@ -1,0 +1,77 @@
+["@"]
+prototype = "@"
+prototype_set = "@ x"
+short = "get or set the current pattern value under the turtle"
+
+["@X"]
+prototype = "@X"
+prototype_set = "@X x"
+short = "get the turtle X coordinate, or set it to x"
+
+["@Y"]
+prototype = "@Y"
+prototype_set = "@Y x"
+short = "get the turtle Y coordinate, or set it to x"
+
+["@MOVE"]
+prototype = "@MOVE x y"
+short = "move the turtle x cells in the X axis and y cells in the Y axis"
+
+["@F"]
+prototype = "@F x1 y1 x2 y2"
+short = "set the turtle's fence to corners x1,y1 and x2,y2"
+
+["@FX1"]
+prototype = "@FX1"
+prototype_set = "@FX1 x"
+short = "get the left fence line or set it to x"
+
+["@FX2"]
+prototype = "@FX2"
+prototype_set = "@FX2 x"
+short = "get the right fence line or set it to x"
+
+["@FY1"]
+prototype = "@FY1"
+prototype_set = "@FY1 x"
+short = "get the top fence line or set it to x"
+
+["@FY2"]
+prototype = "@FY2"
+prototype_set = "@FY2 x"
+short = "get the bottom fence line or set it to x"
+
+["@SPEED"]
+prototype = "@SPEED"
+prototype_set = "@SPEED x"
+short = "get the speed of the turtle's @STEP in cells per step or set it to x"
+
+["@DIR"]
+prototype = "@DIR"
+prototype_set = "@DIR x"
+short = "get the direction of the turtle's @STEP in degrees or set it to x"
+
+["@BUMP"]
+prototype = "@BUMP"
+prototype_set = "@BUMP 1"
+short = "get whether the turtle fence mode is BUMP, or set it to BUMP with 1"
+
+["@WRAP"]
+prototype = "@WRAP"
+prototype_set = "@WRAP 1"
+short = "get whether the turtle fence mode is WRAP, or set it to WRAP with 1"
+
+["@BOUNCE"]
+prototype = "@BOUNCE"
+prototype_set = "@BOUNCE 1"
+short = "get whether the turtle fence mode is BOUNCE, or set it to BOUNCE with 1"
+
+["@SCRIPT"]
+prototype = "@SCRIPT"
+prototype_set = "@SCRIPT x"
+short = "get which script runs when the turtle changes cells, or set it to x"
+
+["@SHOW"]
+prototype = "@SHOW"
+prototype_set = "@SHOW 0/1"
+short = "get whether the turtle is displayed on the TRACKER screen, or turn it on or off"
