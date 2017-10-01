@@ -219,7 +219,7 @@ TEST test_turtle_bounce() {
     CHECK_CALL(process_helper(4, test10b, 180));
 
     // The following tests reveal the charade that is the length between fences
-#if 1 
+#if 0 
     char *test10c[4] = { "@BOUNCE 1", "@F 0 0 1 1", "L 1 2: @STEP", "@DIR" };
     CHECK_CALL(process_helper(4, test10c, 0));
     char *test10d[4] = { "@BOUNCE 1", "@F 0 0 1 1", "L 1 3: @STEP", "@SPEED" };
