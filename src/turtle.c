@@ -22,15 +22,22 @@ typedef struct {
     QT x1, y1, x2, y2;
 } Q_fence_t;
 
-static inline Q_fence_t normalize_fence(turtle_fence_t in) {
+static inline Q_fence_t normalize_fence(turtle_fence_t in, turtle_mode_t mode) {
     Q_fence_t out;
 
-    // a Q fence
-    // fence values are inclusive so 0 to 0 is L:1
-    out.x1 = TO_Q(in.x1);
-    out.x2 = TO_Q((in.x2 + 1));
-    out.y1 = TO_Q(in.y1);
-    out.y2 = TO_Q((in.y2 + 1));
+    if ( mode == TURTLE_WRAP ) {
+        out.x1 = TO_Q(in.x1);
+        out.x2 = TO_Q((in.x2 + 1));
+        out.y1 = TO_Q(in.y1);
+        out.y2 = TO_Q((in.y2 + 1));
+    }
+    else {
+        out.x1 = TO_Q(in.x1) + (Q_1 >> 1);
+        out.x2 = TO_Q((in.x2 + 1)) - (Q_1 >> 1);
+        out.y1 = TO_Q(in.y1) + (Q_1 >> 1);
+        out.y2 = TO_Q((in.y2 + 1)) - (Q_1 >> 1); 
+    }
+
     return out;
 }
 
@@ -45,16 +52,16 @@ void turtle_check_step(scene_turtle_t *t) {
 
 void turtle_normalize_position(scene_turtle_t *t, turtle_position_t *tp, 
         turtle_mode_t mode) {
-    Q_fence_t f = normalize_fence(t->fence);
+    Q_fence_t f = normalize_fence(t->fence, mode);
 
     QT fxl = f.x2 - f.x1;
     QT fyl = f.y2 - f.y1;
   
     // stay put if we're fenced in
-    if (fxl == Q_1 && fyl == Q_1)
-        mode = TURTLE_BUMP;
-
-    if (mode == TURTLE_WRAP) {
+    if (fxl <= Q_1 && fyl <= Q_1) {
+        // kludge to jump past other modes *shrug*
+    }
+    else if (mode == TURTLE_WRAP) {
         if (fxl > Q_1 && tp->x < f.x1)
             tp->x = f.x2 + ((tp->x - f.x1) % fxl);
         else if (fxl > Q_1 && tp->x > f.x2)
