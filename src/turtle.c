@@ -57,11 +57,7 @@ void turtle_normalize_position(scene_turtle_t *t, turtle_position_t *tp,
     QT fxl = f.x2 - f.x1;
     QT fyl = f.y2 - f.y1;
   
-    // stay put if we're fenced in
-    if (fxl <= Q_1 && fyl <= Q_1) {
-        // kludge to jump past other modes *shrug*
-    }
-    else if (mode == TURTLE_WRAP) {
+    if (mode == TURTLE_WRAP) {
         if (fxl > Q_1 && tp->x < f.x1)
             tp->x = f.x2 + ((tp->x - f.x1) % fxl);
         else if (fxl > Q_1 && tp->x > f.x2)
@@ -78,8 +74,7 @@ void turtle_normalize_position(scene_turtle_t *t, turtle_position_t *tp,
         // so here's a crappy while() loop wavefolder. --burnsauce / sliderule
         turtle_position_t last, here;
         turtle_resolve_position(t, &t->position, &last);
-        while ( fxl > Q_1 // if we're penned in, don't move at all
-                && (tp->x > f.x2 || tp->x < f.x1)) {
+        while (tp->x > f.x2 || tp->x < f.x1) {
             if (tp->x > f.x2) {                                // right fence
                 if (t->stepping)
                     turtle_set_heading(t, 360 - t->heading);
@@ -97,7 +92,7 @@ void turtle_normalize_position(scene_turtle_t *t, turtle_position_t *tp,
                 break;
             last = here;
         }
-        while (fyl > Q_1 && (tp->y > f.y2 || tp->y < f.y1)) {
+        while (tp->y > f.y2 || tp->y < f.y1) {
             if (tp->y >= f.y2) {                                // top fence
                 if (t->stepping)
                     turtle_set_heading(t, 180 - t->heading);
