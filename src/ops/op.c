@@ -77,7 +77,7 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     &op_S_ALL, &op_S_POP, &op_S_CLR, &op_S_L,
 
     // controlflow
-    &op_SCRIPT, &op_KILL, &op_SCENE, &op_BREAK, &op_BRK,
+    &op_SCRIPT, &op_KILL, &op_SCENE, &op_BREAK, &op_BRK, &op_SYNC,
 
     // delay
     &op_DEL_CLR,
@@ -160,7 +160,8 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
 
 const tele_mod_t *tele_mods[E_MOD__LENGTH] = {
     // controlflow
-    &mod_IF, &mod_ELIF, &mod_ELSE, &mod_L, &mod_W, &mod_EVERY, &mod_PROB,
+    &mod_IF, &mod_ELIF, &mod_ELSE, &mod_L, &mod_W,
+    &mod_EVERY, &mod_SKIP, &mod_OTHER, &mod_PROB,
 
     // delay
     &mod_DEL,

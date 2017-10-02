@@ -24,6 +24,10 @@ static void mod_W_func(scene_state_t *ss, exec_state_t *es, command_state_t *cs,
                        const tele_command_t *post_command);
 static void mod_EVERY_func(scene_state_t *ss, exec_state_t *es, command_state_t *cs,
                        const tele_command_t *post_command);
+static void mod_SKIP_func(scene_state_t *ss, exec_state_t *es, command_state_t *cs,
+                       const tele_command_t *post_command);
+static void mod_OTHER_func(scene_state_t *ss, exec_state_t *es, command_state_t *cs,
+                       const tele_command_t *post_command);
 
 static void op_SCENE_get(const void *data, scene_state_t *ss, exec_state_t *es,
                          command_state_t *cs);
@@ -37,6 +41,8 @@ static void op_KILL_get(const void *data, scene_state_t *ss, exec_state_t *es,
                         command_state_t *cs);
 static void op_BREAK_get(const void *data, scene_state_t *ss, exec_state_t *es,
                         command_state_t *cs);
+static void op_SYNC_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                        command_state_t *cs);
 
 
 const tele_mod_t mod_PROB = MAKE_MOD(PROB, mod_PROB_func, 1);
@@ -46,6 +52,8 @@ const tele_mod_t mod_ELSE = MAKE_MOD(ELSE, mod_ELSE_func, 0);
 const tele_mod_t mod_L = MAKE_MOD(L, mod_L_func, 2);
 const tele_mod_t mod_W = MAKE_MOD(W, mod_W_func, 1);
 const tele_mod_t mod_EVERY = MAKE_MOD(EVERY, mod_EVERY_func, 1);
+const tele_mod_t mod_SKIP = MAKE_MOD(SKIP, mod_SKIP_func, 1);
+const tele_mod_t mod_OTHER = MAKE_MOD(OTHER, mod_OTHER_func, 0);
 
 const tele_op_t op_SCRIPT =
     MAKE_GET_SET_OP(SCRIPT, op_SCRIPT_get, op_SCRIPT_set, 0, true);
@@ -54,6 +62,8 @@ const tele_op_t op_SCENE =
     MAKE_GET_SET_OP(SCENE, op_SCENE_get, op_SCENE_set, 0, true);
 const tele_op_t op_BREAK = MAKE_GET_OP(BREAK, op_BREAK_get, 0, false);
 const tele_op_t op_BRK = MAKE_ALIAS_OP(BRK, op_BREAK_get, NULL, 0, false);
+const tele_op_t op_SYNC = MAKE_GET_OP(SYNC, op_SYNC_get,
+                                            1, false);
 
 
 static void mod_PROB_func(scene_state_t *ss, exec_state_t *es,
@@ -152,10 +162,45 @@ static void mod_EVERY_func(scene_state_t *ss, exec_state_t *es, command_state_t 
     int16_t mod = cs_pop(cs);
     every_count_t *every = ss_get_every(ss, es_variables(es)->script_number,
                                             es_variables(es)->line_number);
+    every_set_skip(every, false);
     every_set_mod(every, mod);
     every_tick(every);
     if (every_is_now(every))
         process_command(ss, es, post_command);
+}
+
+static void mod_SKIP_func(scene_state_t *ss, exec_state_t *es, command_state_t *cs,
+                       const tele_command_t *post_command) {
+    int16_t mod = cs_pop(cs);
+    every_count_t *every = ss_get_every(ss, es_variables(es)->script_number,
+                                            es_variables(es)->line_number);
+    every_set_skip(every, true);
+    every_set_mod(every, mod);
+    every_tick(every);
+    if (skip_is_now(every))
+        process_command(ss, es, post_command);
+}
+
+static void mod_OTHER_func(scene_state_t *ss, exec_state_t *es,
+                       command_state_t *NOTUSED(cs),
+                       const tele_command_t *post_command) {
+    if (es_variables(es)->line_number == 0)
+        return; // As the first line, don't execute. TODO: Design decision
+    every_count_t *every = ss_get_every(ss, es_variables(es)->script_number,
+                                            es_variables(es)->line_number - 1);
+    if (every->skip) {
+        if (every_is_now(every))
+            process_command(ss, es, post_command);
+    }
+    else if (skip_is_now(every))
+        process_command(ss, es, post_command);
+}
+
+
+static void op_SYNC_get(const void *NOTUSED(data), scene_state_t *ss,
+                         exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t count = cs_pop(cs);
+    ss_sync_every(ss, count); 
 }
 
 static void op_SCENE_get(const void *NOTUSED(data), scene_state_t *ss,

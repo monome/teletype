@@ -104,6 +104,43 @@ EVERY 3: TR.P 2
 ```
 """
 
+[SKIP]
+prototype = "SKIP x: ..."
+short = "run the command every time except the `x`th time."
+description = """
+This is the corollary function to `EVERY`, essentially behaving as its exact opposite.
+"""
+
+
+[OTHER]
+prototype = "OTHER: ..."
+short = "runs the command when the previous `EVERY`/`SKIP` did not run its command."
+description = """
+`OTHER` can be used to do somthing alternately with a preceding `EVERY` or `SKIP` command.
+
+For example, here is a script that alternates between two triggers to make a four-on-the-floor beat with hats between the beats:
+
+```
+EVERY 4: TR.P 1
+OTHER: TR.P 2
+```
+
+You could add snares on beats 2 and 4 with:
+
+```
+SKIP 2: TR.P 3
+```
+"""
+
+[SYNC]
+prototype = "SYNC x"
+short = "synchronizes _all_ `EVERY` and `SKIP` counters to offset `x`."
+description = """
+Causes all of the `EVERY` and `SYNC` counters to synchronize their offsets, respecting their individual divisor values.
+
+Negative numbers will synchronize to to the divisor value, such that `SYNC -1` causes all every counters to be 1 number before their divisor, causing each `EVERY` to be true on its next call, and each `SKIP` to be false.
+"""
+
 [PROB]
 prototype = "PROB x: ..."
 short = "potentially execute command with probability `x` (0-100)"

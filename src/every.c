@@ -11,6 +11,14 @@ bool every_is_now(every_count_t *e) {
     return e->count == 0;
 }
 
+void every_set_skip(every_count_t *e, bool skip) {
+    e->skip = skip;
+}
+
+bool skip_is_now(every_count_t *e) {
+    return e->count != 0;
+}
+
 void every_set_count(every_count_t *e, int16_t count) {
     if (count < 0)
         count = 0;

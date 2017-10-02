@@ -280,6 +280,18 @@ every_count_t *ss_get_every(scene_state_t *ss, script_number_t idx,
     return &ss->scripts[idx].every[line_number];
 }
 
+void ss_sync_every(scene_state_t *ss, int16_t count) {
+    for (int script = 0; script < SCRIPT_COUNT; script++)
+        for (int line = 0; line < SCRIPT_MAX_COMMANDS; line++) {
+            int16_t count_e = count;
+            if (ss->scripts[script].every[line].mod == 0)
+                ss->scripts[script].every[line].mod = 1; // lazy init
+            while (count_e < 0)
+                count_e += ss->scripts[script].every[line].mod;
+            ss->scripts[script].every[line].count = count_e;
+        }
+}
+
 int16_t  ss_turtle_get_val(scene_state_t *ss, scene_turtle_t *st) {
     turtle_position_t p;
     turtle_resolve_position(st, &st->position, &p);

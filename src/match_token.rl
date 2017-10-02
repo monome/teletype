@@ -186,6 +186,7 @@
         "SCENE"       => { MATCH_OP(E_OP_SCENE); };
         "BREAK"       => { MATCH_OP(E_OP_BREAK); };
         "BRK"         => { MATCH_OP(E_OP_BRK); };
+        "SYNC"        => { MATCH_OP(E_OP_SYNC); };
 
         # delay
         "DEL.CLR"     => { MATCH_OP(E_OP_DEL_CLR); };
@@ -420,6 +421,8 @@
         "L"           => { MATCH_MOD(E_MOD_L); };
         "W"           => { MATCH_MOD(E_MOD_W); };
         "EVERY"       => { MATCH_MOD(E_MOD_EVERY); };
+        "SKIP"        => { MATCH_MOD(E_MOD_SKIP); };
+        "OTHER"       => { MATCH_MOD(E_MOD_OTHER); };
 
         # delay
         "PROB"        => { MATCH_MOD(E_MOD_PROB); };
