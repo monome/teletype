@@ -419,6 +419,7 @@
         "ELSE"        => { MATCH_MOD(E_MOD_ELSE); };
         "L"           => { MATCH_MOD(E_MOD_L); };
         "W"           => { MATCH_MOD(E_MOD_W); };
+        "EVERY"       => { MATCH_MOD(E_MOD_EVERY); };
 
         # delay
         "PROB"        => { MATCH_MOD(E_MOD_PROB); };

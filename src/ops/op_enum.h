@@ -363,6 +363,7 @@ typedef enum {
     E_MOD_ELSE,
     E_MOD_L,
     E_MOD_W,
+    E_MOD_EVERY,
     E_MOD_PROB,
     E_MOD_DEL,
     E_MOD_S,

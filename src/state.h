@@ -7,6 +7,7 @@
 
 #include "command.h"
 #include "turtle.h"
+#include "every.h"
 
 #define STACK_SIZE 8
 #define CV_COUNT 4
@@ -93,6 +94,7 @@ typedef struct {
     uint8_t l;
     tele_command_t c[SCRIPT_MAX_COMMANDS];
     bool comment[SCRIPT_MAX_COMMANDS];
+    every_count_t every[SCRIPT_MAX_COMMANDS];
     int16_t last_time;
 } scene_script_t;
 
@@ -157,6 +159,7 @@ scene_script_t *ss_scripts_ptr(scene_state_t *ss);
 size_t ss_scripts_size(void);
 int16_t ss_get_script_last(scene_state_t *ss, script_number_t idx);
 void ss_update_script_last(scene_state_t *ss, script_number_t idx);
+every_count_t *ss_get_every(scene_state_t *ss, script_number_t idx, uint8_t line);
 scene_turtle_t *ss_turtle_get(scene_state_t*);
 void     ss_turtle_set(scene_state_t*, scene_turtle_t*);
 int16_t  ss_turtle_get_val(scene_state_t*, scene_turtle_t*);
@@ -173,6 +176,7 @@ typedef struct {
     uint16_t while_depth;
     bool breaking;
     script_number_t script_number;
+    uint8_t line_number;
     bool delayed;
 } exec_vars_t;
 
@@ -187,6 +191,8 @@ extern size_t es_depth(exec_state_t *es);
 extern size_t es_push(exec_state_t *es);
 extern size_t es_pop(exec_state_t *es);
 extern void es_set_script_number(exec_state_t *es, uint8_t script_number);
+extern void es_set_line_number(exec_state_t *es, uint8_t line_number);
+extern uint8_t es_get_line_number(exec_state_t *es); 
 extern exec_vars_t *es_variables(exec_state_t *es);
 
 ////////////////////////////////////////////////////////////////////////////////

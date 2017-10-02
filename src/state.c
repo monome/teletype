@@ -275,6 +275,11 @@ void ss_update_script_last(scene_state_t *ss, script_number_t idx) {
     ss->scripts[idx].last_time = ss->variables.time;
 }
 
+every_count_t *ss_get_every(scene_state_t *ss, script_number_t idx,
+        uint8_t line_number) {
+    return &ss->scripts[idx].every[line_number];
+}
+
 int16_t  ss_turtle_get_val(scene_state_t *ss, scene_turtle_t *st) {
     turtle_position_t p;
     turtle_resolve_position(st, &st->position, &p);
@@ -339,6 +344,14 @@ size_t es_pop(exec_state_t *es) {
 void es_set_script_number(exec_state_t *es, uint8_t script_number) {
     if (!es_variables(es)->delayed)
         es_variables(es)->script_number = script_number;
+}
+
+void es_set_line_number(exec_state_t *es, uint8_t line_number) {
+    es_variables(es)->line_number = line_number;
+}
+
+uint8_t es_get_line_number(exec_state_t *es) {
+    return es_variables(es)->line_number;
 }
 
 exec_vars_t *es_variables(exec_state_t *es) {

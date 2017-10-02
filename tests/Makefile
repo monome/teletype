@@ -7,7 +7,7 @@ tests: main.o \
 	parser_tests.o process_tests.o \
 	turtle_tests.o \
 	../src/teletype.o ../src/command.o ../src/helpers.o \
-	../src/match_token.o ../src/scanner.o \
+	../src/every.o ../src/match_token.o ../src/scanner.o \
 	../src/state.o ../src/table.o ../src/turtle.o \
 	../src/ops/op.o ../src/ops/ansible.c ../src/ops/controlflow.o \
 	../src/ops/delay.o ../src/ops/earthsea.o ../src/ops/hardware.o \

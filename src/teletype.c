@@ -149,6 +149,8 @@ process_result_t run_script_with_exec_state(scene_state_t *ss, exec_state_t *es,
     es_set_script_number(es, script_no);
 
     for (size_t i = 0; i < ss_get_script_len(ss, script_no); i++) {
+        es_set_line_number(es, i);
+
         // Commented code doesn't run.
         if (ss_get_script_comment(ss, script_no, i))
 		    continue;

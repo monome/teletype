@@ -81,6 +81,29 @@ W LT A 100: A * A A
 A will be 256.
 """
 
+[EVERY]
+prototype = "EVERY x: ..."
+short = "run the command every `x` times the command is called"
+description = """
+Runs the command every `x` times the line is executed.  This is tracked on a per-line basis, so each script can have 6 different "dividers".
+
+Here is a 1-script clock divider:
+
+```
+EVERY 2: TR.P 1
+EVERY 4: TR.P 2
+EVERY 8: TR.P 3
+EVERY 16: TR.P 4
+```
+
+The numbers do _not_ need to be evenly divisible by each other, so there is no problem with:
+
+```
+EVERY 2: TR.P 1
+EVERY 3: TR.P 2
+```
+"""
+
 [PROB]
 prototype = "PROB x: ..."
 short = "potentially execute command with probability `x` (0-100)"

@@ -22,6 +22,8 @@ static void mod_L_func(scene_state_t *ss, exec_state_t *es, command_state_t *cs,
                        const tele_command_t *post_command);
 static void mod_W_func(scene_state_t *ss, exec_state_t *es, command_state_t *cs,
                        const tele_command_t *post_command);
+static void mod_EVERY_func(scene_state_t *ss, exec_state_t *es, command_state_t *cs,
+                       const tele_command_t *post_command);
 
 static void op_SCENE_get(const void *data, scene_state_t *ss, exec_state_t *es,
                          command_state_t *cs);
@@ -43,6 +45,7 @@ const tele_mod_t mod_ELIF = MAKE_MOD(ELIF, mod_ELIF_func, 1);
 const tele_mod_t mod_ELSE = MAKE_MOD(ELSE, mod_ELSE_func, 0);
 const tele_mod_t mod_L = MAKE_MOD(L, mod_L_func, 2);
 const tele_mod_t mod_W = MAKE_MOD(W, mod_W_func, 1);
+const tele_mod_t mod_EVERY = MAKE_MOD(EVERY, mod_EVERY_func, 1);
 
 const tele_op_t op_SCRIPT =
     MAKE_GET_SET_OP(SCRIPT, op_SCRIPT_get, op_SCRIPT_set, 0, true);
@@ -142,6 +145,17 @@ static void mod_W_func(scene_state_t *ss, exec_state_t *es, command_state_t *cs,
     }
     else
         es_variables(es)->while_continue = false;
+}
+
+static void mod_EVERY_func(scene_state_t *ss, exec_state_t *es, command_state_t *cs,
+                       const tele_command_t *post_command) {
+    int16_t mod = cs_pop(cs);
+    every_count_t *every = ss_get_every(ss, es_variables(es)->script_number,
+                                            es_variables(es)->line_number);
+    every_set_mod(every, mod);
+    every_tick(every);
+    if (every_is_now(every))
+        process_command(ss, es, post_command);
 }
 
 static void op_SCENE_get(const void *NOTUSED(data), scene_state_t *ss,

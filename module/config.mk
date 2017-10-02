@@ -73,6 +73,7 @@ CSRCS = \
 	../module/preset_w_mode.c   				\
 	../module/usb_disk_mode.c   				\
 	../src/command.c					\
+	../src/every.c					\
 	../src/helpers.c					\
 	../src/match_token.c					\
 	../src/scanner.c					\
