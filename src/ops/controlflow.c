@@ -192,6 +192,7 @@ static void mod_OTHER_func(scene_state_t *ss, exec_state_t *es,
 static void op_SYNC_get(const void *NOTUSED(data), scene_state_t *ss,
                          exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t count = cs_pop(cs);
+    ss->every_last = false;
     ss_sync_every(ss, count); 
 }
 
