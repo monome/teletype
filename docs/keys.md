@@ -98,6 +98,7 @@ The tracker mode clipboard is independent of text and code clipboard.
 | `-`                 | negate value                                                                          |
 | `<space>`           | toggle non-zero to zero, and zero to 1                                                |
 | `0` to `9`          | numeric entry                                                                         |
+| `shift-2` (`@`)     | toggle turtle display marker (`<`)                                                    |
 
 ## Preset read mode
 

@@ -332,14 +332,14 @@ static void op_TURTLE_SCRIPT_set(const void *NOTUSED(data), scene_state_t *ss,
 
 static void op_TURTLE_SHOW_get(const void *NOTUSED(data), scene_state_t *ss,
         exec_state_t *NOTUSED(es), command_state_t *cs) {
-    cs_push(cs, ss->turtle.shown ? 1 : 0);
+    cs_push(cs, turtle_get_shown(&ss->turtle) ? 1 : 0);
     tele_pattern_updated();
 }
 
 static void op_TURTLE_SHOW_set(const void *NOTUSED(data), scene_state_t *ss,
         exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t shown = cs_pop(cs);
-    ss->turtle.shown = shown != 0;
+    turtle_set_shown(&ss->turtle, shown != 0);
     tele_pattern_updated();
 }
 

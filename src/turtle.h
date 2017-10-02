@@ -112,5 +112,6 @@ script_number_t
          turtle_get_script(scene_turtle_t*);
 void     turtle_set_script(scene_turtle_t*, script_number_t);
 void     turtle_check_step(scene_turtle_t*);
-
+bool     turtle_get_shown(scene_turtle_t*);
+void     turtle_set_shown(scene_turtle_t*, bool);
 #endif

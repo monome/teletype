@@ -329,5 +329,13 @@ script_number_t turtle_get_script(scene_turtle_t *st) {
     return st->script_number;
 }
 
+bool turtle_get_shown(scene_turtle_t *st) {
+    return st->shown;
+}
+
+void turtle_set_shown(scene_turtle_t *st, bool shown) {
+    st->shown = shown;
+}
+
 #undef min
 #undef max

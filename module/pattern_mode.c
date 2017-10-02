@@ -340,6 +340,11 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
             ss_set_pattern_val(&scene_state, pattern, base + offset, 1);
         dirty = true;
     }
+    else if (match_shift(m, k, HID_2)) {
+        turtle_set_shown(&scene_state.turtle,
+                        ! turtle_get_shown(&scene_state.turtle));
+        dirty = true;
+    }
     // 0-9: numeric entry
     else if (no_mod(m) && k >= HID_1 && k <= HID_0) {
         if (!editing_number) {
