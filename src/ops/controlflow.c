@@ -165,7 +165,7 @@ static void mod_EVERY_func(scene_state_t *ss, exec_state_t *es, command_state_t 
     every_set_skip(every, false);
     every_set_mod(every, mod);
     every_tick(every);
-    if (every_is_now(every))
+    if (every_is_now(ss, every))
         process_command(ss, es, post_command);
 }
 
@@ -177,23 +177,15 @@ static void mod_SKIP_func(scene_state_t *ss, exec_state_t *es, command_state_t *
     every_set_skip(every, true);
     every_set_mod(every, mod);
     every_tick(every);
-    if (skip_is_now(every))
+    if (skip_is_now(ss, every))
         process_command(ss, es, post_command);
 }
 
 static void mod_OTHER_func(scene_state_t *ss, exec_state_t *es,
                        command_state_t *NOTUSED(cs),
                        const tele_command_t *post_command) {
-    if (es_variables(es)->line_number == 0)
-        return; // As the first line, don't execute. TODO: Design decision
-    every_count_t *every = ss_get_every(ss, es_variables(es)->script_number,
-                                            es_variables(es)->line_number - 1);
-    if (every->skip) {
-        if (every_is_now(every))
+    if (!ss->every_last)
             process_command(ss, es, post_command);
-    }
-    else if (skip_is_now(every))
-        process_command(ss, es, post_command);
 }
 
 

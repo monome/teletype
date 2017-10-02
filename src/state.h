@@ -107,6 +107,7 @@ typedef struct {
     int16_t tr_pulse_timer[TR_COUNT];
     scene_script_t scripts[SCRIPT_COUNT];
     scene_turtle_t turtle;
+    bool every_last;
 } scene_state_t;
 
 extern void ss_init(scene_state_t *ss);
@@ -161,6 +162,8 @@ int16_t ss_get_script_last(scene_state_t *ss, script_number_t idx);
 void ss_update_script_last(scene_state_t *ss, script_number_t idx);
 every_count_t *ss_get_every(scene_state_t *ss, script_number_t idx, uint8_t line);
 void ss_sync_every(scene_state_t *ss, int16_t count);
+bool every_is_now(scene_state_t *ss, every_count_t *e);
+bool skip_is_now(scene_state_t *ss, every_count_t *e);
 scene_turtle_t *ss_turtle_get(scene_state_t*);
 void     ss_turtle_set(scene_state_t*, scene_turtle_t*);
 int16_t  ss_turtle_get_val(scene_state_t*, scene_turtle_t*);

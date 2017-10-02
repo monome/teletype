@@ -292,6 +292,17 @@ void ss_sync_every(scene_state_t *ss, int16_t count) {
         }
 }
 
+bool every_is_now(scene_state_t *ss, every_count_t *e) {
+    ss->every_last = e->count == 0;
+    return e->count == 0;
+}
+
+bool skip_is_now(scene_state_t *ss, every_count_t *e) {
+    ss->every_last = e->count != 0;
+    return e->count != 0;
+}
+
+
 int16_t  ss_turtle_get_val(scene_state_t *ss, scene_turtle_t *st) {
     turtle_position_t p;
     turtle_resolve_position(st, &st->position, &p);
