@@ -105,6 +105,7 @@ CSRCS = \
 	../libavr32/src/i2c.c					\
 	../libavr32/src/init_teletype.c				\
 	../libavr32/src/init_common.c				\
+	../libavr32/src/interrupts.c				\
 	../libavr32/src/kbd.c					\
 	../libavr32/src/region.c				\
 	../libavr32/src/screen.c				\

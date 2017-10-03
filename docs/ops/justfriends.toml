@@ -1,0 +1,55 @@
+["JF.TR"]
+prototype = "JF.TR x y"
+short = "Simulate a TRIGGER input. `x` is channel (`0` = all) and y is state (`0` or `1`)"
+
+["JF.RMODE"]
+prototype = "JF.RMODE x"
+short = "Set the RUN state of Just Friends when no physical jack is present. (`0` = run off, non-zero = run on)"
+
+["JF.RUN"]
+prototype = "JF.RUN x"
+short = "Send a 'voltage' to the RUN input. Requires `JF.RMODE 1` to have been executed, or a physical cable in JF's input. Thus Just Friend's RUN modes are accessible without needing a physical cable & control voltage to set the RUN parameter. use `JF.RUN V x` to set to `x` volts. The expected range is V -5 to V 5"
+
+["JF.SHIFT"]
+prototype = "JF.SHIFT x"
+short = "Shifts the transposition of Just Friends, regardless of speed setting. Shifting by V 1 doubles the frequency in sound, or doubles the rate in shape. `x` = pitch, use `N x` for semitones, or `V y` for octaves."
+
+["JF.VTR"]
+prototype = "JF.VTR x y"
+short = "Like `JF.TR` with added volume control. Velocity is scaled with volts, so try `V 5` for an output trigger of 5 volts. Channels remember their latest velocity setting and apply it regardless of TRIGGER origin (digital or physical). `x` = channel, `0` sets all channels. `y` = velocity, amplitude of output in volts. eg `JF.VTR 1 V 4`."
+
+["JF.TUNE"]
+prototype = "JF.TUNE x y z"
+short = "Adjust the tuning ratios used by the INTONE control. `x` = channel, `y` = numerator (set the multiplier for the tuning ratio), `z` = denominator (set the divisor for the tuning ratio)."
+
+["JF.MODE"]
+prototype = "JF.MODE x"
+short = "Set the current choice of standard functionality, or Just Type alternate modes. You'll likely want to put JF.MODE x in your Teletype INIT scripts. `x` = nonzero activates alternative modes. `0` restores normal."
+
+["JF.VOX"]
+prototype = "JF.VOX x y z"
+short = "Create a note at the specified channel, of the defined pitch & velocity. All channels can be set simultaneously with a chan value of 0. `x` = channel, `y` = pitch relative to C3, `z` = velocity (like `JF.VTR`)."
+
+["JF.NOTE"]
+prototype = "JF.NOTE x y"
+short = "Polyphonically allocated note sequencing. Works as JF.VOX with chan selected automatically. Free voices will be taken first. If all voices are busy, will steal from the voice which has been active the longest. `x` = pitch relative to C3, `y` = velocity."
+
+["JF.GOD"]
+prototype = "JF.GOD x"
+short = "Redefines C3 to align with the 'God' note. `x` = `0` sets A to 440, `x` = `1` sets A to 432."
+
+["JF.TICK"]
+prototype = "JF.TICK x"
+short = "Sets the underlying timebase of the Geode. `x` = clock. 0 resets the timebase to the start of measure. 1 to 48 shall be sent repetitively. The value representing ticks per measure. 49 to 255 sets beats-per-minute and resets the timebase to start of measure."
+
+#["JF.VOX"]
+#prototype = "JF.VOX x y z"
+#short = "Create a stream of rhythmic envelopes on the named channel. `x` = channel, `y` = division, `z` = number of repeats."
+
+#["JF.NOTE"]
+#prototype = "JF.NOTE x y"
+#short = "Works as JF.VOX with dynamic allocation of channel. Assigns the rhythmic stream to the oldest unused channel, or if all are busy, the longest running channel. `x` = division, `y` = number of repeats."
+
+["JF.QT"]
+prototype = "JF.QT x"
+short = "When non-zero, all events are queued & delayed until the next quantize event occurs. Using values that don't align with the division of rhythmic streams will cause irregular patterns to unfold. Set to 0 to deactivate quantization. `x` = division, 0 deactivates quantization, 1 to 32 sets the subdivision & activates quantization."

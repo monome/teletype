@@ -85,6 +85,7 @@ def common_md():
     op_extended_template = env.get_template("op_extended.jinja2.md")
 
     output = ""
+    output += Path(DOCS_DIR / "intro.md").read_text() + "\n\n"
     output += Path(DOCS_DIR / "whats_new.md").read_text() + "\n\n"
     output += Path(DOCS_DIR / "modes.md").read_text() + "\n\n"
     output += Path(DOCS_DIR / "ops.md").read_text() + "\n\n"

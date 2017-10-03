@@ -44,13 +44,13 @@ prototype_set = "KR.L.ST x y z"
 short = "get loop start for track `x`, parameter `y` / set to `z`"
 
 ["KR.L.LEN"]
-prototype = "KR.L.LEN"
-prototype_set = "KR.L.LEN"
-short = "get length of trrack `x`, parameter `y` / set to `z`"
+prototype = "KR.L.LEN x y"
+prototype_set = "KR.L.LEN x y z"
+short = "get length of track `x`, parameter `y` / set to `z`"
 
 ["KR.RES"]
 prototype = "KR.RES x y"
-short = "reset to loop start for track `x`, parameter `y`"
+short = "reset position to loop start for track `x`, parameter `y`"
 
 ["ME.PRE"]
 prototype = "ME.PRE"

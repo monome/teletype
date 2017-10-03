@@ -132,7 +132,7 @@
         </script>
         <div class="content">
             <div class="content-inner">
-                $body$
+$body$
 
                 $for(include-after)$
                     $include-after$

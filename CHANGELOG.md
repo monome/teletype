@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.0.1
+
+- **FIX**: update IRQ masking which prevents screen glitches and crashing under heavy load
+
 ## v2.0
 - **BREAKING**: remove `II` op. Ops that required it will now work with out it. (e.g. `II MP.PRESET 1` will become just `MP.PRESET 1`)
 - **BREAKING**: merge the `MUTE` and `UNMUTE` ops. Now `MUTE x` will return the mute status for trigger `x` (`0` is unmuted, `1` is muted), and `MUTE x y` will set the mute for trigger `x` (`y = 0` to unmute, `y = 1` to mute)
