@@ -110,7 +110,10 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
     // [: decrement by 1
     else if (match_no_mod(m, k, HID_OPEN_BRACKET)) {
         if (editing_number) {
-            edit_buffer -= 1;
+            if (edit_buffer == INT16_MIN)
+                edit_buffer = INT16_MAX;
+            else
+                edit_buffer -= 1;
             dirty = true;
         }
         else {
@@ -124,7 +127,10 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
     // ]: increment by 1
     else if (match_no_mod(m, k, HID_CLOSE_BRACKET)) {
         if (editing_number) {
-            edit_buffer += 1;
+            if (edit_buffer == INT16_MAX)
+                edit_buffer = INT16_MIN;
+            else
+                edit_buffer += 1;
             dirty = true;
         }
         else {
@@ -158,8 +164,7 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
         if (l > base + offset) ss_set_pattern_len(&scene_state, pattern, l - 1);
         dirty = true;
     }
-    // <enter>: move down (increase length only if on the entry immediately
-    // after the current length)
+    // <enter>: commit edit, extend pattern length 
     else if (match_no_mod(m, k, HID_ENTER)) {
         // commit an edit if active
         if (editing_number) {
@@ -170,11 +175,6 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
         uint16_t l = ss_get_pattern_len(&scene_state, pattern);
         if (base + offset == l && l < 64)
             ss_set_pattern_len(&scene_state, pattern, l + 1);
-        base++;
-        if (base == 8) {
-            base = 7;
-            if (offset < 56) { offset++; }
-        }
         dirty = true;
     }
     // shift-<enter>: duplicate entry and shift downwards (increase length only
@@ -353,7 +353,7 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
         }
         uint8_t n = (k - HID_1 + 1) % 10;  // convert HID numbers to decimal,
                                            // taking care of HID_0
-	uint32_t old_buffer = edit_buffer;
+        uint32_t old_buffer = edit_buffer;
 
         edit_buffer *= 10;
         if (edit_buffer == 0) {
