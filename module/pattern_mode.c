@@ -118,10 +118,11 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
         }
         else {
             int16_t v = ss_get_pattern_val(&scene_state, pattern, base + offset);
-            if (v > INT16_MIN) {  // -32767
+            if (v == INT16_MIN)
+                ss_set_pattern_val(&scene_state, pattern, base + offset, INT16_MAX);
+            else
                 ss_set_pattern_val(&scene_state, pattern, base + offset, v - 1);
-                dirty = true;
-            }
+            dirty = true;
         }
     }
     // ]: increment by 1
@@ -135,10 +136,11 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
         }
         else {
             int16_t v = ss_get_pattern_val(&scene_state, pattern, base + offset);
-            if (v < INT16_MAX) {  // 32766
+            if (v == INT16_MAX)
+                ss_set_pattern_val(&scene_state, pattern, base + offset, INT16_MIN);
+            else
                 ss_set_pattern_val(&scene_state, pattern, base + offset, v + 1);
-                dirty = true;
-            }
+            dirty = true;
         }
     }
     // <backspace>: delete a digit
