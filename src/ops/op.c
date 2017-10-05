@@ -39,7 +39,7 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     // turtle
     &op_TURTLE, &op_TURTLE_X, &op_TURTLE_Y, &op_TURTLE_MOVE, &op_TURTLE_F,
     &op_TURTLE_FX1, &op_TURTLE_FY1, &op_TURTLE_FX2, &op_TURTLE_FY2,
-    &op_TURTLE_SPEED, &op_TURTLE_DIR, &op_TURTLE_FRICTION, &op_TURTLE_ACCEL,
+    &op_TURTLE_SPEED, &op_TURTLE_DIR,
     &op_TURTLE_STEP, &op_TURTLE_BUMP, &op_TURTLE_WRAP, &op_TURTLE_BOUNCE,
     &op_TURTLE_SCRIPT, &op_TURTLE_SHOW,   
     

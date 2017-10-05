@@ -47,14 +47,6 @@ static void op_TURTLE_DIR_get(const void *data, scene_state_t *ss, exec_state_t 
                        command_state_t *cs);
 static void op_TURTLE_DIR_set(const void *data, scene_state_t *ss, exec_state_t *es,
                        command_state_t *cs);
-static void op_TURTLE_FRICTION_get(const void *data, scene_state_t *ss, exec_state_t *es,
-                       command_state_t *cs);
-static void op_TURTLE_FRICTION_set(const void *data, scene_state_t *ss, exec_state_t *es,
-                       command_state_t *cs);
-static void op_TURTLE_ACCEL_get(const void *data, scene_state_t *ss, exec_state_t *es,
-                       command_state_t *cs);
-static void op_TURTLE_ACCEL_set(const void *data, scene_state_t *ss, exec_state_t *es,
-                       command_state_t *cs);
 static void op_TURTLE_STEP_get(const void *data, scene_state_t *ss, exec_state_t *es,
                        command_state_t *cs);
 static void op_TURTLE_BUMP_get(const void *data, scene_state_t *ss, exec_state_t *es,
@@ -101,12 +93,6 @@ const tele_op_t op_TURTLE_SPEED =
                 true);
 const tele_op_t op_TURTLE_DIR =
         MAKE_GET_SET_OP(@DIR, op_TURTLE_DIR_get, op_TURTLE_DIR_set, 0, true);
-const tele_op_t op_TURTLE_FRICTION =
-        MAKE_GET_SET_OP(@FRICTION, op_TURTLE_FRICTION_get,
-                op_TURTLE_FRICTION_set, 0, true);
-const tele_op_t op_TURTLE_ACCEL =
-        MAKE_GET_SET_OP(@ACCEL, op_TURTLE_ACCEL_get,
-                op_TURTLE_ACCEL_set, 0, true);
 const tele_op_t op_TURTLE_STEP =
         MAKE_GET_OP(@STEP, op_TURTLE_STEP_get, 0, false);
 const tele_op_t op_TURTLE_BUMP =
@@ -244,30 +230,6 @@ static void op_TURTLE_DIR_get(const void *NOTUSED(data), scene_state_t *ss,
 static void op_TURTLE_DIR_set(const void *NOTUSED(data), scene_state_t *ss,
         exec_state_t *NOTUSED(es), command_state_t *cs) {
     turtle_set_heading(&ss->turtle, cs_pop(cs));
-}
-
-static void op_TURTLE_FRICTION_get(const void *NOTUSED(data), scene_state_t *ss,
-        exec_state_t *NOTUSED(es), command_state_t *cs) {
-    // TODO implement
-    cs_push(cs, 0);
-}
-
-static void op_TURTLE_FRICTION_set(const void *NOTUSED(data), scene_state_t *ss,
-    exec_state_t *NOTUSED(es), command_state_t *cs) {
-    // TODO implement
-    cs_pop(cs);
-}
-
-static void op_TURTLE_ACCEL_get(const void *NOTUSED(data), scene_state_t *ss,
-        exec_state_t *NOTUSED(es), command_state_t *cs) {
-    // TODO implement
-    cs_push(cs, 0);
-}
-
-static void op_TURTLE_ACCEL_set(const void *NOTUSED(data), scene_state_t *ss,
-        exec_state_t *NOTUSED(es), command_state_t *cs) {
-    // TODO implement
-    cs_pop(cs);
 }
 
 static void op_TURTLE_STEP_get(const void *NOTUSED(data), scene_state_t *ss,
