@@ -139,9 +139,9 @@ Patterns are stored in flash with each scene!
 
 Editing patterns with scripts or from the command line isn't always ergonomic. When you'd like to visually edit patterns, TRACKER mode is the way.
 
-The `~` (tilde) key, above `TAB`, toggles into TRACKER mode.
+The `TAB` key cycles between LIVE, EDIT and TRACKER mode.  You can also get directly to TRACKER mode by pressing the `NUM LOCK` key.  TRACKER mode is the one with 4 columns of numbers on the Teletype screen.
 
-The current pattern memory is displayed in columns. Use the arrow keys to navigate. Holding ALT will jump by pages.
+The current pattern memory is displayed in these columns. Use the arrow keys to navigate. Holding ALT will jump by pages.
 
 The edit position is indicated by the brightest number. Very dim numbers indicate they are outside the pattern length.
 
