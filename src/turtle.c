@@ -199,53 +199,6 @@ void turtle_step(scene_turtle_t *st) {
     st->stepping = false;
 }
 
-/*
-void turtle_set_home(scene_turtle_t *st, int16_t x, int16_t y) {
-    if (x > 3)
-        x = 3;
-    else if (x < 0)
-        x = 0;
-    if (y > 63)
-        y = 63;
-    else if (y < 0)
-        y = 0;
-    st->home.x = TO_Q(x);
-    st->home.y = TO_Q(y);
-    turtle_normalize_position(st, &st->home, TURTLE_BUMP);
-}
-
-uint8_t turtle_get_home_x(scene_turtle_t *st) {
-    turtle_position_t t;
-    turtle_resolve_position(st, &st->home, &t);
-    return t.x;
-}
-
-void turtle_set_home_x(scene_turtle_t *st, int16_t x) {
-    if (x > 3)
-        x = 3;
-    else if (x < 0)
-        x = 0;
-    st->home.x = TO_Q(x);
-    turtle_normalize_position(st, &st->home, TURTLE_BUMP);
-}
-
-uint8_t  turtle_get_home_y(scene_turtle_t *st) {
-    turtle_position_t t;
-    turtle_resolve_position(st, &st->home, &t);
-    return t.y;
-}
-
-void turtle_set_home_y(scene_turtle_t *st, int16_t y) {
-    if (y > 63)
-        y = 63;
-    else if (y < 0)
-        y = 0;
-    turtle_position_t h = { .x = st->home.x, .y = y << Q_BITS };
-    st->home = h;
-    turtle_normalize_position(st, &st->home, TURTLE_BUMP);
-}
-*/
-
 inline void turtle_correct_fence(scene_turtle_t *st) {
     int16_t t;
     st->fence.x1 = min(3, max(0, st->fence.x1));
