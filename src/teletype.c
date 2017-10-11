@@ -144,7 +144,7 @@ process_result_t run_script(scene_state_t *ss, size_t script_no) {
 // context is required for proper operation of DEL, THIS, L, W, IF
 process_result_t run_script_with_exec_state(scene_state_t *ss, exec_state_t *es,
                                             size_t script_no) {
-    process_result_t result = {.has_value = false, .value = 0 };
+    process_result_t result = { .has_value = false, .value = 0 };
 
     es_set_script_number(es, script_no);
 
@@ -152,18 +152,17 @@ process_result_t run_script_with_exec_state(scene_state_t *ss, exec_state_t *es,
         es_set_line_number(es, i);
 
         // Commented code doesn't run.
-        if (ss_get_script_comment(ss, script_no, i))
-		    continue;
+        if (ss_get_script_comment(ss, script_no, i)) continue;
 
-        // BREAK implemented with break... 
-        if (es_variables(es)->breaking) 
-            break;
+        // BREAK implemented with break...
+        if (es_variables(es)->breaking) break;
         do {
             // TODO: Check for 0-length commands before we bother?
             result = process_command(ss, es,
                                      ss_get_script_command(ss, script_no, i));
-        // and WHILE implemented with while!
-        } while (es_variables(es)->while_continue && !es_variables(es)->breaking);
+            // and WHILE implemented with while!
+        } while (es_variables(es)->while_continue &&
+                 !es_variables(es)->breaking);
     }
 
     es_variables(es)->breaking = false;
@@ -181,7 +180,7 @@ process_result_t run_command(scene_state_t *ss, const tele_command_t *cmd) {
     es_push(&es);
     // the lack of a script number here is a bug, so if you use this code,
     // something needs to set the script number
-    // es_variables(es)->script_number = 
+    // es_variables(es)->script_number =
     do {
         o = process_command(ss, &es, cmd);
     } while (es_variables(&es)->while_continue && !es_variables(&es)->breaking);
@@ -238,7 +237,8 @@ process_result_t process_command(scene_state_t *ss, exec_state_t *es,
     // 3. Loop through each sub command and execute it
     // -----------------------------------------------
     // iterate through sub commands from left to right
-    for (ssize_t sub_idx = 0; sub_idx < sub_len && !es_variables(es)->breaking; sub_idx++) {
+    for (ssize_t sub_idx = 0; sub_idx < sub_len && !es_variables(es)->breaking;
+         sub_idx++) {
         const ssize_t sub_start = subs[sub_idx].start;
         const ssize_t sub_end = subs[sub_idx].end;
 
@@ -277,11 +277,11 @@ process_result_t process_command(scene_state_t *ss, exec_state_t *es,
     // ---------
     // sometimes we have single value left of the stack, if so return it
     if (cs_stack_size(&cs)) {
-        process_result_t o = {.has_value = true, .value = cs_pop(&cs) };
+        process_result_t o = { .has_value = true, .value = cs_pop(&cs) };
         return o;
     }
     else {
-        process_result_t o = {.has_value = false, .value = 0 };
+        process_result_t o = { .has_value = false, .value = 0 };
         return o;
     }
 }
@@ -310,7 +310,7 @@ void tele_tick(scene_state_t *ss, uint8_t time) {
                 // Workaround for issue #80. (0 is the signifier for "empty")
                 // Setting delay.time[i] to 1 prevents delayed delay commands
                 //     from seeing a perfectly-timed delay slot as empty
-                //     while it's still being processed. 
+                //     while it's still being processed.
                 ss->delay.time[i] = 1;
 
                 // Instead of just running the command, we use the TEMP script
@@ -318,9 +318,9 @@ void tele_tick(scene_state_t *ss, uint8_t time) {
                 // it needs to have a script number.
                 // TODO: dynamically allocate scripts to prevent waste
                 ss_clear_script(ss, TEMP_SCRIPT);
-                ss_overwrite_script_command(ss, TEMP_SCRIPT, 0, 
-                        &ss->delay.commands[i]);
-                
+                ss_overwrite_script_command(ss, TEMP_SCRIPT, 0,
+                                            &ss->delay.commands[i]);
+
                 // We always need to execute from within an execution context
                 // TODO: ensure all code does so!
                 // New execution context setup needs to es_push, but it's
@@ -328,7 +328,7 @@ void tele_tick(scene_state_t *ss, uint8_t time) {
                 exec_state_t es;
                 es_init(&es);
                 es_push(&es);
-                
+
                 // The delay flag is required to protect the script number
                 // TODO: investigate delayed nested SCRIPTs
                 es_variables(&es)->delayed = true;
@@ -338,8 +338,7 @@ void tele_tick(scene_state_t *ss, uint8_t time) {
 
                 ss->delay.time[i] = 0;
                 ss->delay.count--;
-                if (ss->delay.count == 0)
-                    tele_has_delays(false);
+                if (ss->delay.count == 0) tele_has_delays(false);
             }
         }
     }

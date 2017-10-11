@@ -58,12 +58,14 @@
 scene_state_t scene_state;
 char scene_text[SCENE_TEXT_LINES][SCENE_TEXT_CHARS];
 uint8_t preset_select;
-region line[8] = {
-    {.w = 128, .h = 8, .x = 0, .y = 0 },  {.w = 128, .h = 8, .x = 0, .y = 8 },
-    {.w = 128, .h = 8, .x = 0, .y = 16 }, {.w = 128, .h = 8, .x = 0, .y = 24 },
-    {.w = 128, .h = 8, .x = 0, .y = 32 }, {.w = 128, .h = 8, .x = 0, .y = 40 },
-    {.w = 128, .h = 8, .x = 0, .y = 48 }, {.w = 128, .h = 8, .x = 0, .y = 56 }
-};
+region line[8] = { { .w = 128, .h = 8, .x = 0, .y = 0 },
+                   { .w = 128, .h = 8, .x = 0, .y = 8 },
+                   { .w = 128, .h = 8, .x = 0, .y = 16 },
+                   { .w = 128, .h = 8, .x = 0, .y = 24 },
+                   { .w = 128, .h = 8, .x = 0, .y = 32 },
+                   { .w = 128, .h = 8, .x = 0, .y = 40 },
+                   { .w = 128, .h = 8, .x = 0, .y = 48 },
+                   { .w = 128, .h = 8, .x = 0, .y = 56 } };
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -90,13 +92,13 @@ static uint8_t front_timer;
 static uint8_t mod_key = 0, hold_key, hold_key_count = 0;
 
 // timers
-static softTimer_t clockTimer = {.next = NULL, .prev = NULL };
-static softTimer_t refreshTimer = {.next = NULL, .prev = NULL };
-static softTimer_t keyTimer = {.next = NULL, .prev = NULL };
-static softTimer_t cvTimer = {.next = NULL, .prev = NULL };
-static softTimer_t adcTimer = {.next = NULL, .prev = NULL };
-static softTimer_t hidTimer = {.next = NULL, .prev = NULL };
-static softTimer_t metroTimer = {.next = NULL, .prev = NULL };
+static softTimer_t clockTimer = { .next = NULL, .prev = NULL };
+static softTimer_t refreshTimer = { .next = NULL, .prev = NULL };
+static softTimer_t keyTimer = { .next = NULL, .prev = NULL };
+static softTimer_t cvTimer = { .next = NULL, .prev = NULL };
+static softTimer_t adcTimer = { .next = NULL, .prev = NULL };
+static softTimer_t hidTimer = { .next = NULL, .prev = NULL };
+static softTimer_t metroTimer = { .next = NULL, .prev = NULL };
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -190,32 +192,32 @@ void cvTimer_callback(void* o) {
 }
 
 void clockTimer_callback(void* o) {
-    event_t e = {.type = kEventTimer, .data = 0 };
+    event_t e = { .type = kEventTimer, .data = 0 };
     event_post(&e);
 }
 
 void refreshTimer_callback(void* o) {
-    event_t e = {.type = kEventScreenRefresh, .data = 0 };
+    event_t e = { .type = kEventScreenRefresh, .data = 0 };
     event_post(&e);
 }
 
 void keyTimer_callback(void* o) {
-    event_t e = {.type = kEventKeyTimer, .data = 0 };
+    event_t e = { .type = kEventKeyTimer, .data = 0 };
     event_post(&e);
 }
 
 void adcTimer_callback(void* o) {
-    event_t e = {.type = kEventPollADC, .data = 0 };
+    event_t e = { .type = kEventPollADC, .data = 0 };
     event_post(&e);
 }
 
 void hidTimer_callback(void* o) {
-    event_t e = {.type = kEventHidTimer, .data = 0 };
+    event_t e = { .type = kEventHidTimer, .data = 0 };
     event_post(&e);
 }
 
 void metroTimer_callback(void* o) {
-    event_t e = {.type = kEventAppCustom, .data = 0 };
+    event_t e = { .type = kEventAppCustom, .data = 0 };
     event_post(&e);
 }
 

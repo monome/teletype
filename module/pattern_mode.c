@@ -40,7 +40,6 @@ void set_pattern_mode() {
 }
 
 void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
-
     // <down>: move down
     if (match_no_mod(m, k, HID_DOWN)) {
         editing_number = false;
@@ -114,7 +113,8 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
             dirty = true;
         }
         else {
-            int16_t v = ss_get_pattern_val(&scene_state, pattern, base + offset);
+            int16_t v =
+                ss_get_pattern_val(&scene_state, pattern, base + offset);
             if (v > INT16_MIN) {  // -32767
                 ss_set_pattern_val(&scene_state, pattern, base + offset, v - 1);
                 dirty = true;
@@ -128,7 +128,8 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
             dirty = true;
         }
         else {
-            int16_t v = ss_get_pattern_val(&scene_state, pattern, base + offset);
+            int16_t v =
+                ss_get_pattern_val(&scene_state, pattern, base + offset);
             if (v < INT16_MAX) {  // 32766
                 ss_set_pattern_val(&scene_state, pattern, base + offset, v + 1);
                 dirty = true;
@@ -163,7 +164,8 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
     else if (match_no_mod(m, k, HID_ENTER)) {
         // commit an edit if active
         if (editing_number) {
-            ss_set_pattern_val(&scene_state, pattern, base + offset, edit_buffer);
+            ss_set_pattern_val(&scene_state, pattern, base + offset,
+                               edit_buffer);
             editing_number = false;
             edit_negative = false;
         }
@@ -182,7 +184,8 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
     else if (match_shift(m, k, HID_ENTER)) {
         // commit an edit before duplication
         if (editing_number) {
-            ss_set_pattern_val(&scene_state, pattern, base + offset, edit_buffer);
+            ss_set_pattern_val(&scene_state, pattern, base + offset,
+                               edit_buffer);
             editing_number = false;
             edit_negative = false;
         }
@@ -216,7 +219,8 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
         if (editing_number)
             copy_buffer = edit_buffer;
         else
-            copy_buffer = ss_get_pattern_val(&scene_state, pattern, base + offset);
+            copy_buffer =
+                ss_get_pattern_val(&scene_state, pattern, base + offset);
     }
     // alt-v: paste value (n.b. ctrl-v not supported)
     else if (match_alt(m, k, HID_V)) {
@@ -322,7 +326,7 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
         }
         if (editing_number) {
             if (edit_buffer == 0)
-                edit_negative = ! edit_negative;
+                edit_negative = !edit_negative;
             else
                 edit_buffer *= -1;
         }
@@ -342,7 +346,7 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
     }
     else if (match_shift(m, k, HID_2)) {
         turtle_set_shown(&scene_state.turtle,
-                        ! turtle_get_shown(&scene_state.turtle));
+                         !turtle_get_shown(&scene_state.turtle));
         dirty = true;
     }
     // 0-9: numeric entry
@@ -353,21 +357,17 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
         }
         uint8_t n = (k - HID_1 + 1) % 10;  // convert HID numbers to decimal,
                                            // taking care of HID_0
-	uint32_t old_buffer = edit_buffer;
+        uint32_t old_buffer = edit_buffer;
 
         edit_buffer *= 10;
-        if (edit_buffer == 0) {
-            edit_buffer = n;
-        }
+        if (edit_buffer == 0) { edit_buffer = n; }
         else if (edit_buffer < 0) {
             edit_buffer -= n;
-            if (edit_buffer < INT16_MIN )
-                edit_buffer = old_buffer;
+            if (edit_buffer < INT16_MIN) edit_buffer = old_buffer;
         }
         else {
             edit_buffer += n;
-            if (edit_buffer > INT16_MAX)
-                edit_buffer = old_buffer;
+            if (edit_buffer > INT16_MAX) edit_buffer = old_buffer;
         }
         if (edit_negative && edit_buffer != 0) {
             edit_negative = false;
@@ -375,8 +375,7 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
         }
         dirty = true;
     }
-    if (!editing_number)
-        edit_negative = false;
+    if (!editing_number) edit_negative = false;
 }
 
 void process_pattern_knob(uint16_t knob, uint8_t m) {
@@ -424,32 +423,32 @@ bool screen_refresh_pattern() {
     }
 
     if (editing_number) {
-        font_string_region_clip_right(&line[base], "      ", (pattern + 1) * 30 + 4, 0,
-                              0xf, 0);
+        font_string_region_clip_right(&line[base], "      ",
+                                      (pattern + 1) * 30 + 4, 0, 0xf, 0);
         if (edit_negative && edit_buffer == 0)
-            font_string_region_clip_right(&line[base], "    -0", (pattern + 1) * 30 + 4, 0,
-                                  0xf, 0);
+            font_string_region_clip_right(&line[base], "    -0",
+                                          (pattern + 1) * 30 + 4, 0, 0xf, 0);
         else {
             itoa(edit_buffer, s, 10);
-            font_string_region_clip_right(&line[base], s, (pattern + 1) * 30 + 4, 0,
-                                  0xf, 0);
+            font_string_region_clip_right(&line[base], s,
+                                          (pattern + 1) * 30 + 4, 0, 0xf, 0);
         }
     }
     else {
         itoa(ss_get_pattern_val(&scene_state, pattern, base + offset), s, 10);
         font_string_region_clip_right(&line[base], s, (pattern + 1) * 30 + 4, 0,
-                                  0xf, 0);
+                                      0xf, 0);
     }
 
     if (scene_state.turtle.shown) {
-        int16_t y =  turtle_get_y(&scene_state.turtle);
-        int16_t x =  turtle_get_x(&scene_state.turtle);
+        int16_t y = turtle_get_y(&scene_state.turtle);
+        int16_t x = turtle_get_x(&scene_state.turtle);
         if (y >= offset && y < offset + 8) {
-            font_string_region_clip_right(&line[y - offset], "<", (x + 1) * 30 + 9, 0,
-                                  0xf, 0);
+            font_string_region_clip_right(&line[y - offset], "<",
+                                          (x + 1) * 30 + 9, 0, 0xf, 0);
         }
     }
-    
+
 
     for (uint8_t y = 0; y < 64; y += 2) {
         line[y >> 3].data[(y & 0x7) * 128 + 8] = 1;

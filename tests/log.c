@@ -1,8 +1,8 @@
+#include <stdarg.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdarg.h>
 #include <string.h>
-#include <stdbool.h>
 
 #include "log.h"
 
@@ -43,8 +43,7 @@ log_position_t *log_seek() {
 log_position_t *log_seek_next() {
     log_position_t *here = get_log()->buf;
 
-    while (*here != 0)
-        here += *here + 1;
+    while (*here != 0) here += *here + 1;
     return here;
 }
 
@@ -58,8 +57,7 @@ void lprintf(const char *format, ...) {
     size_t len = vsnprintf(buf, LOG_LINE_SIZE, format, arg);
     va_end(arg);
     log_position_t *here = log_seek_next();
-    if (here + len + 2 > log->end)
-        log_grow();
+    if (here + len + 2 > log->end) log_grow();
     here = log_seek_next();
     strcpy(here + 1, buf);
     *here = len + 1;
@@ -67,10 +65,10 @@ void lprintf(const char *format, ...) {
 }
 
 void lcat(const char *str) {
-    log_position_t *(*seek)(); // Function ponters: useful! 
+    log_position_t *(*seek)();  // Function ponters: useful!
     if (catting)
         seek = log_seek;
-    else 
+    else
         seek = log_seek_next;
     log_position_t *here = seek();
     if (here + strlen(str) + 1 > L->end) {
@@ -88,11 +86,10 @@ void log_clear() {
 }
 
 void log_print() {
-    puts("\n"); // two newlines, actually.
+    puts("\n");  // two newlines, actually.
     log_position_t *here = get_log()->buf;
     while (*here != 0) {
         puts(here + 1);
         here += *here + 1;
     }
 }
-

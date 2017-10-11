@@ -8,7 +8,7 @@
 
 
 static void op_LAST_get(const void *data, scene_state_t *ss, exec_state_t *es,
-                         command_state_t *cs);
+                        command_state_t *cs);
 static void op_DRUNK_get(const void *data, scene_state_t *ss, exec_state_t *es,
                          command_state_t *cs);
 static void op_DRUNK_set(const void *data, scene_state_t *ss, exec_state_t *es,

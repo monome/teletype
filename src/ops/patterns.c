@@ -576,7 +576,7 @@ static void op_P_RM_get(const void *NOTUSED(data), scene_state_t *ss,
                         exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t pn = ss->variables.p_n;
     int16_t a = cs_pop(cs);
-    cs_push(cs, p_rm_get(ss, pn, a - 1)); // a is 1-indexed
+    cs_push(cs, p_rm_get(ss, pn, a - 1));  // a is 1-indexed
     tele_pattern_updated();
 }
 

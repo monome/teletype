@@ -6,8 +6,8 @@
 #include <stdint.h>
 
 #include "command.h"
-#include "turtle.h"
 #include "every.h"
+#include "turtle.h"
 
 #define STACK_SIZE 8
 #define CV_COUNT 4
@@ -143,11 +143,12 @@ extern size_t ss_patterns_size(void);
 
 uint8_t ss_get_script_len(scene_state_t *ss, script_number_t idx);
 const tele_command_t *ss_get_script_command(scene_state_t *ss,
-                                            script_number_t script_idx, size_t c_idx);
-bool ss_get_script_comment(scene_state_t *ss,
-                                            script_number_t script_idx, size_t c_idx);
-void ss_toggle_script_comment(scene_state_t *ss,
-                                            script_number_t script_idx, size_t c_idx);
+                                            script_number_t script_idx,
+                                            size_t c_idx);
+bool ss_get_script_comment(scene_state_t *ss, script_number_t script_idx,
+                           size_t c_idx);
+void ss_toggle_script_comment(scene_state_t *ss, script_number_t script_idx,
+                              size_t c_idx);
 void ss_overwrite_script_command(scene_state_t *ss, script_number_t script_idx,
                                  size_t command_idx, const tele_command_t *cmd);
 void ss_insert_script_command(scene_state_t *ss, script_number_t script_idx,
@@ -160,14 +161,15 @@ scene_script_t *ss_scripts_ptr(scene_state_t *ss);
 size_t ss_scripts_size(void);
 int16_t ss_get_script_last(scene_state_t *ss, script_number_t idx);
 void ss_update_script_last(scene_state_t *ss, script_number_t idx);
-every_count_t *ss_get_every(scene_state_t *ss, script_number_t idx, uint8_t line);
+every_count_t *ss_get_every(scene_state_t *ss, script_number_t idx,
+                            uint8_t line);
 void ss_sync_every(scene_state_t *ss, int16_t count);
 bool every_is_now(scene_state_t *ss, every_count_t *e);
 bool skip_is_now(scene_state_t *ss, every_count_t *e);
-scene_turtle_t *ss_turtle_get(scene_state_t*);
-void     ss_turtle_set(scene_state_t*, scene_turtle_t*);
-int16_t  ss_turtle_get_val(scene_state_t*, scene_turtle_t*);
-void     ss_turtle_set_val(scene_state_t*, scene_turtle_t*, int16_t);
+scene_turtle_t *ss_turtle_get(scene_state_t *);
+void ss_turtle_set(scene_state_t *, scene_turtle_t *);
+int16_t ss_turtle_get_val(scene_state_t *, scene_turtle_t *);
+void ss_turtle_set_val(scene_state_t *, scene_turtle_t *, int16_t);
 
 ////////////////////////////////////////////////////////////////////////////////
 // EXEC STATE //////////////////////////////////////////////////////////////////
@@ -196,7 +198,7 @@ extern size_t es_push(exec_state_t *es);
 extern size_t es_pop(exec_state_t *es);
 extern void es_set_script_number(exec_state_t *es, uint8_t script_number);
 extern void es_set_line_number(exec_state_t *es, uint8_t line_number);
-extern uint8_t es_get_line_number(exec_state_t *es); 
+extern uint8_t es_get_line_number(exec_state_t *es);
 extern exec_vars_t *es_variables(exec_state_t *es);
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -208,7 +210,9 @@ typedef struct {
     int16_t top;
 } command_state_stack_t;
 
-typedef struct { command_state_stack_t stack; } command_state_t;
+typedef struct {
+    command_state_stack_t stack;
+} command_state_t;
 
 extern void cs_init(command_state_t *cs);
 extern int16_t cs_stack_size(command_state_t *cs);

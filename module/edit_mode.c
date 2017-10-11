@@ -73,7 +73,7 @@ void process_edit_keys(uint8_t k, uint8_t m, bool is_held_key) {
         if (script)
             script--;
         else
-            script = SCRIPT_COUNT - 2; // due to TEMP_SCRIPT
+            script = SCRIPT_COUNT - 2;  // due to TEMP_SCRIPT
         if (line_no > ss_get_script_len(&scene_state, script))
             line_no = ss_get_script_len(&scene_state, script);
         line_editor_set_command(
@@ -86,7 +86,7 @@ void process_edit_keys(uint8_t k, uint8_t m, bool is_held_key) {
         status = E_OK;
         error_msg[0] = 0;
         script++;
-        if (script >= SCRIPT_COUNT - 1) script = 0; // due to TEMP_SCRIPT
+        if (script >= SCRIPT_COUNT - 1) script = 0;  // due to TEMP_SCRIPT
         if (line_no > ss_get_script_len(&scene_state, script))
             line_no = ss_get_script_len(&scene_state, script);
         line_editor_set_command(
@@ -190,7 +190,7 @@ bool screen_refresh_edit() {
         // maybe find a better way than stomping it?
         if (ss_get_mute(&scene_state, script)) {
             char shaded[2] = { prefix, '\0' };
-            font_string_region_clip(&line[7], shaded , 0, 0, 0x4, 0);
+            font_string_region_clip(&line[7], shaded, 0, 0, 0x4, 0);
         }
         screen_dirty = true;
         dirty &= ~D_INPUT;
@@ -222,8 +222,8 @@ bool screen_refresh_edit() {
     if (dirty & D_LIST) {
         for (int i = 0; i < 6; i++) {
             uint8_t a = line_no == i;
-            uint8_t fg = ss_get_script_comment(&scene_state, script, i)
-                                                    ? 0x7 : 0xf;
+            uint8_t fg =
+                ss_get_script_comment(&scene_state, script, i) ? 0x7 : 0xf;
             region_fill(&line[i], a);
             if (ss_get_script_len(&scene_state, script) > i) {
                 char s[32];

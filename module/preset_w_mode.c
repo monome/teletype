@@ -84,8 +84,8 @@ void process_preset_w_keys(uint8_t k, uint8_t m, bool is_held_key) {
     }
     // shift-<enter>: insert text
     else if (match_shift(m, k, HID_ENTER)) {
-        for(uint8_t i = SCENE_TEXT_LINES -1; i > edit_line + edit_offset; i--)
-            strcpy(scene_text[i], scene_text[i-1]);  // overwrites final line!
+        for (uint8_t i = SCENE_TEXT_LINES - 1; i > edit_line + edit_offset; i--)
+            strcpy(scene_text[i], scene_text[i - 1]);  // overwrites final line!
         strcpy(scene_text[edit_line + edit_offset], line_editor_get(&le));
         dirty |= D_LIST;
     }

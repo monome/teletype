@@ -5,38 +5,36 @@
 
 #include "greatest/greatest.h"
 
-#include "teletype.h"
 #include "log.h"
+#include "teletype.h"
 
 int32_t count = 0;
 
 #define NEWTEST() count = 0;
 
 static const char *error_message(error_t e) {
-    static const char *em[] = {
-        "E_OK",
-        "E_PARSE",
-        "E_LENGTH",
-        "E_NEED_PARAMS",
-        "E_EXTRA_PARAMS",
-        "E_NO_MOD_HERE",
-        "E_MANY_PRE_SEP",
-        "E_NEED_PRE_SEP",
-        "E_PLACE_PRE_SEP",
-        "E_NO_SUB_SEP_IN_PRE",
-        "E_NOT_LEFT",
-        "E_NEED_SPACE_PRE_SEP",
-        "E_NEED_SPACE_SUB_SEP"
-    };
+    static const char *em[] = { "E_OK",
+                                "E_PARSE",
+                                "E_LENGTH",
+                                "E_NEED_PARAMS",
+                                "E_EXTRA_PARAMS",
+                                "E_NO_MOD_HERE",
+                                "E_MANY_PRE_SEP",
+                                "E_NEED_PRE_SEP",
+                                "E_PLACE_PRE_SEP",
+                                "E_NO_SUB_SEP_IN_PRE",
+                                "E_NOT_LEFT",
+                                "E_NEED_SPACE_PRE_SEP",
+                                "E_NEED_SPACE_SUB_SEP" };
     return em[e];
 }
 
 // runs multiple lines of commands and then asserts that the final answer is
 // correct (allows contiuation of state)
-TEST process_helper_state(scene_state_t* ss, size_t n, char* lines[],
+TEST process_helper_state(scene_state_t *ss, size_t n, char *lines[],
                           int16_t answer) {
     count++;
-    process_result_t result = {.has_value = false, .value = 0 };
+    process_result_t result = { .has_value = false, .value = 0 };
     exec_state_t es;
     memset(&es, 0, sizeof(es));
     es_init(&es);
@@ -86,7 +84,7 @@ TEST process_helper_state(scene_state_t* ss, size_t n, char* lines[],
 
 // runs multiple lines of commands and then asserts that the final answer is
 // correct
-TEST process_helper(size_t n, char* lines[], int16_t answer) {
+TEST process_helper(size_t n, char *lines[], int16_t answer) {
     scene_state_t ss;
     memset(&ss, 0, sizeof(ss));
     ss_init(&ss);
@@ -270,7 +268,7 @@ TEST test_turtle_F() {
     };
     CHECK_CALL(process_helper(Y, testX, xpct));
     PASS();
-} 
+}
 
 */
 
@@ -282,18 +280,12 @@ TEST test_turtle_vars() {
 }
 
 TEST test_turtle_step() {
-    char *test1[2] = {
-        "@STEP",
-        "@Y"
-    };
+    char *test1[2] = { "@STEP", "@Y" };
     CHECK_CALL(process_helper(2, test1, 1));
-    char *test2[2] = {
-        "@STEP",
-        "@X"
-    };
+    char *test2[2] = { "@STEP", "@X" };
     CHECK_CALL(process_helper(2, test2, 0));
     PASS();
-} 
+}
 
 SUITE(turtle_suite) {
     log_init();

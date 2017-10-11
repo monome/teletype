@@ -1,12 +1,15 @@
 #ifndef _EVERY_H
 #define _EVERY_H
 
+#include <stdbool.h>
+#include <stdint.h>
+
 typedef struct {
     int16_t count;
     int16_t mod;
     bool skip;
 } every_count_t;
-    
+
 
 void every_tick(every_count_t*);
 void every_set_skip(every_count_t*, bool);

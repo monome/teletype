@@ -21,7 +21,7 @@ void ss_init(scene_state_t *ss) {
 void ss_variables_init(scene_state_t *ss) {
     const scene_variables_t default_variables = {
         // variables that haven't been explicitly initialised, will be set to 0
-        // TODO: verify no missing 
+        // TODO: verify no missing
         .a = 1,
         .b = 2,
         .c = 3,
@@ -151,12 +151,14 @@ uint8_t ss_get_script_len(scene_state_t *ss, script_number_t idx) {
 }
 
 // private
-static void ss_set_script_len(scene_state_t *ss, script_number_t idx, uint8_t l) {
+static void ss_set_script_len(scene_state_t *ss, script_number_t idx,
+                              uint8_t l) {
     ss->scripts[idx].l = l;
 }
 
 const tele_command_t *ss_get_script_command(scene_state_t *ss,
-                                            script_number_t script_idx, size_t c_idx) {
+                                            script_number_t script_idx,
+                                            size_t c_idx) {
     return &ss->scripts[script_idx].c[c_idx];
 }
 
@@ -167,15 +169,15 @@ static void ss_set_script_command(scene_state_t *ss, script_number_t script_idx,
 }
 
 bool ss_get_script_comment(scene_state_t *ss, script_number_t script_idx,
-                                size_t c_idx) {
+                           size_t c_idx) {
     return ss->scripts[script_idx].comment[c_idx];
 }
 
 void ss_toggle_script_comment(scene_state_t *ss, script_number_t script_idx,
-                                size_t c_idx) {
-    ss->scripts[script_idx].comment[c_idx] = !
-        ss->scripts[script_idx].comment[c_idx];
-} 
+                              size_t c_idx) {
+    ss->scripts[script_idx].comment[c_idx] =
+        !ss->scripts[script_idx].comment[c_idx];
+}
 
 void ss_overwrite_script_command(scene_state_t *ss, script_number_t script_idx,
                                  size_t command_idx,
@@ -261,13 +263,11 @@ size_t ss_scripts_size() {
 
 int16_t ss_get_script_last(scene_state_t *ss, script_number_t idx) {
     int16_t now = ss->variables.time;
-    if (idx < TT_SCRIPT_1)
-        return 0;
-    if (idx > INIT_SCRIPT)
-        return 0;
+    if (idx < TT_SCRIPT_1) return 0;
+    if (idx > INIT_SCRIPT) return 0;
     int16_t last = ss->scripts[idx].last_time;
-    if (now < last) 
-        return (INT16_MAX - last) + (now - INT16_MIN); // I must be dense? 
+    if (now < last)
+        return (INT16_MAX - last) + (now - INT16_MIN);  // I must be dense?
     return now - last;
 }
 
@@ -276,7 +276,7 @@ void ss_update_script_last(scene_state_t *ss, script_number_t idx) {
 }
 
 every_count_t *ss_get_every(scene_state_t *ss, script_number_t idx,
-        uint8_t line_number) {
+                            uint8_t line_number) {
     return &ss->scripts[idx].every[line_number];
 }
 
@@ -285,9 +285,8 @@ void ss_sync_every(scene_state_t *ss, int16_t count) {
         for (int line = 0; line < SCRIPT_MAX_COMMANDS; line++) {
             int16_t count_e = count;
             if (ss->scripts[script].every[line].mod == 0)
-                ss->scripts[script].every[line].mod = 1; // lazy init
-            while (count_e < 0)
-                count_e += ss->scripts[script].every[line].mod;
+                ss->scripts[script].every[line].mod = 1;  // lazy init
+            while (count_e < 0) count_e += ss->scripts[script].every[line].mod;
             ss->scripts[script].every[line].count = count_e;
         }
 }
@@ -303,29 +302,27 @@ bool skip_is_now(scene_state_t *ss, every_count_t *e) {
 }
 
 
-int16_t  ss_turtle_get_val(scene_state_t *ss, scene_turtle_t *st) {
+int16_t ss_turtle_get_val(scene_state_t *ss, scene_turtle_t *st) {
     turtle_position_t p;
     turtle_resolve_position(st, &st->position, &p);
-    if (p.x > 3 || p.x < 0 || p.y > 63 || p.y < 0)
-        return 0;
+    if (p.x > 3 || p.x < 0 || p.y > 63 || p.y < 0) return 0;
     return ss_get_pattern_val(ss, p.x, p.y);
 }
 
 void ss_turtle_set_val(scene_state_t *ss, scene_turtle_t *st, int16_t val) {
     turtle_position_t p;
     turtle_resolve_position(st, &st->position, &p);
-    if (p.x > 3 || p.x < 0 || p.y > 63 || p.y < 0)
-        return;
+    if (p.x > 3 || p.x < 0 || p.y > 63 || p.y < 0) return;
     ss_set_pattern_val(ss, p.x, p.y, val);
 }
 
 void ss_turtle_set(scene_state_t *ss, scene_turtle_t *ts) {
-    //TODO validate the turtle?
-    ss->turtle = *ts; // structs shallow copy with value assignment
+    // TODO validate the turtle?
+    ss->turtle = *ts;  // structs shallow copy with value assignment
 }
 
 
-scene_turtle_t* ss_turtle_get(scene_state_t *ss) {
+scene_turtle_t *ss_turtle_get(scene_state_t *ss) {
     return &ss->turtle;
 }
 
@@ -351,7 +348,7 @@ size_t es_push(exec_state_t *es) {
         es->variables[es->exec_depth].if_else_condition = true;
         es->variables[es->exec_depth].i = 0;
         es->variables[es->exec_depth].breaking = false;
-        es->exec_depth += 1;                   // exec_depth = 1 at the root
+        es->exec_depth += 1;  // exec_depth = 1 at the root
     }
     else
         es->overflow = true;
@@ -359,8 +356,7 @@ size_t es_push(exec_state_t *es) {
 }
 
 size_t es_pop(exec_state_t *es) {
-    if (es->exec_depth > 0)
-        es->exec_depth -= 1; 
+    if (es->exec_depth > 0) es->exec_depth -= 1;
     return es->exec_depth;
 }
 
@@ -378,7 +374,7 @@ uint8_t es_get_line_number(exec_state_t *es) {
 }
 
 exec_vars_t *es_variables(exec_state_t *es) {
-    return &es->variables[es->exec_depth - 1]; // but array is 0-indexed
+    return &es->variables[es->exec_depth - 1];  // but array is 0-indexed
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -391,4 +387,3 @@ void cs_init(command_state_t *cs) {
 int16_t cs_stack_size(command_state_t *cs) {
     return cs->stack.top;
 }
-

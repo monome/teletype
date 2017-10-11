@@ -11,7 +11,7 @@
 // correct (allows contiuation of state)
 TEST process_helper_state(scene_state_t* ss, size_t n, char* lines[],
                           int16_t answer) {
-    process_result_t result = {.has_value = false, .value = 0 };
+    process_result_t result = { .has_value = false, .value = 0 };
     exec_state_t es;
     es_init(&es);
     es_push(&es);

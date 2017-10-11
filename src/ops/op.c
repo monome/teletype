@@ -19,9 +19,9 @@
 #include "ops/queue.h"
 #include "ops/stack.h"
 #include "ops/telex.h"
+#include "ops/turtle.h"
 #include "ops/variables.h"
 #include "ops/whitewhale.h"
-#include "ops/turtle.h"
 
 
 /////////////////////////////////////////////////////////////////
@@ -33,16 +33,15 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     // variables
     &op_A, &op_B, &op_C, &op_D, &op_DRUNK, &op_DRUNK_MAX, &op_DRUNK_MIN,
     &op_DRUNK_WRAP, &op_FLIP, &op_I, &op_O, &op_O_INC, &op_O_MAX, &op_O_MIN,
-    &op_O_WRAP, &op_T, &op_TIME, &op_TIME_ACT, &op_LAST, &op_X,
-    &op_Y, &op_Z,
+    &op_O_WRAP, &op_T, &op_TIME, &op_TIME_ACT, &op_LAST, &op_X, &op_Y, &op_Z,
 
     // turtle
     &op_TURTLE, &op_TURTLE_X, &op_TURTLE_Y, &op_TURTLE_MOVE, &op_TURTLE_F,
     &op_TURTLE_FX1, &op_TURTLE_FY1, &op_TURTLE_FX2, &op_TURTLE_FY2,
     &op_TURTLE_SPEED, &op_TURTLE_DIR, &op_TURTLE_FRICTION, &op_TURTLE_ACCEL,
     &op_TURTLE_STEP, &op_TURTLE_BUMP, &op_TURTLE_WRAP, &op_TURTLE_BOUNCE,
-    &op_TURTLE_SCRIPT, &op_TURTLE_SHOW,   
-    
+    &op_TURTLE_SCRIPT, &op_TURTLE_SHOW,
+
     // metronome
     &op_M, &op_M_SYM_EXCLAMATION, &op_M_ACT, &op_M_RESET,
 
@@ -66,12 +65,12 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     &op_MIN, &op_MAX, &op_LIM, &op_WRAP, &op_QT, &op_AVG, &op_EQ, &op_NE,
     &op_LT, &op_GT, &op_LTE, &op_GTE, &op_NZ, &op_EZ, &op_RSH, &op_LSH, &op_EXP,
     &op_ABS, &op_AND, &op_OR, &op_JI, &op_SCALE, &op_N, &op_V, &op_VV, &op_ER,
-    &op_BPM,
-    &op_XOR, &op_SYM_PLUS, &op_SYM_DASH, &op_SYM_STAR, &op_SYM_FORWARD_SLASH,
-    &op_SYM_PERCENTAGE, &op_SYM_EQUAL_x2, &op_SYM_EXCLAMATION_EQUAL,
-    &op_SYM_LEFT_ANGLED, &op_SYM_RIGHT_ANGLED, &op_SYM_LEFT_ANGLED_EQUAL,
-    &op_SYM_RIGHT_ANGLED_EQUAL, &op_SYM_EXCLAMATION, &op_SYM_LEFT_ANGLED_x2,
-    &op_SYM_RIGHT_ANGLED_x2, &op_SYM_AMPERSAND_x2, &op_SYM_PIPE_x2,
+    &op_BPM, &op_XOR, &op_SYM_PLUS, &op_SYM_DASH, &op_SYM_STAR,
+    &op_SYM_FORWARD_SLASH, &op_SYM_PERCENTAGE, &op_SYM_EQUAL_x2,
+    &op_SYM_EXCLAMATION_EQUAL, &op_SYM_LEFT_ANGLED, &op_SYM_RIGHT_ANGLED,
+    &op_SYM_LEFT_ANGLED_EQUAL, &op_SYM_RIGHT_ANGLED_EQUAL, &op_SYM_EXCLAMATION,
+    &op_SYM_LEFT_ANGLED_x2, &op_SYM_RIGHT_ANGLED_x2, &op_SYM_AMPERSAND_x2,
+    &op_SYM_PIPE_x2,
 
     // stack
     &op_S_ALL, &op_S_POP, &op_S_CLR, &op_S_L,
@@ -160,8 +159,8 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
 
 const tele_mod_t *tele_mods[E_MOD__LENGTH] = {
     // controlflow
-    &mod_IF, &mod_ELIF, &mod_ELSE, &mod_L, &mod_W,
-    &mod_EVERY, &mod_SKIP, &mod_OTHER, &mod_PROB,
+    &mod_IF, &mod_ELIF, &mod_ELSE, &mod_L, &mod_W, &mod_EVERY, &mod_SKIP,
+    &mod_OTHER, &mod_PROB,
 
     // delay
     &mod_DEL,

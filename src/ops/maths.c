@@ -75,7 +75,7 @@ static void op_VV_get(const void *data, scene_state_t *ss, exec_state_t *es,
 static void op_ER_get(const void *data, scene_state_t *ss, exec_state_t *es,
                       command_state_t *cs);
 static void op_BPM_get(const void *data, scene_state_t *ss, exec_state_t *es,
-                      command_state_t *cs);
+                       command_state_t *cs);
 
 
 // clang-format off
@@ -280,11 +280,9 @@ static void op_QT_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
 
 static void op_AVG_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                        exec_state_t *NOTUSED(es), command_state_t *cs) {
-    int32_t ret = (((int32_t)cs_pop(cs) * 2) +
-                    ((int32_t)cs_pop(cs) * 2))/2;
-    if (ret % 2)
-        ret += 1;
-    cs_push(cs,(int16_t)(ret / 2));
+    int32_t ret = (((int32_t)cs_pop(cs) * 2) + ((int32_t)cs_pop(cs) * 2)) / 2;
+    if (ret % 2) ret += 1;
+    cs_push(cs, (int16_t)(ret / 2));
 }
 
 static void op_EQ_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
@@ -463,7 +461,7 @@ static void op_ER_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
 }
 
 static void op_BPM_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
-                      exec_state_t *NOTUSED(es), command_state_t *cs) {
+                       exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t a = cs_pop(cs);
     uint32_t ret;
     if (a < 2) a = 2;
