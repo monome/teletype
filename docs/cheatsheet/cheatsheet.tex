@@ -1,0 +1,68 @@
+\documentclass[a4paper]{minimal}
+
+\usepackage[landscape,margin=0.2in]{geometry}
+\usepackage{multicol}
+\usepackage{xparse}
+\usepackage{fontspec}
+%% used for \uline
+\usepackage[normalem]{ulem}
+
+%% Macros
+%% ======
+
+\NewDocumentCommand{\group}{m}{
+  \fontsize{12.0pt}{14pt}\selectfont
+  \uline{\textbf{#1}\hfill}}
+
+\NewDocumentEnvironment{op}{o m}{
+  \fontsize{9.0pt}{9.4pt}\selectfont
+  \begin{minipage}[t]{\linewidth}
+    \textbf{\texttt{#2}}
+    \IfValueT{#1}{\hfill\texttt{#1}}
+    \\
+}{\end{minipage}\vspace{6pt}}
+
+
+%% Fonts
+%% =====
+
+\defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+
+\setmainfont[
+  Path=../../utils/fonts/roboto-hinted/,
+  BoldFont=Roboto-Bold.ttf,
+  ItalicFont=Roboto-Italic.ttf,
+  BoldItalicFont=Roboto-BoldItalic.ttf
+]{Roboto-Regular.ttf}
+\setmonofont[
+  Path=../../utils/fonts/roboto-mono/,
+  Mapping=tex-ansi,
+  BoldFont=RobotoMono-Bold.ttf,
+  ItalicFont=RobotoMono-Italic.ttf,
+  BoldItalicFont=RobotoMono-BoldItalic.ttf
+]{RobotoMono-Regular.ttf}
+
+
+%% Lengths
+%% =======
+
+\setlength{\columnsep}{16pt}
+\setlength{\columnseprule}{0.2pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\renewcommand{\ULthickness}{0.2pt}
+
+
+%% Document
+%% ========
+
+\begin{document}
+
+\begin{multicols}{5}
+  \input{include.tex}
+
+  %% add a page break at the end to force the last column to not balance
+  \pagebreak
+\end{multicols}
+
+\end{document}

@@ -7,7 +7,7 @@ import jinja2
 import pypandoc
 import pytoml as toml
 
-from common import list_ops, list_mods
+from common import list_ops, list_mods, validate_toml
 
 if (sys.version_info.major, sys.version_info.minor) < (3, 6):
     raise Exception("need Python 3.6 or later")
@@ -60,23 +60,6 @@ def deep_merge_dict(source, destination):
             destination[key] = value
 
     return destination
-
-
-def validate_toml(ops):
-    for (name, d) in ops.items():
-        keys = set(d)
-        if "prototype" not in keys:
-            print(f" - WARNING: {name} - no prototype entry")
-
-        if "short" not in keys:
-            print(f" - WARNING: {name} - no short entry")
-
-        if "aliases" in keys and not isinstance(d["aliases"], list):
-            print(f" - WARNING: {name} - aliases is not an array")
-
-        for k in keys - {"prototype", "prototype_set", "aliases",
-                         "short", "description"}:
-            print(f" - WARNING: {name} - unknown entry - {k}")
 
 
 def common_md():

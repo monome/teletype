@@ -22,12 +22,14 @@ clean-zip:
 
 teletype.zip: clean-zip
 	cd module && make && cd .. && \
-	cd docs && make teletype.pdf && cd .. && \
+	cd docs && make && cd .. && \
 	zip -j teletype.zip \
 		module/teletype.hex \
 		module/flash.sh \
 		module/update_firmware.command \
-		docs/teletype.pdf
+		docs/teletype.pdf \
+		docs/teletype.html \
+		docs/cheatsheet/cheatsheet.pdf
 
 format:
 	find . -type f -name "*.c" -o -name "*.h" | xargs clang-format -style=file -i

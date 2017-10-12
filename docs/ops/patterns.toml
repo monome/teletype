@@ -125,7 +125,7 @@ short = "get/set index position for pattern `x`"
 
 ["P.HERE"]
 prototype = "P.HERE"
-prototype_set = "P.HERE x "
+prototype_set = "P.HERE x"
 short = "get/set value at current index of working pattern"
 
 ["PN.HERE"]

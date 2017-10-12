@@ -88,3 +88,20 @@ def _convert_struct_name_to_op_name(name):
         return MAPPINGS[stripped]
     else:
         return stripped.replace("_", ".")
+
+
+def validate_toml(ops):
+    for (name, d) in ops.items():
+        keys = set(d)
+        if "prototype" not in keys:
+            print(f" - WARNING: {name} - no prototype entry")
+
+        if "short" not in keys:
+            print(f" - WARNING: {name} - no short entry")
+
+        if "aliases" in keys and not isinstance(d["aliases"], list):
+            print(f" - WARNING: {name} - aliases is not an array")
+
+        for k in keys - {"prototype", "prototype_set", "aliases",
+                         "short", "description"}:
+            print(f" - WARNING: {name} - unknown entry - {k}")

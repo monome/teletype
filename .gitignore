@@ -52,3 +52,5 @@ __pycache__/
 /tests/tests
 /docs/teletype.pdf
 /docs/teletype.html
+/docs/cheatsheet/*
+!/docs/cheatsheet/cheatsheet.tex
