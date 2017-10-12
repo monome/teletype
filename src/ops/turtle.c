@@ -90,7 +90,7 @@ const tele_op_t op_TURTLE_FY2 =
 const tele_op_t op_TURTLE_SPEED =
     MAKE_GET_SET_OP(@SPEED, op_TURTLE_SPEED_get, op_TURTLE_SPEED_set, 0, true);
 const tele_op_t op_TURTLE_DIR =
-        MAKE_GET_SET_OP(@DIR, op_TURTLE_DIR_get, op_TURTLE_DIR_set, 0, true);
+    MAKE_GET_SET_OP(@DIR, op_TURTLE_DIR_get, op_TURTLE_DIR_set, 0, true);
 const tele_op_t op_TURTLE_STEP =
     MAKE_GET_OP(@STEP, op_TURTLE_STEP_get, 0, false);
 const tele_op_t op_TURTLE_BUMP =

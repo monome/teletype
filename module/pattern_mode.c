@@ -116,9 +116,11 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
             dirty = true;
         }
         else {
-            int16_t v = ss_get_pattern_val(&scene_state, pattern, base + offset);
+            int16_t v =
+                ss_get_pattern_val(&scene_state, pattern, base + offset);
             if (v == INT16_MIN)
-                ss_set_pattern_val(&scene_state, pattern, base + offset, INT16_MAX);
+                ss_set_pattern_val(&scene_state, pattern, base + offset,
+                                   INT16_MAX);
             else
                 ss_set_pattern_val(&scene_state, pattern, base + offset, v - 1);
             dirty = true;
@@ -134,9 +136,11 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
             dirty = true;
         }
         else {
-            int16_t v = ss_get_pattern_val(&scene_state, pattern, base + offset);
+            int16_t v =
+                ss_get_pattern_val(&scene_state, pattern, base + offset);
             if (v == INT16_MAX)
-                ss_set_pattern_val(&scene_state, pattern, base + offset, INT16_MIN);
+                ss_set_pattern_val(&scene_state, pattern, base + offset,
+                                   INT16_MIN);
             else
                 ss_set_pattern_val(&scene_state, pattern, base + offset, v + 1);
             dirty = true;
@@ -165,7 +169,7 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
         if (l > base + offset) ss_set_pattern_len(&scene_state, pattern, l - 1);
         dirty = true;
     }
-    // <enter>: commit edit, extend pattern length 
+    // <enter>: commit edit, extend pattern length
     else if (match_no_mod(m, k, HID_ENTER)) {
         // commit an edit if active
         if (editing_number) {

@@ -63,8 +63,7 @@ const char* help1[HELP1_LENGTH] = { "1/8 HELP",
                                     "SH-S|SET START",
                                     "SH-E|SET END",
                                     "ALT-L,S,E|JUMP",
-                                    "SHIFT-2|SHOW/HIDE TURTLE"
-};
+                                    "SHIFT-2|SHOW/HIDE TURTLE" };
 
 #define HELP2_LENGTH 13
 const char* help2[HELP2_LENGTH] = { "2/8 VARIABLES",
@@ -103,8 +102,7 @@ const char* help3[HELP3_LENGTH] = { "3/8 PARAMETERS",
                                     " ",
                                     "SCRIPT A|GET/RUN SCRIPT",
                                     "SCENE|GET/SET SCENE #",
-                                    "LAST N|GET SCRIPT LAST RUN"
-};
+                                    "LAST N|GET SCRIPT LAST RUN" };
 
 #define HELP4_LENGTH 10
 const char* help4[HELP4_LENGTH] = { "4/8 DATA AND TABLES",
@@ -116,8 +114,7 @@ const char* help4[HELP4_LENGTH] = { "4/8 DATA AND TABLES",
                                     "N 0-127|CONVERT TO 1V/8VE",
                                     "V 0-10|VOLT LOOKUP",
                                     "VV 0-1000|V WITH 2 DECIMALS",
-                                    "BPM 2-MAX|MS PER BPM"
-};
+                                    "BPM 2-MAX|MS PER BPM" };
 
 #define HELP5_LENGTH 35
 const char* help5[HELP5_LENGTH] = { "5/8 OPERATORS",
