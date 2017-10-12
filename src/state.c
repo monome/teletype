@@ -248,9 +248,7 @@ void ss_delete_script_command(scene_state_t *ss, script_number_t script_idx,
 }
 
 void ss_clear_script(scene_state_t *ss, size_t script_idx) {
-    for (uint8_t i = 0; i < SCRIPT_MAX_COMMANDS; i++)
-        if (ss_get_script_len(ss, script_idx))
-            ss_delete_script_command(ss, script_idx, i);
+    ss_set_script_len(ss, script_idx, 0);
 }
 
 scene_script_t *ss_scripts_ptr(scene_state_t *ss) {
