@@ -149,7 +149,7 @@ void turtle_move(scene_turtle_t *st, int16_t x, int16_t y) {
 /// A sine approximation via a third-order approx.
 /// @param x    Angle (with 2^15 units/circle)
 /// @return     Sine value (Q12)
-static inline int32_t sin(int32_t x) {
+static inline int32_t _sin(int32_t x) {
     // S(x) = x * ( (3<<p) - (x*x>>r) ) >> s
     // n : Q-pos for quarter circle             13
     // A : Q-pos for output                     12
@@ -157,7 +157,8 @@ static inline int32_t sin(int32_t x) {
     // r = 2n-p                                 11
     // s = A-1-p-n                              17
 
-    int qN = 13, qA = 12, qP = 15, qR = 2 * qN - qP, qS = qN + qP + 1 - qA;
+    // int qN = 13, qA = 12, qP = 15, qR = 2 * qN - qP, qS = qN + qP + 1 - qA;
+    static const int qN = 13, qP = 15, qR = 11, qS = 17;
 
     x = x << (30 - qN);  // shift to full s32 range (Q13->Q30)
 
@@ -170,15 +171,15 @@ static inline int32_t sin(int32_t x) {
 }
 
 void turtle_step(scene_turtle_t *st) {
-    // TODO watch out, it's a doozie ;)
+    // watch out, it's a doozie ;)
     QT dx = 0, dy = 0;
     QT h1 = st->heading, h2 = st->heading;
 
     h1 = ((h1 % 360) << 15) / 360;
     h2 = (((h2 + 360 - 90) % 360) << 15) / 360;
 
-    int32_t dx_d_Q12 = (st->speed * sin(h1)) / 100;
-    int32_t dy_d_Q12 = (st->speed * sin(h2)) / 100;
+    int32_t dx_d_Q12 = (st->speed * _sin(h1)) / 100;
+    int32_t dy_d_Q12 = (st->speed * _sin(h2)) / 100;
 
 
     if (dx_d_Q12 < 0)
