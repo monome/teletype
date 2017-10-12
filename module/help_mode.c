@@ -15,18 +15,20 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Help text ///////////////////////////////////////////////////////////////////
 
-#define HELP_PAGES 7
+#define HELP_PAGES 8
 
-#define HELP1_LENGTH 41
-const char* help1[HELP1_LENGTH] = { "1/7 HELP",
+#define HELP1_LENGTH 46
+const char* help1[HELP1_LENGTH] = { "1/8 HELP",
                                     "[ ] NAVIGATE HELP PAGES",
                                     "UP/DOWN TO SCROLL",
                                     " ",
                                     "TAB|EDIT/LIVE/PATTERN",
-                                    "PRINT SCREEN|JUMP TO LIVE",
+                                    "PRT SC|JUMP TO LIVE",
                                     "NUM LOCK|JUMP TO PATTERN",
                                     "F1-F10|EXECUTE SCRIPT",
                                     "ALT-F1-F10|EDIT SCRIPT",
+                                    "CTRL-F1-F8|MUTE SCRIPT",
+                                    "CTRL-F9|STOP/START METRO",
                                     "ESC|SCENE",
                                     "ALT-ESC|WRITE",
                                     " ",
@@ -44,6 +46,7 @@ const char* help1[HELP1_LENGTH] = { "1/7 HELP",
                                     "ENTER|ADD/OVERWRITE",
                                     "SH-ENTER|INSERT",
                                     "SH-BSP|CLEAR",
+                                    "ALT-SLASH|DISABLE LINE",
                                     " ",
                                     "// PATTERN",
                                     "ARROWS|NAVIGATE",
@@ -51,6 +54,7 @@ const char* help1[HELP1_LENGTH] = { "1/7 HELP",
                                     "0-9|NUMERIC ENTRY",
                                     "-|FLIP SIGN",
                                     "SPACE|TOGGLE 0/1",
+                                    "ENTER|COMMIT CHANGE",
                                     "[ ]|NUDGE UP, DOWN",
                                     "SH-ALT-V|INSERT PASTE",
                                     "SH-BSP|DELETE",
@@ -58,10 +62,12 @@ const char* help1[HELP1_LENGTH] = { "1/7 HELP",
                                     "SH-L|SET LENGTH",
                                     "SH-S|SET START",
                                     "SH-E|SET END",
-                                    "ALT-L,S,E|JUMP" };
+                                    "ALT-L,S,E|JUMP",
+                                    "SHIFT-2|SHOW/HIDE TURTLE"
+};
 
 #define HELP2_LENGTH 13
-const char* help2[HELP2_LENGTH] = { "2/7 VARIABLES",
+const char* help2[HELP2_LENGTH] = { "2/8 VARIABLES",
                                     " ",
                                     "X, Y, Z|GENERAL PURPOSE",
                                     "T|USE FOR TIME",
@@ -75,8 +81,8 @@ const char* help2[HELP2_LENGTH] = { "2/7 VARIABLES",
                                     "Q.N|SET Q LENGTH",
                                     "Q.AVG|AVERAGE OF ALL Q" };
 
-#define HELP3_LENGTH 21
-const char* help3[HELP3_LENGTH] = { "3/7 PARAMETERS",
+#define HELP3_LENGTH 22
+const char* help3[HELP3_LENGTH] = { "3/8 PARAMETERS",
                                     " ",
                                     "TR A-D|SET TR VALUE (0,1)",
                                     "TR.TIME A-D|TR PULSE TIME",
@@ -95,11 +101,13 @@ const char* help3[HELP3_LENGTH] = { "3/7 PARAMETERS",
                                     "TIME|TIMER COUNT (MS)",
                                     "TIME.ACT|ENABLE TIMER (0/1)",
                                     " ",
-                                    "SCRIPT A|RUN SCRIPT",
-                                    "SCENE|GET/SET SCENE #" };
+                                    "SCRIPT A|GET/RUN SCRIPT",
+                                    "SCENE|GET/SET SCENE #",
+                                    "LAST N|GET SCRIPT LAST RUN"
+};
 
-#define HELP4_LENGTH 9
-const char* help4[HELP4_LENGTH] = { "4/7 DATA AND TABLES",
+#define HELP4_LENGTH 10
+const char* help4[HELP4_LENGTH] = { "4/8 DATA AND TABLES",
                                     " ",
                                     "ALL PARAMS HAVE 16B RANGE",
                                     "-32768 TO 32767",
@@ -107,10 +115,12 @@ const char* help4[HELP4_LENGTH] = { "4/7 DATA AND TABLES",
                                     "// LOOKUP TABLES",
                                     "N 0-127|CONVERT TO 1V/8VE",
                                     "V 0-10|VOLT LOOKUP",
-                                    "VV 0-1000|V WITH 2 DECIMALS" };
+                                    "VV 0-1000|V WITH 2 DECIMALS",
+                                    "BPM 2-MAX|MS PER BPM"
+};
 
 #define HELP5_LENGTH 35
-const char* help5[HELP5_LENGTH] = { "5/7 OPERATORS",
+const char* help5[HELP5_LENGTH] = { "5/8 OPERATORS",
                                     " ",
                                     "RAND A|RANDOM 0 - A",
                                     "RRAND A B|RANDOM A - B",
@@ -146,8 +156,8 @@ const char* help5[HELP5_LENGTH] = { "5/7 OPERATORS",
                                     "TR.TOG X|FLIP STATE OF TR X",
                                     "TR.PULSE X|PULSE TR X" };
 
-#define HELP6_LENGTH 22
-const char* help6[HELP6_LENGTH] = { "6/7 PRE :",
+#define HELP6_LENGTH 31
+const char* help6[HELP6_LENGTH] = { "6/8 PRE :",
                                     " ",
                                     "EACH PRE NEEDS A : FOLLOWED",
                                     "BY A COMMAND TO OPERATE ON",
@@ -168,10 +178,21 @@ const char* help6[HELP6_LENGTH] = { "6/7 PRE :",
                                     "ELSE: |AFTER FAILED IF",
                                     " ",
                                     "L A B: |ITERATE FROM A-B",
-                                    "NB: I IS UPDATED EACH TIME" };
+                                    "NB: I IS UPDATED EACH TIME",
+                                    " ",
+                                    "W X:|ITERATE WHILE X",
+                                    " ",
+                                    "EVERY X:|EXECUTE EACH X",
+                                    "SKIP X:|EXECUTE EACH BUT X",
+                                    "OTHER:|EXECUTE OTHERWISE",
+                                    "SYNC X|SYNC TO STEP X",
+                                    " ",
+                                    "BREAK|STOP EXECUTION"
+
+};
 
 #define HELP7_LENGTH 26
-const char* help7[HELP7_LENGTH] = { "7/7 PATTERNS",
+const char* help7[HELP7_LENGTH] = { "7/8 PATTERNS",
                                     " ",
                                     "// DIRECT ACCESS",
                                     "P A|GET VAL AT INDEX A",
@@ -197,17 +218,34 @@ const char* help7[HELP7_LENGTH] = { "7/7 PATTERNS",
                                     "P.HERE A|GET/SET VAL AT P.I",
                                     "P.NEXT A|GET/SET NEXT POS",
                                     "P.PREV A|GET/SET PREV POS" };
+#define HELP8_LENGTH 16
+const char* help8[HELP8_LENGTH] = { "8/8 TURTLE",
+                                    " ",
+                                    "// CRAWLS TRACKER DATA",
+                                    "@|GET/SET DATA",
+                                    "@X/@Y|GET/SET POSITION",
+                                    "@F X1 Y1 X2 Y2|SET FENCE",
+                                    "  OR @FX1/@FY1/@FX2/@FY2",
+                                    "@BUMP 1|STOP AT FENCE",
+                                    "@WRAP 1|WRAP AT FENCE",
+                                    "@BOUNCE 1|BOUNCE OFF FENCE",
+                                    "@MOVE X Y|MOVE RELATIVE",
+                                    "@DIR 0-360|GET/SET DIRECTION",
+                                    "@SPEED|GET/SET CENTICELLS",
+                                    "@STEP|MOVE AT SPEED/DIR",
+                                    "@SCRIPT N|GET/SET EDGE SCRIPT",
+                                    "@SHOW 1/0|DISPLAY < ON TRACKER" };
 
 
 ////////////////////////////////////////////////////////////////////////////////
 // Help mode ///////////////////////////////////////////////////////////////////
 
 const char** help_pages[HELP_PAGES] = { help1, help2, help3, help4,
-                                        help5, help6, help7 };
+                                        help5, help6, help7, help8 };
 const uint8_t help_length[HELP_PAGES] = { HELP1_LENGTH, HELP2_LENGTH,
                                           HELP3_LENGTH, HELP4_LENGTH,
                                           HELP5_LENGTH, HELP6_LENGTH,
-                                          HELP7_LENGTH };
+                                          HELP7_LENGTH, HELP8_LENGTH };
 
 static uint8_t page_no;
 static uint8_t offset;
