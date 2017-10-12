@@ -54,8 +54,6 @@
         "@FY2"        => { MATCH_OP(E_OP_TURTLE_FY2); };
         "@SPEED"      => { MATCH_OP(E_OP_TURTLE_SPEED); };
         "@DIR"        => { MATCH_OP(E_OP_TURTLE_DIR); };
-        "@FRICTION"   => { MATCH_OP(E_OP_TURTLE_FRICTION); };
-        "@ACCEL"      => { MATCH_OP(E_OP_TURTLE_ACCEL); };
         "@STEP"       => { MATCH_OP(E_OP_TURTLE_STEP); };
         "@BUMP"       => { MATCH_OP(E_OP_TURTLE_BUMP); };
         "@WRAP"       => { MATCH_OP(E_OP_TURTLE_WRAP); };

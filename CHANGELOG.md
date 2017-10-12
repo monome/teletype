@@ -12,9 +12,11 @@
 - **FIX**: `AVG` and `Q.AVG` now round up properly
 - **NEW**: new op: `BREAK` to stop the remainder of the script
 - **NEW**: new mod: `W [condition]: [statement]` will execute `statement` as long as `condition` is true (up to an iteration limit).
-- **NEW**: new feature: @ - the turtle.  Walks around the pattern grid.  Many ops, see documentation (TODO: documentation).
-- **NEW**: new mods: `EVERY`, `SKIP`, `OTHER` plus related op `SYNC`: execution division
-- **OLD**: ctrl-F1 to F8 mute/unmute scripts.  ctrl-F9 enables/disables METRO.
+- **NEW**: new mods: `EVERY x:`, `SKIP x:`, `OTHER:` to alternately execute or not execute a command.
+- **NEW**: new op: `SYNC x` will synchronize all `EVERY` and `SKIP` line to the same step.
+- **NEW**: new feature: @ - the turtle.  Walks around the pattern grid.  Many ops, see documentation.
+- **OLD**: ctrl-F1 to F8 mute/unmute scripts.
+- **NEW**: ctrl-F9 enables/disables METRO.
 - **FIX**: recursive delay fix.  Now you can `1: DEL 500: SCRIPT 1` for temporal recursion.
 - **FIX**: KILL now clears TR output as well as disabling the METRO script.
 - **FIX**: if / else conditions no longer transcend their script
