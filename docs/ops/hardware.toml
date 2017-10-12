@@ -85,7 +85,7 @@ Flip the state of trigger output `x`.
 
 ["TR.PULSE"]
 prototype = "TR.PULSE x"
-aliases = ["TR.P x"]
+aliases = ["TR.P"]
 short = "Pulse trigger output x"
 description = """
 Pulse trigger output x.

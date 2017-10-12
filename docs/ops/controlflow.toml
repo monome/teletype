@@ -174,4 +174,5 @@ short = "clears stack, clears delays, cancels pulses, cancels slews, disables me
 
 [BREAK]
 prototype = "BREAK"
+aliases = ["BRK"]
 short = "halts execution of the current script"

@@ -51,6 +51,10 @@ prototype = "@DIR"
 prototype_set = "@DIR x"
 short = "get the direction of the turtle's @STEP in degrees or set it to x"
 
+["@STEP"]
+prototype = "@STEP"
+short = "move `@SPEED`/100 cells forward in `@DIR`, triggering `@SCRIPT` on cell change"
+
 ["@BUMP"]
 prototype = "@BUMP"
 prototype_set = "@BUMP 1"
