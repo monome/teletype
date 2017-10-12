@@ -218,13 +218,14 @@ const char* help7[HELP7_LENGTH] = { "7/8 PATTERNS",
                                     "P.HERE A|GET/SET VAL AT P.I",
                                     "P.NEXT A|GET/SET NEXT POS",
                                     "P.PREV A|GET/SET PREV POS" };
-#define HELP8_LENGTH 16
+#define HELP8_LENGTH 17
 const char* help8[HELP8_LENGTH] = { "8/8 TURTLE",
                                     " ",
                                     "// CRAWLS TRACKER DATA",
                                     "@|GET/SET DATA",
                                     "@X/@Y|GET/SET POSITION",
-                                    "@F X1 Y1 X2 Y2|SET FENCE",
+                                    "@F X1 Y1 X2 Y2",
+                                    " |SET FENCE",
                                     "  OR @FX1/@FY1/@FX2/@FY2",
                                     "@BUMP 1|STOP AT FENCE",
                                     "@WRAP 1|WRAP AT FENCE",
