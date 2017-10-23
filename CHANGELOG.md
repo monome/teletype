@@ -2,6 +2,7 @@
 
 ## vNEXT
 - **NEW**: added a cheat sheet PDF
+- **IMP**: screen now redraws only lines that have changed
 
 ## v2.1
 - **BREAKING**: the `I` variable is now scoped to the `L` loop, and does not exist outside of an execution context.  Scripts using `I` as a general-purpose variable will be broken. 

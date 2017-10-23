@@ -289,8 +289,8 @@ void process_help_keys(uint8_t k, uint8_t m, bool is_held_key) {
     }
 }
 
-bool screen_refresh_help() {
-    if (!dirty) { return false; }
+uint8_t screen_refresh_help() {
+    if (!dirty) { return 0; }
 
     // clamp value of page_no
     if (page_no >= HELP_PAGES) page_no = HELP_PAGES - 1;
@@ -306,5 +306,5 @@ bool screen_refresh_help() {
     }
 
     dirty = false;
-    return true;
+    return 0xFF;
 };
