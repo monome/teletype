@@ -13,7 +13,7 @@
 
 // NVRAM data structure located in the flash array.
 typedef const struct {
-    scene_script_t scripts[SCRIPT_COUNT];
+    scene_script_t scripts[SCRIPT_COUNT - 1];
     scene_pattern_t patterns[PATTERN_COUNT];
     char text[SCENE_TEXT_LINES][SCENE_TEXT_CHARS];
 } nvram_scene_t;
@@ -23,6 +23,7 @@ typedef const struct {
     uint8_t last_scene;
     uint8_t fresh;
 } nvram_data_t;
+
 
 static __attribute__((__section__(".flash_nvram"))) nvram_data_t f;
 
@@ -49,7 +50,7 @@ void flash_prepare() {
 void flash_write(uint8_t preset_no, scene_state_t *scene,
                  char (*text)[SCENE_TEXT_LINES][SCENE_TEXT_CHARS]) {
     flashc_memcpy((void *)&f.scenes[preset_no].scripts, ss_scripts_ptr(scene),
-                  ss_scripts_size(), true);
+                  ss_scripts_size() - sizeof(scene_script_t), true);
     flashc_memcpy((void *)&f.scenes[preset_no].patterns, ss_patterns_ptr(scene),
                   ss_patterns_size(), true);
     flashc_memcpy((void *)&f.scenes[preset_no].text, text,
@@ -59,7 +60,7 @@ void flash_write(uint8_t preset_no, scene_state_t *scene,
 void flash_read(uint8_t preset_no, scene_state_t *scene,
                 char (*text)[SCENE_TEXT_LINES][SCENE_TEXT_CHARS]) {
     memcpy(ss_scripts_ptr(scene), &f.scenes[preset_no].scripts,
-           ss_scripts_size());
+           ss_scripts_size() - sizeof(scene_script_t));
     memcpy(ss_patterns_ptr(scene), &f.scenes[preset_no].patterns,
            ss_patterns_size());
     memcpy(text, &f.scenes[preset_no].text,

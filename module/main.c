@@ -43,6 +43,7 @@
 #include "teletype.h"
 #include "teletype_io.h"
 #include "usb_disk_mode.h"
+#include "screensaver_mode.h"
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -73,6 +74,7 @@ region line[8] = { { .w = 128, .h = 8, .x = 0, .y = 0 },
 
 static tele_mode_t mode = M_LIVE;
 static tele_mode_t last_mode = M_LIVE;
+static uint32_t ss_counter = 0;
 
 static uint16_t adc[4];
 
@@ -228,6 +230,11 @@ void metroTimer_callback(void* o) {
 void handler_None(int32_t data) {}
 
 void handler_Front(int32_t data) {
+    ss_counter = 0;
+    if (mode == M_SCREENSAVER) {
+        set_last_mode();
+        return;
+    }
     if (data == 0) {
         if (mode != M_PRESET_R) {
             front_timer = 0;
@@ -243,10 +250,19 @@ void handler_Front(int32_t data) {
     }
 }
 
+
 void handler_PollADC(int32_t data) {
+    static int16_t last_knob = 0;
+
     adc_convert(&adc);
 
     ss_set_in(&scene_state, adc[0] << 2);
+
+    if (mode == M_SCREENSAVER && (adc[1] >> 3 != last_knob >> 3 )) {
+        ss_counter = 0;
+        set_last_mode();
+    }
+    last_knob = adc[1];
 
     if (mode == M_PATTERN) {
         process_pattern_knob(adc[1], mod_key);
@@ -341,7 +357,7 @@ void handler_Trigger(int32_t data) {
 }
 
 void handler_ScreenRefresh(int32_t data) {
-    bool screen_dirty = false;
+    uint8_t screen_dirty = 0;
 
     switch (mode) {
         case M_PATTERN: screen_dirty = screen_refresh_pattern(); break;
@@ -350,14 +366,17 @@ void handler_ScreenRefresh(int32_t data) {
         case M_HELP: screen_dirty = screen_refresh_help(); break;
         case M_LIVE: screen_dirty = screen_refresh_live(); break;
         case M_EDIT: screen_dirty = screen_refresh_edit(); break;
+        case M_SCREENSAVER: screen_dirty = screen_refresh_screensaver(); break;
     }
 
-    if (screen_dirty) {
-        for (size_t i = 0; i < 8; i++) { region_draw(&line[i]); }
-    }
+    for (size_t i = 0; i < 8; i++) 
+        if (screen_dirty & (1 << i)) { region_draw(&line[i]); }
 }
 
 void handler_EventTimer(int32_t data) {
+    ss_counter++;
+    if (ss_counter > SS_TIMEOUT)
+        set_mode(M_SCREENSAVER);
     tele_tick(&scene_state, RATE_CLOCK);
 }
 
@@ -417,6 +436,8 @@ void check_events(void) {
 
 // defined in globals.h
 void set_mode(tele_mode_t m) {
+    if (m == mode)
+        return;
     last_mode = mode;
     switch (m) {
         case M_LIVE:
@@ -443,6 +464,10 @@ void set_mode(tele_mode_t m) {
             set_help_mode();
             mode = M_HELP;
             break;
+        case M_SCREENSAVER:
+            set_screensaver_mode();
+            mode = M_SCREENSAVER;
+            break;
     }
 }
 
@@ -450,7 +475,9 @@ void set_mode(tele_mode_t m) {
 void set_last_mode() {
     if (mode == last_mode) return;
 
-    if (last_mode == M_LIVE || last_mode == M_EDIT || last_mode == M_PATTERN)
+    if (mode == M_SCREENSAVER)
+        set_mode(last_mode);
+    else if (last_mode == M_LIVE || last_mode == M_EDIT || last_mode == M_PATTERN)
         set_mode(last_mode);
     else
         set_mode(M_LIVE);
@@ -461,8 +488,18 @@ void set_last_mode() {
 // key handling
 
 void process_keypress(uint8_t key, uint8_t mod_key, bool is_held_key) {
+    // reset inactivity counter
+    ss_counter = 0;
+    if (mode == M_SCREENSAVER) {
+        set_last_mode();
+#if SS_DROP_KEYSTROKE
+        return;
+#endif
+    }
+    
     // first try global keys
     if (process_global_keys(key, mod_key, is_held_key)) return;
+
 
     switch (mode) {
         case M_EDIT: process_edit_keys(key, mod_key, is_held_key); break;
@@ -475,7 +512,9 @@ void process_keypress(uint8_t key, uint8_t mod_key, bool is_held_key) {
             process_preset_r_keys(key, mod_key, is_held_key);
             break;
         case M_HELP: process_help_keys(key, mod_key, is_held_key); break;
+        case M_SCREENSAVER: break; // impossible
     }
+
 }
 
 bool process_global_keys(uint8_t k, uint8_t m, bool is_held_key) {

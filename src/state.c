@@ -38,7 +38,9 @@ void ss_variables_init(scene_state_t *ss) {
         .q_n = 1,
         .time_act = 1,
         .tr_pol = { 1, 1, 1, 1 },
-        .tr_time = { 100, 100, 100, 100 }
+        .tr_time = { 100, 100, 100, 100 },
+        .in_scale = scale_init(0, 16384, 0, 16384),
+        .param_scale = scale_init(0, 16384, 0, 16384)
     };
 
     memcpy(&ss->variables, &default_variables, sizeof(default_variables));
@@ -319,9 +321,24 @@ void ss_turtle_set(scene_state_t *ss, scene_turtle_t *ts) {
     ss->turtle = *ts;  // structs shallow copy with value assignment
 }
 
-
 scene_turtle_t *ss_turtle_get(scene_state_t *ss) {
     return &ss->turtle;
+}
+
+void ss_set_param_scale(scene_state_t *ss, int16_t min, int16_t max) {
+    ss->variables.param_scale = scale_init(0, 16384, min, max);
+}
+
+void ss_set_in_scale(scene_state_t *ss, int16_t min, int16_t max) {
+    ss->variables.in_scale = scale_init(0, 16384, min, max);
+}
+
+int16_t ss_get_param(scene_state_t *ss) {
+    return scale_get(ss->variables.param_scale, ss->variables.param);
+}
+
+int16_t ss_get_in(scene_state_t *ss) {
+    return scale_get(ss->variables.in_scale, ss->variables.in);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

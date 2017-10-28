@@ -12,6 +12,7 @@ short = "subtract `y` from `x`"
 prototype = "MUL x y"
 aliases = ["*"]
 short = "multiply `x` and `y` together"
+description = "returns `x` times `y`, bounded to integer limits"
 
 [DIV]
 prototype = "DIV x y"
@@ -107,6 +108,34 @@ short = "left shift `x` by `y` bits, in effect multiply by `2` to the power of `
 prototype = "RSH x y"
 aliases = [">>"]
 short = "right shift `x` by `y` bits, in effect divide by `2` to the power of `x`"
+
+["|"]
+prototype = "| x y"
+short = "bitwise or `x` | `y`"
+
+["&"]
+prototype = "& x y"
+short = "bitwise and `x` & `y`"
+
+["^"]
+prototype = "^ x y"
+short = "bitwise xor `x` ^ `y`"
+
+["~"]
+prototype = "~ x"
+short = "bitwise not, i.e.: inversion of `x`"
+
+[BSET]
+prototype = "BSET x y"
+short = "set bit `y` in value `x`"
+
+[BGET]
+prototype = "BGET x y"
+short = "get bit `y` in value `x`"
+
+[BCLR]
+prototype = "BCLR x y"
+short = "clear bit `y` in value `x`"
 
 [ABS]
 prototype = "ABS x"
