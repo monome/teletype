@@ -76,6 +76,20 @@ static void op_ER_get(const void *data, scene_state_t *ss, exec_state_t *es,
                       command_state_t *cs);
 static void op_BPM_get(const void *data, scene_state_t *ss, exec_state_t *es,
                        command_state_t *cs);
+static void op_BIT_OR_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                          command_state_t *cs);
+static void op_BIT_AND_get(const void *data, scene_state_t *ss,
+                           exec_state_t *es, command_state_t *cs);
+static void op_BIT_NOT_get(const void *data, scene_state_t *ss,
+                           exec_state_t *es, command_state_t *cs);
+static void op_BIT_XOR_get(const void *data, scene_state_t *ss,
+                           exec_state_t *es, command_state_t *cs);
+static void op_BSET_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                        command_state_t *cs);
+static void op_BGET_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                        command_state_t *cs);
+static void op_BCLR_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                        command_state_t *cs);
 
 
 // clang-format off
@@ -113,7 +127,14 @@ const tele_op_t op_N     = MAKE_GET_OP(N       , op_N_get       , 1, true);
 const tele_op_t op_V     = MAKE_GET_OP(V       , op_V_get       , 1, true);
 const tele_op_t op_VV    = MAKE_GET_OP(VV      , op_VV_get      , 1, true);
 const tele_op_t op_ER    = MAKE_GET_OP(ER      , op_ER_get      , 3, true);
-const tele_op_t op_BPM  = MAKE_GET_OP(BPM    , op_BPM_get    , 1, true);
+const tele_op_t op_BPM   = MAKE_GET_OP(BPM     , op_BPM_get     , 1, true);
+const tele_op_t op_BIT_OR  = MAKE_GET_OP(|, op_BIT_OR_get  , 2, true);
+const tele_op_t op_BIT_AND = MAKE_GET_OP(&, op_BIT_AND_get, 2, true);
+const tele_op_t op_BIT_NOT  = MAKE_GET_OP(~, op_BIT_NOT_get  , 1, true);
+const tele_op_t op_BIT_XOR = MAKE_GET_OP(^, op_BIT_XOR_get, 2, true);
+const tele_op_t op_BSET  = MAKE_GET_OP(BSET    , op_BSET_get    , 2, true);
+const tele_op_t op_BGET  = MAKE_GET_OP(BGET    , op_BGET_get    , 2, true);
+const tele_op_t op_BCLR  = MAKE_GET_OP(BCLR    , op_BCLR_get    , 2, true);
 
 const tele_op_t op_XOR   = MAKE_ALIAS_OP(XOR, op_NE_get, NULL, 2, true);
 
@@ -148,7 +169,13 @@ static void op_SUB_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
 
 static void op_MUL_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                        exec_state_t *NOTUSED(es), command_state_t *cs) {
-    cs_push(cs, cs_pop(cs) * cs_pop(cs));
+    int32_t r = cs_pop(cs);
+    r *= cs_pop(cs);
+    if (r > INT16_MAX)
+        r = INT16_MAX;
+    if (r < INT16_MIN)
+        r = INT16_MIN;
+    cs_push(cs, (int16_t)r);
 }
 
 static void op_DIV_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
@@ -468,4 +495,55 @@ static void op_BPM_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
     if (a > 1000) a = 1000;
     ret = ((((uint32_t)(1 << 31)) / ((a << 20) / 60)) * 1000) >> 11;
     cs_push(cs, (int16_t)ret);
+}
+
+static void op_BIT_OR_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+                          exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t a = cs_pop(cs);
+    int16_t b = cs_pop(cs);
+    cs_push(cs, a | b);
+}
+
+static void op_BIT_AND_get(const void *NOTUSED(data),
+                           scene_state_t *NOTUSED(ss),
+                           exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t a = cs_pop(cs);
+    int16_t b = cs_pop(cs);
+    cs_push(cs, a & b);
+}
+
+static void op_BIT_NOT_get(const void *NOTUSED(data),
+                           scene_state_t *NOTUSED(ss),
+                           exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t a = cs_pop(cs);
+    cs_push(cs, ~a);
+}
+
+static void op_BIT_XOR_get(const void *NOTUSED(data),
+                           scene_state_t *NOTUSED(ss),
+                           exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t a = cs_pop(cs);
+    int16_t b = cs_pop(cs);
+    cs_push(cs, a ^ b);
+}
+
+static void op_BSET_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+                        exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t v = cs_pop(cs);
+    int16_t b = cs_pop(cs);
+    cs_push(cs, v | (1 << b));
+}
+
+static void op_BGET_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+                        exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t v = cs_pop(cs);
+    int16_t b = cs_pop(cs);
+    cs_push(cs, (v >> b) & 1);
+}
+
+static void op_BCLR_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+                        exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t v = cs_pop(cs);
+    int16_t b = cs_pop(cs);
+    cs_push(cs, v & ~(1 << b));
 }

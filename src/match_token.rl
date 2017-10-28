@@ -106,7 +106,9 @@
         "CV.OFF"      => { MATCH_OP(E_OP_CV_OFF); };
         "CV.SLEW"     => { MATCH_OP(E_OP_CV_SLEW); };
         "IN"          => { MATCH_OP(E_OP_IN); };
+        "IN.SCALE"    => { MATCH_OP(E_OP_IN_SCALE); };
         "PARAM"       => { MATCH_OP(E_OP_PARAM); };
+        "PARAM.SCALE" => { MATCH_OP(E_OP_PARAM_SCALE); };
         "PRM"         => { MATCH_OP(E_OP_PRM); };
         "TR"          => { MATCH_OP(E_OP_TR); };
         "TR.POL"      => { MATCH_OP(E_OP_TR_POL); };
@@ -154,6 +156,13 @@
         "VV"          => { MATCH_OP(E_OP_VV); };
         "ER"          => { MATCH_OP(E_OP_ER); };
         "BPM"         => { MATCH_OP(E_OP_BPM);; };
+        "|"           => { MATCH_OP(E_OP_BIT_OR);; };
+        "&"           => { MATCH_OP(E_OP_BIT_AND);; };
+        "~"           => { MATCH_OP(E_OP_BIT_NOT);; };
+        "^"           => { MATCH_OP(E_OP_BIT_XOR);; };
+        "BSET"        => { MATCH_OP(E_OP_BSET);; };
+        "BGET"        => { MATCH_OP(E_OP_BGET);; };
+        "BCLR"        => { MATCH_OP(E_OP_BCLR);; };
         "XOR"         => { MATCH_OP(E_OP_XOR); };
         "+"           => { MATCH_OP(E_OP_SYM_PLUS); };
         "-"           => { MATCH_OP(E_OP_SYM_DASH); };
@@ -436,11 +445,14 @@
 // these are our macros that are inserted into the code when Ragel finds a match
 #define MATCH_OP(op) { out->tag = OP; out->value = op; no_of_tokens++; }
 #define MATCH_MOD(mod) { out->tag = MOD; out->value = mod; no_of_tokens++; }
-#define MATCH_NUMBER()                       \
-    {                                        \
-        out->tag = NUMBER;                   \
-        out->value = strtol(token, NULL, 0); \
-        no_of_tokens++;                      \
+#define MATCH_NUMBER()                           \
+    {                                            \
+        out->tag = NUMBER;                       \
+        int32_t val = strtol(token, NULL, 0);    \
+        val = val > INT16_MAX ? INT16_MAX : val; \
+        val = val < INT16_MIN ? INT16_MIN : val; \
+        out->value = val;                        \
+        no_of_tokens++;                          \
     }
 
 // matches a single token, out contains the token, return value indicates

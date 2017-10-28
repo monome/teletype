@@ -341,7 +341,7 @@ void handler_Trigger(int32_t data) {
 }
 
 void handler_ScreenRefresh(int32_t data) {
-    bool screen_dirty = false;
+    uint8_t screen_dirty = 0;
 
     switch (mode) {
         case M_PATTERN: screen_dirty = screen_refresh_pattern(); break;
@@ -352,9 +352,8 @@ void handler_ScreenRefresh(int32_t data) {
         case M_EDIT: screen_dirty = screen_refresh_edit(); break;
     }
 
-    if (screen_dirty) {
-        for (size_t i = 0; i < 8; i++) { region_draw(&line[i]); }
-    }
+    for (size_t i = 0; i < 8; i++) 
+        if (screen_dirty & (1 << i)) { region_draw(&line[i]); }
 }
 
 void handler_EventTimer(int32_t data) {

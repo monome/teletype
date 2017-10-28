@@ -2,6 +2,11 @@
 
 ## vNEXT
 - **NEW**: added a cheat sheet PDF
+- **NEW**: new bitwise ops: &, |, BSET, BCLR, BGET
+- **NEW**: new ops `PARAM.SCALE min max` and `IN.SCALE min max` to add static scaling to inputs
+- **IMP**: screen now redraws only lines that have changed
+- **FIX**: multiply now saturates at limits, previous behaviour returned 0 at overflow
+- **FIX**: entered values now saturate at int16 limits
 
 ## v2.1
 - **BREAKING**: the `I` variable is now scoped to the `L` loop, and does not exist outside of an execution context.  Scripts using `I` as a general-purpose variable will be broken. 

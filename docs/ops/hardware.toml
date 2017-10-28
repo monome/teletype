@@ -40,6 +40,10 @@ description = """
 Get the value of the IN jack. This returns a valuue in the range 0-16383.
 """
 
+["IN.SCALE"]
+prototype = "IN.SCALE min max"
+short = "Set static scaling of the `IN` CV to between `min` and `max`."
+
 ["PARAM"]
 prototype = "PARAM"
 aliases = ["PRM"]
@@ -47,6 +51,10 @@ short = "Get the value of PARAM knob (0-16383)"
 description = """
 Get the value of the PARAM knob. This returns a valuue in the range 0-16383.
 """
+
+["PARAM.SCALE"]
+prototype = "PARAM.SCALE min max"
+short = "Set static scaling of the PARAM knob to between `min` and `max`."
 
 ["TR"]
 prototype = "TR x"

@@ -7,6 +7,7 @@
 
 #include "command.h"
 #include "every.h"
+#include "scale.h"
 #include "turtle.h"
 
 #define STACK_SIZE 8
@@ -66,6 +67,8 @@ typedef struct {
     int16_t x;
     int16_t y;
     int16_t z;
+    scale_t in_scale;
+    scale_t param_scale;
 } scene_variables_t;
 
 typedef struct {
@@ -170,6 +173,11 @@ scene_turtle_t *ss_turtle_get(scene_state_t *);
 void ss_turtle_set(scene_state_t *, scene_turtle_t *);
 int16_t ss_turtle_get_val(scene_state_t *, scene_turtle_t *);
 void ss_turtle_set_val(scene_state_t *, scene_turtle_t *, int16_t);
+
+void ss_set_param_scale(scene_state_t *, int16_t, int16_t);
+void ss_set_in_scale(scene_state_t *, int16_t, int16_t);
+int16_t ss_get_param(scene_state_t *);
+int16_t ss_get_in(scene_state_t *);
 
 ////////////////////////////////////////////////////////////////////////////////
 // EXEC STATE //////////////////////////////////////////////////////////////////
