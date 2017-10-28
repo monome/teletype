@@ -148,7 +148,13 @@ static void op_SUB_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
 
 static void op_MUL_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                        exec_state_t *NOTUSED(es), command_state_t *cs) {
-    cs_push(cs, cs_pop(cs) * cs_pop(cs));
+    int32_t r = cs_pop(cs);
+    r *= cs_pop(cs);
+    if (r > INT16_MAX)
+        r = INT16_MAX;
+    if (r < INT16_MIN)
+        r = INT16_MIN;
+    cs_push(cs, (int16_t)r);
 }
 
 static void op_DIV_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),

@@ -9,6 +9,6 @@ void set_metro_icon(bool display);
 void init_live_mode(void);
 void set_live_mode(void);
 void process_live_keys(uint8_t key, uint8_t mod_key, bool is_held_key);
-bool screen_refresh_live(void);
+uint8_t screen_refresh_live(void);
 
 #endif
