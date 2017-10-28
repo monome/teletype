@@ -436,11 +436,14 @@
 // these are our macros that are inserted into the code when Ragel finds a match
 #define MATCH_OP(op) { out->tag = OP; out->value = op; no_of_tokens++; }
 #define MATCH_MOD(mod) { out->tag = MOD; out->value = mod; no_of_tokens++; }
-#define MATCH_NUMBER()                       \
-    {                                        \
-        out->tag = NUMBER;                   \
-        out->value = strtol(token, NULL, 0); \
-        no_of_tokens++;                      \
+#define MATCH_NUMBER()                           \
+    {                                            \
+        out->tag = NUMBER;                       \
+        int32_t val = strtol(token, NULL, 0);    \
+        val = val > INT16_MAX ? INT16_MAX : val; \
+        val = val < INT16_MIN ? INT16_MIN : val; \
+        out->value = val;                        \
+        no_of_tokens++;                          \
     }
 
 // matches a single token, out contains the token, return value indicates

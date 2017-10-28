@@ -12,6 +12,7 @@ short = "subtract `y` from `x`"
 prototype = "MUL x y"
 aliases = ["*"]
 short = "multiply `x` and `y` together"
+description = "returns `x` times `y`, bounded to integer limits"
 
 [DIV]
 prototype = "DIV x y"

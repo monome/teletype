@@ -171,11 +171,11 @@ void process_live_keys(uint8_t k, uint8_t m, bool is_held_key) {
 }
 
 
-bool screen_refresh_live() {
-    bool screen_dirty = false;
+uint8_t screen_refresh_live() {
+    uint8_t screen_dirty = 0;
     if (dirty & D_INPUT) {
         line_editor_draw(&le, '>', &line[7]);
-        screen_dirty = true;
+        screen_dirty |= (1 << 7);
         dirty &= ~D_INPUT;
     }
 
@@ -207,14 +207,14 @@ bool screen_refresh_live() {
         region_fill(&line[6], 0);
         font_string_region_clip(&line[6], s, 0, 0, 0x4, 0);
 
-        screen_dirty = true;
+        screen_dirty |= (1 << 6);
         dirty &= ~D_MESSAGE;
     }
 
     if (dirty & D_LIST) {
         for (int i = 0; i < 6; i++) region_fill(&line[i], 0);
 
-        screen_dirty = true;
+        screen_dirty |= 0x3E;
         dirty &= ~D_LIST;
     }
 
@@ -288,7 +288,7 @@ bool screen_refresh_live() {
         }
 
         activity_prev = activity;
-        screen_dirty = true;
+        screen_dirty |= 0x1;
         activity &= ~A_MUTES;
     }
 

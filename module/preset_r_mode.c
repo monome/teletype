@@ -72,8 +72,8 @@ void process_preset_r_keys(uint8_t k, uint8_t m, bool is_held_key) {
     }
 }
 
-bool screen_refresh_preset_r() {
-    if (!dirty) { return false; }
+uint8_t screen_refresh_preset_r() {
+    if (!dirty) { return 0; }
 
     char s[32];
     itoa(preset_select, s, 10);
@@ -91,7 +91,7 @@ bool screen_refresh_preset_r() {
     }
 
     dirty = false;
-    return true;
+    return 0xFF;
 };
 
 void do_preset_read() {
