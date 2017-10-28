@@ -42,6 +42,7 @@ void set_edit_mode() {
 void set_edit_mode_script(uint8_t new_script) {
     script = new_script;
     if (script >= SCRIPT_COUNT) script = SCRIPT_COUNT - 1;
+    dirty = D_ALL;
 }
 
 void process_edit_keys(uint8_t k, uint8_t m, bool is_held_key) {
@@ -176,8 +177,8 @@ void screen_mutes_updated() {
     dirty |= D_INPUT;
 }
 
-bool screen_refresh_edit() {
-    bool screen_dirty = false;
+uint8_t screen_refresh_edit() {
+    uint8_t screen_dirty = 0;
 
     if (dirty & D_INPUT) {
         char prefix = script + '1';
@@ -192,7 +193,7 @@ bool screen_refresh_edit() {
             char shaded[2] = { prefix, '\0' };
             font_string_region_clip(&line[7], shaded, 0, 0, 0x4, 0);
         }
-        screen_dirty = true;
+        screen_dirty |= (1 << 7);
         dirty &= ~D_INPUT;
     }
 
@@ -215,7 +216,7 @@ bool screen_refresh_edit() {
         region_fill(&line[6], 0);
         font_string_region_clip(&line[6], s, 0, 0, 0x4, 0);
 
-        screen_dirty = true;
+        screen_dirty |= (1 << 6);
         dirty &= ~D_MESSAGE;
     }
 
@@ -233,7 +234,7 @@ bool screen_refresh_edit() {
             }
         }
 
-        screen_dirty = true;
+        screen_dirty |= 0x3F;
         dirty &= ~D_LIST;
     }
 
