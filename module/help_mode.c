@@ -116,7 +116,7 @@ const char* help4[HELP4_LENGTH] = { "4/8 DATA AND TABLES",
                                     "VV 0-1000|V WITH 2 DECIMALS",
                                     "BPM 2-MAX|MS PER BPM" };
 
-#define HELP5_LENGTH 35
+#define HELP5_LENGTH 42
 const char* help5[HELP5_LENGTH] = { "5/8 OPERATORS",
                                     " ",
                                     "RAND A|RANDOM 0 - A",
@@ -144,6 +144,13 @@ const char* help5[HELP5_LENGTH] = { "5/8 OPERATORS",
                                     " ",
                                     "RSH A B|BITSHIFT A RIGHT B",
                                     "LSH A B|BITSHIFT A LEFT B",
+                                    "| A B|BITWISE A OR B",
+                                    "& A B|BITWISE A AND B",
+                                    "^ A B|BITWISE A XOR B",
+                                    "~ A|BITWISE NOT A",
+                                    "BSET A B|SET BIT B OF A",
+                                    "BGET A B|GET BIT B OF A",
+                                    "BCLR A B|CLEAR BIT B OF A",
                                     " ",
                                     "LIM A B C|CLAMP A WITHIN B-C",
                                     "WRAP A B C|WRAP A AROUND B-C",
@@ -289,8 +296,8 @@ void process_help_keys(uint8_t k, uint8_t m, bool is_held_key) {
     }
 }
 
-bool screen_refresh_help() {
-    if (!dirty) { return false; }
+uint8_t screen_refresh_help() {
+    if (!dirty) { return 0; }
 
     // clamp value of page_no
     if (page_no >= HELP_PAGES) page_no = HELP_PAGES - 1;
@@ -306,5 +313,5 @@ bool screen_refresh_help() {
     }
 
     dirty = false;
-    return true;
+    return 0xFF;
 };

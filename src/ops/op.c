@@ -55,16 +55,17 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     &op_Q, &op_Q_AVG, &op_Q_N,
 
     // hardware
-    &op_CV, &op_CV_OFF, &op_CV_SLEW, &op_IN, &op_PARAM, &op_PRM, &op_TR,
-    &op_TR_POL, &op_TR_TIME, &op_TR_TOG, &op_TR_PULSE, &op_TR_P, &op_CV_SET,
-    &op_MUTE, &op_STATE,
+    &op_CV, &op_CV_OFF, &op_CV_SLEW, &op_IN, &op_IN_SCALE, &op_PARAM,
+    &op_PARAM_SCALE, &op_PRM, &op_TR, &op_TR_POL, &op_TR_TIME, &op_TR_TOG,
+    &op_TR_PULSE, &op_TR_P, &op_CV_SET, &op_MUTE, &op_STATE,
 
     // maths
     &op_ADD, &op_SUB, &op_MUL, &op_DIV, &op_MOD, &op_RAND, &op_RRAND, &op_TOSS,
     &op_MIN, &op_MAX, &op_LIM, &op_WRAP, &op_QT, &op_AVG, &op_EQ, &op_NE,
     &op_LT, &op_GT, &op_LTE, &op_GTE, &op_NZ, &op_EZ, &op_RSH, &op_LSH, &op_EXP,
     &op_ABS, &op_AND, &op_OR, &op_JI, &op_SCALE, &op_N, &op_V, &op_VV, &op_ER,
-    &op_BPM, &op_XOR, &op_SYM_PLUS, &op_SYM_DASH, &op_SYM_STAR,
+    &op_BPM, &op_BIT_OR, &op_BIT_AND, &op_BIT_NOT, &op_BIT_XOR, &op_BSET,
+    &op_BGET, &op_BCLR, &op_XOR, &op_SYM_PLUS, &op_SYM_DASH, &op_SYM_STAR,
     &op_SYM_FORWARD_SLASH, &op_SYM_PERCENTAGE, &op_SYM_EQUAL_x2,
     &op_SYM_EXCLAMATION_EQUAL, &op_SYM_LEFT_ANGLED, &op_SYM_RIGHT_ANGLED,
     &op_SYM_LEFT_ANGLED_EQUAL, &op_SYM_RIGHT_ANGLED_EQUAL, &op_SYM_EXCLAMATION,

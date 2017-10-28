@@ -105,9 +105,10 @@ void process_preset_w_keys(uint8_t k, uint8_t m, bool is_held_key) {
 }
 
 
-bool screen_refresh_preset_w() {
-    if (!(dirty & D_ALL)) { return false; }
+uint8_t screen_refresh_preset_w() {
+    if (!(dirty & D_ALL)) { return 0; }
 
+    uint8_t screen_dirty = 0;
     if (dirty & D_LIST) {
         char header[6] = ">>> ";
         itoa(preset_select, header + 4, 10);
@@ -122,12 +123,14 @@ bool screen_refresh_preset_w() {
                                     2, 0, 0xa + a * 5, a);
         }
         dirty &= ~D_LIST;
+        screen_dirty |= 0x7F;
     }
 
     if (dirty & D_INPUT) {
         line_editor_draw(&le, '+', &line[7]);
         dirty &= ~D_INPUT;
+        screen_dirty |= (1 << 7);
     }
 
-    return true;
+    return screen_dirty;
 }
