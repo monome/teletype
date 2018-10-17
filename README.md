@@ -63,7 +63,9 @@ There is a test that checks to see if the above have all been entered correctly.
 
 ## Code Formatting
 
-To format the code using `clang-format`, run `make format` in the project's root directory. This *shouldn't* format any code in the `libavr32` submodule.
+To format the code using `clang-format`, run `make format` in the project's root directory. This will _only_ format code that has not been commited, it will format _both_ staged and unstaged code.
+
+To format all the code in this repo, run `make format-all`.
 
 [libavr32]: https://github.com/monome/libavr32
 [ragel]: http://www.colm.net/open-source/ragel/
