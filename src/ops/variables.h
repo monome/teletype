@@ -13,6 +13,8 @@ extern const tele_op_t op_DRUNK_MIN;
 extern const tele_op_t op_DRUNK_WRAP;
 extern const tele_op_t op_FLIP;
 extern const tele_op_t op_I;
+extern const tele_op_t op_J;
+extern const tele_op_t op_K;
 extern const tele_op_t op_O;
 extern const tele_op_t op_O_INC;
 extern const tele_op_t op_O_MAX;

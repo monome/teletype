@@ -38,7 +38,7 @@
 const tele_op_t *tele_ops[E_OP__LENGTH] = {
     // variables
     &op_A, &op_B, &op_C, &op_D, &op_DRUNK, &op_DRUNK_MAX, &op_DRUNK_MIN,
-    &op_DRUNK_WRAP, &op_FLIP, &op_I, &op_O, &op_O_INC, &op_O_MAX, &op_O_MIN,
+    &op_DRUNK_WRAP, &op_FLIP, &op_I, &op_J, &op_K, &op_O, &op_O_INC, &op_O_MAX, &op_O_MIN,
     &op_O_WRAP, &op_T, &op_TIME, &op_TIME_ACT, &op_LAST, &op_X, &op_Y, &op_Z,
 
     // init

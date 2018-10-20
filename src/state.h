@@ -116,8 +116,10 @@ typedef struct {
     tele_command_t commands[DELAY_SIZE];
     int16_t time[DELAY_SIZE];
     uint8_t origin_script[DELAY_SIZE];
-    int16_t origin_i[DELAY_SIZE];
     uint8_t count;
+    int16_t origin_i[DELAY_SIZE];
+    int16_t origin_j[DELAY_SIZE];
+    int16_t origin_k[DELAY_SIZE];
 } scene_delay_t;
 
 typedef struct {
@@ -299,6 +301,8 @@ void ss_reset_param_cal(scene_state_t *);
 typedef struct {
     bool if_else_condition;
     int16_t i;
+    int16_t j;
+    int16_t k;
     bool while_continue;
     uint16_t while_depth;
     bool breaking;
