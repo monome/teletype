@@ -26,14 +26,6 @@ static void op_I_get(const void *data, scene_state_t *ss, exec_state_t *es,
                      command_state_t *cs);
 static void op_I_set(const void *data, scene_state_t *ss, exec_state_t *es,
                      command_state_t *cs);
-static void op_J_get(const void *data, scene_state_t *ss, exec_state_t *es,
-                     command_state_t *cs);
-static void op_J_set(const void *data, scene_state_t *ss, exec_state_t *es,
-                     command_state_t *cs);
-static void op_K_get(const void *data, scene_state_t *ss, exec_state_t *es,
-                     command_state_t *cs);
-static void op_K_set(const void *data, scene_state_t *ss, exec_state_t *es,
-                     command_state_t *cs);
 static void op_TIME_get(const void *data, scene_state_t *ss, exec_state_t *es,
                         command_state_t *cs);
 static void op_TIME_set(const void *data, scene_state_t *ss, exec_state_t *es,
@@ -67,8 +59,6 @@ const tele_op_t op_DRUNK = MAKE_GET_SET_OP(DRUNK, op_DRUNK_get, op_DRUNK_set, 0,
 const tele_op_t op_FLIP  = MAKE_GET_SET_OP(FLIP , op_FLIP_get , op_FLIP_set , 0, true);
 const tele_op_t op_O     = MAKE_GET_SET_OP(O    , op_O_get    , op_O_set    , 0, true);
 const tele_op_t op_I     = MAKE_GET_SET_OP(I    , op_I_get, op_I_set, 0, true);
-const tele_op_t op_J     = MAKE_GET_SET_OP(J    , op_J_get, op_J_set, 0, true);
-const tele_op_t op_K     = MAKE_GET_SET_OP(K    , op_K_get, op_K_set, 0, true);
 // clang-format on
 
 static void op_TIME_get(const void *NOTUSED(data), scene_state_t *ss,
@@ -168,24 +158,4 @@ static void op_I_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
 static void op_I_set(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                      exec_state_t *es, command_state_t *cs) {
     es_variables(es)->i = cs_pop(cs);
-}
-
-static void op_J_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
-                     exec_state_t *es, command_state_t *cs) {
-    cs_push(cs, es_variables(es)->j);
-}
-
-static void op_J_set(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
-                     exec_state_t *es, command_state_t *cs) {
-    es_variables(es)->j = cs_pop(cs);
-}
-
-static void op_K_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
-                     exec_state_t *es, command_state_t *cs) {
-    cs_push(cs, es_variables(es)->k);
-}
-
-static void op_K_set(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
-                     exec_state_t *es, command_state_t *cs) {
-    es_variables(es)->k = cs_pop(cs);
 }

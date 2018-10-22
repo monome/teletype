@@ -16,8 +16,6 @@ typedef enum {
     E_OP_DRUNK_WRAP,
     E_OP_FLIP,
     E_OP_I,
-    E_OP_J,
-    E_OP_K,
     E_OP_O,
     E_OP_O_INC,
     E_OP_O_MAX,

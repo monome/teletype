@@ -29,8 +29,6 @@
         "DRUNK.WRAP"  => { MATCH_OP(E_OP_DRUNK_WRAP); };
         "FLIP"        => { MATCH_OP(E_OP_FLIP); };
         "I"           => { MATCH_OP(E_OP_I); };
-        "J"           => { MATCH_OP(E_OP_J); };
-        "K"           => { MATCH_OP(E_OP_K); };
         "O"           => { MATCH_OP(E_OP_O); };
         "O.INC"       => { MATCH_OP(E_OP_O_INC); };
         "O.MAX"       => { MATCH_OP(E_OP_O_MAX); };

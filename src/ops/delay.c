@@ -46,8 +46,6 @@ static bool delay_common_add(scene_state_t *ss, exec_state_t *es,
         ss->delay.time[i] = delay_time;
         ss->delay.origin_script[i] = es_variables(es)->script_number;
         ss->delay.origin_i[i] = es_variables(es)->i;
-        ss->delay.origin_j[i] = es_variables(es)->j;
-        ss->delay.origin_k[i] = es_variables(es)->k;
         copy_command(&ss->delay.commands[i], post_command);
 
         return true;
