@@ -32,4 +32,7 @@ teletype.zip: clean-zip
 		docs/cheatsheet/cheatsheet.pdf
 
 format:
+	git-clang-format -f --style=file
+
+format-all:
 	find . -type f -name "*.c" -o -name "*.h" | xargs clang-format -style=file -i
