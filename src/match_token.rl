@@ -41,6 +41,8 @@
         "X"           => { MATCH_OP(E_OP_X); };
         "Y"           => { MATCH_OP(E_OP_Y); };
         "Z"           => { MATCH_OP(E_OP_Z); };
+        "J"           => { MATCH_OP(E_OP_J); };
+        "K"           => { MATCH_OP(E_OP_K); };
 
         # init
         "INIT"            => { MATCH_OP(E_OP_INIT); };
