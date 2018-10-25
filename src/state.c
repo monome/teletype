@@ -18,11 +18,7 @@ void ss_init(scene_state_t *ss) {
     memset(&ss->scripts, 0, ss_scripts_size());
     turtle_init(&ss->turtle);
     uint32_t ticks = tele_get_ticks();
-    for (size_t i = 0; i < TEMP_SCRIPT; i++) {
-        ss->scripts[i].last_time = ticks;
-        ss->scripts[i].j = 0;
-        ss->scripts[i].k = 0;
-    }
+    for (size_t i = 0; i < TEMP_SCRIPT; i++) ss->scripts[i].last_time = ticks;
     ss->variables.time = 0;
     ss->variables.time_act = 1;
 }
