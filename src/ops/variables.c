@@ -172,32 +172,20 @@ static void op_I_set(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
 
 static void op_J_get(const void *NOTUSED(data), scene_state_t *ss,
                      exec_state_t *es, command_state_t *cs) {
-    int16_t sn = es_variables(es)->script_number + 1;
-    if (sn == 11) sn = 0;
-
-    cs_push(cs, ss->scripts[sn].j);
+    cs_push(cs, ss->scripts[es_variables(es)->script_number].j);
 }
 
 static void op_J_set(const void *NOTUSED(data), scene_state_t *ss,
                      exec_state_t *es, command_state_t *cs) {
-    int16_t sn = es_variables(es)->script_number + 1;
-    if (sn == 11) sn = 0;
-
-    ss->scripts[sn].j = cs_pop(cs);
+    ss->scripts[es_variables(es)->script_number].j = cs_pop(cs);
 }
 
 static void op_K_get(const void *NOTUSED(data), scene_state_t *ss,
                      exec_state_t *es, command_state_t *cs) {
-    int16_t sn = es_variables(es)->script_number + 1;
-    if (sn == 11) sn = 0;
-
-    cs_push(cs, ss->scripts[sn].k);
+    cs_push(cs, ss->scripts[es_variables(es)->script_number].k);
 }
 
 static void op_K_set(const void *NOTUSED(data), scene_state_t *ss,
                      exec_state_t *es, command_state_t *cs) {
-    int16_t sn = es_variables(es)->script_number + 1;
-    if (sn == 11) sn = 0;
-
-    ss->scripts[sn].k = cs_pop(cs);
+    ss->scripts[es_variables(es)->script_number].k = cs_pop(cs);
 }
