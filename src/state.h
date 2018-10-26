@@ -66,6 +66,8 @@ typedef struct {
     int16_t d;
     int16_t t;
     // END WARNING SECTION
+    int16_t j[SCRIPT_COUNT];
+    int16_t k[SCRIPT_COUNT];
     int16_t cv[CV_COUNT];
     int16_t cv_off[CV_COUNT];
     int16_t cv_slew[CV_COUNT];
@@ -130,8 +132,6 @@ typedef struct {
     tele_command_t c[SCRIPT_MAX_COMMANDS];
     every_count_t every[SCRIPT_MAX_COMMANDS];
     uint32_t last_time;
-    int16_t j;
-    int16_t k;
 } scene_script_t;
 
 typedef struct {

@@ -99,12 +99,6 @@ void flash_read(uint8_t preset_no, scene_state_t *scene,
     for (size_t i = 0; i < TEMP_SCRIPT; i++)
         scene->scripts[i].last_time = ticks;
     scene->variables.time = 0;
-
-    // reset script local variables j & k
-    for (size_t i = 0; i < TEMP_SCRIPT; i++) {
-        scene->scripts[i].j = 0;
-        scene->scripts[i].k = 0;
-    }
 }
 
 uint8_t flash_last_saved_scene() {
