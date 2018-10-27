@@ -78,7 +78,7 @@ const char* help1[HELP1_LENGTH] = { "1/13 HELP",
                                     "ALT-L,S,E|JUMP",
                                     "SHIFT-2|SHOW/HIDE TURTLE" };
 
-#define HELP2_LENGTH 13
+#define HELP2_LENGTH 14
 const char* help2[HELP2_LENGTH] = { "2/13 VARIABLES",
                                     " ",
                                     "X, Y, Z|GENERAL PURPOSE",
@@ -91,7 +91,8 @@ const char* help2[HELP2_LENGTH] = { "2/13 VARIABLES",
                                     "DRUNK|INC BY -1, 0, +1",
                                     "Q|SHIFT REGISTER",
                                     "Q.N|SET Q LENGTH",
-                                    "Q.AVG|AVERAGE OF ALL Q" };
+                                    "Q.AVG|AVERAGE OF ALL Q",
+                                    "J, K|UNIQUE PER SCRIPT" };
 
 #define HELP3_LENGTH 26
 const char* help3[HELP3_LENGTH] = { "3/13 PARAMETERS",
@@ -192,7 +193,7 @@ const char* help5[HELP5_LENGTH] = { "5/13 OPERATORS",
                                     "TR.TOG X|FLIP STATE OF TR X",
                                     "TR.PULSE X|PULSE TR X" };
 
-#define HELP6_LENGTH 31
+#define HELP6_LENGTH 33
 const char* help6[HELP6_LENGTH] = { "6/13 PRE :",
                                     " ",
                                     "EACH PRE NEEDS A : FOLLOWED",
@@ -202,6 +203,8 @@ const char* help6[HELP6_LENGTH] = { "6/13 PRE :",
                                     " ",
                                     "DEL A: |DELAY BY A (MS)",
                                     "DEL.CLR|KILL ALL DELAYS",
+                                    "DEL.X A B: |A DELAYS BY B (MS)",
+                                    "DEL.R A B: |A-1 DELAYS BY B (MS)",
                                     " ",
                                     "S: |PUSH ONTO STACK",
                                     "S.CLR|CLEAR S",

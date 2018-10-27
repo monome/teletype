@@ -86,21 +86,13 @@ static void op_INIT_SCENE_get(const void *NOTUSED(data), scene_state_t *ss,
 static void op_INIT_SCRIPT_get(const void *NOTUSED(data), scene_state_t *ss,
                                exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t v = cs_pop(cs) - 1;
-    if (v >= 0 && v < TEMP_SCRIPT) {
-        ss_clear_script(ss, (size_t)v);
-        ss->variables.j[v] = 0;
-        ss->variables.k[v] = 0;
-    }
+    if (v >= 0 && v < TEMP_SCRIPT) ss_clear_script(ss, (size_t)v);
 }
 
 static void op_INIT_SCRIPT_ALL_get(const void *NOTUSED(data), scene_state_t *ss,
                                    exec_state_t *NOTUSED(es),
                                    command_state_t *NOTUSED(cs)) {
-    for (size_t i = 0; i < TEMP_SCRIPT; i++) {
-        ss_clear_script(ss, i);
-        ss->variables.j[i] = 0;
-        ss->variables.k[i] = 0;
-    }
+    for (size_t i = 0; i < TEMP_SCRIPT; i++) ss_clear_script(ss, i);
 }
 
 static void op_INIT_P_get(const void *NOTUSED(data), scene_state_t *ss,

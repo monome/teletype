@@ -325,6 +325,8 @@ void ss_delete_script_command(scene_state_t *ss, script_number_t script_idx,
 
 void ss_clear_script(scene_state_t *ss, size_t script_idx) {
     memset(&ss->scripts[script_idx], 0, sizeof(scene_script_t));
+    ss->variables.j[script_idx] = 0;
+    ss->variables.k[script_idx] = 0;
 }
 
 scene_script_t *ss_scripts_ptr(scene_state_t *ss) {
