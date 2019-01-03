@@ -69,6 +69,7 @@ static void op_INIT_get(const void *NOTUSED(data), scene_state_t *ss,
     ss_update_in_scale(ss);
 
     tele_vars_updated();
+    tele_metro_updated();
 }
 
 static void op_INIT_SCENE_get(const void *NOTUSED(data), scene_state_t *ss,
@@ -81,6 +82,7 @@ static void op_INIT_SCENE_get(const void *NOTUSED(data), scene_state_t *ss,
     ss_update_param_scale(ss);
     ss_update_in_scale(ss);
     tele_vars_updated();
+    tele_metro_updated();
 }
 
 static void op_INIT_SCRIPT_get(const void *NOTUSED(data), scene_state_t *ss,
@@ -162,6 +164,7 @@ static void op_INIT_DATA_get(const void *NOTUSED(data), scene_state_t *ss,
                              command_state_t *NOTUSED(cs)) {
     ss_variables_init(ss);
     tele_vars_updated();
+    tele_metro_updated();
 }
 
 static void op_INIT_TIME_get(const void *NOTUSED(data), scene_state_t *ss,
