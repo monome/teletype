@@ -7,7 +7,8 @@
 - **NEW**: new op: DEL.X
 - **NEW**: new op: DEL.R
 - **IMP**: DELAY_SIZE increased to 16 from 8
-- **NEW**: new variables: J & K local script variables 
+- **NEW**: new variables: J & K local script variables
+- **FIX**: [metro rate not updated after `INIT.SCENE`](https://github.com/monome/teletype/issues/174)
 
 ## v3.0
 
