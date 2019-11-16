@@ -33,8 +33,11 @@ extern const tele_op_t op_NZ;
 extern const tele_op_t op_EZ;
 extern const tele_op_t op_RSH;
 extern const tele_op_t op_LSH;
+extern const tele_op_t op_RROT;
+extern const tele_op_t op_LROT;
 extern const tele_op_t op_EXP;
 extern const tele_op_t op_ABS;
+extern const tele_op_t op_SGN;
 extern const tele_op_t op_AND;
 extern const tele_op_t op_OR;
 extern const tele_op_t op_JI;
@@ -73,6 +76,8 @@ extern const tele_op_t op_SYM_RIGHT_ANGLED_EQUAL;  // >= alias GT
 extern const tele_op_t op_SYM_EXCLAMATION;         // ! alias NZ
 extern const tele_op_t op_SYM_LEFT_ANGLED_x2;      // << alias LSH
 extern const tele_op_t op_SYM_RIGHT_ANGLED_x2;     // >> alias RSH
+extern const tele_op_t op_SYM_LEFT_ANGLED_x3;      // <<< alias LROT
+extern const tele_op_t op_SYM_RIGHT_ANGLED_x3;     // >>> alias RROT
 extern const tele_op_t op_SYM_AMPERSAND_x2;        // && alias AND
 extern const tele_op_t op_SYM_PIPE_x2;             // || alias OR
 

@@ -116,6 +116,16 @@ prototype = "RSH x y"
 aliases = [">>"]
 short = "right shift `x` by `y` bits, in effect divide `x` by `2` to the power of `y`"
 
+[LROT]
+prototype = "LROT x y"
+aliases = ["<<<"]
+short = "circular left shift `x` by `y` bits, wrapping around when bits fall off the end"
+
+[RROT]
+prototype = "RROT x y"
+aliases = [">>>"]
+short = "circular right shift `x` by `y` bits, wrapping around when bits fall off the end"
+
 ["|"]
 prototype = "| x y"
 short = "bitwise or `x` | `y`"
@@ -228,6 +238,10 @@ short = "converts a voltage to a value usable by the CV outputs (`x` between `0`
 prototype = "EXP x"
 short = "exponentiation table lookup. `0-16383` range (V `0-10`)"
 
+[SGN]
+prototype = "SGN x"
+short = "sign function: 1 for positive, -1 for negative, 0 for 0"
+
 [CHAOS]
 prototype = "CHAOS x"
 short = "get next value from chaos generator, or set the current value"
@@ -251,4 +265,3 @@ short = "set the lower end of the range from 0 – 32767"
 ["R.MAX"]
 prototype = "R.MAX x"
 short = "set the upper end of the range from 0 – 32767"
-

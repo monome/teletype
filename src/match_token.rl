@@ -188,8 +188,11 @@
         "EZ"          => { MATCH_OP(E_OP_EZ); };
         "RSH"         => { MATCH_OP(E_OP_RSH); };
         "LSH"         => { MATCH_OP(E_OP_LSH); };
+        "RROT"        => { MATCH_OP(E_OP_RROT); };
+        "LROT"        => { MATCH_OP(E_OP_LROT); };
         "EXP"         => { MATCH_OP(E_OP_EXP); };
         "ABS"         => { MATCH_OP(E_OP_ABS); };
+        "SGN"         => { MATCH_OP(E_OP_SGN); };
         "AND"         => { MATCH_OP(E_OP_AND); };
         "OR"          => { MATCH_OP(E_OP_OR); };
         "JI"          => { MATCH_OP(E_OP_JI); };
@@ -226,6 +229,8 @@
         "!"           => { MATCH_OP(E_OP_SYM_EXCLAMATION); };
         "<<"          => { MATCH_OP(E_OP_SYM_LEFT_ANGLED_x2); };
         ">>"          => { MATCH_OP(E_OP_SYM_RIGHT_ANGLED_x2); };
+        "<<<"         => { MATCH_OP(E_OP_SYM_LEFT_ANGLED_x3); };
+        ">>>"         => { MATCH_OP(E_OP_SYM_RIGHT_ANGLED_x3); };
         "&&"          => { MATCH_OP(E_OP_SYM_AMPERSAND_x2); };
         "||"          => { MATCH_OP(E_OP_SYM_PIPE_x2); };
 

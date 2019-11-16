@@ -5,6 +5,9 @@
 - **FIX**: improve DAC latency when using `CV` ops
 - **NEW**: call metro / init with `SCRIPT 9` / `SCRIPT 10`
 - **NEW**: forward (C-f or C-s) and reverse (C-r) search in help mode
+- **NEW**: new ops: `LROT` (alias `<<<`), `RROT` (alias `>>>`)
+- **NEW**: `LSH` and `RSH` shift the opposite direction when passed a negative shift amount
+- **NEW**: new op: `SGN` (sign of argument)
 
 ## v3.1.0
 
