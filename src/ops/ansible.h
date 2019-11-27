@@ -25,6 +25,7 @@ extern const tele_op_t op_KR_CLK;
 extern const tele_op_t op_KR_PG;
 extern const tele_op_t op_KR_CUE;
 extern const tele_op_t op_KR_DIR;
+extern const tele_op_t op_KR_DUR;
 
 extern const tele_op_t op_ME_PRE;
 extern const tele_op_t op_ME_RES;

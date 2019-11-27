@@ -125,7 +125,7 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     &op_ANS_APP,
     &op_KR_PRE, &op_KR_PAT, &op_KR_SCALE, &op_KR_PERIOD, &op_KR_POS,
     &op_KR_L_ST, &op_KR_L_LEN, &op_KR_RES, &op_KR_CV, &op_KR_MUTE, &op_KR_TMUTE,
-    &op_KR_CLK, &op_KR_PG, &op_KR_CUE, &op_KR_DIR,
+    &op_KR_CLK, &op_KR_PG, &op_KR_CUE, &op_KR_DIR, &op_KR_DUR,
     &op_ME_PRE, &op_ME_RES, &op_ME_STOP, &op_ME_SCALE,
     &op_ME_PERIOD, &op_ME_CV, &op_LV_PRE, &op_LV_RES, &op_LV_POS, &op_LV_L_ST,
     &op_LV_L_LEN, &op_LV_L_DIR, &op_LV_CV, &op_CY_PRE, &op_CY_RES, &op_CY_POS,

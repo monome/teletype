@@ -145,6 +145,11 @@ description = """
 Get or change the step direction. Numbered from 0.
 """
 
+["KR.DUR"]
+prototype = "KR.DUR x "
+short = "get the current duration value for channel `x`"
+
+
 ["ME.PRE"]
 prototype = "ME.PRE"
 prototype_set = "ME.PRE x"

@@ -650,7 +650,7 @@ const char* help11[HELP11_LENGTH] = { "11/13 TELEX OUTPUT",
                                       "TO.CV.RESET X",
                                       "    RESET CV CALIB" };
 
-#define HELP12_LENGTH 138
+#define HELP12_LENGTH 140
 const char* help12[HELP12_LENGTH] = { "12/13 ANSIBLE",
                                       " ",
                                       "ANS.G.LED X Y",
@@ -712,6 +712,8 @@ const char* help12[HELP12_LENGTH] = { "12/13 ANSIBLE",
                                       "    GET/SET CUED PATTERN X",
                                       "KR.DIR / KR.DIR X",
                                       "    GET/SET STEP DIRECTION X",
+                                      "KR.DUR X",
+                                      "    GET CHANNEL X DURATION",
                                       "KR.PG / KR.PG X",
                                       "    GET/SET ACTIVE PAGE",
                                       "ME.PRE / ME.PRE X",

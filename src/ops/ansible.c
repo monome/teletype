@@ -74,6 +74,8 @@ static void op_KR_DIR_get(const void *data, scene_state_t *ss, exec_state_t *es,
                           command_state_t *cs);
 static void op_KR_DIR_set(const void *data, scene_state_t *ss, exec_state_t *es,
                           command_state_t *cs);
+static void op_KR_DUR_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                          command_state_t *cs);
 static void op_ME_PRE_get(const void *data, scene_state_t *ss, exec_state_t *es,
                           command_state_t *cs);
 static void op_ME_PRE_set(const void *data, scene_state_t *ss, exec_state_t *es,
@@ -184,7 +186,8 @@ const tele_op_t op_KR_TMUTE    = MAKE_GET_OP    (KR.TMUTE   , op_KR_TMUTE_get   
 const tele_op_t op_KR_CLK      = MAKE_GET_OP    (KR.CLK     , op_KR_CLK_get                           , 1, false);
 const tele_op_t op_KR_PG       = MAKE_GET_SET_OP(KR.PG      , op_KR_PG_get       , op_KR_PG_set       , 0, true);
 const tele_op_t op_KR_CUE      = MAKE_GET_SET_OP(KR.CUE     , op_KR_CUE_get      , op_KR_CUE_set      , 0, true);
-const tele_op_t op_KR_DIR      = MAKE_GET_SET_OP(KR.DIR      , op_KR_DIR_get     , op_KR_DIR_set      , 1, true);
+const tele_op_t op_KR_DIR      = MAKE_GET_SET_OP(KR.DIR     , op_KR_DIR_get     , op_KR_DIR_set       , 1, true);
+const tele_op_t op_KR_DUR      = MAKE_GET_OP    (KR.DUR     , op_KR_DUR_get                           , 1, true);
 
 const tele_op_t op_ME_PRE      = MAKE_GET_SET_OP(ME.PRE     , op_ME_PRE_get      , op_ME_PRE_set      , 0, true);
 const tele_op_t op_ME_RES      = MAKE_GET_OP    (ME.RES     , op_ME_RES_get                           , 1, false);
@@ -606,6 +609,20 @@ static void op_KR_DIR_set(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
     uint8_t d[] = { II_KR_DIR, n, x };
     tele_ii_tx(II_KR_ADDR, d, 3);
 }
+
+static void op_KR_DUR_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+                          exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t a = cs_pop(cs);
+    a--;
+    uint8_t d[] = { II_KR_DURATION | II_GET, a & 0x3 };
+    uint8_t addr = II_KR_ADDR;
+    tele_ii_tx(addr, d, 2);
+    d[0] = 0;
+    d[1] = 0;
+    tele_ii_rx(addr, d, 2);
+    cs_push(cs, (d[0] << 8) + d[1]);
+}
+
 
 static void op_ME_PRE_set(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                           exec_state_t *NOTUSED(es), command_state_t *cs) {
