@@ -401,11 +401,16 @@ uint8_t screen_refresh_edit() {
     u8 sel2 = max(line_no1, line_no2);
 
     if (dirty & D_INPUT) {
+        bool muted = false;
         char prefix = script + '1';
-        if (script == METRO_SCRIPT)
+        if (script == METRO_SCRIPT) {
             prefix = 'M';
+            muted = !scene_state.variables.m_act;
+        }
         else if (script == INIT_SCRIPT)
             prefix = 'I';
+        else if (script <= TT_SCRIPT_8)
+            muted = ss_get_mute(&scene_state, script);
 
         if (sel1 == sel2)
             line_editor_draw(&le, prefix, &line[7]);
@@ -414,7 +419,7 @@ uint8_t screen_refresh_edit() {
 
         char script_no[2] = { prefix, '\0' };
         font_string_region_clip(&line[7], script_no, 0, 0,
-                                ss_get_mute(&scene_state, script) ? 4 : 15, 0);
+                                muted ? 4 : 15, 0);
 
         screen_dirty |= (1 << 7);
         dirty &= ~D_INPUT;
