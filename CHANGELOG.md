@@ -9,6 +9,7 @@
 - **NEW**: `LSH` and `RSH` shift the opposite direction when passed a negative shift amount
 - **NEW**: new op: `SGN` (sign of argument)
 - **NEW**: new kria remote op: `KR.DUR`
+- **FIX**: dim M in edit mode when metro inactive
 
 ## v3.1.0
 
