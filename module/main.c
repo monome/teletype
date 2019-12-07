@@ -861,6 +861,8 @@ void tele_metro_updated() {
         set_metro_icon(false);
 
     if (grid_connected && grid_control_mode) scene_state.grid.grid_dirty = 1;
+
+    edit_mode_refresh();
 }
 
 void tele_metro_reset() {
