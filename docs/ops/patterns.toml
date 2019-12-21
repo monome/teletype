@@ -15,7 +15,7 @@ Example:
 
 with a pattern length of 6 for the working pattern:
 
-`P 10` 
+`P 10`
 retrieves the working pattern value at index 6
 
 `P.I -2`
@@ -50,13 +50,13 @@ If wrap is enabled (`P.WRAP 1`) a pattern will begin at its start location and a
 
 Examples:
 
-With wrap enabled, a pattern length of 6, a start location of 2 , and an end location of 8. 
+With wrap enabled, a pattern length of 6, a start location of 2 , and an end location of 8.
 
 `P.WRAP 1; P.L 6; P.START 2; P.END 8`
 
-The pattern will wrap between the indexes `2` and `5`. 
+The pattern will wrap between the indexes `2` and `5`.
 
-With wrap enabled, a pattern length of 10, a start location of 3, and an end location of 6. 
+With wrap enabled, a pattern length of 10, a start location of 3, and an end location of 6.
 
 `P.WRAP 1; P.L 10; P.START 3; P.END 6`
 
@@ -99,13 +99,13 @@ short = "get/set index position for the working pattern."
 description = """
 get/set index position for the working pattern. all values greater than pattern length return the first step beyond the pattern length. negative values are indexed backwards from the end of the pattern length.
 
-Example: 
+Example:
 
-With a pattern length of `6` (`P.L 6`), yielding an index range of `0-5`: 
+With a pattern length of `6` (`P.L 6`), yielding an index range of `0-5`:
 
 `P.I 3`
 
-moves the index of the working pattern to `3` 
+moves the index of the working pattern to `3`
 
 `P.I 10`
 
@@ -243,6 +243,3 @@ short = "decrease the value of the working pattern at index `x` by `y` and wrap 
 ["PN.-W"]
 prototype = "PN.-W x y z a b"
 short = "decrease the value of pattern `x` at index `y` by `z` and wrap it to `a`..`b` range"
-
-
-

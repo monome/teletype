@@ -1,21 +1,18 @@
 ["ANS.G.LED"]
-prototype = "ANS.G.LED"
-prototype_get = "ANS.G.LED x y"
+prototype = "ANS.G.LED x y"
 short = "get grid LED buffer at position `x`, `y`"
 
 ["ANS.G"]
-prototype = "ANS.G"
+prototype = "ANS.G x y"
 prototype_set = "ANS.G x y z"
 short = "get/set grid key on/off state (`z`) at position `x`, `y`"
 
 ["ANS.G.P"]
-prototype = "ANS.G.P"
-prototype_set = "ANS.G.P x y"
+prototype = "ANS.G.P x y"
 short = "simulate grid key press at position (`x`, `y`)"
 
 ["ANS.A.LED"]
-prototype = "ANS.A.LED"
-prototype_get = "ANS.A n x"
+prototype = "ANS.A.LED n x"
 short = "read arc LED buffer for ring `n`, LED `x` clockwise from north"
 
 ["ANS.A"]

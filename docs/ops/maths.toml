@@ -251,4 +251,3 @@ short = "set the lower end of the range from 0 – 32767"
 ["R.MAX"]
 prototype = "R.MAX x"
 short = "set the upper end of the range from 0 – 32767"
-

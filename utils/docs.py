@@ -41,6 +41,7 @@ OPS_SECTIONS = [
     "delay",
     "stack",
     "queue",
+    "seed",
     "turtle",
     "grid",
     "ansible",
@@ -54,7 +55,7 @@ OPS_SECTIONS = [
     "er301",
     "fader",
     "wslash",
-    "matrixarchate"
+    "matrixarchate",
 ]
 
 

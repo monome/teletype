@@ -1,36 +1,34 @@
-
-[SEED]
+["SEED"]
 prototype = "SEED"
 prototype_set = "SEED x"
-short = "get / set the random number generator seed for all `SEED` ops" 
+short = "get / set the random number generator seed for all `SEED` ops"
 
-[RAND.SEED]
+["RAND.SEED"]
 prototype = "RAND.SEED"
 prototype_set = "RAND.SEED x"
 aliases = ["RAND.SD", "R.SD"]
 short = "get / set the random number generator seed for `R`, `RRAND`, and `RAND` ops"
 
-[TOSS.SEED]
+["TOSS.SEED"]
 prototype = "TOSS.SEED"
 prototype_set = "TOSS.SEED x"
 aliases = ["TOSS.SD"]
 short = "get / set the random number generator seed for the `TOSS` op"
 
-[PROB.SEED]
+["PROB.SEED"]
 prototype = "PROB.SEED"
 prototype_set = "PROB.SEED x"
 aliases = ["PROB.SD"]
 short = "get / set the random number generator seed for the `PROB` mod"
 
-[DRUNK.SEED]
+["DRUNK.SEED"]
 prototype = "DRUNK.SEED"
 prototype_set = "DRUNK.SEED x"
 aliases = ["DRUNK.SD"]
-short = "get / set the random number generator seed for the `DRUNK` op" 
+short = "get / set the random number generator seed for the `DRUNK` op"
 
-[P.SEED]
+["P.SEED"]
 prototype = "P.SEED"
 prototype_set = "P.SEED x"
 aliases = ["P.SD"]
 short = "get / set the random number generator seed for the `P.RND` and `PN.RND` ops"
-

@@ -1,15 +1,34 @@
 # Updates
 
-## Version 3.x
+## Version 3.1
 
 ### New operators
 
-DEVICE.FLIP
-DEL.X
-DEL.R
-J & K local script variables
-SEED, R.SEED, TOSS.SEED, DRUNK.SEED, P.SEED, PROB.SEED
-SCENE.G
+`DEVICE.FLIP` - change how screen is displayed and how I/O are numbered to let you mount the module upside down
+
+`DEL.X`, `DEL.R` - repeat an action multiple times, separated by a delay
+
+`J` & `K` local script variables
+
+`SEED`, `R.SEED`, `TOSS.SEED`, `DRUNK.SEED`, `P.SEED`, `PROB.SEED` - get/set seed for different random ops
+
+`SCENE.G` - load another scene but keep the current grid configuration
+
+`SCRIPT.POL` / `$.POL` - get / set script polarity. 1 to fire on rising edges as usual, 2 for falling edges, 3 for both. indicated on live mode w/ mutes icon.
+
+#### New Ansible ops
+
+`ANS.G` / `ANS.G.P` - simulate ansible receiving a grid key press
+
+`ANS.A` - simulate ansible receiving an arc encoder turn
+
+`ANS.G.LED` / `ANS.A.LED` - read LED brightness of ansible grid / arc
+
+#### New Kria ops
+
+`KR.CUE` - get / set the cued Kria pattern
+
+`KR.PG` - switch to Kria parameter page
 
 ### Changes
 
@@ -18,7 +37,10 @@ DELAY_SIZE increased to 16 from 8
 ### Bug fixes
 
 [some keyboards losing keystrokes](https://github.com/monome/teletype/issues/156)
+
 [metro rate not updated after `INIT.SCENE`](https://github.com/monome/teletype/issues/174)
+
+
 
 ## Version 3.0
 
@@ -144,7 +166,7 @@ Previously, when pasting the clipboard while in script editing the pasted line w
 
 `I` would previously get initialized to 0 when executing a script. If you called a script from another script's loop this meant you had to use a variable to pass the loop's current `I` value to the called script. This is not needed anymore - when a script is called from another script its `I` value will be set to the current `I` value of the calling script.
 
-## Version 2.2 
+## Version 2.2
 
 Teletype version 2.2 introduces Chaos and Bitwise operators, Live mode view of variables, INIT operator, ability to calibrate CV In and Param knob and set Min/Max scale values for both, a screensaver, Random Number Generator, and a number of fixes and improvements.
 
@@ -158,7 +180,7 @@ The `CHAOS` operator provides a new source of uncertainty to the Teletype via ch
 
 Bitwise operators have been added to compliment the logic functions and offer the ability to maximize the use of variables available on the Teletype.
 
-Typically, when a variable is assigned a value it fully occupies that variable space; should you want to set another you’ll have to use the next available variable. In conditions where a state of on, off, or a bitwise mathematical operation can provide the data required, the inclusion of these operators give users far more choices. Each variable normally contains 16 bits and Bitwise allows you to `BSET`, `BGET`, and `BCLR` a value from a particular bit location among its 16 positions, thus supplying 16 potential flags in the same variable space. 
+Typically, when a variable is assigned a value it fully occupies that variable space; should you want to set another you’ll have to use the next available variable. In conditions where a state of on, off, or a bitwise mathematical operation can provide the data required, the inclusion of these operators give users far more choices. Each variable normally contains 16 bits and Bitwise allows you to `BSET`, `BGET`, and `BCLR` a value from a particular bit location among its 16 positions, thus supplying 16 potential flags in the same variable space.
 
 #### INIT
 
@@ -272,12 +294,12 @@ Teletype version 2.0 represents a large rewrite of the Teletype code base. There
 
 Several commands on one line, separated by semicolons.
 
-e.g. `CV 1 N 60; TR.PULSE 1` 
+e.g. `CV 1 N 60; TR.PULSE 1`
 
 See the section on "Sub commands" for more information.
-    
+
 #### Aliases
-  
+
 For example, use `TR.P 1` instead of `TR.PULSE 1`, and use `+ 1 1`, instead of `ADD 1 1`.
 
 See the section on "Aliases" for more information.
@@ -332,9 +354,9 @@ It should also be significantly more reliable with a wider ranger of memory stic
   - **Removed the need for the `II` `OP`.**
 
     For example, `II MP.PRESET 1` will become just `MP.PRESET 1`.
- 
+
   - **Merge `MUTE` and `UNMUTE` `OP`s to `MUTE x` / `MUTE x y`.**
-  
+
     See the documentation for `MUTE` for more information.
 
   - **Remove unused Meadowphysics `OP`s.**
@@ -344,7 +366,7 @@ It should also be significantly more reliable with a wider ranger of memory stic
   - **Rename Ansible Meadowphysics `OP`s to start with `ME`.**
 
     This was done to avoid conflicts with the Meadowphysics `OP`s.
-   
+
  **WARNING**: If you restore your scripts from a USB memory stick, please manually fix any changes first. Alternatively, incorrect commands (due to the above changes) will be skipped when imported, please re-add them.
 
 ### Known issues

@@ -167,9 +167,9 @@ Execute script `x` (1-8), recursion allowed.
 There is a limit of 8 for the maximum number of nested calls to `SCRIPT` to stop infinite loops from locking up the Teletype.
 """
 
-[SCRIPT.POL]
-prototype = "SCRIPT x"
-prototype_set = "SCRIPT x p"
+["SCRIPT.POL"]
+prototype = "SCRIPT.POL x"
+prototype_set = "SCRIPT.POL x p"
 aliases = ["$.POL"]
 short = "get script x trigger polarity, or set polarity p (1 rising edge, 2 falling, 3 both)"
 description = """
@@ -193,8 +193,8 @@ Will _not_ execute from the `I` script on scene load.  Will execute on subsequen
 **WARNING**: You will lose any unsaved changes to your scene.
 """
 
-[SCENE.G]
-prototype_set = "SCENE.G x"
+["SCENE.G"]
+prototype = "SCENE.G x"
 short = "load scene `x` (0-31) without loading grid control states"
 description = """
 Load scene `x` (0-31) without loading grid button and fader states.
