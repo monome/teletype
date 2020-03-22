@@ -286,9 +286,10 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
     }
     // alt-<0-9>: transpose up by numeric semitones
     else if (mod_only_alt(m) && k >= HID_1 && k <= HID_0) {
-        uint8_t n = (k - HID_1 + 1);  // convert HID numbers to decimal
+        uint8_t n = (k - HID_1 + 1);  // convert HID numbers to decimal,
+                                      // leave 0 = 10 semitones
         if (n == 1)
-            n = 11;
+            n = 11;  // 1 = 11 semitones since we already have alt-[ ]
         if (editing_number) {
             edit_buffer = note_increment(edit_buffer, n);
             dirty = true;
@@ -302,9 +303,10 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
     }
     // sh-alt-<0-9>: transpose down by numeric semitones
     else if (mod_only_shift_alt(m) && k >= HID_1 && k <= HID_0) {
-        uint8_t n = (k - HID_1 + 1);  // convert HID numbers to decimal
+        uint8_t n = (k - HID_1 + 1);  // convert HID numbers to decimal,
+                                      // leave 0 = 10 semitones
         if (n == 1)
-            n = 11;
+            n = 11; // 1 = 11 semitones since we already have alt-[ ]
         if (editing_number) {
             edit_buffer = note_decrement(edit_buffer, n);
             dirty = true;
