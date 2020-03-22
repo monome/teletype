@@ -4,6 +4,9 @@
 #include "globals.h"
 #include "keyboard_helper.h"
 
+// tables
+#include "table.h"
+
 // teletype
 #include "teletype.h"
 #include "teletype_io.h"
@@ -72,6 +75,45 @@ void pattern_down() {
         if (offset < 56) { offset++; }
     }
     dirty = true;
+}
+
+static uint16_t note_decrement(int16_t value, uint8_t interval) {
+    size_t last = sizeof(table_n) / sizeof(table_n[0]) - 1;
+    if (interval > last) {
+        interval = last;
+    }
+    else if (interval < 0) {
+        interval = 0;
+    }
+    uint8_t index = interval * (last / interval);
+    int16_t new_value = table_n[index];
+    for (int i = index; i >= 0; i--) {
+        if (table_n[i] < value) {
+            uint8_t j = i - (interval - 1);
+            new_value = table_n[j];
+            break;
+        }
+    }
+    return new_value;
+}
+
+static uint16_t note_increment(int16_t value, uint8_t interval) {
+    size_t last = sizeof(table_n) / sizeof(table_n[0]) - 1;
+    if (interval > last) {
+        interval = last;
+    }
+    else if (interval < 0) {
+        interval = 0;
+    }
+    int16_t new_value = table_n[0];
+    for (int i = 0; i <= last; i++) {
+        if (table_n[i] > value) {
+            uint8_t j = i + (interval - 1);
+            new_value = table_n[j];
+            break;
+        }
+    }
+    return new_value;
 }
 
 void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
@@ -165,6 +207,84 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
                                    INT16_MIN);
             else
                 ss_set_pattern_val(&scene_state, pattern, base + offset, v + 1);
+            dirty = true;
+        }
+    }
+    // alt-[: decrement by 1 semitone
+    else if (match_alt(m, k, HID_OPEN_BRACKET)) {
+        if (editing_number) {
+            edit_buffer = note_decrement(edit_buffer, 1);
+            dirty = true;
+        }
+        else {
+            int16_t pattern_val = ss_get_pattern_val(&scene_state, pattern, base + offset);
+            int16_t new_val = note_decrement(pattern_val, 1);
+            ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
+            dirty = true;
+        }
+    }
+    // alt-]: increment by 1 semitone
+    else if (match_alt(m, k, HID_CLOSE_BRACKET)) {
+        if (editing_number) {
+            edit_buffer = note_increment(edit_buffer, 1);
+            dirty = true;
+        }
+        else {
+            int16_t pattern_val = ss_get_pattern_val(&scene_state, pattern, base + offset);
+            int16_t new_val = note_increment(pattern_val, 1);
+            ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
+            dirty = true;
+        }
+    }
+    // ctrl-[: decrement by a fifth (7 semitones)
+    else if (match_ctrl(m, k, HID_OPEN_BRACKET)) {
+        if (editing_number) {
+            edit_buffer = note_decrement(edit_buffer, 7);
+            dirty = true;
+        }
+        else {
+            int16_t pattern_val = ss_get_pattern_val(&scene_state, pattern, base + offset);
+            int16_t new_val = note_decrement(pattern_val, 7);
+            ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
+            dirty = true;
+        }
+    }
+    // ctrl-]: increment by a fifth (7 semitones)
+    else if (match_ctrl(m, k, HID_CLOSE_BRACKET)) {
+        if (editing_number) {
+            edit_buffer = note_increment(edit_buffer, 7);
+            dirty = true;
+        }
+        else {
+            int16_t pattern_val = ss_get_pattern_val(&scene_state, pattern, base + offset);
+            int16_t new_val = note_increment(pattern_val, 7);
+            ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
+            dirty = true;
+        }
+    }
+    // sh-[: decrement by 1 octave
+    else if (match_shift(m, k, HID_OPEN_BRACKET)) {
+        if (editing_number) {
+            edit_buffer = note_decrement(edit_buffer, 12);
+            dirty = true;
+        }
+        else {
+            int16_t pattern_val = ss_get_pattern_val(&scene_state, pattern, base + offset);
+            int16_t new_val = note_decrement(pattern_val, 12);
+            ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
+            dirty = true;
+        }
+    }
+    // sh-]: increment by 1 octave
+    else if (match_shift(m, k, HID_CLOSE_BRACKET)) {
+        if (editing_number) {
+            edit_buffer = note_increment(edit_buffer, 12);
+            dirty = true;
+        }
+        else {
+            int16_t pattern_val = ss_get_pattern_val(&scene_state, pattern, base + offset);
+            int16_t new_val = note_increment(pattern_val, 12);
+            ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
             dirty = true;
         }
     }
