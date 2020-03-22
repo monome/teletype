@@ -79,17 +79,15 @@ void pattern_down() {
 
 static uint16_t note_decrement(int16_t value, uint8_t interval) {
     size_t last = sizeof(table_n) / sizeof(table_n[0]) - 1;
-    if (interval > last) {
+    if (interval > last)
         interval = last;
-    }
-    else if (interval < 0) {
-        interval = 0;
-    }
     uint8_t index = interval * (last / interval);
-    int16_t new_value = table_n[index];
+    uint16_t new_value = table_n[index];
     for (int i = index; i >= 0; i--) {
         if (table_n[i] < value) {
-            uint8_t j = i - (interval - 1);
+            int8_t j = i - (interval - 1);
+            if (j < 0)
+                j = last + j + 1;
             new_value = table_n[j];
             break;
         }
@@ -99,16 +97,14 @@ static uint16_t note_decrement(int16_t value, uint8_t interval) {
 
 static uint16_t note_increment(int16_t value, uint8_t interval) {
     size_t last = sizeof(table_n) / sizeof(table_n[0]) - 1;
-    if (interval > last) {
+    if (interval > last)
         interval = last;
-    }
-    else if (interval < 0) {
-        interval = 0;
-    }
-    int16_t new_value = table_n[0];
+    uint16_t new_value = table_n[0];
     for (int i = 0; i <= last; i++) {
         if (table_n[i] > value) {
-            uint8_t j = i + (interval - 1);
+            int8_t j = i + (interval - 1);
+            if (j > last)
+                j = j - last - 1;
             new_value = table_n[j];
             break;
         }
