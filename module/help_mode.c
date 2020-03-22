@@ -19,7 +19,7 @@
 
 #define HELP_PAGES 13
 
-#define HELP1_LENGTH 64
+#define HELP1_LENGTH 68
 const char* help1[HELP1_LENGTH] = { "1/13 HELP",
                                     "[ ] NAVIGATE HELP PAGES",
                                     "UP/DOWN TO SCROLL",
@@ -76,6 +76,10 @@ const char* help1[HELP1_LENGTH] = { "1/13 HELP",
                                     "ALT-[ ]|SEMITONE UP, DOWN",
                                     "CTRL-[ ]|FIFTH UP, DOWN",
                                     "SH-[ ]|OCTAVE UP, DOWN",
+                                    "ALT-<0-9>|NUM SEMITONES UP",
+                                    "// 0 = 10 and 1 = 11",
+                                    "SH-ALT-<0-9>|NUM SEMITONES DOWN",
+                                    "// 0 = 10 and 1 = 11",
                                     "SH-ALT-V|INSERT PASTE",
                                     "SH-BSP|DELETE",
                                     "SH-ENTER|DUPE INSERT",

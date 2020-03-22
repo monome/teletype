@@ -284,6 +284,38 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
             dirty = true;
         }
     }
+    // alt-<0-9>: transpose up by numeric semitones
+    else if (mod_only_alt(m) && k >= HID_1 && k <= HID_0) {
+        uint8_t n = (k - HID_1 + 1);  // convert HID numbers to decimal
+        if (n == 1)
+            n = 11;
+        if (editing_number) {
+            edit_buffer = note_increment(edit_buffer, n);
+            dirty = true;
+        }
+        else {
+            int16_t pattern_val = ss_get_pattern_val(&scene_state, pattern, base + offset);
+            int16_t new_val = note_increment(pattern_val, n);
+            ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
+            dirty = true;
+        }
+    }
+    // sh-alt-<0-9>: transpose down by numeric semitones
+    else if (mod_only_shift_alt(m) && k >= HID_1 && k <= HID_0) {
+        uint8_t n = (k - HID_1 + 1);  // convert HID numbers to decimal
+        if (n == 1)
+            n = 11;
+        if (editing_number) {
+            edit_buffer = note_decrement(edit_buffer, n);
+            dirty = true;
+        }
+        else {
+            int16_t pattern_val = ss_get_pattern_val(&scene_state, pattern, base + offset);
+            int16_t new_val = note_decrement(pattern_val, n);
+            ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
+            dirty = true;
+        }
+    }
     // <backspace>: delete a digit
     else if (match_no_mod(m, k, HID_BACKSPACE)) {
         if (editing_number)
