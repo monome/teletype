@@ -9,6 +9,11 @@
 - **NEW**: `LSH` and `RSH` shift the opposite direction when passed a negative shift amount
 - **NEW**: new op: `SGN` (sign of argument)
 - **NEW**: new kria remote op: `KR.DUR`
+- **NEW**: new Tracker mode keybinding `alt-[ ]` semitone up, down
+- **NEW**: new Tracker mode keybinding `ctrl-[ ]` fifth up, down
+- **NEW**: new Tracker mode keybinding `shift-[ ]` octave up, down
+- **NEW**: new Tracker mode keybinding `alt-<0-9>` `<0-9>` semitones up (0=10, 1=11)
+- **NEW**: new Tracker mode keybinding `shift-alt-<0-9>` `<0-9>` semitones down (0=10, 1=11)
 - **FIX**: dim M in edit mode when metro inactive
 
 ## v3.1.0
