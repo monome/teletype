@@ -110,7 +110,6 @@ The tracker mode clipboard is independent of text and code clipboard.
 | **`shift-]`**                 | increment by 12 semitones                                                                       |
 | **`alt-<0-9>`**                 | increment by `<0-9>` semitones (0=10, 1=11)                                          |
 | **`shift-alt-<0-9>`**                 | decrement by `<0-9>` semitones  (0=10, 1=11)                                |
-| **`shift-]`**                 | increment by 12 semitones                                                                       |
 | **`<backspace>`**       | delete a digit                                                                        |
 | **`shift-<backspace>`** | delete an entry, shift numbers up                                                     |
 | **`<enter>`**           | commit edit (increase length if cursor in position after last entry)                  |
