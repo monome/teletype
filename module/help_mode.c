@@ -13,7 +13,6 @@
 #include "usb_protocol_hid.h"
 
 
-
 ////////////////////////////////////////////////////////////////////////////////
 // Help text ///////////////////////////////////////////////////////////////////
 
@@ -892,11 +891,9 @@ static int prev_hit;
 
 static bool dirty;
 
-static bool text_search_forward(search_state_t* state,
-                                const char* needle,
+static bool text_search_forward(search_state_t* state, const char* needle,
                                 const char** haystack, int haystack_len);
-static bool text_search_reverse(search_state_t* state,
-                                const char* needle,
+static bool text_search_reverse(search_state_t* state, const char* needle,
                                 const char** haystack, int haystack_len);
 
 
@@ -906,27 +903,29 @@ void set_help_mode() {
     dirty = true;
 }
 
-bool text_search_forward(search_state_t* state,
-                         const char* needle,
+bool text_search_forward(search_state_t* state, const char* needle,
                          const char** haystack, int haystack_len) {
     const int needle_len = strlen(needle);
     for (; state->line < haystack_len; state->line++) {
         const int haystack_line_len = strlen(haystack[state->line]);
-        for (state->ch = 0; state->ch < haystack_line_len - needle_len; state->ch++) {
-            if (!strncmp(needle, haystack[state->line] + state->ch, needle_len)) return true;
+        for (state->ch = 0; state->ch < haystack_line_len - needle_len;
+             state->ch++) {
+            if (!strncmp(needle, haystack[state->line] + state->ch, needle_len))
+                return true;
         }
     }
     return false;
 }
 
-bool text_search_reverse(search_state_t* state,
-                         const char* needle,
+bool text_search_reverse(search_state_t* state, const char* needle,
                          const char** haystack, int haystack_len) {
     const int needle_len = strlen(needle);
     for (; state->line >= 0; state->line--) {
         const int haystack_line_len = strlen(haystack[state->line]);
-        for (state->ch = haystack_line_len - needle_len; state->ch >= 0; state->ch--) {
-            if (!strncmp(needle, haystack[state->line] + state->ch, needle_len)) return true;
+        for (state->ch = haystack_line_len - needle_len; state->ch >= 0;
+             state->ch--) {
+            if (!strncmp(needle, haystack[state->line] + state->ch, needle_len))
+                return true;
         }
     }
     return false;
@@ -950,9 +949,8 @@ void process_help_keys(uint8_t k, uint8_t m, bool is_held_key) {
     // C-f or C-s: search forward
     else if (match_ctrl(m, k, HID_F) || match_ctrl(m, k, HID_S)) {
         search_result = SEARCH_RESULT_NONE;
-        if (search_mode == SEARCH_MODE_FWD) {
-            search_mode = SEARCH_MODE_NONE;
-        } else {
+        if (search_mode == SEARCH_MODE_FWD) { search_mode = SEARCH_MODE_NONE; }
+        else {
             search_mode = SEARCH_MODE_FWD;
         }
         dirty = true;
@@ -960,9 +958,8 @@ void process_help_keys(uint8_t k, uint8_t m, bool is_held_key) {
     // C-r: search in reverse
     else if (match_ctrl(m, k, HID_R)) {
         search_result = SEARCH_RESULT_NONE;
-        if (search_mode == SEARCH_MODE_REV) {
-            search_mode = SEARCH_MODE_NONE;
-        } else {
+        if (search_mode == SEARCH_MODE_REV) { search_mode = SEARCH_MODE_NONE; }
+        else {
             search_mode = SEARCH_MODE_REV;
         }
         dirty = true;
@@ -987,9 +984,9 @@ void process_help_keys(uint8_t k, uint8_t m, bool is_held_key) {
                         }
                     }
                     for (int p = page_no; p < HELP_PAGES; p++) {
-                        if (text_search_forward(&search_state,
-                                                needle,
-                                                help_pages[p], help_length[p])) {
+                        if (text_search_forward(&search_state, needle,
+                                                help_pages[p],
+                                                help_length[p])) {
                             search_result = SEARCH_RESULT_HIT;
                             page_no = p;
                             offset = search_state.line;
@@ -1006,9 +1003,7 @@ void process_help_keys(uint8_t k, uint8_t m, bool is_held_key) {
                 case SEARCH_MODE_REV: {
                     if (search_result == SEARCH_RESULT_HIT) {
                         prev_hit = search_state.line;
-                        if (search_state.line > 0) {
-                            search_state.line--;
-                        }
+                        if (search_state.line > 0) { search_state.line--; }
                         else {
                             search_result = SEARCH_RESULT_MISS;
                             dirty = true;
@@ -1016,32 +1011,31 @@ void process_help_keys(uint8_t k, uint8_t m, bool is_held_key) {
                         }
                     }
                     for (int p = page_no; p >= 0; p--) {
-                        if (text_search_reverse(&search_state,
-                                                needle,
-                                                help_pages[p], help_length[p])) {
+                        if (text_search_reverse(&search_state, needle,
+                                                help_pages[p],
+                                                help_length[p])) {
                             search_result = SEARCH_RESULT_HIT;
                             page_no = p;
                             offset = search_state.line;
                             dirty = true;
                             return;
                         }
-                        if (p > 0) {
-                            search_state.line = help_length[p-1];
-                        }
+                        if (p > 0) { search_state.line = help_length[p - 1]; }
                     }
                     search_state.line = prev_hit;
                     search_result = SEARCH_RESULT_MISS;
                     dirty = true;
                     return;
                 }
-                default:
-                    break;
+                default: break;
             }
-        } else {
+        }
+        else {
             search_result = SEARCH_RESULT_NONE;
             dirty = line_editor_process_keys(&le, k, m, is_held_key);
         }
-    } else {
+    }
+    else {
         // <left> or [: previous page
         if (match_no_mod(m, k, HID_LEFT) ||
             match_no_mod(m, k, HID_OPEN_BRACKET)) {
@@ -1051,7 +1045,7 @@ void process_help_keys(uint8_t k, uint8_t m, bool is_held_key) {
                 dirty = true;
             }
         }
-    // <right> or ]: next page
+        // <right> or ]: next page
         else if (match_no_mod(m, k, HID_RIGHT) ||
                  match_no_mod(m, k, HID_CLOSE_BRACKET)) {
             if (page_no < HELP_PAGES - 1) {
@@ -1074,18 +1068,22 @@ uint8_t screen_refresh_help() {
     if (page_no >= HELP_PAGES) page_no = HELP_PAGES - 1;
 
     // clamp value of offset
-    if (offset >= help_length[page_no] - help_line_ct) offset = help_length[page_no] - help_line_ct;
+    if (offset >= help_length[page_no] - help_line_ct)
+        offset = help_length[page_no] - help_line_ct;
 
     const char** text = help_pages[page_no];
 
     for (uint8_t y = 0; y < help_line_ct; y++) {
-        if (search_result == SEARCH_RESULT_HIT
-         && (y + offset) == search_state.line) {
+        if (search_result == SEARCH_RESULT_HIT &&
+            (y + offset) == search_state.line) {
             region_fill(&line[y], 2);
-            font_string_region_clip_tab(&line[y], text[y + offset], 2, 0, 0xa, 2);
-        } else {
+            font_string_region_clip_tab(&line[y], text[y + offset], 2, 0, 0xa,
+                                        2);
+        }
+        else {
             region_fill(&line[y], 0);
-            font_string_region_clip_tab(&line[y], text[y + offset], 2, 0, 0xa, 0);
+            font_string_region_clip_tab(&line[y], text[y + offset], 2, 0, 0xa,
+                                        0);
         }
     }
 
@@ -1098,14 +1096,9 @@ uint8_t screen_refresh_help() {
     }
 
     switch (search_mode) {
-        case SEARCH_MODE_FWD:
-            line_editor_draw(&le, '>', &line[7]);
-            break;
-        case SEARCH_MODE_REV:
-            line_editor_draw(&le, '<', &line[7]);
-            break;
-        default:
-            break;
+        case SEARCH_MODE_FWD: line_editor_draw(&le, '>', &line[7]); break;
+        case SEARCH_MODE_REV: line_editor_draw(&le, '<', &line[7]); break;
+        default: break;
     }
 
     dirty = false;

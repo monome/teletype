@@ -79,15 +79,13 @@ void pattern_down() {
 
 static uint16_t note_decrement(int16_t value, uint8_t interval) {
     size_t last = sizeof(table_n) / sizeof(table_n[0]) - 1;
-    if (interval > last)
-        interval = last;
+    if (interval > last) interval = last;
     uint8_t index = interval * (last / interval);
     uint16_t new_value = table_n[index];
     for (int i = index; i >= 0; i--) {
         if (table_n[i] < value) {
             int8_t j = i - (interval - 1);
-            if (j < 0)
-                j = last + j + 1;
+            if (j < 0) j = last + j + 1;
             new_value = table_n[j];
             break;
         }
@@ -97,14 +95,12 @@ static uint16_t note_decrement(int16_t value, uint8_t interval) {
 
 static uint16_t note_increment(int16_t value, uint8_t interval) {
     size_t last = sizeof(table_n) / sizeof(table_n[0]) - 1;
-    if (interval > last)
-        interval = last;
+    if (interval > last) interval = last;
     uint16_t new_value = table_n[0];
     for (int i = 0; i <= last; i++) {
         if (table_n[i] > value) {
             int8_t j = i + (interval - 1);
-            if (j > last)
-                j = j - last - 1;
+            if (j > last) j = j - last - 1;
             new_value = table_n[j];
             break;
         }
@@ -213,7 +209,8 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
             dirty = true;
         }
         else {
-            int16_t pattern_val = ss_get_pattern_val(&scene_state, pattern, base + offset);
+            int16_t pattern_val =
+                ss_get_pattern_val(&scene_state, pattern, base + offset);
             int16_t new_val = note_decrement(pattern_val, 1);
             ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
             dirty = true;
@@ -226,7 +223,8 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
             dirty = true;
         }
         else {
-            int16_t pattern_val = ss_get_pattern_val(&scene_state, pattern, base + offset);
+            int16_t pattern_val =
+                ss_get_pattern_val(&scene_state, pattern, base + offset);
             int16_t new_val = note_increment(pattern_val, 1);
             ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
             dirty = true;
@@ -239,7 +237,8 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
             dirty = true;
         }
         else {
-            int16_t pattern_val = ss_get_pattern_val(&scene_state, pattern, base + offset);
+            int16_t pattern_val =
+                ss_get_pattern_val(&scene_state, pattern, base + offset);
             int16_t new_val = note_decrement(pattern_val, 7);
             ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
             dirty = true;
@@ -252,7 +251,8 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
             dirty = true;
         }
         else {
-            int16_t pattern_val = ss_get_pattern_val(&scene_state, pattern, base + offset);
+            int16_t pattern_val =
+                ss_get_pattern_val(&scene_state, pattern, base + offset);
             int16_t new_val = note_increment(pattern_val, 7);
             ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
             dirty = true;
@@ -265,7 +265,8 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
             dirty = true;
         }
         else {
-            int16_t pattern_val = ss_get_pattern_val(&scene_state, pattern, base + offset);
+            int16_t pattern_val =
+                ss_get_pattern_val(&scene_state, pattern, base + offset);
             int16_t new_val = note_decrement(pattern_val, 12);
             ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
             dirty = true;
@@ -278,7 +279,8 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
             dirty = true;
         }
         else {
-            int16_t pattern_val = ss_get_pattern_val(&scene_state, pattern, base + offset);
+            int16_t pattern_val =
+                ss_get_pattern_val(&scene_state, pattern, base + offset);
             int16_t new_val = note_increment(pattern_val, 12);
             ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
             dirty = true;
@@ -288,14 +290,14 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
     else if (mod_only_alt(m) && k >= HID_1 && k <= HID_0) {
         uint8_t n = (k - HID_1 + 1);  // convert HID numbers to decimal,
                                       // leave 0 = 10 semitones
-        if (n == 1)
-            n = 11;  // 1 = 11 semitones since we already have alt-[ ]
+        if (n == 1) n = 11;  // 1 = 11 semitones since we already have alt-[ ]
         if (editing_number) {
             edit_buffer = note_increment(edit_buffer, n);
             dirty = true;
         }
         else {
-            int16_t pattern_val = ss_get_pattern_val(&scene_state, pattern, base + offset);
+            int16_t pattern_val =
+                ss_get_pattern_val(&scene_state, pattern, base + offset);
             int16_t new_val = note_increment(pattern_val, n);
             ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
             dirty = true;
@@ -305,14 +307,14 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
     else if (mod_only_shift_alt(m) && k >= HID_1 && k <= HID_0) {
         uint8_t n = (k - HID_1 + 1);  // convert HID numbers to decimal,
                                       // leave 0 = 10 semitones
-        if (n == 1)
-            n = 11; // 1 = 11 semitones since we already have alt-[ ]
+        if (n == 1) n = 11;  // 1 = 11 semitones since we already have alt-[ ]
         if (editing_number) {
             edit_buffer = note_decrement(edit_buffer, n);
             dirty = true;
         }
         else {
-            int16_t pattern_val = ss_get_pattern_val(&scene_state, pattern, base + offset);
+            int16_t pattern_val =
+                ss_get_pattern_val(&scene_state, pattern, base + offset);
             int16_t new_val = note_decrement(pattern_val, n);
             ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
             dirty = true;
