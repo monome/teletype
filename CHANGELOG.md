@@ -9,6 +9,8 @@
 - **NEW**: `LSH` and `RSH` shift the opposite direction when passed a negative shift amount
 - **NEW**: new op: `SGN` (sign of argument)
 - **NEW**: new kria remote op: `KR.DUR`
+- **NEW**: new op: `NR` (alias #) (binary math pattern generator)
+- **NEW**: new ops: `E, H, U` (use western scales and chords to get values from `N` table)
 - **FIX**: dim M in edit mode when metro inactive
 
 ## v3.1.0
