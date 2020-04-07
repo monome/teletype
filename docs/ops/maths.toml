@@ -208,6 +208,87 @@ For more info, see the post on [samdoshi.com][samdoshi_com_euclidean]
 [^euclidean_rhythm_citation]: Toussaint, G. T. (2005, July). The Euclidean algorithm generates traditional musical rhythms. _In Proceedings of BRIDGES: Mathematical Connections in Art, Music and Science_ (pp. 47-56).
 """
 
+[NR]
+prototype = "NR p m f s"
+aliases = ["#"]
+short = "Numeric Repeater, `p` is prime pattern (`0-31`), `m` is & mask (`0-3`), `f` is variation factor (`0-16`) and `s` is step (`0-15`), returns `0` or `1`"
+description = """
+Numeric Repeater is similar to ER, except it generates patterns using the binary arithmetic process found in ["Noise Engineering's Numeric Repetitor"][numeric_repetitor]. From the description:
+
+Numeric Repetitor is a rhythmic gate generator based on binary arithmetic. A core pattern forms the basis and variation is achieved by treating this pattern as a binary number and multiplying it by another. NR contains 32 prime rhythms derived by examining all possible rhythms and weeding out bad ones via heuristic.
+
+All parameters wrap around their specified ranges automatically and support negative indexing.
+
+Masks
+ - `0` is no mask
+ - `1` is `0x0F0F`
+ - `2` is `0xF003`
+ - `3` is `0x1F0`
+
+For further detail ["see the manual"][nr_manual].
+
+[numeric_repitor]: https://www.noiseengineering.us/shop/numeric-repetitor
+[nr_manual]: https://static1.squarespace.com/static/58c709192e69cf2422026fa6/t/5e6041ad4cbc0979d6d793f2/1583366574430/NR_manual.pdf
+"""
+
+[E]
+prototype = "E r s d"
+short = "Note Scale operator, `r` is the root note (`0-127`), `s` is the scale (`0-8`) and `d` is the degree (`0-6`), returns a value from the `N` table."
+description = """
+The `E` OP lets you retrieve `N` tables values according to traditional western scales. `s` and `d` wrap to their ranges automatically and support negative indexing.
+
+Scales
+ - `0` = Major
+ - `1` = Natural Minor
+ - `2` = Harmonic Minor
+ - `3` = Melodic Minor
+ - `4` = Dorian
+ - `5` = Phrygian
+ - `6` = Lydian
+ - `7` = Myxolidian
+ - `8` = Locrian
+"""
+
+[H]
+prototype = "H r c d"
+short = "Chord Note operator, `r` is the root note (`0-127`), `c` is the chord (`0-12`) and `d` is the degree (`0-3`), returns a value from the `N` table."
+description = """
+The `H` OP lets you retrieve `N` tables values according to traditional western chords. `c` and `d` wrap to their ranges automatically and support negative indexing.
+
+Chords
+ - `0` = Major 7th `{0, 4, 7, 11}`
+ - `1` = Minor 7th `{0, 3, 7, 10}`
+ - `2` = Dominant 7th `{0, 4, 7, 10}`
+ - `3` = Diminished 7th `{0, 3, 6, 9}`
+ - `4` = Augmented 7th `{0, 4, 8, 10}`
+ - `5` = Dominant 7b5 `{0, 4, 6, 10}`
+ - `6` = Minor 7b5 `{0, 3, 6, 10}`
+ - `7` = Major 7#5 `{0, 4, 8, 11}`
+ - `8` = Minor Major 7th `{0, 3, 7, 11}`
+ - `9` = Diminished Major 7th `{0, 3, 6, 11}`
+ - `10` = Major 6th `{0, 4, 7, 9}`
+ - `11` = Minor 6th `{0, 3, 7, 9}`
+ - `12` = 7sus4 `{0, 5, 7, 10}`
+ """
+ 
+[U]
+prototype = "U r s d c"
+short = "Chord Scale Note operator, `r` is the root note (`0-127`), `s` is the scale (`0-8`), `d` is the scale degree (`0-6`) and `c` is the chord degree (`0-3`), returns a value from the `N` table."
+description = """
+The `U` OP lets you retrieve `N` tables values according to traditional western scales and chords. `s`, `c` and `d` wrap to their ranges automatically and support negative indexing.
+
+Chord Scales - Refer to chord indices in `H` OP
+ - `0` = Major `{0, 1, 1, 0, 2, 1, 6}`
+ - `1` = Natural Minor `{1, 6, 0, 1, 1, 0, 2}`
+ - `2` = Harmonic Minor `{8, 6, 7, 1, 2, 0, 3}`
+ - `3` = Melodic Minor `{8, 1, 7, 2, 2, 6, 6}`
+ - `4` = Dorian `{1, 1, 0, 2, 1, 6, 0}`
+ - `5` = Phrygian `{1, 0, 2, 1, 6, 0, 1}`
+ - `6` = Lydian `{0, 2, 1, 6, 0, 1, 1}`
+ - `7` = Myxolidian `{6, 0, 1, 1, 0, 2, 1}`
+ - `8` = Locrian `{6, 0, 1, 1, 0, 2, 1}`
+ """
+ 
 [BPM]
 prototype = "BPM x"
 short = "milliseconds per beat in BPM `x`"

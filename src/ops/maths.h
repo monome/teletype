@@ -47,6 +47,10 @@ extern const tele_op_t op_N;
 extern const tele_op_t op_V;
 extern const tele_op_t op_VV;
 extern const tele_op_t op_ER;
+extern const tele_op_t op_NR;
+extern const tele_op_t op_E;
+extern const tele_op_t op_H;
+extern const tele_op_t op_U;
 extern const tele_op_t op_BPM;
 extern const tele_op_t op_BIT_OR;
 extern const tele_op_t op_BIT_AND;
@@ -80,5 +84,6 @@ extern const tele_op_t op_SYM_LEFT_ANGLED_x3;      // <<< alias LROT
 extern const tele_op_t op_SYM_RIGHT_ANGLED_x3;     // >>> alias RROT
 extern const tele_op_t op_SYM_AMPERSAND_x2;        // && alias AND
 extern const tele_op_t op_SYM_PIPE_x2;             // || alias OR
+extern const tele_op_t op_SYM_HASH;                // # alias NR
 
 #endif

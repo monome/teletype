@@ -92,6 +92,14 @@ static void op_VV_get(const void *data, scene_state_t *ss, exec_state_t *es,
                       command_state_t *cs);
 static void op_ER_get(const void *data, scene_state_t *ss, exec_state_t *es,
                       command_state_t *cs);
+static void op_NR_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                      command_state_t *cs);
+static void op_E_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                      command_state_t *cs);
+static void op_H_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                     command_state_t *cs);
+static void op_U_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                     command_state_t *cs);
 static void op_BPM_get(const void *data, scene_state_t *ss, exec_state_t *es,
                        command_state_t *cs);
 static void op_BIT_OR_get(const void *data, scene_state_t *ss, exec_state_t *es,
@@ -168,6 +176,10 @@ const tele_op_t op_N     = MAKE_GET_OP(N       , op_N_get       , 1, true);
 const tele_op_t op_V     = MAKE_GET_OP(V       , op_V_get       , 1, true);
 const tele_op_t op_VV    = MAKE_GET_OP(VV      , op_VV_get      , 1, true);
 const tele_op_t op_ER    = MAKE_GET_OP(ER      , op_ER_get      , 3, true);
+const tele_op_t op_NR    = MAKE_GET_OP(NR      , op_NR_get      , 4, true);
+const tele_op_t op_E     = MAKE_GET_OP(E       , op_E_get       , 3, true);
+const tele_op_t op_H     = MAKE_GET_OP(H       , op_H_get       , 3, true);
+const tele_op_t op_U     = MAKE_GET_OP(U       , op_U_get       , 4, true);
 const tele_op_t op_BPM   = MAKE_GET_OP(BPM     , op_BPM_get     , 1, true);
 const tele_op_t op_BIT_OR  = MAKE_GET_OP(|, op_BIT_OR_get  , 2, true);
 const tele_op_t op_BIT_AND = MAKE_GET_OP(&, op_BIT_AND_get, 2, true);
@@ -201,6 +213,7 @@ const tele_op_t op_SYM_LEFT_ANGLED_x3     = MAKE_ALIAS_OP(<<<, op_LROT_get, NULL
 const tele_op_t op_SYM_RIGHT_ANGLED_x3    = MAKE_ALIAS_OP(>>>, op_RROT_get, NULL, 2, true);
 const tele_op_t op_SYM_AMPERSAND_x2       = MAKE_ALIAS_OP(&&,  op_AND_get,  NULL, 2, true);
 const tele_op_t op_SYM_PIPE_x2            = MAKE_ALIAS_OP(||,  op_OR_get ,  NULL, 2, true);
+const tele_op_t op_SYM_HASH               = MAKE_ALIAS_OP(#,   op_NR_get ,  NULL, 4, true);
 // clang-format on
 
 
@@ -648,6 +661,107 @@ static void op_ER_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
     int16_t len = cs_pop(cs);
     int16_t step = cs_pop(cs);
     cs_push(cs, euclidean(fill, len, step));
+}
+
+static void op_NR_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+                     exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t prime = cs_pop(cs) % 32;
+    if (prime < 0)
+        prime = 32 + prime;
+    uint16_t rhythm = (uint16_t)table_nr[prime];
+    int16_t mask = cs_pop(cs) & 4;
+    if (mask < 0)
+        mask = 4 + mask;
+    int16_t factor = cs_pop(cs) % 17;
+    if (factor < 0)
+        factor = 17 + factor;
+    int16_t step = cs_pop(cs) % 16;
+    if (step < 0)
+        step = 16 + step;
+    if (mask == 1)
+        rhythm = rhythm & 0x0F0F;
+    else if (mask == 2)
+        rhythm = rhythm & 0xF003;
+    else if (mask == 3)
+        rhythm = rhythm & 0x1F0;
+    uint32_t modified = rhythm * factor;
+    uint16_t final = (uint16_t)((modified & 0xFFFF) | (modified >> 16));
+    int16_t bit_status = (final >> (15 - step)) & 1;
+    cs_push(cs, bit_status);
+}
+
+static void op_E_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+                     exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t root = cs_pop(cs);
+    int16_t scale = cs_pop(cs) % 9;
+    if (scale < 0) {
+        scale = 9 + scale;
+    }
+    int16_t degree = cs_pop(cs) % 7;
+    if (degree < 0) {
+        degree = 7 + degree;
+    }
+    int16_t transpose = table_e[scale][degree];
+    if (root < 0) {
+        if (root < -127) root = -127;
+        root = -root;
+        cs_push(cs, -table_n[root + transpose]);
+    }
+    else {
+        if (root > 127) root = 127;
+        cs_push(cs, table_n[root + transpose]);
+    }
+}
+
+static void op_H_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+                     exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t root = cs_pop(cs);
+    int16_t chord = cs_pop(cs) % 13;
+    if (chord < 0) {
+        chord = 13 + chord;
+    }
+    int16_t degree = cs_pop(cs) % 4;
+    if (degree < 0) {
+        degree = 4 + degree;
+    }
+    int16_t transpose = table_h[chord][degree];
+    if (root < 0) {
+        if (root < -127) root = -127;
+        root = -root;
+        cs_push(cs, -table_n[root + transpose]);
+    }
+    else {
+        if (root > 127) root = 127;
+        cs_push(cs, table_n[root + transpose]);
+    }
+}
+
+static void op_U_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+                     exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t root = cs_pop(cs);
+    int16_t scale = cs_pop(cs) % 9;
+    if (scale < 0) {
+        scale = 9 + scale;
+    }
+    int16_t scl_deg = cs_pop(cs) % 7;
+    if (scl_deg < 0) {
+        scl_deg = 7 + scl_deg;
+    }
+    int16_t scl_trans = table_e[scale][scl_deg];
+    int16_t ch_deg = cs_pop(cs) % 4;
+    if (ch_deg < 0) {
+        ch_deg = 4 + ch_deg;
+    }
+    int16_t ch_trans = table_h[table_u[scale][scl_deg]][ch_deg];
+    if (root < 0) {
+        if (root < -127) root = -127;
+        root = -root;
+        cs_push(cs, -table_n[root + scl_trans + ch_trans]);
+    }
+    else {
+        if (root > 127) root = 127;
+        cs_push(cs, table_n[root + scl_trans + ch_trans]);
+    }
 }
 
 static void op_BPM_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),

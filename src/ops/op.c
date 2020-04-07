@@ -82,7 +82,7 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     &op_WRAP, &op_WRP, &op_QT, &op_AVG, &op_EQ, &op_NE, &op_LT, &op_GT, &op_LTE,
     &op_GTE, &op_NZ, &op_EZ, &op_RSH, &op_LSH, &op_LROT, &op_RROT,
     &op_EXP, &op_ABS, &op_SGN, &op_AND, &op_OR,
-    &op_JI, &op_SCALE, &op_SCL, &op_N, &op_V, &op_VV, &op_ER, &op_BPM,
+    &op_JI, &op_SCALE, &op_SCL, &op_N, &op_V, &op_VV, &op_ER, &op_NR, &op_E, &op_H, &op_U, &op_BPM,
     &op_BIT_OR, &op_BIT_AND, &op_BIT_NOT, &op_BIT_XOR, &op_BSET, &op_BGET,
     &op_BCLR, &op_XOR, &op_CHAOS, &op_CHAOS_R, &op_CHAOS_ALG, &op_SYM_PLUS,
     &op_SYM_DASH, &op_SYM_STAR, &op_SYM_FORWARD_SLASH, &op_SYM_PERCENTAGE,
@@ -90,7 +90,7 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     &op_SYM_RIGHT_ANGLED, &op_SYM_LEFT_ANGLED_EQUAL, &op_SYM_RIGHT_ANGLED_EQUAL,
     &op_SYM_EXCLAMATION, &op_SYM_LEFT_ANGLED_x2, &op_SYM_RIGHT_ANGLED_x2,
     &op_SYM_LEFT_ANGLED_x3, &op_SYM_RIGHT_ANGLED_x3,
-    &op_SYM_AMPERSAND_x2, &op_SYM_PIPE_x2, &op_TIF,
+    &op_SYM_AMPERSAND_x2, &op_SYM_PIPE_x2, &op_SYM_HASH, &op_TIF,
 
     // stack
     &op_S_ALL, &op_S_POP, &op_S_CLR, &op_S_L,
