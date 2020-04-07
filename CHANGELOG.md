@@ -10,6 +10,8 @@
 - **NEW**: new op: `SGN` (sign of argument)
 - **NEW**: new kria remote op: `KR.DUR`
 - **FIX**: dim M in edit mode when metro inactive
+- **NEW**: new pattern ops: P.SHUF, PN.SHUF, P.REV, PN.REV, P.ROT, PN.ROT
+- **NEW**: new pattern mods: `P.MAP:`, `PN.MAP x:`
 
 ## v3.1.0
 

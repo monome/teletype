@@ -3,6 +3,9 @@
 
 #include "ops/op.h"
 
+extern const tele_mod_t mod_P_MAP;
+extern const tele_mod_t mod_PN_MAP;
+
 extern const tele_op_t op_P_N;
 extern const tele_op_t op_P;
 extern const tele_op_t op_PN;
@@ -35,6 +38,12 @@ extern const tele_op_t op_P_MIN;
 extern const tele_op_t op_PN_MIN;
 extern const tele_op_t op_P_MAX;
 extern const tele_op_t op_PN_MAX;
+extern const tele_op_t op_P_SHUF;
+extern const tele_op_t op_PN_SHUF;
+extern const tele_op_t op_P_REV;
+extern const tele_op_t op_PN_REV;
+extern const tele_op_t op_P_ROT;
+extern const tele_op_t op_PN_ROT;
 
 extern const tele_op_t op_P_RND;
 extern const tele_op_t op_PN_RND;

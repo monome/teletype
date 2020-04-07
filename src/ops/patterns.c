@@ -758,6 +758,145 @@ const tele_op_t op_P_MAX = MAKE_GET_OP(P.MAX, op_P_MAX_get, 0, true);
 const tele_op_t op_PN_MAX = MAKE_GET_OP(PN.MAX, op_PN_MAX_get, 1, true);
 
 ////////////////////////////////////////////////////////////////////////////////
+// P.SHUF, P.REV, P.ROT /////////////////////////////////////////////////
+
+static void p_shuffle(scene_state_t *ss, int16_t pn) {
+    pn = normalise_pn(pn);
+    int16_t start = ss_get_pattern_start(ss, pn);
+    int16_t end = ss_get_pattern_end(ss, pn);
+    int16_t draw, xchg;
+    random_state_t *r = &ss->rand_states.s.pattern.rand;
+
+    if (end < start) {
+        return;
+    }
+    for (int16_t i = end; i > start; i--) {
+        draw = (random_next(r) % (i - start + 1)) + start;
+        xchg = ss_get_pattern_val(ss, pn, draw);
+        ss_set_pattern_val(ss, pn, draw, ss_get_pattern_val(ss, pn, i));
+        ss_set_pattern_val(ss, pn, i, xchg);
+    }
+
+    tele_pattern_updated();
+}
+
+static void op_P_SHUF_get(const void *NOTUSED(data), scene_state_t *ss,
+                         exec_state_t *NOTUSED(es), command_state_t *NOTUSED(cs)) {
+    p_shuffle(ss, ss->variables.p_n);
+}
+
+static void op_PN_SHUF_get(const void *NOTUSED(data), scene_state_t *ss,
+                         exec_state_t *NOTUSED(es), command_state_t *cs) {
+    p_shuffle(ss, cs_pop(cs));
+}
+
+const tele_op_t op_P_SHUF = MAKE_GET_OP(P.SHUF, op_P_SHUF_get, 0, false);
+const tele_op_t op_PN_SHUF = MAKE_GET_OP(PN.SHUF, op_PN_SHUF_get, 1, false);
+
+static void p_reverse(scene_state_t *ss, int16_t pn, int16_t start, int16_t end) {
+    pn = normalise_pn(pn);
+
+    if (end < start) {
+        return;
+    }
+    int16_t midpt = (end - start) / 2;
+    int16_t xchg;
+    for (int16_t i = 0; i <= midpt; i++) {
+        xchg = ss_get_pattern_val(ss, pn, end - i);
+        ss_set_pattern_val(ss, pn, end - i, ss_get_pattern_val(ss, pn, start + i));
+        ss_set_pattern_val(ss, pn, start + i, xchg);
+    }
+
+    tele_pattern_updated();
+}
+
+static void op_P_REV_get(const void *NOTUSED(data), scene_state_t *ss,
+                         exec_state_t *NOTUSED(es), command_state_t *NOTUSED(cs)) {
+    int16_t pn = ss->variables.p_n;
+    p_reverse(ss, pn,
+              ss_get_pattern_start(ss, pn), ss_get_pattern_end(ss, pn));
+}
+
+static void op_PN_REV_get(const void *NOTUSED(data), scene_state_t *ss,
+                         exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t pn = cs_pop(cs);
+    p_reverse(ss, pn,
+              ss_get_pattern_start(ss, pn), ss_get_pattern_end(ss, pn));
+}
+
+const tele_op_t op_P_REV = MAKE_GET_OP(P.REV, op_P_REV_get, 0, false);
+const tele_op_t op_PN_REV = MAKE_GET_OP(PN.REV, op_PN_REV_get, 1, false);
+
+static void p_rotate(scene_state_t *ss, int16_t pn, int16_t shift) {
+    pn = normalise_pn(pn);
+    int16_t start = ss_get_pattern_start(ss, pn);
+    int16_t end = ss_get_pattern_end(ss, pn);
+    if (end < start) {
+        return;
+    }
+    int16_t len = end - start;
+
+    if (shift < 0) {
+        shift = -shift;
+        shift = shift % len;
+        if (shift == 0) return;
+        p_reverse(ss, pn, start, start + shift - 1);
+        p_reverse(ss, pn, start + shift, end);
+        p_reverse(ss, pn, start, end);
+    }
+    else {
+        shift = shift % len;
+        if (shift == 0) return;
+        p_reverse(ss, pn, end - shift + 1, end);
+        p_reverse(ss, pn, start, end - shift);
+        p_reverse(ss, pn, start, end);
+    }
+}
+
+static void op_P_ROT_get(const void *NOTUSED(data), scene_state_t *ss,
+                         exec_state_t *NOTUSED(es), command_state_t *cs) {
+    p_rotate(ss, ss->variables.p_n, cs_pop(cs));
+}
+
+static void op_PN_ROT_get(const void *NOTUSED(data), scene_state_t *ss,
+                         exec_state_t *NOTUSED(es), command_state_t *cs) {
+    p_rotate(ss, cs_pop(cs), cs_pop(cs));
+}
+
+const tele_op_t op_P_ROT = MAKE_GET_OP(P.ROT, op_P_ROT_get, 1, false);
+const tele_op_t op_PN_ROT = MAKE_GET_OP(PN.ROT, op_PN_ROT_get, 2, false);
+
+static void p_cycle(scene_state_t *ss, int16_t pn) {
+    pn = normalise_pn(pn);
+    int16_t start = ss_get_pattern_start(ss, pn);
+    int16_t end = ss_get_pattern_end(ss, pn);
+    int16_t len = ss_get_pattern_len(ss, pn);
+
+    if (end < start) {
+        return;
+    }
+    for (int16_t i = start; i <= end; i++) {
+        ss_set_pattern_val(ss, pn, i, ss_get_pattern_val(ss, pn, (i - start) % len));
+    }
+
+    tele_pattern_updated();
+}
+
+static void op_P_CYC_get(const void *NOTUSED(data), scene_state_t *ss,
+                         exec_state_t *NOTUSED(es), command_state_t *NOTUSED(cs)) {
+    p_cycle(ss, ss->variables.p_n);
+}
+
+static void op_PN_CYC_get(const void *NOTUSED(data), scene_state_t *ss,
+                         exec_state_t *NOTUSED(es), command_state_t *cs) {
+    p_cycle(ss, cs_pop(cs));
+}
+
+const tele_op_t op_P_CYC = MAKE_GET_OP(P.CYC, op_P_CYC_get, 0, false);
+const tele_op_t op_PN_CYC = MAKE_GET_OP(PN.CYC, op_PN_CYC_get, 1, false);
+
+
+////////////////////////////////////////////////////////////////////////////////
 // P.RND ///////////////////////////////////////////////////////////////////////
 
 static int16_t p_rnd_get(scene_state_t *ss, int16_t pn) {
@@ -902,3 +1041,43 @@ const tele_op_t op_PN_SUB = MAKE_GET_OP(PN.-, op_PN_SUB_get, 3, false);
 const tele_op_t op_P_SUBW = MAKE_GET_OP(P.-W, op_P_SUBW_get, 4, false);
 const tele_op_t op_PN_SUBW = MAKE_GET_OP(PN.-W, op_PN_SUBW_get, 5, false);
 // clang-format on
+
+////////////////////////////////////////////////////////////////////////////////
+// mods: P.MAP, PN.MAP /////////////////////////////////////////////////////////
+
+static void p_map(scene_state_t *ss, exec_state_t *es,
+                  const tele_command_t *post_command,
+                  int16_t pn) {
+    pn = normalise_pn(pn);
+    int16_t start = ss_get_pattern_start(ss, pn);
+    int16_t end = ss_get_pattern_end(ss, pn);
+    int16_t *i = &es_variables(es)->i;
+    process_result_t output;
+
+    if (start >= end) {
+        return;
+    }
+
+    for (int16_t idx = start; idx <= end; idx++) {
+        *i = ss_get_pattern_val(ss, pn, idx);
+        output = process_command(ss, es, post_command);
+        if (output.has_value) {
+            ss_set_pattern_val(ss, pn, idx, output.value);
+        }
+    }
+
+    tele_pattern_updated();
+}
+
+static void mod_P_MAP_func(scene_state_t *ss, exec_state_t *es, command_state_t *cs,
+                           const tele_command_t *post_command) {
+    p_map(ss, es, post_command, ss->variables.p_n);
+}
+
+static void mod_PN_MAP_func(scene_state_t *ss, exec_state_t *es, command_state_t *cs,
+                           const tele_command_t *post_command) {
+    p_map(ss, es, post_command, cs_pop(cs));
+}
+
+const tele_mod_t mod_P_MAP = MAKE_MOD(P.MAP, mod_P_MAP_func, 0);
+const tele_mod_t mod_PN_MAP = MAKE_MOD(PN.MAP, mod_PN_MAP_func, 1);

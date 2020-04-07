@@ -203,6 +203,29 @@ short = "find the first maximum value in the pattern between the START and END f
 prototype = "PN.MAX x"
 short = "find the first maximum value in the pattern between the START and END for pattern `x` and return its index"
 
+["P.SHUF"]
+prototype = "P.SHUF"
+short = "shuffle the values in active pattern (between its START and END)"
+
+["PN.SHUF"]
+prototype = "PN.SHUF x"
+short = "shuffle the values in pattern `x` (between its START and END)"
+
+["P.ROT"]
+prototype = "P.ROT n"
+short = "rotate the values in the active pattern `n` steps (between its START and END, negative rotates backward)"
+
+["PN.ROT"]
+prototype = "PN.ROT x n"
+short = "rotate the values in pattern `x` (between its START and END, negative rotates backward)"
+
+["P.REV"]
+prototype = "P.REV"
+short = "reverse the values in the active pattern (between its START and END)"
+
+["PN.REV"]
+prototype = "PN.REV x"
+short = "reverse the values in pattern `x`"
 
 ["P.RND"]
 prototype = "P.RND"
@@ -243,3 +266,23 @@ short = "decrease the value of the working pattern at index `x` by `y` and wrap 
 ["PN.-W"]
 prototype = "PN.-W x y z a b"
 short = "decrease the value of pattern `x` at index `y` by `z` and wrap it to `a`..`b` range"
+
+["P.MAP"]
+prototype = "P.MAP: ..."
+short = "apply the 'function' to each value in the active pattern, `I` takes each pattern value"
+description = """
+Replace each cell in the active pattern (between the START and END of the pattern) by assigning
+the variable I to the current value of the cell, evaluating the command after the mod, and
+assigning that pattern cell with the result. The 'map' higher-order function from functional
+programming, with the command giving the function of `I` to map over the pattern.
+
+For example:
+
+```
+P.MAP: * 2 I  => double each cell in the active pattern
+```
+"""
+
+["PN.MAP"]
+prototype = "PN.MAP x: ..."
+short = "apply the 'function' to each value in pattern `x`, `I` takes each pattern value"

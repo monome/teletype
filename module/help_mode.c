@@ -253,7 +253,7 @@ const char* help6[HELP6_LENGTH] = { "6/13 PRE :",
                                     " ",
                                     "BREAK|STOP EXECUTION" };
 
-#define HELP7_LENGTH 37
+#define HELP7_LENGTH 43
 const char* help7[HELP7_LENGTH] = { "7/13 PATTERNS",
                                     " ",
                                     "// DIRECT ACCESS",
@@ -290,7 +290,14 @@ const char* help7[HELP7_LENGTH] = { "7/13 PATTERNS",
                                     "P.+W A B C D",
                                     " |INC AND WRAP TO C..D",
                                     "P.-W A B C D",
-                                    " |DEC AND WRAP TO C..D" };
+                                    " |DEC AND WRAP TO C..D",
+                                    " ",
+                                    "// CHANGE WHOLE PATTERN",
+                                    "P.SHUF|SHUFFLE",
+                                    "P.REV|REVERSE",
+                                    "P.ROT|ROTATE (NEG OK)",
+                                    "P.MAP:|APPLY FUNC" };
+
 #define HELP8_LENGTH 135
 const char* help8[HELP8_LENGTH] = { "8/13 GRID",
                                     " ",
