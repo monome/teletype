@@ -102,14 +102,14 @@ The tracker mode clipboard is independent of text and code clipboard.
 | **`alt-<right>`**       | move to the very right                                                                |
 | **`[`**                 | decrement by 1                                                                        |
 | **`]`**                 | increment by 1                                                                        |
-| **`alt-[`**                 | decrement by 1 semitone                                                                        |
-| **`alt-]`**                 | increment by 1 semitone                                                                       |
-| **`ctrl-[`**                 | decrement by 7 semitones                                                                        |
-| **`ctrl-]`**                 | increment by 7 semitones                                                                       |
-| **`shift-[`**                 | decrement by 12 semitones                                                                        |
-| **`shift-]`**                 | increment by 12 semitones                                                                       |
-| **`alt-<0-9>`**                 | increment by `<0-9>` semitones (0=10, 1=11)                                          |
-| **`shift-alt-<0-9>`**                 | decrement by `<0-9>` semitones  (0=10, 1=11)                                |
+| **`alt-[`**             | decrement by 1 semitone                                                               |
+| **`alt-]`**             | increment by 1 semitone                                                               |
+| **`ctrl-[`**            | decrement by 7 semitones                                                              |
+| **`ctrl-]`**            | increment by 7 semitones                                                              |
+| **`shift-[`**           | decrement by 12 semitones                                                             |
+| **`shift-]`**           | increment by 12 semitones                                                             |
+| **`alt-<0-9>`**         | increment by `<0-9>` semitones (0=10, 1=11)                                           |
+| **`shift-alt-<0-9>`**   | decrement by `<0-9>` semitones  (0=10, 1=11)                                          |
 | **`<backspace>`**       | delete a digit                                                                        |
 | **`shift-<backspace>`** | delete an entry, shift numbers up                                                     |
 | **`<enter>`**           | commit edit (increase length if cursor in position after last entry)                  |
