@@ -77,7 +77,7 @@ void pattern_down() {
     dirty = true;
 }
 
-static uint16_t transpose_n_value(int16_t value, int8_t interval) {
+static int16_t transpose_n_value(int16_t value, int8_t interval) {
     uint8_t last_note = 127;
     if (interval > last_note) {
         interval = last_note;
