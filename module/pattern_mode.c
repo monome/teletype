@@ -108,6 +108,31 @@ static uint16_t note_increment(int16_t value, uint8_t interval) {
     return new_value;
 }
 
+void note_transpose(int8_t transpose) {
+    if (editing_number) {
+        if (transpose < 0) {
+            edit_buffer = note_decrement(edit_buffer, -transpose);
+        }
+        else {
+            edit_buffer = note_increment(edit_buffer, transpose);
+        }
+        dirty = true;
+    }
+    else {
+        int16_t pattern_val =
+            ss_get_pattern_val(&scene_state, pattern, base + offset);
+        int16_t new_val;
+        if (transpose < 0) {
+            new_val = note_decrement(pattern_val, -transpose);
+        }
+        else {
+            new_val = note_increment(pattern_val, transpose);
+        }
+        ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
+        dirty = true;
+    }
+}
+
 void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
     // <down>: move down
     if (match_no_mod(m, k, HID_DOWN)) { pattern_down(); }
@@ -204,121 +229,41 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
     }
     // alt-[: decrement by 1 semitone
     else if (match_alt(m, k, HID_OPEN_BRACKET)) {
-        if (editing_number) {
-            edit_buffer = note_decrement(edit_buffer, 1);
-            dirty = true;
-        }
-        else {
-            int16_t pattern_val =
-                ss_get_pattern_val(&scene_state, pattern, base + offset);
-            int16_t new_val = note_decrement(pattern_val, 1);
-            ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
-            dirty = true;
-        }
+        note_transpose(-1);
     }
     // alt-]: increment by 1 semitone
     else if (match_alt(m, k, HID_CLOSE_BRACKET)) {
-        if (editing_number) {
-            edit_buffer = note_increment(edit_buffer, 1);
-            dirty = true;
-        }
-        else {
-            int16_t pattern_val =
-                ss_get_pattern_val(&scene_state, pattern, base + offset);
-            int16_t new_val = note_increment(pattern_val, 1);
-            ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
-            dirty = true;
-        }
+        note_transpose(1);
     }
     // ctrl-[: decrement by a fifth (7 semitones)
     else if (match_ctrl(m, k, HID_OPEN_BRACKET)) {
-        if (editing_number) {
-            edit_buffer = note_decrement(edit_buffer, 7);
-            dirty = true;
-        }
-        else {
-            int16_t pattern_val =
-                ss_get_pattern_val(&scene_state, pattern, base + offset);
-            int16_t new_val = note_decrement(pattern_val, 7);
-            ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
-            dirty = true;
-        }
+        note_transpose(-7);
     }
     // ctrl-]: increment by a fifth (7 semitones)
     else if (match_ctrl(m, k, HID_CLOSE_BRACKET)) {
-        if (editing_number) {
-            edit_buffer = note_increment(edit_buffer, 7);
-            dirty = true;
-        }
-        else {
-            int16_t pattern_val =
-                ss_get_pattern_val(&scene_state, pattern, base + offset);
-            int16_t new_val = note_increment(pattern_val, 7);
-            ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
-            dirty = true;
-        }
+        note_transpose(7);
     }
     // sh-[: decrement by 1 octave
     else if (match_shift(m, k, HID_OPEN_BRACKET)) {
-        if (editing_number) {
-            edit_buffer = note_decrement(edit_buffer, 12);
-            dirty = true;
-        }
-        else {
-            int16_t pattern_val =
-                ss_get_pattern_val(&scene_state, pattern, base + offset);
-            int16_t new_val = note_decrement(pattern_val, 12);
-            ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
-            dirty = true;
-        }
+        note_transpose(-12);
     }
     // sh-]: increment by 1 octave
     else if (match_shift(m, k, HID_CLOSE_BRACKET)) {
-        if (editing_number) {
-            edit_buffer = note_increment(edit_buffer, 12);
-            dirty = true;
-        }
-        else {
-            int16_t pattern_val =
-                ss_get_pattern_val(&scene_state, pattern, base + offset);
-            int16_t new_val = note_increment(pattern_val, 12);
-            ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
-            dirty = true;
-        }
+        note_transpose(12);
     }
     // alt-<0-9>: transpose up by numeric semitones
     else if (mod_only_alt(m) && k >= HID_1 && k <= HID_0) {
         uint8_t n = (k - HID_1 + 1);  // convert HID numbers to decimal,
                                       // leave 0 = 10 semitones
         if (n == 1) n = 11;  // 1 = 11 semitones since we already have alt-[ ]
-        if (editing_number) {
-            edit_buffer = note_increment(edit_buffer, n);
-            dirty = true;
-        }
-        else {
-            int16_t pattern_val =
-                ss_get_pattern_val(&scene_state, pattern, base + offset);
-            int16_t new_val = note_increment(pattern_val, n);
-            ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
-            dirty = true;
-        }
+        note_transpose(n);
     }
     // sh-alt-<0-9>: transpose down by numeric semitones
     else if (mod_only_shift_alt(m) && k >= HID_1 && k <= HID_0) {
         uint8_t n = (k - HID_1 + 1);  // convert HID numbers to decimal,
                                       // leave 0 = 10 semitones
         if (n == 1) n = 11;  // 1 = 11 semitones since we already have alt-[ ]
-        if (editing_number) {
-            edit_buffer = note_decrement(edit_buffer, n);
-            dirty = true;
-        }
-        else {
-            int16_t pattern_val =
-                ss_get_pattern_val(&scene_state, pattern, base + offset);
-            int16_t new_val = note_decrement(pattern_val, n);
-            ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
-            dirty = true;
-        }
+        note_transpose(-n);
     }
     // <backspace>: delete a digit
     else if (match_no_mod(m, k, HID_BACKSPACE)) {
