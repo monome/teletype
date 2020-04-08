@@ -213,7 +213,6 @@ const tele_op_t op_SYM_LEFT_ANGLED_x3     = MAKE_ALIAS_OP(<<<, op_LROT_get, NULL
 const tele_op_t op_SYM_RIGHT_ANGLED_x3    = MAKE_ALIAS_OP(>>>, op_RROT_get, NULL, 2, true);
 const tele_op_t op_SYM_AMPERSAND_x2       = MAKE_ALIAS_OP(&&,  op_AND_get,  NULL, 2, true);
 const tele_op_t op_SYM_PIPE_x2            = MAKE_ALIAS_OP(||,  op_OR_get ,  NULL, 2, true);
-const tele_op_t op_SYM_HASH               = MAKE_ALIAS_OP(#,   op_NR_get ,  NULL, 4, true);
 // clang-format on
 
 

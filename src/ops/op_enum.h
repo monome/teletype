@@ -209,7 +209,6 @@ typedef enum {
     E_OP_SYM_RIGHT_ANGLED_x3,
     E_OP_SYM_AMPERSAND_x2,
     E_OP_SYM_PIPE_x2,
-    E_OP_SYM_HASH,
     E_OP_TIF,
     E_OP_S_ALL,
     E_OP_S_POP,

@@ -210,7 +210,6 @@ For more info, see the post on [samdoshi.com][samdoshi_com_euclidean]
 
 [NR]
 prototype = "NR p m f s"
-aliases = ["#"]
 short = "Numeric Repeater, `p` is prime pattern (`0-31`), `m` is & mask (`0-3`), `f` is variation factor (`0-16`) and `s` is step (`0-15`), returns `0` or `1`"
 description = """
 Numeric Repeater is similar to ER, except it generates patterns using the binary arithmetic process found in ["Noise Engineering's Numeric Repetitor"][numeric_repetitor]. From the description:
