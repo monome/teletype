@@ -136,7 +136,7 @@ const int table_n_c[13][4] = {
     {0, 5, 7, 10},  // 7th sus 4       - 12
 };
 
-// chord scales for N.CS op - values are indices into table_ch
+// chord scales for N.CS op - values are indices into table_n_c
 const int table_n_cs[9][7] = {
     {0, 1, 1, 0, 2, 1, 6}, // Major
     {1, 6, 0, 1, 1, 0, 2}, // Natural Minor
