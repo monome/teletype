@@ -203,9 +203,9 @@
         "VV"          => { MATCH_OP(E_OP_VV); };
         "ER"          => { MATCH_OP(E_OP_ER); };
         "NR"          => { MATCH_OP(E_OP_NR); };
-        "E"           => { MATCH_OP(E_OP_E); };
-        "H"           => { MATCH_OP(E_OP_H); };
-        "U"           => { MATCH_OP(E_OP_U); };
+        "SN"          => { MATCH_OP(E_OP_SN); };
+        "CN"          => { MATCH_OP(E_OP_CN); };
+        "CSN"         => { MATCH_OP(E_OP_CSN); };
         "BPM"         => { MATCH_OP(E_OP_BPM);; };
         "|"           => { MATCH_OP(E_OP_BIT_OR);; };
         "&"           => { MATCH_OP(E_OP_BIT_AND);; };

@@ -231,11 +231,11 @@ For further detail ["see the manual"][nr_manual].
 [nr_manual]: https://static1.squarespace.com/static/58c709192e69cf2422026fa6/t/5e6041ad4cbc0979d6d793f2/1583366574430/NR_manual.pdf
 """
 
-[E]
-prototype = "E r s d"
-short = "Note Scale operator, `r` is the root note (`0-127`), `s` is the scale (`0-8`) and `d` is the degree (`0-6`), returns a value from the `N` table."
+[SN]
+prototype = "SN r s d"
+short = "Scale Note operator, `r` is the root note (`0-127`), `s` is the scale (`0-8`) and `d` is the degree (`0-6`), returns a value from the `N` table."
 description = """
-The `E` OP lets you retrieve `N` table values according to traditional western scales. `s` and `d` wrap to their ranges automatically and support negative indexing.
+The `SN` OP lets you retrieve `N` table values according to traditional western scales. `s` and `d` wrap to their ranges automatically and support negative indexing.
 
 Scales
  - `0` = Major
@@ -249,11 +249,11 @@ Scales
  - `8` = Locrian
 """
 
-[H]
-prototype = "H r c d"
+[CN]
+prototype = "CN r c d"
 short = "Chord Note operator, `r` is the root note (`0-127`), `c` is the chord (`0-12`) and `d` is the degree (`0-3`), returns a value from the `N` table."
 description = """
-The `H` OP lets you retrieve `N` table values according to traditional western chords. `c` and `d` wrap to their ranges automatically and support negative indexing.
+The `CN` OP lets you retrieve `N` table values according to traditional western chords. `c` and `d` wrap to their ranges automatically and support negative indexing.
 
 Chords
  - `0` = Major 7th `{0, 4, 7, 11}`
@@ -271,13 +271,13 @@ Chords
  - `12` = 7sus4 `{0, 5, 7, 10}`
  """
  
-[U]
-prototype = "U r s d c"
+[CSN]
+prototype = "CSN r s d c"
 short = "Chord Scale Note operator, `r` is the root note (`0-127`), `s` is the scale (`0-8`), `d` is the scale degree (`0-6`) and `c` is the chord degree (`0-3`), returns a value from the `N` table."
 description = """
-The `U` OP lets you retrieve `N` table values according to traditional western scales and chords. `s`, `c` and `d` wrap to their ranges automatically and support negative indexing.
+The `CSN` OP lets you retrieve `N` table values according to traditional western scales and chords. `s`, `c` and `d` wrap to their ranges automatically and support negative indexing.
 
-Chord Scales - Refer to chord indices in `H` OP
+Chord Scales - Refer to chord indices in `CN` OP
  - `0` = Major `{0, 1, 1, 0, 2, 1, 6}`
  - `1` = Natural Minor `{1, 6, 0, 1, 1, 0, 2}`
  - `2` = Harmonic Minor `{8, 6, 7, 1, 2, 0, 3}`
