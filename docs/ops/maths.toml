@@ -231,64 +231,6 @@ For further detail ["see the manual"][nr_manual].
 [nr_manual]: https://static1.squarespace.com/static/58c709192e69cf2422026fa6/t/5e6041ad4cbc0979d6d793f2/1583366574430/NR_manual.pdf
 """
 
-[SN]
-prototype = "SN r s d"
-short = "Scale Note operator, `r` is the root note (`0-127`), `s` is the scale (`0-8`) and `d` is the degree (`0-6`), returns a value from the `N` table."
-description = """
-The `SN` OP lets you retrieve `N` table values according to traditional western scales. `s` and `d` wrap to their ranges automatically and support negative indexing.
-
-Scales
- - `0` = Major
- - `1` = Natural Minor
- - `2` = Harmonic Minor
- - `3` = Melodic Minor
- - `4` = Dorian
- - `5` = Phrygian
- - `6` = Lydian
- - `7` = Myxolidian
- - `8` = Locrian
-"""
-
-[CN]
-prototype = "CN r c d"
-short = "Chord Note operator, `r` is the root note (`0-127`), `c` is the chord (`0-12`) and `d` is the degree (`0-3`), returns a value from the `N` table."
-description = """
-The `CN` OP lets you retrieve `N` table values according to traditional western chords. `c` and `d` wrap to their ranges automatically and support negative indexing.
-
-Chords
- - `0` = Major 7th `{0, 4, 7, 11}`
- - `1` = Minor 7th `{0, 3, 7, 10}`
- - `2` = Dominant 7th `{0, 4, 7, 10}`
- - `3` = Diminished 7th `{0, 3, 6, 9}`
- - `4` = Augmented 7th `{0, 4, 8, 10}`
- - `5` = Dominant 7b5 `{0, 4, 6, 10}`
- - `6` = Minor 7b5 `{0, 3, 6, 10}`
- - `7` = Major 7#5 `{0, 4, 8, 11}`
- - `8` = Minor Major 7th `{0, 3, 7, 11}`
- - `9` = Diminished Major 7th `{0, 3, 6, 11}`
- - `10` = Major 6th `{0, 4, 7, 9}`
- - `11` = Minor 6th `{0, 3, 7, 9}`
- - `12` = 7sus4 `{0, 5, 7, 10}`
- """
- 
-[CSN]
-prototype = "CSN r s d c"
-short = "Chord Scale Note operator, `r` is the root note (`0-127`), `s` is the scale (`0-8`), `d` is the scale degree (`0-6`) and `c` is the chord degree (`0-3`), returns a value from the `N` table."
-description = """
-The `CSN` OP lets you retrieve `N` table values according to traditional western scales and chords. `s`, `c` and `d` wrap to their ranges automatically and support negative indexing.
-
-Chord Scales - Refer to chord indices in `CN` OP
- - `0` = Major `{0, 1, 1, 0, 2, 1, 6}`
- - `1` = Natural Minor `{1, 6, 0, 1, 1, 0, 2}`
- - `2` = Harmonic Minor `{8, 6, 7, 1, 2, 0, 3}`
- - `3` = Melodic Minor `{8, 1, 7, 2, 2, 6, 6}`
- - `4` = Dorian `{1, 1, 0, 2, 1, 6, 0}`
- - `5` = Phrygian `{1, 0, 2, 1, 6, 0, 1}`
- - `6` = Lydian `{0, 2, 1, 6, 0, 1, 1}`
- - `7` = Myxolidian `{6, 0, 1, 1, 0, 2, 1}`
- - `8` = Locrian `{6, 0, 1, 1, 0, 2, 1}`
- """
- 
 [BPM]
 prototype = "BPM x"
 short = "milliseconds per beat in BPM `x`"
@@ -307,6 +249,64 @@ CV 1 N RAND 24   => set CV 1 to a random note from the lowest 2 octaves
 ```
 """
 
+["N.S"]
+prototype = "N.S r s d"
+short = "Note Scale operator, `r` is the root note (`0-127`), `s` is the scale (`0-8`) and `d` is the degree (`0-6`), returns a value from the `N` table."
+description = """
+The `N.S` OP lets you retrieve `N` table values according to traditional western scales. `s` and `d` wrap to their ranges automatically and support negative indexing.
+
+Scales
+ - `0` = Major
+ - `1` = Natural Minor
+ - `2` = Harmonic Minor
+ - `3` = Melodic Minor
+ - `4` = Dorian
+ - `5` = Phrygian
+ - `6` = Lydian
+ - `7` = Myxolidian
+ - `8` = Locrian
+"""
+
+["N.C"]
+prototype = "N.C r c d"
+short = "Note Chord operator, `r` is the root note (`0-127`), `c` is the chord (`0-12`) and `d` is the degree (`0-3`), returns a value from the `N` table."
+description = """
+The `N.C` OP lets you retrieve `N` table values according to traditional western chords. `c` and `d` wrap to their ranges automatically and support negative indexing.
+
+Chords
+ - `0` = Major 7th `{0, 4, 7, 11}`
+ - `1` = Minor 7th `{0, 3, 7, 10}`
+ - `2` = Dominant 7th `{0, 4, 7, 10}`
+ - `3` = Diminished 7th `{0, 3, 6, 9}`
+ - `4` = Augmented 7th `{0, 4, 8, 10}`
+ - `5` = Dominant 7b5 `{0, 4, 6, 10}`
+ - `6` = Minor 7b5 `{0, 3, 6, 10}`
+ - `7` = Major 7#5 `{0, 4, 8, 11}`
+ - `8` = Minor Major 7th `{0, 3, 7, 11}`
+ - `9` = Diminished Major 7th `{0, 3, 6, 11}`
+ - `10` = Major 6th `{0, 4, 7, 9}`
+ - `11` = Minor 6th `{0, 3, 7, 9}`
+ - `12` = 7sus4 `{0, 5, 7, 10}`
+ """
+ 
+["N.CS"]
+prototype = "N.CS r s d c"
+short = "Note Chord Scale operator, `r` is the root note (`0-127`), `s` is the scale (`0-8`), `d` is the scale degree (`0-6`) and `c` is the chord degree (`0-3`), returns a value from the `N` table."
+description = """
+The `N.CS` OP lets you retrieve `N` table values according to traditional western scales and chords. `s`, `c` and `d` wrap to their ranges automatically and support negative indexing.
+
+Chord Scales - Refer to chord indices in `N.C` OP
+ - `0` = Major `{0, 1, 1, 0, 2, 1, 6}`
+ - `1` = Natural Minor `{1, 6, 0, 1, 1, 0, 2}`
+ - `2` = Harmonic Minor `{8, 6, 7, 1, 2, 0, 3}`
+ - `3` = Melodic Minor `{8, 1, 7, 2, 2, 6, 6}`
+ - `4` = Dorian `{1, 1, 0, 2, 1, 6, 0}`
+ - `5` = Phrygian `{1, 0, 2, 1, 6, 0, 1}`
+ - `6` = Lydian `{0, 2, 1, 6, 0, 1, 1}`
+ - `7` = Myxolidian `{6, 0, 1, 1, 0, 2, 1}`
+ - `8` = Locrian `{6, 0, 1, 1, 0, 2, 1}`
+ """
+ 
 [V]
 prototype = "V x"
 short = "converts a voltage to a value usable by the CV outputs (`x` between `0` and `10`)"

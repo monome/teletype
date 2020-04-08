@@ -106,8 +106,8 @@ const int table_nr[32] = {
     0x84A2, 0x84A4, 0x850A, 0x8512, 0x8514, 0x8522, 0x8524, 0x8544
 };
 
-// scales for SN op
-const int table_sn[9][7] = {
+// scales for N.S op
+const int table_n_s[9][7] = {
     {0, 2, 4, 5, 7, 9, 11}, // Major
     {0, 2, 3, 5, 7, 8, 10}, // Natural Minor
     {0, 2, 3, 5, 7, 8, 11}, // Harmonic Minor
@@ -119,8 +119,8 @@ const int table_sn[9][7] = {
     {0, 1, 3, 5, 6, 8, 10}, // Locrian
 };
 
-// chords for CN op
-const int table_cn[13][4] = {
+// chords for N.C op
+const int table_n_c[13][4] = {
     {0, 4, 7, 11},  // Major 7th       - 0
     {0, 3, 7, 10},  // Minor 7th       - 1
     {0, 4, 7, 10},  // Dominant 7th    - 2
@@ -136,8 +136,8 @@ const int table_cn[13][4] = {
     {0, 5, 7, 10},  // 7th sus 4       - 12
 };
 
-// chord scales for CSN op - values are indices into table_ch
-const int table_csn[9][7] = {
+// chord scales for N.CS op - values are indices into table_ch
+const int table_n_cs[9][7] = {
     {0, 1, 1, 0, 2, 1, 6}, // Major
     {1, 6, 0, 1, 1, 0, 2}, // Natural Minor
     {8, 6, 7, 1, 2, 0, 3}, // Harmonic Minor

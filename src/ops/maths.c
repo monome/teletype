@@ -86,6 +86,12 @@ static void op_SCALE_get(const void *data, scene_state_t *ss, exec_state_t *es,
                          command_state_t *cs);
 static void op_N_get(const void *data, scene_state_t *ss, exec_state_t *es,
                      command_state_t *cs);
+static void op_N_S_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                      command_state_t *cs);
+static void op_N_C_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                     command_state_t *cs);
+static void op_N_CS_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                     command_state_t *cs);
 static void op_V_get(const void *data, scene_state_t *ss, exec_state_t *es,
                      command_state_t *cs);
 static void op_VV_get(const void *data, scene_state_t *ss, exec_state_t *es,
@@ -94,12 +100,6 @@ static void op_ER_get(const void *data, scene_state_t *ss, exec_state_t *es,
                       command_state_t *cs);
 static void op_NR_get(const void *data, scene_state_t *ss, exec_state_t *es,
                       command_state_t *cs);
-static void op_SN_get(const void *data, scene_state_t *ss, exec_state_t *es,
-                      command_state_t *cs);
-static void op_CN_get(const void *data, scene_state_t *ss, exec_state_t *es,
-                     command_state_t *cs);
-static void op_CSN_get(const void *data, scene_state_t *ss, exec_state_t *es,
-                     command_state_t *cs);
 static void op_BPM_get(const void *data, scene_state_t *ss, exec_state_t *es,
                        command_state_t *cs);
 static void op_BIT_OR_get(const void *data, scene_state_t *ss, exec_state_t *es,
@@ -173,13 +173,13 @@ const tele_op_t op_JI    = MAKE_GET_OP(JI      , op_JI_get      , 2, true);
 const tele_op_t op_SCALE = MAKE_GET_OP(SCALE   , op_SCALE_get   , 5, true);
 const tele_op_t op_SCL   = MAKE_GET_OP(SCL     , op_SCALE_get   , 5, true);
 const tele_op_t op_N     = MAKE_GET_OP(N       , op_N_get       , 1, true);
+const tele_op_t op_N_S   = MAKE_GET_OP(N.S      , op_N_S_get    , 3, true);
+const tele_op_t op_N_C   = MAKE_GET_OP(N.C      , op_N_C_get    , 3, true);
+const tele_op_t op_N_CS  = MAKE_GET_OP(N.CS     , op_N_CS_get   , 4, true);
 const tele_op_t op_V     = MAKE_GET_OP(V       , op_V_get       , 1, true);
 const tele_op_t op_VV    = MAKE_GET_OP(VV      , op_VV_get      , 1, true);
 const tele_op_t op_ER    = MAKE_GET_OP(ER      , op_ER_get      , 3, true);
 const tele_op_t op_NR    = MAKE_GET_OP(NR      , op_NR_get      , 4, true);
-const tele_op_t op_SN    = MAKE_GET_OP(SN      , op_SN_get      , 3, true);
-const tele_op_t op_CN    = MAKE_GET_OP(CN      , op_CN_get      , 3, true);
-const tele_op_t op_CSN   = MAKE_GET_OP(CSN     , op_CSN_get     , 4, true);
 const tele_op_t op_BPM   = MAKE_GET_OP(BPM     , op_BPM_get     , 1, true);
 const tele_op_t op_BIT_OR  = MAKE_GET_OP(|, op_BIT_OR_get  , 2, true);
 const tele_op_t op_BIT_AND = MAKE_GET_OP(&, op_BIT_AND_get, 2, true);
@@ -690,7 +690,7 @@ static void op_NR_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
     cs_push(cs, bit_status);
 }
 
-static void op_SN_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+static void op_N_S_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                      exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t root = cs_pop(cs);
     int16_t scale = cs_pop(cs) % 9;
@@ -701,7 +701,7 @@ static void op_SN_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
     if (degree < 0) {
         degree = 7 + degree;
     }
-    int16_t transpose = table_sn[scale][degree];
+    int16_t transpose = table_n_s[scale][degree];
     if (root < 0) {
         if (root < -127) root = -127;
         root = -root;
@@ -713,7 +713,7 @@ static void op_SN_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
     }
 }
 
-static void op_CN_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+static void op_N_C_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                      exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t root = cs_pop(cs);
     int16_t chord = cs_pop(cs) % 13;
@@ -724,7 +724,7 @@ static void op_CN_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
     if (degree < 0) {
         degree = 4 + degree;
     }
-    int16_t transpose = table_cn[chord][degree];
+    int16_t transpose = table_n_c[chord][degree];
     if (root < 0) {
         if (root < -127) root = -127;
         root = -root;
@@ -736,7 +736,7 @@ static void op_CN_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
     }
 }
 
-static void op_CSN_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+static void op_N_CS_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                      exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t root = cs_pop(cs);
     int16_t scale = cs_pop(cs) % 9;
@@ -747,12 +747,12 @@ static void op_CSN_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
     if (scl_deg < 0) {
         scl_deg = 7 + scl_deg;
     }
-    int16_t scl_trans = table_sn[scale][scl_deg];
+    int16_t scl_trans = table_n_s[scale][scl_deg];
     int16_t ch_deg = cs_pop(cs) % 4;
     if (ch_deg < 0) {
         ch_deg = 4 + ch_deg;
     }
-    int16_t ch_trans = table_cn[table_csn[scale][scl_deg]][ch_deg];
+    int16_t ch_trans = table_n_c[table_n_cs[scale][scl_deg]][ch_deg];
     if (root < 0) {
         if (root < -127) root = -127;
         root = -root;

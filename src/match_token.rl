@@ -199,13 +199,13 @@
         "SCALE"       => { MATCH_OP(E_OP_SCALE); };
         "SCL"         => { MATCH_OP(E_OP_SCL); };
         "N"           => { MATCH_OP(E_OP_N); };
+        "N.S"         => { MATCH_OP(E_OP_N_S); };
+        "N.C"         => { MATCH_OP(E_OP_N_C); };
+        "N.CS"        => { MATCH_OP(E_OP_N_CS); };
         "V"           => { MATCH_OP(E_OP_V); };
         "VV"          => { MATCH_OP(E_OP_VV); };
         "ER"          => { MATCH_OP(E_OP_ER); };
         "NR"          => { MATCH_OP(E_OP_NR); };
-        "SN"          => { MATCH_OP(E_OP_SN); };
-        "CN"          => { MATCH_OP(E_OP_CN); };
-        "CSN"         => { MATCH_OP(E_OP_CSN); };
         "BPM"         => { MATCH_OP(E_OP_BPM);; };
         "|"           => { MATCH_OP(E_OP_BIT_OR);; };
         "&"           => { MATCH_OP(E_OP_BIT_AND);; };
