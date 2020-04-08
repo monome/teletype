@@ -669,7 +669,7 @@ static void op_NR_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
     if (prime < 0)
         prime = 32 + prime;
     uint16_t rhythm = (uint16_t)table_nr[prime];
-    int16_t mask = cs_pop(cs) & 4;
+    int16_t mask = cs_pop(cs) % 4;
     if (mask < 0)
         mask = 4 + mask;
     int16_t factor = cs_pop(cs) % 17;
