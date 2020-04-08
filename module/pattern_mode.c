@@ -90,7 +90,7 @@ static uint16_t transpose_n_value(int16_t value, int8_t interval) {
             idx++;
         return table_n[(idx + interval) % (last_note + 1)];
     }
-    uint16_t new_value = 0;
+    int16_t new_value = 0;
     for (int i = 0; i <= last_note; i++) {
         if (table_n[i] >= value) {
             int8_t j = i + interval;
@@ -115,8 +115,7 @@ void note_nudge(int8_t semitones) {
     else {
         int16_t pattern_val =
             ss_get_pattern_val(&scene_state, pattern, base + offset);
-        int16_t new_val;
-        new_val = transpose_n_value(pattern_val, semitones);
+        int16_t new_val = transpose_n_value(pattern_val, semitones);
         ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
     }
     dirty = true;
