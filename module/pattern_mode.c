@@ -101,7 +101,6 @@ static uint16_t transpose_n_value(int16_t value, int8_t interval) {
 }
 
 void note_nudge(int8_t semitones) {
-
     if (editing_number) {
         edit_buffer = transpose_n_value(edit_buffer, semitones);
     }
