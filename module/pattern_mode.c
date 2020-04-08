@@ -84,12 +84,20 @@ static uint16_t transpose_n_value(int16_t value, int8_t interval) {
     } else if (interval < -last_note) {
         interval = -last_note;
     }
-    uint16_t new_value;
+    if (value > table_n[last_note]) {
+        uint8_t idx = last_note;
+        if (interval < 0)
+            idx++;
+        return table_n[(idx + interval) % (last_note + 1)];
+    }
+    uint16_t new_value = 0;
     for (int i = 0; i <= last_note; i++) {
-        if (table_n[i] == value) {
+        if (table_n[i] >= value) {
             int8_t j = i + interval;
+            if (table_n[i] > value && interval > 0)
+                j--; // quantize to lower note
             if (j > last_note) {
-                j = j - last_note - 1;
+                j = j % last_note + 1;
             } else if (j < 0) {
                 j = j + last_note + 1;
             }
