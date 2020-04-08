@@ -10,23 +10,23 @@
 - **NEW**: new op: `SGN` (sign of argument)
 - **NEW**: new kria remote op: `KR.DUR`
 - **FIX**: dim M in edit mode when metro inactive
-- **NEW**: new pattern ops: P.SHUF, PN.SHUF, P.REV, PN.REV, P.ROT, PN.ROT
+- **NEW**: new pattern ops: `P.SHUF`, `PN.SHUF`, `P.REV`, `PN.REV`, `P.ROT`, `PN.ROT`
 - **NEW**: new pattern mods: `P.MAP:`, `PN.MAP x:`
 
 ## v3.1.0
 
-- **NEW**: new op: DEVICE.FLIP
+- **NEW**: new op: `DEVICE.FLIP`
 - **FIX**: [some keyboards losing keystrokes](https://github.com/monome/teletype/issues/156)
-- **NEW**: new op: DEL.X
-- **NEW**: new op: DEL.R
+- **NEW**: new op: `DEL.X`
+- **NEW**: new op: `DEL.R`
 - **IMP**: DELAY_SIZE increased to 16 from 8
-- **NEW**: new variables: J & K local script variables
+- **NEW**: new variables: `J` & `K` local script variables
 - **FIX**: [metro rate not updated after `INIT.SCENE`](https://github.com/monome/teletype/issues/174)
-- **NEW**: new ops: SEED, R.SEED, TOSS.SEED, DRUNK.SEED, P.SEED, PROB.SEED
-- **NEW**: new op: SCENE.G
-- **NEW**: new op: SCRIPT.POL, alias $.POL
-- **NEW**: new ansible remote ops: ANS.G, ANS.G.P, ANS.G.LED, ANS.A, ANS.A.LED
-- **NEW**: new kria remote ops: KR.CUE, KR.PG
+- **NEW**: new ops: `SEED`, `R.SEED`, `TOSS.SEED`, `DRUNK.SEED`, `P.SEED`, `PROB.SEED`
+- **NEW**: new op: `SCENE.G`
+- **NEW**: new op: `SCRIPT.POL`, alias `$.POL`
+- **NEW**: new ansible remote ops: `ANS.G`, `ANS.G.P`, `ANS.G.LED`, `ANS.A`, `ANS.A.LED`
+- **NEW**: new kria remote ops: `KR.CUE`, `KR.PG`
 
 ## v3.0.0
 
@@ -38,11 +38,11 @@
 - **NEW**: i2c support for 16n Faderbank
 - **NEW**: i2c support for Matrixarchate
 - **NEW**: i2c support for W/
-- **NEW**: new op: ?
-- **NEW**: new ops: P.MIN, PN.MIN, P.MAX, PN.MAX, P.RND, PN.RND, P.+, PN.+, P.-, PN.-. P.+W, PN.+W, P.-W, PN.-W
-- **NEW**: new Telex ops: TO.CV.CALIB, TO.ENV
-- **NEW**: new Kria ops: KR.CV, KR.MUTE, KR.TMUTE, KR.CLK, ME.CV
-- **NEW**: new aliases: $, RND, RRND, WRP, SCL
+- **NEW**: new op: `?`
+- **NEW**: new ops: `P.MIN`, `PN.MIN`, `P.MAX`, `PN.MAX`, `P.RND`, `PN.RND`, `P.+`, `PN.+`, `P.-`, `PN.-`. `P.+W`, `PN.+W`, `P.-W`, `PN.-W`
+- **NEW**: new Telex ops: `TO.CV.CALIB`, `TO.ENV`
+- **NEW**: new Kria ops: `KR.CV`, `KR.MUTE`, `KR.TMUTE`, `KR.CLK`, `ME.CV`
+- **NEW**: new aliases: `$`, `RND`, `RRND`, `WRP`, `SCL`
 - **NEW**: telex, ansible, just friends, w/ added to the help screen
 - **FIX**: i2c initialization delayed to account for ER-301 bootup
 - **FIX**: last screen saved to flash
@@ -58,14 +58,14 @@
 - **FIX**: [`TIME` and `LAST` are now 1ms accurate](https://github.com/monome/teletype/issues/144)
 - **FIX**: [`RAND` / `RRAND` will properly work with large range values](https://github.com/monome/teletype/issues/143)
 - **FIX**: [`L .. 32767` won't freeze](https://github.com/monome/teletype/issues/148)
-- **FIX**: I now accessible to child SCRIPTS
+- **FIX**: `I` now accessible to child SCRIPTS
 
 ## v2.2
 - **NEW**: added a cheat sheet PDF
-- **NEW**: new bitwise ops: &, |, ^, ~, BSET, BCLR, BGET
+- **NEW**: new bitwise ops: `&`, `|`, `^`, `~`, `BSET`, `BCLR`, `BGET`
 - **NEW**: new ops `PARAM.SCALE min max` and `IN.SCALE min max` to add static scaling to inputs
 - **NEW**: blanking screensaver after 90 minutes of keyboard inactivity, any key to wake
-- **NEW**: new op: CHAOS chaotic sequence generator.  Control with CHAOS.ALG and CHAOS.R
+- **NEW**: new op: `CHAOS` chaotic sequence generator.  Control with `CHAOS.ALG` and `CHAOS.R`
 - **NEW**: new op family: `INIT`, to clear device state
 - **NEW**: new ops: `R`, `R.MIN`, `R.MAX` programmable RNG
 - **IMP**: profiling code (optional, dev feature)
@@ -96,7 +96,7 @@
 - **OLD**: ctrl-F1 to F8 mute/unmute scripts.
 - **NEW**: ctrl-F9 enables/disables METRO.
 - **FIX**: recursive delay fix.  Now you can `1: DEL 500: SCRIPT 1` for temporal recursion.
-- **FIX**: KILL now clears TR output as well as disabling the METRO script.
+- **FIX**: `KILL` now clears TR output as well as disabling the METRO script.
 - **FIX**: if / else conditions no longer transcend their script
 - **IMP**: functional exectuion stack for `SCRIPT` operations
 
@@ -123,7 +123,7 @@
 - **IMP**: `AND` and `OR` now work as boolean logic, rather than bitwise, `XOR` is an alias for `NE`
 - **FIX**: divide by zero errors now explicitly return a 0 (e.g. `DIV 5 0` now returns 0 instead of -1), previously the behaviour was undefined and would crash the simulator
 - **FIX**: numerous crashing bugs with text entry
-- **FIX**: `i2c` bus crashes under high `M` times with external triggers
+- **FIX**: i2c bus crashes under high `M` times with external triggers
 - **FIX**: `P.I` and `PN.I` no longer set values longer than allowed
 - **FIX**: `VV` works correctly with negative values
 
