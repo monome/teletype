@@ -4,6 +4,9 @@
 #include "globals.h"
 #include "keyboard_helper.h"
 
+// tables
+#include "table.h"
+
 // teletype
 #include "teletype.h"
 #include "teletype_io.h"
@@ -70,6 +73,50 @@ void pattern_down() {
     if (base == 8) {
         base = 7;
         if (offset < 56) { offset++; }
+    }
+    dirty = true;
+}
+
+static int16_t transpose_n_value(int16_t value, int8_t interval) {
+    uint8_t last_note = 127;
+    if (interval > last_note) {
+        interval = last_note;
+    } else if (interval < -last_note) {
+        interval = -last_note;
+    }
+    if (value > table_n[last_note]) {
+        uint8_t idx = last_note;
+        if (interval < 0)
+            idx++;
+        return table_n[(idx + interval) % (last_note + 1)];
+    }
+    int16_t new_value = 0;
+    for (int i = 0; i <= last_note; i++) {
+        if (table_n[i] >= value) {
+            int8_t j = i + interval;
+            if (table_n[i] > value && interval > 0)
+                j--; // quantize to lower note
+            if (j > last_note) {
+                j = j % last_note + 1;
+            } else if (j < 0) {
+                j = j + last_note + 1;
+            }
+            new_value = table_n[j];
+            break;
+        }
+    }
+    return new_value;
+}
+
+void note_nudge(int8_t semitones) {
+    if (editing_number) {
+        edit_buffer = transpose_n_value(edit_buffer, semitones);
+    }
+    else {
+        int16_t pattern_val =
+            ss_get_pattern_val(&scene_state, pattern, base + offset);
+        int16_t new_val = transpose_n_value(pattern_val, semitones);
+        ss_set_pattern_val(&scene_state, pattern, base + offset, new_val);
     }
     dirty = true;
 }
@@ -167,6 +214,44 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
                 ss_set_pattern_val(&scene_state, pattern, base + offset, v + 1);
             dirty = true;
         }
+    }
+    // alt-[: decrement by 1 semitone
+    else if (match_alt(m, k, HID_OPEN_BRACKET)) {
+        note_nudge(-1);
+    }
+    // alt-]: increment by 1 semitone
+    else if (match_alt(m, k, HID_CLOSE_BRACKET)) {
+        note_nudge(1);
+    }
+    // ctrl-[: decrement by a fifth (7 semitones)
+    else if (match_ctrl(m, k, HID_OPEN_BRACKET)) {
+        note_nudge(-7);
+    }
+    // ctrl-]: increment by a fifth (7 semitones)
+    else if (match_ctrl(m, k, HID_CLOSE_BRACKET)) {
+        note_nudge(7);
+    }
+    // sh-[: decrement by 1 octave
+    else if (match_shift(m, k, HID_OPEN_BRACKET)) {
+        note_nudge(-12);
+    }
+    // sh-]: increment by 1 octave
+    else if (match_shift(m, k, HID_CLOSE_BRACKET)) {
+        note_nudge(12);
+    }
+    // alt-<0-9>: transpose up by numeric semitones
+    else if (mod_only_alt(m) && k >= HID_1 && k <= HID_0) {
+        uint8_t n = (k - HID_1 + 1);  // convert HID numbers to decimal,
+                                      // leave 0 = 10 semitones
+        if (n == 1) n = 11;  // 1 = 11 semitones since we already have alt-[ ]
+        note_nudge(n);
+    }
+    // sh-alt-<0-9>: transpose down by numeric semitones
+    else if (mod_only_shift_alt(m) && k >= HID_1 && k <= HID_0) {
+        uint8_t n = (k - HID_1 + 1);  // convert HID numbers to decimal,
+                                      // leave 0 = 10 semitones
+        if (n == 1) n = 11;  // 1 = 11 semitones since we already have alt-[ ]
+        note_nudge(-n);
     }
     // <backspace>: delete a digit
     else if (match_no_mod(m, k, HID_BACKSPACE)) {

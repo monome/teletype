@@ -115,6 +115,12 @@
         "PN.MIN"      => { MATCH_OP(E_OP_PN_MIN); };
         "P.MAX"       => { MATCH_OP(E_OP_P_MAX); };
         "PN.MAX"      => { MATCH_OP(E_OP_PN_MAX); };
+        "P.SHUF"      => { MATCH_OP(E_OP_P_SHUF); };
+        "PN.SHUF"     => { MATCH_OP(E_OP_PN_SHUF); };
+        "P.REV"       => { MATCH_OP(E_OP_P_REV); };
+        "PN.REV"      => { MATCH_OP(E_OP_PN_REV); };
+        "P.ROT"       => { MATCH_OP(E_OP_P_ROT); };
+        "PN.ROT"      => { MATCH_OP(E_OP_PN_ROT); };
         "P.RND"       => { MATCH_OP(E_OP_P_RND); };
         "PN.RND"      => { MATCH_OP(E_OP_PN_RND); };
         "P.+"         => { MATCH_OP(E_OP_P_ADD); };
@@ -644,6 +650,10 @@
         "MA.PROW"     => { MATCH_OP(E_OP_MA_PROW); };
         "MA.CLR"      => { MATCH_OP(E_OP_MA_CLR); };
         "MA.PCLR"     => { MATCH_OP(E_OP_MA_PCLR); };
+
+        # pattern
+        "P.MAP"       => { MATCH_MOD(E_MOD_P_MAP); };
+        "PN.MAP"      => { MATCH_MOD(E_MOD_PN_MAP); };
 
         # stack
         "S"           => { MATCH_MOD(E_MOD_S); };

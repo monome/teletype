@@ -13,5 +13,5 @@ void set_pattern_offset(uint8_t offset);
 void set_pattern_selected_value(uint8_t pattern, uint8_t offset);
 void pattern_up(void);
 void pattern_down(void);
-
+void note_nudge(int8_t semitones);
 #endif
