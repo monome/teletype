@@ -74,7 +74,7 @@ void ss_variables_init(scene_state_t *ss) {
     tele_update_adc(1);
     ss_update_param_scale(ss);
     ss_update_in_scale(ss);
-    for (size_t i = 0; i < 16; i++) { ss_update_fader_scale(ss, i); }
+    ss_update_fader_scale_all(ss);
 }
 
 void ss_patterns_init(scene_state_t *ss) {
