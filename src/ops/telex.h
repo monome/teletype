@@ -142,6 +142,7 @@ void TXSend(uint8_t model, uint8_t command, uint8_t output, int16_t value,
 void TXCmd(uint8_t model, uint8_t command, uint8_t output);
 void TXSet(uint8_t model, uint8_t command, command_state_t *cs);
 void ReceiveIt(uint8_t address, uint8_t port, command_state_t *cs);
+int16_t ReceiveValue(uint8_t address, uint8_t port);
 void TXDeviceSet(uint8_t model, uint8_t command, command_state_t *cs);
 void TXReceive(uint8_t model, command_state_t *cs, uint8_t mode, bool shift);
 uint8_t DeviceToOutput(int16_t device);

@@ -508,7 +508,15 @@
 
         # fader
         "FADER"            => { MATCH_OP(E_OP_FADER); };
+        "FADER.SCALE"      => { MATCH_OP(E_OP_FADER_SCALE); };
+        "FADER.CAL.MIN"    => { MATCH_OP(E_OP_FADER_CAL_MIN); };
+        "FADER.CAL.MAX"    => { MATCH_OP(E_OP_FADER_CAL_MAX); };
+        "FADER.CAL.RESET"  => { MATCH_OP(E_OP_FADER_CAL_RESET); };
         "FB"               => { MATCH_OP(E_OP_FB); };
+        "FB.S"             => { MATCH_OP(E_OP_FB_S); };
+        "FB.C.MIN"         => { MATCH_OP(E_OP_FB_C_MIN); };
+        "FB.C.MAX"         => { MATCH_OP(E_OP_FB_C_MAX); };
+        "FB.C.R"           => { MATCH_OP(E_OP_FB_C_R); };
 
         # ER301
         "SC.TR"            => { MATCH_OP(E_OP_SC_TR); };

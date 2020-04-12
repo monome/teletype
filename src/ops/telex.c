@@ -396,6 +396,10 @@ void TXDeviceSet(uint8_t model, uint8_t command, command_state_t *cs) {
     TXSend(model, command, output, value, true);
 }
 void ReceiveIt(uint8_t address, uint8_t port, command_state_t *cs) {
+    int16_t value = ReceiveValue(address, port);
+    cs_push(cs, value);
+}
+int16_t ReceiveValue(uint8_t address, uint8_t port) {
     // tell the device what value you are going to query
     uint8_t buffer[2];
     buffer[0] = port;
@@ -405,7 +409,7 @@ void ReceiveIt(uint8_t address, uint8_t port, command_state_t *cs) {
     buffer[1] = 0;
     tele_ii_rx(address, buffer, 2);
     int16_t value = (buffer[0] << 8) + buffer[1];
-    cs_push(cs, value);
+    return value;
 }
 void TXReceive(uint8_t model, command_state_t *cs, uint8_t mode, bool shift) {
     // zero-index the output

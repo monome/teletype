@@ -186,7 +186,8 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     &op_TI_PRM_INIT,
 
     // fader
-    &op_FADER, &op_FB,
+    &op_FADER, &op_FADER_SCALE, &op_FADER_CAL_MIN, &op_FADER_CAL_MAX,
+    &op_FADER_CAL_RESET, &op_FB, &op_FB_S, &op_FB_C_MIN, &op_FB_C_MAX, &op_FB_C_R,
 
     // ER301
     &op_SC_TR, &op_SC_TR_TOG, &op_SC_TR_PULSE, &op_SC_TR_TIME, &op_SC_TR_POL,

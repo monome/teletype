@@ -67,6 +67,7 @@ static void op_INIT_get(const void *NOTUSED(data), scene_state_t *ss,
     // Once calibration data is loaded, the scales need to be reset
     ss_update_param_scale(ss);
     ss_update_in_scale(ss);
+    ss_update_fader_scale_all(ss);
 
     tele_vars_updated();
     tele_metro_updated();
@@ -81,6 +82,7 @@ static void op_INIT_SCENE_get(const void *NOTUSED(data), scene_state_t *ss,
     ss->cal = caldata;
     ss_update_param_scale(ss);
     ss_update_in_scale(ss);
+    ss_update_fader_scale_all(ss);
     tele_vars_updated();
     tele_metro_updated();
 }

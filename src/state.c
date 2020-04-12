@@ -50,12 +50,31 @@ void ss_variables_init(scene_state_t *ss) {
         .tr_time = { 100, 100, 100, 100 },
         .in_range = { 0, 16383 },
         .param_range = { 0, 16383 },
+        .fader_ranges = {
+            { 0, 16383 },
+            { 0, 16383 },
+            { 0, 16383 },
+            { 0, 16383 },
+            { 0, 16383 },
+            { 0, 16383 },
+            { 0, 16383 },
+            { 0, 16383 },
+            { 0, 16383 },
+            { 0, 16383 },
+            { 0, 16383 },
+            { 0, 16383 },
+            { 0, 16383 },
+            { 0, 16383 },
+            { 0, 16383 },
+            { 0, 16383 },
+        },
     };
 
     memcpy(&ss->variables, &default_variables, sizeof(default_variables));
     tele_update_adc(1);
     ss_update_param_scale(ss);
     ss_update_in_scale(ss);
+    for (size_t i = 0; i < 16; i++) { ss_update_fader_scale(ss, i); }
 }
 
 void ss_patterns_init(scene_state_t *ss) {
@@ -425,6 +444,18 @@ void ss_update_param_scale(scene_state_t *ss) {
                                            ss->variables.param_range.out_max);
 }
 
+void ss_update_fader_scale(scene_state_t *ss, int16_t fader) {
+    ss->variables.fader_scales[fader] = scale_init(ss->cal.f_min[fader], ss->cal.f_max[fader],
+                                           ss->variables.fader_ranges[fader].out_min,
+                                           ss->variables.fader_ranges[fader].out_max);
+}
+
+void ss_update_fader_scale_all(scene_state_t *ss) {
+    for (size_t fader = 0; fader < 16; fader++) {
+        ss_update_fader_scale(ss, fader);
+    }
+}
+
 void ss_update_in_scale(scene_state_t *ss) {
     ss->variables.in_scale =
         scale_init(ss->cal.i_min, ss->cal.i_max, ss->variables.in_range.out_min,
@@ -443,6 +474,12 @@ void ss_set_in_scale(scene_state_t *ss, int16_t min, int16_t max) {
     ss_update_in_scale(ss);
 }
 
+void ss_set_fader_scale(scene_state_t *ss, int16_t fader, int16_t min, int16_t max) {
+    ss->variables.fader_ranges[fader].out_min = min;
+    ss->variables.fader_ranges[fader].out_max = max;
+    ss_update_fader_scale(ss, fader);
+}
+
 int16_t ss_get_param(scene_state_t *ss) {
     return scale_get(ss->variables.param_scale, ss->variables.param);
 }
@@ -459,6 +496,14 @@ int16_t ss_get_param_max(scene_state_t *ss) {
     return ss->cal.p_max;
 }
 
+int16_t ss_get_fader_min(scene_state_t *ss, int16_t fader) {
+    return ss->cal.f_min[fader];
+}
+
+int16_t ss_get_fader_max(scene_state_t *ss, int16_t fader) {
+    return ss->cal.f_max[fader];
+}
+
 void ss_set_param_min(scene_state_t *ss, int16_t min) {
     ss->cal.p_min = min;
     ss_update_param_scale(ss);
@@ -471,10 +516,29 @@ void ss_set_param_max(scene_state_t *ss, int16_t max) {
     tele_save_calibration();
 }
 
+void ss_set_fader_min(scene_state_t *ss, int16_t fader, int16_t min) {
+    ss->cal.f_min[fader] = min;
+    ss_update_fader_scale(ss, fader);
+    tele_save_calibration();
+}
+
+void ss_set_fader_max(scene_state_t *ss, int16_t fader, int16_t max) {
+    ss->cal.f_max[fader] = max;
+    ss_update_fader_scale(ss, fader);
+    tele_save_calibration();
+}
+
 void ss_reset_param_cal(scene_state_t *ss) {
     ss->cal.p_max = 16383;
     ss->cal.p_min = 0;
     ss_update_param_scale(ss);
+    tele_save_calibration();
+}
+
+void ss_reset_fader_cal(scene_state_t *ss, int16_t fader) {
+    ss->cal.f_max[fader] = 16383;
+    ss->cal.f_min[fader] = 0;
+    ss_update_fader_scale(ss, fader);
     tele_save_calibration();
 }
 
