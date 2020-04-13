@@ -2,3 +2,33 @@
 prototype = "FADER x"
 aliases = ["FB"]
 short = "reads the value of the `FADER` slider `x`; default return range is from 0 to 16383"
+
+["FADER.SCALE"]
+prototype = "FADER.SCALE x y z"
+aliases = ["FB.S"]
+short = "Set static scaling of the `FADER x` to between `min` and `max`."
+
+["FADER.CAL.MIN"]
+prototype = "FADER.CAL.MIN x"
+aliases = ["FB.C.MIN"]
+short = "Reads `FADER x` minimum position and assigns a zero value"
+description = """
+    1. Slide FADER x all the way down to the bottom
+    2. Execute `FADER.CAL.MIN x` from the live terminal
+    3. Call `FADER x` and confirm the 0 result
+"""
+
+["FADER.CAL.MAX"]
+prototype = "FADER.CAL.MAX x"
+aliases = ["FB.C.MAX"]
+short = "Reads `FADER x` maximum position and assigns the maximum point"
+description = """
+    1. Slide FADER x all the way up to the top
+    2. Execute `FADER.CAL.MAX x` from the live terminal
+    3. Call `FADER x` and verify that the result is 16383
+"""
+
+["FADER.CAL.RESET"]
+prototype = "FADER.CAL.RESET x"
+aliases = ["FB.C.R"]
+short = "Resets the calibration for FADER x"
