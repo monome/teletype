@@ -54,7 +54,6 @@ static void op_FADER_get(const void *NOTUSED(data), scene_state_t *ss,
         return;
     }
     int16_t value = receive_fader(input);
-    // ss_set_fader(ss, input, value);
     cs_push(cs, scale_get(ss->variables.fader_scales[input], value));
 }
 
