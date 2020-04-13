@@ -11,6 +11,7 @@
 - **NEW**: new kria remote op: `KR.DUR`
 - **NEW**: new op: `NR` (binary math pattern generator)
 - **NEW**: new ops: `N.S, N.C, N.CS` (use western scales and chords to get values from `N` table)
+- **NEW**: new ops: `FADER.SCALE, FADER.CAL.MIN, FADER.CAL.MAX, FADER.CAL.RESET`  for scaling 16n Faderbank values (aliases `FB.S, FB.C.MIN, FB.C.MAX, FB.C.R`)
 - **NEW**: new Tracker mode keybinding `alt-[ ]` semitone up, down
 - **NEW**: new Tracker mode keybinding `ctrl-[ ]` fifth up, down
 - **NEW**: new Tracker mode keybinding `shift-[ ]` octave up, down
