@@ -104,7 +104,7 @@ const char* help2[HELP2_LENGTH] = { "2/13 VARIABLES",
                                     "Q.AVG|AVERAGE OF ALL Q",
                                     "J, K|UNIQUE PER SCRIPT" };
 
-#define HELP3_LENGTH 55
+#define HELP3_LENGTH 60
 const char* help3[HELP3_LENGTH] = { "3/13 PARAMETERS",
                                     " ",
                                     "TR A-D|SET TR VALUE (0,1)",
@@ -150,15 +150,20 @@ const char* help3[HELP3_LENGTH] = { "3/13 PARAMETERS",
                                     "LAST N|GET SCRIPT LAST RUN",
                                     " ",
                                     "// 16n FADERBANK OPS",
-                                    "FADER X|FB X",
+                                    "FADER X",
+                                    "FB X",
                                     "   GET FADER X VAL",
-                                    "FADER.SCALE X Y Z|FB.S X Y Z",
+                                    "FADER.SCALE X Y Z",
+                                    "FB.S X Y Z",
                                     "   SCALE FADER X RANGE",
-                                    "FADER.CAL.MIN X|FB.C.MIN X",
+                                    "FADER.CAL.MIN X",
+                                    "FB.C.MIN X",
                                     "   CALIBRATE FADER X MIN"
-                                    "FADER.CAL.MAX X|FB.C.MAX X",
+                                    "FADER.CAL.MAX X",
+                                    "FB.C.MAX X",
                                     "   CALIBRATE FADER X MAX",
-                                    "FADER.CAL.RESET X|FB.C.R X",
+                                    "FADER.CAL.RESET X",
+                                    "FB.C.R X",
                                     "   RESET FADER X CALIBRATION"};
 
 #define HELP4_LENGTH 73
