@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.2.1
+
+- **NEW**: generic i2c ops: `IIA`, `IIS..`, `IIQ..`, `IIB..`
+
 ## v3.2.0
 
 - **FIX**: improve DAC latency when using `CV` ops

@@ -265,6 +265,30 @@
         # delay
         "DEL.CLR"     => { MATCH_OP(E_OP_DEL_CLR); };
 
+        # i2c
+        "IIA"         => { MATCH_OP(E_OP_IIA); };
+        "IIS"         => { MATCH_OP(E_OP_IIS); };
+        "IIS1"        => { MATCH_OP(E_OP_IIS1); };
+        "IIS2"        => { MATCH_OP(E_OP_IIS2); };
+        "IIS3"        => { MATCH_OP(E_OP_IIS3); };
+        "IISB1"       => { MATCH_OP(E_OP_IISB1); };
+        "IISB2"       => { MATCH_OP(E_OP_IISB2); };
+        "IISB3"       => { MATCH_OP(E_OP_IISB3); };
+        "IIQ"         => { MATCH_OP(E_OP_IIQ); };
+        "IIQ1"        => { MATCH_OP(E_OP_IIQ1); };
+        "IIQ2"        => { MATCH_OP(E_OP_IIQ2); };
+        "IIQ3"        => { MATCH_OP(E_OP_IIQ3); };
+        "IIQB1"       => { MATCH_OP(E_OP_IIQB1); };
+        "IIQB2"       => { MATCH_OP(E_OP_IIQB2); };
+        "IIQB3"       => { MATCH_OP(E_OP_IIQB3); };
+        "IIB"         => { MATCH_OP(E_OP_IIB); };
+        "IIB1"        => { MATCH_OP(E_OP_IIB1); };
+        "IIB2"        => { MATCH_OP(E_OP_IIB2); };
+        "IIB3"        => { MATCH_OP(E_OP_IIB3); };
+        "IIBB1"       => { MATCH_OP(E_OP_IIBB1); };
+        "IIBB2"       => { MATCH_OP(E_OP_IIBB2); };
+        "IIBB3"       => { MATCH_OP(E_OP_IIBB3); };
+
         # whitewhale
         "WW.PRESET"   => { MATCH_OP(E_OP_WW_PRESET); };
         "WW.POS"      => { MATCH_OP(E_OP_WW_POS); };

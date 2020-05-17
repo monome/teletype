@@ -22,6 +22,7 @@ void ss_init(scene_state_t *ss) {
     for (size_t i = 0; i < TEMP_SCRIPT; i++) ss->scripts[i].last_time = ticks;
     ss->variables.time = 0;
     ss->variables.time_act = 1;
+    ss->i2c_op_address = -1;
 }
 
 void ss_variables_init(scene_state_t *ss) {

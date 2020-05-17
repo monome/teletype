@@ -13,6 +13,7 @@
 #include "ops/fader.h"
 #include "ops/grid_ops.h"
 #include "ops/hardware.h"
+#include "ops/i2c.h"
 #include "ops/init.h"
 #include "ops/justfriends.h"
 #include "ops/maths.h"
@@ -102,6 +103,12 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
 
     // delay
     &op_DEL_CLR,
+
+    // i2c
+    &op_IIA, &op_IIS, &op_IIS1, &op_IIS2, &op_IIS3, &op_IISB1, &op_IISB2,
+    &op_IISB3, &op_IIQ, &op_IIQ1, &op_IIQ2, &op_IIQ3, &op_IIQB1, &op_IIQB2,
+    &op_IIQB3, &op_IIB, &op_IIB1, &op_IIB2, &op_IIB3, &op_IIBB1, &op_IIBB2,
+    &op_IIBB3,
 
     // whitewhale
     &op_WW_PRESET, &op_WW_POS, &op_WW_SYNC, &op_WW_START, &op_WW_END,

@@ -1,0 +1,92 @@
+["IIA"]
+prototype = "IIA"
+prototype_set = "IIA address"
+short = "Set I2C address or get the currently selected address"
+description = """
+Set the I2C address to be used by the generic I2C ops. The address is -1 when
+not selected or when it's set to a value outside of the supported range.
+"""
+
+["IIS"]
+prototype = "IIS cmd"
+short = "Execute the specified command"
+
+["IIS1"]
+prototype = "IIS1 cmd value"
+short = "Execute the specified command with 1 parameter"
+
+["IIS2"]
+prototype = "IIS2 cmd value1 value2"
+short = "Execute the specified command with 2 parameters"
+
+["IIS3"]
+prototype = "IIS3 cmd value"
+short = "Execute the specified command with 3 parameters"
+
+["IISB1"]
+prototype = "IISB1 cmd value"
+short = "Execute the specified command with 1 byte parameter"
+
+["IISB2"]
+prototype = "IISB2 cmd value1 value2"
+short = "Execute the specified command with 2 byte parameters"
+
+["IISB3"]
+prototype = "IISB3 cmd value1 value2 value3"
+short = "Execute the specified command with 3 byte parameters"
+
+["IIQ"]
+prototype = "IIQ cmd"
+short = "Execute the specified query and get a value back"
+
+["IIQ1"]
+prototype = "IIQ1 cmd value"
+short = "Execute the specified query with 1 parameter and get a value back"
+
+["IIQ2"]
+prototype = "IIQ2 cmd value1 value2"
+short = "Execute the specified query with 2 parameters and get a value back"
+
+["IIQ3"]
+prototype = "IIQ3 cmd value1 value2 value3"
+short = "Execute the specified query with 3 parameters and get a value back"
+
+["IIQB1"]
+prototype = "IIQB1 cmd value"
+short = "Execute the specified query with 1 byte parameter and get a value back"
+
+["IIQB2"]
+prototype = "IIQB2 cmd value1 value2"
+short = "Execute the specified query with 2 byte parameters and get a value back"
+
+["IIQB3"]
+prototype = "IIQB3 cmd value1 value2 value3"
+short = "Execute the specified query with 3 byte parameters and get a value back"
+
+["IIB"]
+prototype = "IIB cmd"
+short = "Execute the specified query and get a byte value back"
+
+["IIB1"]
+prototype = "IIB1 cmd value"
+short = "Execute the specified query with 1 parameter and get a byte value back"
+
+["IIB2"]
+prototype = "IIB2 cmd value1 value2"
+short = "Execute the specified query with 2 parameters and get a byte value back"
+
+["IIB3"]
+prototype = "IIB3 cmd value1 value2 value3"
+short = "Execute the specified query with 3 parameters and get a byte value back"
+
+["IIBB1"]
+prototype = "IIBB1 cmd value"
+short = "Execute the specified query with 1 byte parameter and get a byte value back"
+
+["IIBB2"]
+prototype = "IIBB2 cmd value1 value2"
+short = "Execute the specified query with 2 byte parameters and get a byte value back"
+
+["IIBB3"]
+prototype = "IIBB3 cmd value1 value2 value3"
+short = "Execute the specified query with 3 byte parameters and get a byte value back"
