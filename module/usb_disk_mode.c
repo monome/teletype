@@ -242,8 +242,8 @@ void tele_usb_disk() {
                     uint8_t p = 0;
                     int8_t s = 99;
                     uint8_t b = 0;
-                    uint16_t num = 0;
-                    int8_t neg = 1;
+                    int16_t num = 0;
+                    int16_t neg = 1;
 
                     char input[32];
                     memset(input, 0, sizeof(input));
