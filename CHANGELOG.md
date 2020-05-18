@@ -2,6 +2,7 @@
 
 ## v3.2.1
 
+- **FIX**: negative pattern values are properly read from USB
 - **NEW**: generic i2c ops: `IIA`, `IIS..`, `IIQ..`, `IIB..`
 
 ## v3.2.0

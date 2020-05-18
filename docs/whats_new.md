@@ -1,5 +1,31 @@
 # Updates
 
+## v3.2.1
+
+- **FIX**: negative pattern values are properly read from USB
+- **NEW**: generic i2c ops: `IIA`, `IIS..`, `IIQ..`, `IIB..`
+
+## v3.2.0
+
+- **FIX**: improve DAC latency when using `CV` ops
+- **NEW**: call metro / init with `SCRIPT 9` / `SCRIPT 10`
+- **NEW**: forward (C-f or C-s) and reverse (C-r) search in help mode
+- **NEW**: new ops: `LROT` (alias `<<<`), `RROT` (alias `>>>`)
+- **NEW**: `LSH` and `RSH` shift the opposite direction when passed a negative shift amount
+- **NEW**: new op: `SGN` (sign of argument)
+- **NEW**: new kria remote op: `KR.DUR`
+- **NEW**: new op: `NR` (binary math pattern generator)
+- **NEW**: new ops: `N.S, N.C, N.CS` (use western scales and chords to get values from `N` table)
+- **NEW**: new ops: `FADER.SCALE, FADER.CAL.MIN, FADER.CAL.MAX, FADER.CAL.RESET`  for scaling 16n Faderbank values (aliases `FB.S, FB.C.MIN, FB.C.MAX, FB.C.R`)
+- **NEW**: new Tracker mode keybinding `alt-[ ]` semitone up, down
+- **NEW**: new Tracker mode keybinding `ctrl-[ ]` fifth up, down
+- **NEW**: new Tracker mode keybinding `shift-[ ]` octave up, down
+- **NEW**: new Tracker mode keybinding `alt-<0-9>` `<0-9>` semitones up (0=10, 1=11)
+- **NEW**: new Tracker mode keybinding `shift-alt-<0-9>` `<0-9>` semitones down (0=10, 1=11)
+- **FIX**: dim M in edit mode when metro inactive
+- **NEW**: new pattern ops: `P.SHUF`, `PN.SHUF`, `P.REV`, `PN.REV`, `P.ROT`, `PN.ROT`
+- **NEW**: new pattern mods: `P.MAP:`, `PN.MAP x:`
+
 ## Version 3.1
 
 ### New operators
