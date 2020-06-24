@@ -142,9 +142,9 @@ static void mod_DEL_G_func(scene_state_t *ss, exec_state_t *es,
            delay_common_add(ss, es, delay_time_next, post_command)) {
         // increment delay time for next delay
         // normalise incremented value to stop negative wrap from increment
-        delay_time = (delay_time * delay_mult_num) / delay_mult_denom;
         delay_time_next += delay_time;
         delay_time_next = normalise_value(1, 32767, 1, delay_time_next);
+        delay_time = (delay_time * delay_mult_num) / delay_mult_denom;
 
         num_delays--;
     }
