@@ -600,6 +600,7 @@ typedef enum {
     E_MOD_DEL,
     E_MOD_DEL_X,
     E_MOD_DEL_R,
+    E_MOD_DEL_G,
     E_MOD_P_MAP,
     E_MOD_PN_MAP,
     E_MOD_S,

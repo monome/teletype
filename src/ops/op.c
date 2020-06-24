@@ -234,7 +234,7 @@ const tele_mod_t *tele_mods[E_MOD__LENGTH] = {
     &mod_OTHER, &mod_PROB,
 
     // delay
-    &mod_DEL, &mod_DEL_X, &mod_DEL_R,
+    &mod_DEL, &mod_DEL_X, &mod_DEL_R, &mod_DEL_G,
 
     // pattern
     &mod_P_MAP, &mod_PN_MAP,

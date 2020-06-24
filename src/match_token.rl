@@ -664,6 +664,7 @@
         "DEL"         => { MATCH_MOD(E_MOD_DEL); };
         "DEL.X"       => { MATCH_MOD(E_MOD_DEL_X); };
         "DEL.R"       => { MATCH_MOD(E_MOD_DEL_R); };
+        "DEL.G"       => { MATCH_MOD(E_MOD_DEL_G); };
 
         # matrixarchate
         "MA.SELECT"   => { MATCH_OP(E_OP_MA_SELECT); };

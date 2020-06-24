@@ -23,10 +23,15 @@ static void mod_DEL_R_func(scene_state_t *ss, exec_state_t *es,
                            command_state_t *cs,
                            const tele_command_t *post_command);
 
+static void mod_DEL_G_func(scene_state_t *ss, exec_state_t *es,
+                           command_state_t *cs,
+                           const tele_command_t *post_command);
+
 const tele_mod_t mod_DEL = MAKE_MOD(DEL, mod_DEL_func, 1);
 const tele_op_t op_DEL_CLR = MAKE_GET_OP(DEL.CLR, op_DEL_CLR_get, 0, false);
 const tele_mod_t mod_DEL_X = MAKE_MOD(DEL.X, mod_DEL_X_func, 2);
 const tele_mod_t mod_DEL_R = MAKE_MOD(DEL.R, mod_DEL_R_func, 2);
+const tele_mod_t mod_DEL_G = MAKE_MOD(DEL.G, mod_DEL_G_func, 4);
 
 // common code to queue a delay shared between all delay ops
 // NOTE it is the responsibility of the callee to call tele_has_delays
@@ -110,6 +115,34 @@ static void mod_DEL_R_func(scene_state_t *ss, exec_state_t *es,
            delay_common_add(ss, es, delay_time_next, post_command)) {
         // increment delay time for next delay
         // normalise incremented value to stop negative wrap from increment
+        delay_time_next += delay_time;
+        delay_time_next = normalise_value(1, 32767, 1, delay_time_next);
+
+        num_delays--;
+    }
+
+    tele_has_delays(ss->delay.count > 0);
+}
+
+static void mod_DEL_G_func(scene_state_t *ss, exec_state_t *es,
+                           command_state_t *cs,
+                           const tele_command_t *post_command) {
+    int16_t num_delays = cs_pop(cs);
+    int16_t delay_time = cs_pop(cs);
+    int16_t delay_mult_num = cs_pop(cs);
+    int16_t delay_mult_denom = cs_pop(cs);
+    int16_t delay_time_next;
+
+    if (delay_time < 1) delay_time = 1;
+
+    // set first delay time to 1ms to trigger immediately
+    delay_time_next = 1;
+
+    while (num_delays > 0 &&
+           delay_common_add(ss, es, delay_time_next, post_command)) {
+        // increment delay time for next delay
+        // normalise incremented value to stop negative wrap from increment
+        delay_time = (delay_time * delay_mult_num) / delay_mult_denom;
         delay_time_next += delay_time;
         delay_time_next = normalise_value(1, 32767, 1, delay_time_next);
 
