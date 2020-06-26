@@ -121,6 +121,7 @@ CSRCS = \
 	../libavr32/src/interrupts.c				\
 	../libavr32/src/kbd.c					\
 	../libavr32/src/monome.c				\
+	../libavr32/src/music.c				\
 	../libavr32/src/region.c				\
 	../libavr32/src/screen.c				\
 	../libavr32/src/timers.c				\
@@ -205,10 +206,10 @@ INC_PATH = \
 	common/utils
 
 # Additional search paths for libraries.
-LIB_PATH = 
+LIB_PATH =
 
 # List of libraries to use during linking.
-LIBS = 
+LIBS =
 
 # Path relative to top level directory pointing to a linker script.
 LINKER_SCRIPT = ../src/link_uc3b0512.lds
