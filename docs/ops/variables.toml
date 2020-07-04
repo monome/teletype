@@ -134,13 +134,13 @@ short = "enable or disable timer counting, default `1`"
 [LAST]
 prototype = "LAST x"
 short = "get value in milliseconds since last script run time"
-description = """ 
-Gets the number of milliseconds since the current script was run.  From the live mode, shows time elapsed since last run of I script.
+description = """
+Gets the number of milliseconds since the given script was run, where `M` is script 9 and `I` is script 10. From the live mode, `LAST SCRIPT` gives the time elapsed since last run of I script.
 
 For example, one-line tap tempo:
 
 ```
-M LAST SCRIPT 
+M LAST SCRIPT
 ```
 
 Running this script twice will set the metronome to be the time between runs.
@@ -167,7 +167,7 @@ prototype_set = "J x"
 short = """get / set the variable `J`"""
 description="""
 get / set the variable `J`, each script gets its own `J` variable, so if you call
-a script from another script you can still use and modify `J` without affecting the calling script. 
+a script from another script you can still use and modify `J` without affecting the calling script.
 """
 
 [K]
@@ -176,6 +176,5 @@ prototype_set = "K x"
 short = """get / set the variable `K`"""
 description="""
 get / set the variable `K`, each script gets its own `K` variable, so if you call
-a script from another script you can still use and modify `K` without affecting the calling script. 
+a script from another script you can still use and modify `K` without affecting the calling script.
 """
-
