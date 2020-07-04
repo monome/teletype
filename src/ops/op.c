@@ -3,8 +3,6 @@
 #include <stddef.h>  // offsetof
 
 #include "helpers.h"
-#include "teletype_io.h"
-
 #include "ops/ansible.h"
 #include "ops/controlflow.h"
 #include "ops/delay.h"
@@ -32,7 +30,10 @@
 #include "ops/variables.h"
 #include "ops/whitewhale.h"
 #include "ops/wslash.h"
-
+#include "ops/wslashdelay.h"
+#include "ops/wslashsynth.h"
+#include "ops/wslashtape.h"
+#include "teletype_io.h"
 
 /////////////////////////////////////////////////////////////////
 // OPS //////////////////////////////////////////////////////////
@@ -147,6 +148,25 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
 
     // W/
     &op_WS_PLAY, &op_WS_REC, &op_WS_CUE, &op_WS_LOOP,
+
+    // W/S
+    &op_WS_S_PITCH, &op_WS_S_VEL, &op_WS_S_VOX, &op_WS_S_NOTE, &op_WS_S_AR_MODE,
+    &op_WS_S_LPG_TIME, &op_WS_S_LPG_SYMMETRY, &op_WS_S_CURVE, &op_WS_S_RAMP,
+    &op_WS_S_FM_INDEX, &op_WS_S_FM_RATIO, &op_WS_S_FM_ENV, &op_WS_S_VOICES,
+    &op_WS_S_PATCH,
+
+    // W/D
+    &op_WS_D_FEEDBACK, &op_WS_D_MIX, &op_WS_D_LOWPASS, &op_WS_D_FREEZE,
+    &op_WS_D_TIME, &op_WS_D_LENGTH, &op_WS_D_POSITION, &op_WS_D_CUT,
+    &op_WS_D_FREQ_RANGE, &op_WS_D_RATE, &op_WS_D_FREQ, &op_WS_D_CLK,
+    &op_WS_D_CLK_RATIO, &op_WS_D_PLUCK, &op_WS_D_MOD_RATE, &op_WS_D_MOD_AMOUNT,
+
+    // W/T
+    &op_WS_T_RECORD, &op_WS_T_PLAY, &op_WS_T_REV, &op_WS_T_SPEED, &op_WS_T_FREQ,
+    &op_WS_T_PRE_LEVEL, &op_WS_T_MONITOR_LEVEL, &op_WS_T_REC_LEVEL,
+    &op_WS_T_HEAD_ORDER, &op_WS_T_LOOP_START, &op_WS_T_LOOP_END,
+    &op_WS_T_LOOP_ACTIVE, &op_WS_T_LOOP_SCALE, &op_WS_T_LOOP_NEXT,
+    &op_WS_T_TIMESTAMP, &op_WS_T_SEEK,
 
     // telex
     &op_TO_TR, &op_TO_TR_TOG, &op_TO_TR_PULSE, &op_TO_TR_TIME, &op_TO_TR_TIME_S,
