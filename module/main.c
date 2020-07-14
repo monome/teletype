@@ -917,11 +917,11 @@ void tele_update_adc(u8 force) {
 }
 
 void tele_ii_tx(uint8_t addr, uint8_t* data, uint8_t l) {
-    i2c_master_tx(addr, data, l);
+    i2c_leader_tx(addr, data, l);
 }
 
 void tele_ii_rx(uint8_t addr, uint8_t* data, uint8_t l) {
-    i2c_master_rx(addr, data, l);
+    i2c_leader_rx(addr, data, l);
 }
 
 void tele_scene(uint8_t i, uint8_t init_grid) {
@@ -984,7 +984,7 @@ int main(void) {
     // wait to allow for any i2c devices to fully initalise
     delay_ms(1500);
 
-    init_i2c_master();
+    init_i2c_leader();
 
     print_dbg("\r\n\r\n// teletype! //////////////////////////////// ");
 
