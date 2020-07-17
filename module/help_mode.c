@@ -327,7 +327,7 @@ const char* help5[HELP5_LENGTH] = { "5/14 OPERATORS",
                                     "TR.TOG X|FLIP STATE OF TR X",
                                     "TR.PULSE X|PULSE TR X" };
 
-#define HELP6_LENGTH 38
+#define HELP6_LENGTH 42
 const char* help6[HELP6_LENGTH] = { "6/14 PRE :",
                                     " ",
                                     "EACH PRE NEEDS A : FOLLOWED",
@@ -344,6 +344,10 @@ const char* help6[HELP6_LENGTH] = { "6/14 PRE :",
                                     "  SAME AS DEL.X BUT",
                                     "  EXECUTE ONCE IMMEDIATELY",
                                     "  THEN A-1 TIMES",
+                                    "DEL.G A B C D: |EXPO DELAY",
+                                    "  SAME AS DEL.R BUT TIME",
+                                    "  BETWEEN EACH REPEAT",
+                                    "  SCALED RECURSIVELY BY C/D",
                                     " ",
                                     "S: |PUSH ONTO STACK",
                                     "S.CLR|CLEAR S",

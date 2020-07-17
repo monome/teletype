@@ -28,3 +28,11 @@ Delay the command following the colon once immediately, and `x - 1` times at int
 The buffer can hold up to 16 commands. If the buffer is full, additional commands
 will be discarded.
 """
+["DEL.G"]
+prototype = "DEL.R x delay_time num denom: ..."
+short = "Trigger the command once immediately and `x - 1` times at ms intervals of `delay_time * (num/denom)^n` where n ranges from 0 to `x - 1`."
+description = """
+Trigger the command once immediately and `x - 1` times at ms intervals of `delay_time * (num/denom)^n` where n ranges from 0 to `x - 1` by placing it into a buffer. 
+The buffer can hold up to 16 commands. If the buffer is full, additional commands
+will be discarded.
+"""

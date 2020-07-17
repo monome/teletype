@@ -1,4 +1,6 @@
 # Updates
+## v3.2.2
+- **NEW**: exponential delay operator `DEL.G`
 
 ## v3.2.1
 
