@@ -11,7 +11,7 @@
 %%{
     machine match_token; # declare our ragel machine
 
-    number = '-'? digit+;
+    number = (('-')? [0-9]+) | ([X] [0-9A-F]+) | ([B] [0-1]+);
 
     main := |*
         # NUMBERS
@@ -698,14 +698,17 @@
 // these are our macros that are inserted into the code when Ragel finds a match
 #define MATCH_OP(op) { out->tag = OP; out->value = op; no_of_tokens++; }
 #define MATCH_MOD(mod) { out->tag = MOD; out->value = mod; no_of_tokens++; }
-#define MATCH_NUMBER()                           \
-    {                                            \
-        out->tag = NUMBER;                       \
-        int32_t val = strtol(token, NULL, 0);    \
-        val = val > INT16_MAX ? INT16_MAX : val; \
-        val = val < INT16_MIN ? INT16_MIN : val; \
-        out->value = val;                        \
-        no_of_tokens++;                          \
+#define MATCH_NUMBER()                                   \
+    {                                                    \
+        out->tag = NUMBER;                               \
+        uint8_t base = 0;                                \
+        if (token[0] == 'X') { base = 16; token++; }     \
+        else if (token[0] == 'B') { base = 2; token++; } \
+        int32_t val = strtol(token, NULL, base);         \
+        val = val > INT16_MAX ? INT16_MAX : val;         \
+        val = val < INT16_MIN ? INT16_MIN : val;         \
+        out->value = val;                                \
+        no_of_tokens++;                                  \
     }
 
 // matches a single token, out contains the token, return value indicates
@@ -721,6 +724,7 @@ bool match_token(const char *token, const size_t len, tele_data_t *out) {
     const char* pe = token + len; // pointer to end of data
     const char* eof = pe;         // pointer to eof
     (void)match_token_en_main;    // fix unused variable warning
+    (void)ts;                     // fix unused variable warning
 
     int no_of_tokens = 0;
 

@@ -29,6 +29,7 @@ error_t scanner(const char *data, tele_command_t *out,
     const char* pe = data + len;  // pointer to end of data
     const char* eof = pe;         // pointer to eof
     (void)scanner_en_main;        // fix unused variable warning
+    (void)act;                    // fix unused variable warning
 
     // reset outputs
     error_msg[0] = 0;
