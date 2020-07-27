@@ -73,13 +73,13 @@
         <svg style="display: none;">
             <symbol id="custom-hamburger-icon" viewBox="0 0 22 17"
                 xmlns="http://www.w3.org/2000/svg">
-                    <g 
+                    <g
                         id="Page-1"
                         stroke-width="1"
                         fill="none"
                         fill-rule="evenodd"
                         stroke-linecap="round">
-                            <g 
+                            <g
                                 id="Artboard"
                                 transform="translate(-180.000000, -130.000000)"
                                 stroke-width="2">
@@ -209,17 +209,17 @@
                                 navElements[j]
                                     .classList
                                     .add("NavigationArea-navLi--closed");
-                    } else if (!parentHrefClicked && 
-                        hrefClicked && 
+                    } else if (!parentHrefClicked &&
+                        hrefClicked &&
                         navElements[j]
                             .classList
-                            .contains("NavigationArea-navLi--secondary") && 
+                            .contains("NavigationArea-navLi--secondary") &&
                         navElements[j]
                             .getAttribute("active-parent-anchor") !== hrefClicked) {
                                 navElements[j]
                                     .classList
                                     .add("NavigationArea-navLi--closed");
-                    } else if (parentHrefClicked && 
+                    } else if (parentHrefClicked &&
                         navElements[j]
                             .getAttribute("active-parent-anchor") === parentHrefClicked) {
                                 navElements[j]
@@ -272,6 +272,23 @@
                 }
             };
 
+            var showMainContent = function () {
+                // for phone-size screens, navigation pane should
+                // hide as soon as a nav element is clicked
+                if (window.innerWidth < 700) {
+                    hidden = false;
+                    toggleNavigationArea();
+                }
+
+                // don't show main content until after all navigation changes have
+                // been made to make sure hash links navigate to the right place
+                document.getElementsByClassName("Content-inner")[0]
+                    .classList.remove("Content-inner--hidden");
+                if (window.location.hash) {
+                    window.location = window.location.hash;
+                }
+            }
+
             // handler for navigating to a new nav link
             var navToSection = function () {
                 // All non-internal links should open new tab/window
@@ -310,21 +327,7 @@
                     }
                 };
 
-                // for phone-size screens, navigation pane should 
-                // hide as soon as a nav element is clicked
-                if (window.innerWidth < 700) {
-                    hidden = false;
-                    toggleNavigationArea();
-                }
-
-                // don't show main content until after all navigation changes have
-                // been made to make sure hash links navigate to the right place
-                document.getElementsByClassName("Content-inner")[0]
-                    .classList.remove("Content-inner--hidden");
-                if (window.location.hash) {
-                    window.location = window.location.hash;
-                }
-
+                showMainContent();
                 linksToNewTab();
                 fixBr();
             };
@@ -332,7 +335,7 @@
             // this makes back button work for navigating between links
             var changedHashHandler = function () {
                 updateAnchor();
-                navToSection();
+                showMainContent();
             };
 
             var navActionContainer = document
