@@ -11,7 +11,7 @@
 %%{
     machine match_token; # declare our ragel machine
 
-    number = '-'? digit+;
+    number = (('-')? [0-9]+) | ([X] [0-9A-F]+) | ([B] [0-1]+);
 
     main := |*
         # NUMBERS
@@ -634,7 +634,61 @@
         "WS.CUE"      => { MATCH_OP(E_OP_WS_CUE); };
         "WS.LOOP"     => { MATCH_OP(E_OP_WS_LOOP); };
 
-                # seed
+        # disting ex
+        "EX"          => { MATCH_OP(E_OP_EX); };
+        "EX.PRESET"   => { MATCH_OP(E_OP_EX_PRESET); };
+        "EX.PRE"      => { MATCH_OP(E_OP_EX_PRE); };
+        "EX.SAVE"     => { MATCH_OP(E_OP_EX_SAVE); };
+        "EX.RESET"    => { MATCH_OP(E_OP_EX_RESET); };
+        "EX.ALG"      => { MATCH_OP(E_OP_EX_ALG); };
+        "EX.A"        => { MATCH_OP(E_OP_EX_A); };
+        "EX.CTRL"     => { MATCH_OP(E_OP_EX_CTRL); };
+        "EX.C"        => { MATCH_OP(E_OP_EX_C); };
+        "EX.PARAM"    => { MATCH_OP(E_OP_EX_PARAM); };
+        "EX.P"        => { MATCH_OP(E_OP_EX_P); };
+        "EX.PV"       => { MATCH_OP(E_OP_EX_PV); };
+        "EX.MIN"      => { MATCH_OP(E_OP_EX_MIN); };
+        "EX.MAX"      => { MATCH_OP(E_OP_EX_MAX); };
+        "EX.REC"      => { MATCH_OP(E_OP_EX_REC); };
+        "EX.PLAY"     => { MATCH_OP(E_OP_EX_PLAY); };
+        "EX.AL.P"     => { MATCH_OP(E_OP_EX_AL_P); };
+        "EX.AL.CLK"   => { MATCH_OP(E_OP_EX_AL_CLK); };
+        "EX.M.CH"     => { MATCH_OP(E_OP_EX_M_CH); };
+        "EX.M.N"      => { MATCH_OP(E_OP_EX_M_N); };
+        "EX.M.NO"     => { MATCH_OP(E_OP_EX_M_NO); };
+        "EX.M.PB"     => { MATCH_OP(E_OP_EX_M_PB); };
+        "EX.M.CC"     => { MATCH_OP(E_OP_EX_M_CC); };
+        "EX.M.PRG"    => { MATCH_OP(E_OP_EX_M_PRG); };
+        "EX.M.CLK"    => { MATCH_OP(E_OP_EX_M_CLK); };
+        "EX.M.START"  => { MATCH_OP(E_OP_EX_M_START); };
+        "EX.M.STOP"   => { MATCH_OP(E_OP_EX_M_STOP); };
+        "EX.M.CONT"   => { MATCH_OP(E_OP_EX_M_CONT); };
+        "EX.SB.CH"    => { MATCH_OP(E_OP_EX_SB_CH); };
+        "EX.SB.N"     => { MATCH_OP(E_OP_EX_SB_N); };
+        "EX.SB.NO"    => { MATCH_OP(E_OP_EX_SB_NO); };
+        "EX.SB.PB"    => { MATCH_OP(E_OP_EX_SB_PB); };
+        "EX.SB.CC"    => { MATCH_OP(E_OP_EX_SB_CC); };
+        "EX.SB.PRG"   => { MATCH_OP(E_OP_EX_SB_PRG); };
+        "EX.SB.CLK"   => { MATCH_OP(E_OP_EX_SB_CLK); };
+        "EX.SB.START" => { MATCH_OP(E_OP_EX_SB_START); };
+        "EX.SB.STOP"  => { MATCH_OP(E_OP_EX_SB_STOP); };
+        "EX.SB.CONT"  => { MATCH_OP(E_OP_EX_SB_CONT); };
+        "EX.VOX.P"    => { MATCH_OP(E_OP_EX_VOX_P); };
+        "EX.VP"       => { MATCH_OP(E_OP_EX_VP); };
+        "EX.VOX"      => { MATCH_OP(E_OP_EX_VOX); };
+        "EX.V"        => { MATCH_OP(E_OP_EX_V); };
+        "EX.VOX.O"    => { MATCH_OP(E_OP_EX_VOX_O); };
+        "EX.VO"       => { MATCH_OP(E_OP_EX_VO); };
+        "EX.NOTE"     => { MATCH_OP(E_OP_EX_NOTE); };
+        "EX.N"        => { MATCH_OP(E_OP_EX_N); };
+        "EX.NOTE.O"   => { MATCH_OP(E_OP_EX_NOTE_O); };
+        "EX.NO"       => { MATCH_OP(E_OP_EX_NO); };
+        "EX.ALLOFF"   => { MATCH_OP(E_OP_EX_ALLOFF); };
+        "EX.AO"       => { MATCH_OP(E_OP_EX_AO); };
+        "EX.T"        => { MATCH_OP(E_OP_EX_T); };
+        "EX.TV"       => { MATCH_OP(E_OP_EX_TV); };
+
+        # seed
         "SEED"        => { MATCH_OP(E_OP_SEED); };
         "RAND.SEED"      => { MATCH_OP(E_OP_RAND_SEED); };
         "RAND.SD"      => { MATCH_OP(E_OP_SYM_RAND_SD); };
@@ -658,6 +712,10 @@
         "EVERY"       => { MATCH_MOD(E_MOD_EVERY); };
         "SKIP"        => { MATCH_MOD(E_MOD_SKIP); };
         "OTHER"       => { MATCH_MOD(E_MOD_OTHER); };
+        "EX1"         => { MATCH_MOD(E_MOD_EX1); };
+        "EX2"         => { MATCH_MOD(E_MOD_EX2); };
+        "EX3"         => { MATCH_MOD(E_MOD_EX3); };
+        "EX4"         => { MATCH_MOD(E_MOD_EX4); };
 
         # delay
         "PROB"        => { MATCH_MOD(E_MOD_PROB); };
@@ -698,14 +756,17 @@
 // these are our macros that are inserted into the code when Ragel finds a match
 #define MATCH_OP(op) { out->tag = OP; out->value = op; no_of_tokens++; }
 #define MATCH_MOD(mod) { out->tag = MOD; out->value = mod; no_of_tokens++; }
-#define MATCH_NUMBER()                           \
-    {                                            \
-        out->tag = NUMBER;                       \
-        int32_t val = strtol(token, NULL, 0);    \
-        val = val > INT16_MAX ? INT16_MAX : val; \
-        val = val < INT16_MIN ? INT16_MIN : val; \
-        out->value = val;                        \
-        no_of_tokens++;                          \
+#define MATCH_NUMBER()                                   \
+    {                                                    \
+        out->tag = NUMBER;                               \
+        uint8_t base = 0;                                \
+        if (token[0] == 'X') { base = 16; token++; }     \
+        else if (token[0] == 'B') { base = 2; token++; } \
+        int32_t val = strtol(token, NULL, base);         \
+        val = val > INT16_MAX ? INT16_MAX : val;         \
+        val = val < INT16_MIN ? INT16_MIN : val;         \
+        out->value = val;                                \
+        no_of_tokens++;                                  \
     }
 
 // matches a single token, out contains the token, return value indicates
@@ -721,6 +782,7 @@ bool match_token(const char *token, const size_t len, tele_data_t *out) {
     const char* pe = token + len; // pointer to end of data
     const char* eof = pe;         // pointer to eof
     (void)match_token_en_main;    // fix unused variable warning
+    (void)ts;                     // fix unused variable warning
 
     int no_of_tokens = 0;
 

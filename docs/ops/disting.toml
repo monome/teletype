@@ -1,0 +1,238 @@
+["EX"]
+prototype = "EX"
+prototype_set = "EX x"
+short = "get or set currently selected unit to `x` (1-4)"
+description = """
+All Disting EX ops address the currently selected unit (unit 1 is selected by default), 
+unless placed after `EX1`..`EX4` modifiers. Use this op to select a unit or get
+the currently selected unit.
+"""
+
+["EX1"]
+prototype = "EX1: ..."
+short = "send following Disting ops to unit 1 ignoring the currently selected unit"
+
+["EX2"]
+prototype = "EX2: ..."
+short = "send following Disting ops to unit 2 ignoring the currently selected unit"
+
+["EX3"]
+prototype = "EX3: ..."
+short = "send following Disting ops to unit 3 ignoring the currently selected unit"
+
+["EX4"]
+prototype = "EX4: ..."
+short = "send following Disting ops to unit 4 ignoring the currently selected unit"
+
+["EX.PRESET"]
+prototype = "EX.PRESET"
+prototype_set = "EX.PRESET x"
+aliases = ["EX.PRE"]
+short = "load preset `x` or get the currently loaded preset"
+
+["EX.SAVE"]
+prototype = "EX.SAVE x"
+short = "save to preset `x`"
+
+["EX.RESET"]
+prototype = "EX.RESET"
+short = "reset the currently loaded preset"
+
+["EX.ALG"]
+prototype = "EX.ALG"
+prototype_set = "EX.ALG x"
+aliases = ["EX.A"]
+short = "get or set the current algorithm to `x` (single algorithms only)"
+
+["EX.CTRL"]
+prototype = "EX.CTRL x y"
+aliases = ["EX.C"]
+short = "set I2C controller `x` to value `y`"
+description = """
+I2C controllers must be mapped to parameters on the Disting.
+Handy for controlling multiple parameters at once.
+"""
+
+["EX.PARAM"]
+prototype = "EX.PARAM x"
+prototype_set = "EX.PARAM x y"
+aliases = ["EX.P"]
+short = "set parameter `x` to value `y` or get the current parameter value"
+description = """
+This op sets the specified parameter to the exact value specified.
+If you want to use something like `IN` or `PARAM` to control a value,
+use `EX.PV` op instead as it will scale it properly for you.
+"""
+
+["EX.PV"]
+prototype = "EX.PV x y"
+short = "set paramEter `x` using a value determined by scaling `y` from 0..16384 range."
+description = """
+This op sets the specified parameter by scaling the provided value from 0..16384 range
+to the range used by the parameter. This op is useful when used in conjunction with
+something like `PARAM`: `EX.PV x PARAM` will allow you to use the param knob
+to control full range of parameter `x`.
+"""
+
+["EX.MIN"]
+prototype = "EX.MIN x"
+short = "get the minimum possible value for parameter `x`"
+
+["EX.MAX"]
+prototype = "EX.MAX x"
+short = "get the maximum possible value for parameter `x`"
+
+
+["EX.VOX"]
+prototype = "EX.VOX x y z"
+aliases = ["EX.V"]
+short = "send a note to voice `x` using pitch `y` and velocity `z`"
+description = """
+This op will trigger notes when using SD Multisample or SD Triggers algorithms.
+Please note chord/arpeggio Disting functionality is only available when using voices
+allocated by the Disting itself (see `EX.NOTE` op).
+"""
+
+["EX.VOX.P"]
+prototype = "EX.VOX.P x y"
+aliases = ["EX.VP"]
+short = "set voice `x` to pitch `y`"
+
+["EX.VOX.O"]
+prototype = "EX.VOX.O x"
+aliases = ["EX.VO"]
+short = "send a note off to voice `x`"
+
+["EX.NOTE"]
+prototype = "EX.NOTE x y"
+aliases = ["EX.N"]
+short = "send a note using pitch `x` and velocity `y` (voice allocated by the Disting)"
+
+["EX.NOTE.O"]
+prototype = "EX.NOTE.O x"
+aliases = ["EX.NO"]
+short = "send a note off using pitch `x`"
+
+["EX.ALLOFF"]
+prototype = "EX.ALLOFF"
+aliases = ["EX.AO"]
+short = "all notes off"
+
+["EX.T"]
+prototype = "EX.T x"
+short = "send a trigger to voice `x` with medium velocity (use with SD Triggers algo)"
+
+["EX.TV"]
+prototype = "EX.TV x y"
+short = "send a trigger to voice `x` using velocity `y` (use with SD Triggers algo)"
+
+["EX.REC"]
+prototype = "EX.REC x"
+short = "control WAV recorder recording: 1 to start, 0 to stop"
+
+["EX.PLAY"]
+prototype = "EX.PLAY x"
+short = "control WAV recorder playback: 1 to start, 0 to stop"
+
+["EX.AL.P"]
+prototype = "EX.AL.P x"
+short = "set Augustus Loop pitch to value `x`"
+description = """
+Parameter 32 (Pitch CV Input) must be set to None in order for this to work.
+Pitch value uses the same scale as other pitch related ops, so you can use `N` and related ops
+to convert semitones to the actual pitch value.
+"""
+
+["EX.AL.CLK"]
+prototype = "EX.AL.CLK"
+short = "send clock to Augustus Loop"
+
+["EX.M.CH"]
+prototype = "EX.M.CH"
+prototype_set = "EX.M.CH x"
+short = "get or set the currently selected MIDI channel (1-16)"
+description = """
+All MIDI ops that use a channel will use the currently selected channel.
+MIDI ops require a MIDI breakout.
+"""
+
+["EX.M.N"]
+prototype = "EX.M.N x y"
+short = "send MIDI Note On message for note `x` (0..127) and velocity `y` (0..127)"
+
+["EX.M.NO"]
+prototype = "EX.M.NO x"
+short = "send MIDI Note off message for note `x` (0..127)"
+
+["EX.M.PB"]
+prototype = "EX.M.PB x"
+short = "send MIDI Pitchbend message"
+
+["EX.M.CC"]
+prototype = "EX.M.CC x y"
+short = "send MIDI CC message for controller `x` (0..127) and value `y` (0..127)"
+
+["EX.M.PRG"]
+prototype = "EX.M.PRG x"
+short = "send MIDI Program Change message"
+
+["EX.M.CLK"]
+prototype = "EX.M.CLK"
+short = "send MIDI clock message"
+
+["EX.M.START"]
+prototype = "EX.M.START"
+short = "send MIDI Start message"
+
+["EX.M.STOP"]
+prototype = "EX.M.STOP"
+short = "send MIDI Stop message"
+
+["EX.M.CONT"]
+prototype = "EX.M.CONT"
+short = "send MIDI Continue message"
+
+["EX.SB.CH"]
+prototype = "EX.SB.CH"
+prototype_set = "EX.SB.CH x"
+short = "get or set the currently selected Select Bus channel (1-16)"
+description = """
+All Select Bus ops that use a channel will use the currently selected channel.
+Select Bus settings must be properly configured on the Disting.
+"""
+
+["EX.SB.N"]
+prototype = "EX.SB.N x y"
+short = "send Select Bus Note On message for note `x` (0..127) and velocity `y` (0..127)"
+
+["EX.SB.NO"]
+prototype = "EX.SB.NO x"
+short = "send Select Bus Note off message for note `x` (0..127)"
+
+["EX.SB.PB"]
+prototype = "EX.SB.PB x"
+short = "send Select Bus Pitchbend message"
+
+["EX.SB.CC"]
+prototype = "EX.SB.CC x y"
+short = "send Select Bus CC message for controller `x` (0..127) and value `y` (0..127)"
+
+["EX.SB.PRG"]
+prototype = "EX.SB.PRG x"
+short = "send Select Bus Program Change message"
+
+["EX.SB.CLK"]
+prototype = "EX.SB.CLK"
+short = "send Select Bus clock message"
+
+["EX.SB.START"]
+prototype = "EX.SB.START"
+short = "send Select Bus Start message"
+
+["EX.SB.STOP"]
+prototype = "EX.SB.STOP"
+short = "send Select Bus Stop message"
+
+["EX.SB.CONT"]
+prototype = "EX.SB.CONT"
+short = "send Select Bus Continue message"

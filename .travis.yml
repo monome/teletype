@@ -2,8 +2,7 @@ language: c
 
 install:
   - pushd $HOME
-  # TODO: move toolchain to monome repo
-  - git clone https://github.com/samdoshi/avr32-toolchain-linux.git deps/avr32-toolchain-linux
+  - git clone https://github.com/monome/avr32-toolchain-linux.git deps/avr32-toolchain-linux
   - cd deps/avr32-toolchain-linux
   - tar xvfz avr32-gnu-toolchain-3.4.3.820-linux.any.x86_64.tar.gz
   - mv avr32-gnu-toolchain-linux_x86_64 $HOME/avr32-tools

@@ -16,10 +16,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Help text ///////////////////////////////////////////////////////////////////
 
-#define HELP_PAGES 14
+#define HELP_PAGES 15
 
 #define HELP1_LENGTH 68
-const char* help1[HELP1_LENGTH] = { "1/14 HELP",
+const char* help1[HELP1_LENGTH] = { "1/15 HELP",
                                     "[ ] NAVIGATE HELP PAGES",
                                     "UP/DOWN TO SCROLL",
                                     "CTRL-F  SEARCH FORWARD",
@@ -89,7 +89,7 @@ const char* help1[HELP1_LENGTH] = { "1/14 HELP",
                                     "SHIFT-2|SHOW/HIDE TURTLE" };
 
 #define HELP2_LENGTH 14
-const char* help2[HELP2_LENGTH] = { "2/14 VARIABLES",
+const char* help2[HELP2_LENGTH] = { "2/15 VARIABLES",
                                     " ",
                                     "X, Y, Z|GENERAL PURPOSE",
                                     "T|USE FOR TIME",
@@ -105,7 +105,7 @@ const char* help2[HELP2_LENGTH] = { "2/14 VARIABLES",
                                     "J, K|UNIQUE PER SCRIPT" };
 
 #define HELP3_LENGTH 60
-const char* help3[HELP3_LENGTH] = { "3/14 PARAMETERS",
+const char* help3[HELP3_LENGTH] = { "3/15 PARAMETERS",
                                     " ",
                                     "TR A-D|SET TR VALUE (0,1)",
                                     "TR.TIME A-D|TR PULSE TIME",
@@ -167,7 +167,7 @@ const char* help3[HELP3_LENGTH] = { "3/14 PARAMETERS",
                                     "   RESET FADER X CALIBRATION"};
 
 #define HELP4_LENGTH 73
-const char* help4[HELP4_LENGTH] = { "4/14 DATA AND TABLES",
+const char* help4[HELP4_LENGTH] = { "4/15 DATA AND TABLES",
                                     " ",
                                     "ALL PARAMS HAVE 16B RANGE",
                                     "-32768 TO 32767",
@@ -243,7 +243,7 @@ const char* help4[HELP4_LENGTH] = { "4/14 DATA AND TABLES",
 };
 
 #define HELP5_LENGTH 83
-const char* help5[HELP5_LENGTH] = { "5/14 OPERATORS",
+const char* help5[HELP5_LENGTH] = { "5/15 OPERATORS",
                                     " ",
                                     "RAND A|RANDOM 0 - A",
                                     "RRAND A B|RANDOM A - B",
@@ -328,7 +328,7 @@ const char* help5[HELP5_LENGTH] = { "5/14 OPERATORS",
                                     "TR.PULSE X|PULSE TR X" };
 
 #define HELP6_LENGTH 42
-const char* help6[HELP6_LENGTH] = { "6/14 PRE :",
+const char* help6[HELP6_LENGTH] = { "6/15 PRE :",
                                     " ",
                                     "EACH PRE NEEDS A : FOLLOWED",
                                     "BY A COMMAND TO OPERATE ON",
@@ -372,7 +372,7 @@ const char* help6[HELP6_LENGTH] = { "6/14 PRE :",
                                     "BREAK|STOP EXECUTION" };
 
 #define HELP7_LENGTH 43
-const char* help7[HELP7_LENGTH] = { "7/14 PATTERNS",
+const char* help7[HELP7_LENGTH] = { "7/15 PATTERNS",
                                     " ",
                                     "// DIRECT ACCESS",
                                     "P A|GET VAL AT INDEX A",
@@ -417,7 +417,7 @@ const char* help7[HELP7_LENGTH] = { "7/14 PATTERNS",
                                     "P.MAP:|APPLY FUNC" };
 
 #define HELP8_LENGTH 135
-const char* help8[HELP8_LENGTH] = { "8/14 GRID",
+const char* help8[HELP8_LENGTH] = { "8/15 GRID",
                                     " ",
                                     "G.RST|RESET EVERYTHING",
                                     "G.CLR|CLEAR ALL LEDS",
@@ -553,7 +553,7 @@ const char* help8[HELP8_LENGTH] = { "8/14 GRID",
                                     "G.GFDR.RN group min max",
                                     "    SET FADER RANGE FOR .V" };
 #define HELP9_LENGTH 17
-const char* help9[HELP9_LENGTH] = { "9/14 TURTLE",
+const char* help9[HELP9_LENGTH] = { "9/15 TURTLE",
                                     " ",
                                     "// CRAWLS TRACKER DATA",
                                     "@|GET/SET DATA",
@@ -572,7 +572,7 @@ const char* help9[HELP9_LENGTH] = { "9/14 TURTLE",
                                     "@SHOW 1/0|DISPLAY < ON TRACKER" };
 
 #define HELP10_LENGTH 39
-const char* help10[HELP10_LENGTH] = { "10/14 GENERIC I2C",
+const char* help10[HELP10_LENGTH] = { "10/15 GENERIC I2C",
                                     " ",
                                     "IIA",
                                     "    GET I2C ADDRESS",
@@ -613,7 +613,7 @@ const char* help10[HELP10_LENGTH] = { "10/14 GENERIC I2C",
                                     "    BYTE QUERY BYTE PARAMS" };
 
 #define HELP11_LENGTH 36
-const char* help11[HELP11_LENGTH] = { "11/14 TELEX INPUT",
+const char* help11[HELP11_LENGTH] = { "11/15 TELEX INPUT",
                                       " ",
                                       "TI.PARAM X|(TI.PRM)",
                                       "    GET KNOB VALUE",
@@ -651,7 +651,7 @@ const char* help11[HELP11_LENGTH] = { "11/14 TELEX INPUT",
                                       "    RESET CALIB FOR DEVICE D" };
 
 #define HELP12_LENGTH 164
-const char* help12[HELP12_LENGTH] = { "12/14 TELEX OUTPUT",
+const char* help12[HELP12_LENGTH] = { "12/15 TELEX OUTPUT",
                                       " ",
                                       "TO.TR X Y",
                                       "    SET TR VALUE (0/1)",
@@ -817,7 +817,7 @@ const char* help12[HELP12_LENGTH] = { "12/14 TELEX OUTPUT",
                                       "    RESET CV CALIB" };
 
 #define HELP13_LENGTH 140
-const char* help13[HELP13_LENGTH] = { "13/14 ANSIBLE",
+const char* help13[HELP13_LENGTH] = { "13/15 ANSIBLE",
                                       " ",
                                       "ANS.G.LED X Y",
                                       "    READ GRID LED STATE",
@@ -959,7 +959,7 @@ const char* help13[HELP13_LENGTH] = { "13/14 ANSIBLE",
                                       "    (E.G. N 6, V -1)" };
 
 #define HELP14_LENGTH 53
-const char* help14[HELP14_LENGTH] = { "14/14 JUST FRIENDS & W/",
+const char* help14[HELP14_LENGTH] = { "14/15 JUST FRIENDS & W/",
                                       " ",
                                       "JF.TR X Y",
                                       "    TRIGGER CHANNEL X (0 = ALL)",
@@ -1013,17 +1013,138 @@ const char* help14[HELP14_LENGTH] = { "14/14 JUST FRIENDS & W/",
                                       "WS.LOOP X",
                                       "    SET LOOP STATE ON/OFF" };
 
+#define HELP15_LENGTH 118
+const char* help15[HELP15_LENGTH] = { "15/15 DISTING EX",
+                                      "EX",
+                                      "    GET CURRENT UNIT",
+                                      "EX X",
+                                      "    SET CURRENT UNIT",
+                                      "EX1: ...",
+                                      "EX2: ...",
+                                      "EX3: ...",
+                                      "EX4: ...",
+                                      "    SEND TO UNIT",
+                                      "EX.PRESET",
+                                      "EX.PRE",
+                                      "    GET CURRENT PRESET",
+                                      "EX.PRESET X",
+                                      "EX.PRE X",
+                                      "    LOAD PRESET",
+                                      "EX.SAVE X",
+                                      "EX.S X",
+                                      "    SAVE PRESET",
+                                      "EX.RESET",
+                                      "    RESET PRESET",
+                                      "EX.ALG",
+                                      "EX.A",
+                                      "    GET CURRENT ALGORITHM",
+                                      "EX.ALG X",
+                                      "EX.A X",
+                                      "    SELECT ALGORITHM",
+                                      "EX.CTRL X Y",
+                                      "EX.C X Y",
+                                      "    SET I2C CONTROLLER VALUE",
+                                      "EX.PARAM X",
+                                      "EX.P X",
+                                      "    GET PARAMETER VALUE",
+                                      "EX.PARAM X Y",
+                                      "EX.P X Y",
+                                      "    SET PARAMETER VALUE",
+                                      "EX.PV X Y",
+                                      "    SET PARAMETER VALUE SCALED",
+                                      "EX.MIN X",
+                                      "    GET PARAMETER MIN",
+                                      "EX.MAX X",
+                                      "    GET PARAMETER MAX",
+                                      "EX.VOX X Y Z",
+                                      "EX.V X Y Z",
+                                      "    SEND NOTE TO VOICE",
+                                      "EX.VOX.P X Y",
+                                      "EX.VP X Y",
+                                      "    SET PITCH FOR VOICE",
+                                      "EX.VOX.O X",
+                                      "EX.VO X",
+                                      "    SEND NOTE OFF TO VOICE",
+                                      "EX.NOTE X Y",
+                                      "EX.N X Y",
+                                      "    SEND NOTE",
+                                      "EX.NOTE.O X",
+                                      "EX.NO X",
+                                      "    SEND NOTE OFF",
+                                      "EX.ALLOFF",
+                                      "EX.AO",
+                                      "    ALL NOTES OFF",
+                                      "EX.T X",
+                                      "    SEND TRIGGER TO VOICE",
+                                      "EX.TV X Y",
+                                      "    SEND TRIGGER WITH VELOCITY",
+                                      "EX.REC X",
+                                      "    CONTROL WAV RECORDING",
+                                      "    1 TO START, 0 TO STOP",
+                                      "EX.PLAY X",
+                                      "    CONTROL WAV PLAYBACK",
+                                      "    1 TO START, 0 TO STOP",
+                                      "EX.AL.P X",
+                                      "    SET AUGUSTUS LOOP PITCH",
+                                      "EX.AL.CLK",
+                                      "    CLOCK AUGUSTUS LOOP",
+                                      "EX.M.CH",
+                                      "    GET CURRENT MIDI CHANNEL",
+                                      "EX.M.CH X",
+                                      "    SELECT MIDI CHANNEL 1-16",
+                                      "EX.M.N X Y",
+                                      "    SEND MIDI NOTE ON",
+                                      "EX.M.NO X",
+                                      "    SEND MIDI NOTE OFF",
+                                      "EX.M.PB X",
+                                      "    SEND MIDI PITCHBEND",
+                                      "EX.M.CC X Y",
+                                      "    SEND MIDI CC",
+                                      "EX.M.PRG X",
+                                      "    SEND MIDI PRG CHANGE",
+                                      "EX.M.CLK",
+                                      "    SEND MIDI CLOCK",
+                                      "EX.M.START",
+                                      "    SEND MIDI START",
+                                      "EX.M.STOP",
+                                      "    SEND MIDI STOP",
+                                      "EX.M.CONT",
+                                      "    SEND MIDI CONTINUE",
+                                      "EX.SB.CH",
+                                      "    GET SELECT BUS CHANNEL",
+                                      "EX.SB.CH X",
+                                      "    SET SB CHANNEL 1-16",
+                                      "EX.SB.N X Y",
+                                      "    SEND SB NOTE ON",
+                                      "EX.SB.NO X",
+                                      "    SEND SB NOTE OFF",
+                                      "EX.SB.PB X",
+                                      "    SEND SB PITCHBEND",
+                                      "EX.SB.CC X Y",
+                                      "    SEND SB CC",
+                                      "EX.SB.PRG X",
+                                      "    SEND SB PRG CHANGE",
+                                      "EX.SB.CLK",
+                                      "    SEND SB CLOCK",
+                                      "EX.SB.START",
+                                      "    SEND SB START",
+                                      "EX.SB.STOP",
+                                      "    SEND SB STOP",
+                                      "EX.SB.CONT",
+                                      "    SEND SB CONTINUE"
+                                    };
 
 ////////////////////////////////////////////////////////////////////////////////
 // Help mode ///////////////////////////////////////////////////////////////////
 
 const char** help_pages[HELP_PAGES] = { help1,  help2,  help3, help4, help5,
                                         help6,  help7,  help8, help9, help10,
-                                        help11, help12, help13, help14 };
+                                        help11, help12, help13, help14, help15
+};
 const uint8_t help_length[HELP_PAGES] = {
     HELP1_LENGTH,  HELP2_LENGTH,  HELP3_LENGTH, HELP4_LENGTH, HELP5_LENGTH,
     HELP6_LENGTH,  HELP7_LENGTH,  HELP8_LENGTH, HELP9_LENGTH, HELP10_LENGTH,
-    HELP11_LENGTH, HELP12_LENGTH, HELP13_LENGTH, HELP14_LENGTH
+    HELP11_LENGTH, HELP12_LENGTH, HELP13_LENGTH, HELP14_LENGTH, HELP15_LENGTH
 };
 
 static uint8_t page_no;

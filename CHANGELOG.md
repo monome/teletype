@@ -2,9 +2,13 @@
 
 ## v3.2.1
 
+- **FIX**: `LAST SCRIPT` in live mode gives time since init script was run
 - **FIX**: negative pattern values are properly read from USB
+- **FIX**: delay when navigating to sections in docs
 - **NEW**: generic i2c ops: `IIA`, `IIS..`, `IIQ..`, `IIB..`
 - **NEW**: exponential delay operator `DEL.G`
+- **NEW**: binary and hex format for numbers: `B...`, `X...`
+- **NEW**: Disting EX ops
 
 ## v3.2.0
 
