@@ -59,6 +59,7 @@ OPS_SECTIONS = [
     ("seed",          "Seed",          False),
     ("turtle",        "Turtle",        True),
     ("grid",          "Grid",          True),
+    ("i2c",           "Generic I2C",   True),
     ("ansible",       "Ansible",       False),
     ("whitewhale",    "Whitewhale",    False),
     ("meadowphysics", "Meadowphysics", False),
