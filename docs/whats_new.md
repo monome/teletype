@@ -9,6 +9,7 @@
 - **NEW**: exponential delay operator `DEL.G`
 - **NEW**: binary and hex format for numbers: `B...`, `X...`
 - **NEW**: Disting EX ops
+- **FIX**: `LAST n` is broken for script 1
 
 ## v3.2.0
 
