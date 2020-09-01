@@ -105,7 +105,7 @@ def cheatsheet_tex():
             for op in ops_array:
                 prototype = latex_safe(op["prototype"])
                 if "prototype_set" in op:
-                    prototype += " / " + op["prototype_set"]
+                    prototype += " / " + latex_safe(op["prototype_set"])
                 output += "\\begin{op}"
                 if "aliases" in op and len(op["aliases"]) > 0:
                     output += "[" + latex_safe(" ".join(op["aliases"])) + "]"
