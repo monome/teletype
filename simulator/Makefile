@@ -14,7 +14,8 @@ OBJ = tt.o ../src/teletype.o ../src/command.o ../src/helpers.o \
 	../src/ops/fader.o ../src/ops/matrixarchate.o ../src/ops/wslash.o \
 	../src/ops/seed.o ../src/ops/i2c.o ../src/ops/disting.o \
 	../libavr32/src/euclidean/euclidean.o ../libavr32/src/euclidean/data.o \
-	../libavr32/src/music.o ../libavr32/src/util.o ../libavr32/src/random.o
+	../libavr32/src/music.o ../libavr32/src/util.o ../libavr32/src/random.o \
+        ../src/ops/midi.o
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)

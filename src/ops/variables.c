@@ -105,7 +105,7 @@ static void op_LAST_get(const void *NOTUSED(data), scene_state_t *ss,
     // when run in LIVE mode, SCRIPT will be 0.
     // LIVE SCRIPT should give time since INIT
     // was run in this case.
-    if (script_number < 1) {
+    if (script_number < 0) {
         script_number = 9;
     }
     int16_t last = ss_get_script_last(ss, script_number);

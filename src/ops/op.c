@@ -21,6 +21,7 @@
 #include "ops/matrixarchate.h"
 #include "ops/meadowphysics.h"
 #include "ops/metronome.h"
+#include "ops/midi.h"
 #include "ops/orca.h"
 #include "ops/patterns.h"
 #include "ops/queue.h"
@@ -230,12 +231,20 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     &op_EX_SB_PRG, &op_EX_SB_CLK, &op_EX_SB_START, &op_EX_SB_STOP,
     &op_EX_SB_CONT, &op_EX_VOX_P, &op_EX_VP, &op_EX_VOX, &op_EX_V, &op_EX_VOX_O,
     &op_EX_VO, &op_EX_NOTE, &op_EX_N, &op_EX_NOTE_O, &op_EX_NO, &op_EX_ALLOFF,
-    &op_EX_AO, &op_EX_T, &op_EX_TV,
+    &op_EX_AO, &op_EX_T, &op_EX_TV, &op_EX_LP_REC, &op_EX_LP_PLAY,
+    &op_EX_LP_REV, &op_EX_LP_DOWN, &op_EX_LP_CLR, &op_EX_LP, &op_EX_LP_DOWNQ,
+    &op_EX_LP_REVQ,
 
     // seed
     &op_SEED, &op_RAND_SEED, &op_SYM_RAND_SD, &op_SYM_R_SD, &op_TOSS_SEED,
     &op_SYM_TOSS_SD, &op_PROB_SEED, &op_SYM_PROB_SD, &op_DRUNK_SEED,
-    &op_SYM_DRUNK_SD, &op_P_SEED, &op_SYM_P_SD
+    &op_SYM_DRUNK_SD, &op_P_SEED, &op_SYM_P_SD,
+
+    &op_MI_SYM_DOLLAR, &op_MI_LN, &op_MI_LNV, &op_MI_LV, &op_MI_LVV, &op_MI_LO,
+    &op_MI_LC, &op_MI_LCC, &op_MI_LCCV, &op_MI_NL, &op_MI_N, &op_MI_NV,
+    &op_MI_V, &op_MI_VV, &op_MI_OL, &op_MI_O, &op_MI_CL, &op_MI_C, &op_MI_CC,
+    &op_MI_CCV, &op_MI_LCH, &op_MI_NCH, &op_MI_OCH, &op_MI_CCH, &op_MI_LE,
+    &op_MI_CLKD, &op_MI_CLKR
 };
 
 /////////////////////////////////////////////////////////////////

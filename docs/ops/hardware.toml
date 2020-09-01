@@ -149,7 +149,7 @@ prototype = "MUTE x"
 prototype_set = "MUTE x y"
 short = "Disable trigger input x"
 description = """
-Mute the trigger input on `x` (0-7) when `y` is non-zero.
+Mute the trigger input on `x` (1-8) when `y` is non-zero.
 """
 
 ["STATE"]

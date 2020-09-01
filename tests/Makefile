@@ -12,7 +12,7 @@ tests: main.o \
 	../src/ops/op.o ../src/ops/ansible.o ../src/ops/controlflow.o \
 	../src/ops/delay.o ../src/ops/earthsea.o \
 	../src/ops/er301.o ../src/ops/fader.o \
-	../src/ops/hardware.o ../src/ops/i2c.o \
+	../src/ops/hardware.o ../src/ops/i2c.o ../src/ops/midi.o \
 	../src/ops/justfriends.o ../src/ops/meadowphysics.o \
 	../src/ops/metronome.o ../src/ops/maths.o ../src/ops/orca.o \
 	../src/ops/patterns.o ../src/ops/queue.o ../src/ops/stack.o \

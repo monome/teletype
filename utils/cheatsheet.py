@@ -59,6 +59,8 @@ OPS_SECTIONS = [
     ("seed",          "Seed",          False),
     ("turtle",        "Turtle",        True),
     ("grid",          "Grid",          True),
+    ("midi_in",       "MIDI In",       True),
+    ("i2c",           "Generic I2C",   True),
     ("ansible",       "Ansible",       False),
     ("whitewhale",    "Whitewhale",    False),
     ("meadowphysics", "Meadowphysics", False),
@@ -70,7 +72,8 @@ OPS_SECTIONS = [
     ("fader",         "Fader",         False),
     ("matrixarchate", "Matrixarchate", True),
     ("telex_i",       "TELEXi",        False),
-    ("telex_o",       "TELEXo",        False)
+    ("telex_o",       "TELEXo",        False),
+    ("disting",       "Disting EX",    False)
 ]
 
 

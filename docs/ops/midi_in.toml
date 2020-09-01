@@ -1,0 +1,121 @@
+["MI.$"]
+prototype = "MI.$ x"
+prototype_set = "MI.$ x y"
+short = "assign MIDI event type `x` to script `y`"
+description = """
+Assign a script to be triggered when a MIDI event of the specified type is received.
+The following types are supported:
+0 - all events
+1 - note on
+2 - note off
+3 - controller change
+4 - clock
+5 - start
+6 - stop
+7 - continue
+"""
+
+["MI.LE"]
+prototype = "MI.LE"
+short = "get the latest event type"
+
+["MI.LCH"]
+prototype = "MI.LCH"
+short = "get the latest channel (1..16)"
+
+["MI.LN"]
+prototype = "MI.LN"
+short = "get the latest Note On (0..127)"
+
+["MI.LNV"]
+prototype = "MI.LNV"
+short = "get the latest Note On scaled to teletype range (shortcut for `N MI.LN`)"
+
+["MI.LV"]
+prototype = "MI.LV"
+short = "get the latest velocity (0..127)"
+
+["MI.LVV"]
+prototype = "MI.LVV"
+short = "get the latest velocity scaled to 0..16383 range (0..+10V)"
+
+["MI.LO"]
+prototype = "MI.LO"
+short = "get the latest Note Off (0..127)"
+
+["MI.LC"]
+prototype = "MI.LC"
+short = "get the latest controller number (0..127)"
+
+["MI.LCC"]
+prototype = "MI.LCC"
+short = "get the latest controller value (0..127)"
+
+["MI.LCCV"]
+prototype = "MI.LCCV"
+short = "get the latest controller value scaled to 0..16383 range (0..+10V)"
+
+["MI.NL"]
+prototype = "MI.NL"
+short = "get the number of Note On events"
+
+["MI.NCH"]
+prototype = "MI.NCH"
+short = "get the Note On event channel (1..16) at index specified by variable `I`"
+
+["MI.N"]
+prototype = "MI.N"
+short = "get the Note On (0..127) at index specified by variable `I`"
+
+["MI.NV"]
+prototype = "MI.NV"
+short = "get the Note On scaled to 0..+10V range at index specified by variable `I`"
+
+["MI.V"]
+prototype = "MI.V"
+short = "get the velocity (0..127) at index specified by variable `I`"
+
+["MI.VV"]
+prototype = "MI.VV"
+short = "get the velocity scaled to 0..10V range at index specified by variable `I`"
+
+["MI.OL"]
+prototype = "MI.OL"
+short = "get the number of Note Off events"
+
+["MI.OCH"]
+prototype = "MI.OCH"
+short = "get the Note Off event channel (1..16) at index specified by variable `I`"
+
+["MI.O"]
+prototype = "MI.O"
+short = "get the Note Off (0..127) at index specified by variable `I`"
+
+["MI.CL"]
+prototype = "MI.CL"
+short = "get the number of controller events"
+
+["MI.CCH"]
+prototype = "MI.CCH"
+short = "get the controller event channel (1..16) at index specified by variable `I`"
+
+["MI.C"]
+prototype = "MI.C"
+short = "get the controller number (0..127) at index specified by variable `I`"
+
+["MI.CC"]
+prototype = "MI.CC"
+short = "get the controller value (0..127) at index specified by variable `I`"
+
+["MI.CCV"]
+prototype = "MI.CCV"
+short = "get the controller value scaled to 0..+10V range at index specified by variable `I`"
+
+["MI.CLKD"]
+prototype = "MI.CLKD"
+prototype_set = "MI.CLKD x"
+short = "set clock divider to `x` (1-24) or get the current divider"
+
+["MI.CLKR"]
+prototype = "MI.CLKR"
+short = "reset clock counter"

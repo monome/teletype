@@ -100,6 +100,7 @@ CSRCS = \
 	../src/ops/matrixarchate.c				\
 	../src/ops/meadowphysics.c				\
 	../src/ops/metronome.c					\
+	../src/ops/midi.c					\
 	../src/ops/orca.c      					\
 	../src/ops/patterns.c					\
 	../src/ops/queue.c					\
@@ -121,6 +122,7 @@ CSRCS = \
 	../libavr32/src/init_common.c				\
 	../libavr32/src/interrupts.c				\
 	../libavr32/src/kbd.c					\
+	../libavr32/src/midi_common.c				\
 	../libavr32/src/monome.c				\
 	../libavr32/src/music.c				\
 	../libavr32/src/region.c				\

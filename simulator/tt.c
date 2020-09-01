@@ -72,6 +72,8 @@ void tele_vars_updated() {}
 
 void device_flip() {}
 
+void reset_midi_counter() {}
+
 void tele_ii_rx(uint8_t addr, uint8_t *data, uint8_t l) {
     printf("II_rx  addr:%" PRIu8 " l:%" PRIu8, addr, l);
     printf("\n");

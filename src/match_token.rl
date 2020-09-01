@@ -687,6 +687,14 @@
         "EX.AO"       => { MATCH_OP(E_OP_EX_AO); };
         "EX.T"        => { MATCH_OP(E_OP_EX_T); };
         "EX.TV"       => { MATCH_OP(E_OP_EX_TV); };
+        "EX.LP.REC"   => { MATCH_OP(E_OP_EX_LP_REC); };
+        "EX.LP.PLAY"  => { MATCH_OP(E_OP_EX_LP_PLAY); };
+        "EX.LP.REV"   => { MATCH_OP(E_OP_EX_LP_REV); };
+        "EX.LP.DOWN"  => { MATCH_OP(E_OP_EX_LP_DOWN); };
+        "EX.LP.CLR"   => { MATCH_OP(E_OP_EX_LP_CLR); };
+        "EX.LP"       => { MATCH_OP(E_OP_EX_LP); };
+        "EX.LP.DOWN?" => { MATCH_OP(E_OP_EX_LP_DOWNQ); };
+        "EX.LP.REV?"  => { MATCH_OP(E_OP_EX_LP_REVQ); };
 
         # seed
         "SEED"        => { MATCH_OP(E_OP_SEED); };
@@ -701,6 +709,35 @@
         "DRUNK.SD"      => { MATCH_OP(E_OP_SYM_DRUNK_SD); };
         "P.SEED"      => { MATCH_OP(E_OP_P_SEED); };
         "P.SD"          => { MATCH_OP(E_OP_SYM_P_SD); };
+
+        # MIDI
+        "MI.$"        => { MATCH_OP(E_OP_MI_SYM_DOLLAR); };
+        "MI.LE"       => { MATCH_OP(E_OP_MI_LE); };
+        "MI.LN"       => { MATCH_OP(E_OP_MI_LN); };
+        "MI.LNV"      => { MATCH_OP(E_OP_MI_LNV); };
+        "MI.LV"       => { MATCH_OP(E_OP_MI_LV); };
+        "MI.LVV"      => { MATCH_OP(E_OP_MI_LVV); };
+        "MI.LO"       => { MATCH_OP(E_OP_MI_LO); };
+        "MI.LC"       => { MATCH_OP(E_OP_MI_LC); };
+        "MI.LCC"      => { MATCH_OP(E_OP_MI_LCC); };
+        "MI.LCCV"     => { MATCH_OP(E_OP_MI_LCCV); };
+        "MI.NL"       => { MATCH_OP(E_OP_MI_NL); };
+        "MI.N"        => { MATCH_OP(E_OP_MI_N); };
+        "MI.NV"       => { MATCH_OP(E_OP_MI_NV); };
+        "MI.V"        => { MATCH_OP(E_OP_MI_V); };
+        "MI.VV"       => { MATCH_OP(E_OP_MI_VV); };
+        "MI.OL"       => { MATCH_OP(E_OP_MI_OL); };
+        "MI.O"        => { MATCH_OP(E_OP_MI_O); };
+        "MI.CL"       => { MATCH_OP(E_OP_MI_CL); };
+        "MI.C"        => { MATCH_OP(E_OP_MI_C); };
+        "MI.CC"       => { MATCH_OP(E_OP_MI_CC); };
+        "MI.CCV"      => { MATCH_OP(E_OP_MI_CCV); };
+        "MI.LCH"      => { MATCH_OP(E_OP_MI_LCH); };
+        "MI.NCH"      => { MATCH_OP(E_OP_MI_NCH); };
+        "MI.OCH"      => { MATCH_OP(E_OP_MI_OCH); };
+        "MI.CCH"      => { MATCH_OP(E_OP_MI_CCH); };
+        "MI.CLKD"     => { MATCH_OP(E_OP_MI_CLKD); };
+        "MI.CLKR"     => { MATCH_OP(E_OP_MI_CLKR); };
 
         # MODS
         # controlflow

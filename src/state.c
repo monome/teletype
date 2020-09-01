@@ -13,6 +13,7 @@ void ss_init(scene_state_t *ss) {
     ss_patterns_init(ss);
     ss_grid_init(ss);
     ss_rand_init(ss);
+    ss_midi_init(ss);
     ss->delay.count = 0;
     for (size_t i = 0; i < TR_COUNT; i++) { ss->tr_pulse_timer[i] = 0; }
     ss->stack_op.top = 0;
@@ -155,6 +156,40 @@ void ss_rand_init(scene_state_t *ss) {
         r->seed = rand();
         random_seed(&r->rand, r->seed);
     }
+}
+
+// MIDI
+
+void ss_midi_init(scene_state_t *ss) {
+    ss->midi.on_script = -1;
+    ss->midi.off_script = -1;
+    ss->midi.cc_script = -1;
+    ss->midi.clk_script = -1;
+    ss->midi.start_script = -1;
+    ss->midi.stop_script = -1;
+    ss->midi.continue_script = -1;
+
+    ss->midi.last_event_type = 0;
+    ss->midi.last_channel = 0;
+    ss->midi.last_note = 0;
+    ss->midi.last_velocity = 0;
+    ss->midi.last_controller = 0;
+    ss->midi.last_cc = 0;
+
+    ss->midi.on_count = 0;
+    ss->midi.off_count = 0;
+    ss->midi.cc_count = 0;
+    for (u8 i = 0; i < MAX_MIDI_EVENTS; i++) {
+        ss->midi.note_on[i] = 0;
+        ss->midi.note_vel[i] = 0;
+        ss->midi.note_off[i] = 0;
+        ss->midi.cn[i] = 0;
+        ss->midi.cc[i] = 0;
+        ss->midi.on_channel[i] = 0;
+        ss->midi.off_channel[i] = 0;
+        ss->midi.cc_channel[i] = 0;
+    }
+    ss->midi.clock_div = 24;
 }
 
 // Hardware

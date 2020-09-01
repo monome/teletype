@@ -112,6 +112,22 @@ static void op_EX_T_get(const void *data, scene_state_t *ss, exec_state_t *es,
                         command_state_t *cs);
 static void op_EX_TV_get(const void *data, scene_state_t *ss, exec_state_t *es,
                          command_state_t *cs);
+static void op_EX_LP_REC_get(const void *data, scene_state_t *ss,
+                             exec_state_t *es, command_state_t *cs);
+static void op_EX_LP_PLAY_get(const void *data, scene_state_t *ss,
+                              exec_state_t *es, command_state_t *cs);
+static void op_EX_LP_REV_get(const void *data, scene_state_t *ss,
+                             exec_state_t *es, command_state_t *cs);
+static void op_EX_LP_DOWN_get(const void *data, scene_state_t *ss,
+                              exec_state_t *es, command_state_t *cs);
+static void op_EX_LP_CLR_get(const void *data, scene_state_t *ss,
+                             exec_state_t *es, command_state_t *cs);
+static void op_EX_LP_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                         command_state_t *cs);
+static void op_EX_LP_REVQ_get(const void *data, scene_state_t *ss,
+                              exec_state_t *es, command_state_t *cs);
+static void op_EX_LP_DOWNQ_get(const void *data, scene_state_t *ss,
+                               exec_state_t *es, command_state_t *cs);
 // clang-format off
                    
 const tele_mod_t mod_EX1       = MAKE_MOD(EX1, mod_EX1_func, 0);
@@ -162,6 +178,15 @@ const tele_op_t op_EX_VOX_O    = MAKE_GET_OP(EX.VOX.O,      op_EX_VOX_O_get,    
 const tele_op_t op_EX_NOTE     = MAKE_GET_OP(EX.NOTE,       op_EX_NOTE_get,     2, false);
 const tele_op_t op_EX_NOTE_O   = MAKE_GET_OP(EX.NOTE.O,     op_EX_NOTE_O_get,   1, false);
 const tele_op_t op_EX_ALLOFF   = MAKE_GET_OP(EX.ALLOFF,     op_EX_ALLOFF_get,   0, false);
+
+const tele_op_t op_EX_LP_REC   = MAKE_GET_OP(EX.LP.REC,   op_EX_LP_REC_get,   1, false);
+const tele_op_t op_EX_LP_PLAY  = MAKE_GET_OP(EX.LP.PLAY,  op_EX_LP_PLAY_get,  1, false);
+const tele_op_t op_EX_LP_REV   = MAKE_GET_OP(EX.LP.REV,   op_EX_LP_REV_get,   1, false);
+const tele_op_t op_EX_LP_DOWN  = MAKE_GET_OP(EX.LP.DOWN,  op_EX_LP_DOWN_get,  1, false);
+const tele_op_t op_EX_LP_CLR   = MAKE_GET_OP(EX.LP.CLR,   op_EX_LP_CLR_get,   1, false);
+const tele_op_t op_EX_LP       = MAKE_GET_OP(EX.LP,       op_EX_LP_get,       1, true);
+const tele_op_t op_EX_LP_REVQ  = MAKE_GET_OP(EX.LP.REV?,  op_EX_LP_REVQ_get,  1, true);
+const tele_op_t op_EX_LP_DOWNQ = MAKE_GET_OP(EX.LP.DOWN?, op_EX_LP_DOWNQ_get, 1, true);
 
 const tele_op_t op_EX_PRE = MAKE_ALIAS_OP(EX.PRE, op_EX_PRESET_get, op_EX_PRESET_set, 0, true);
 const tele_op_t op_EX_A   = MAKE_ALIAS_OP(EX.A,   op_EX_ALG_get,    op_EX_ALG_set,    0, true);
@@ -546,9 +571,12 @@ static void op_EX_VOX_O_get(const void *NOTUSED(data), scene_state_t *ss,
 }
 
 static u8 calculate_note(s16 pitch) {
-    s32 note = (((s32)pitch * 120) / 16384) + 48;
-    if (note < 0) note = 0;
-    else if (note > 127) note = 127;
+    s32 note = (((s32)pitch * 240) / 16384);
+    note = note / 2 + (note & 1) + 48;
+    if (note < 0)
+        note = 0;
+    else if (note > 127)
+        note = 127;
     return (u8)note;
 }
 
@@ -592,4 +620,97 @@ static void op_EX_TV_get(const void *NOTUSED(data), scene_state_t *ss,
     if (voice < 0) return;
 
     send4(0x52, voice, velocity >> 8, velocity);
+}
+
+static void op_EX_LP_REC_get(const void *NOTUSED(data), scene_state_t *ss,
+                             exec_state_t *NOTUSED(es), command_state_t *cs) {
+    s16 loop = cs_pop(cs);
+    if (loop < 1 || loop > 4) return;
+
+    send4(0x46, 7, 0, loop);
+    send4(0x46, 56, 0, 0);
+    send4(0x46, 56, 0, 1);
+    send4(0x46, 56, 0, 0);
+}
+
+static void op_EX_LP_PLAY_get(const void *NOTUSED(data), scene_state_t *ss,
+                              exec_state_t *NOTUSED(es), command_state_t *cs) {
+    s16 loop = cs_pop(cs);
+    if (loop < 1 || loop > 4) return;
+
+    send4(0x46, 7, 0, loop);
+    send4(0x46, 57, 0, 0);
+    send4(0x46, 57, 0, 1);
+    send4(0x46, 57, 0, 0);
+}
+
+static void op_EX_LP_REV_get(const void *NOTUSED(data), scene_state_t *ss,
+                             exec_state_t *NOTUSED(es), command_state_t *cs) {
+    s16 loop = cs_pop(cs);
+    if (loop < 1 || loop > 4) return;
+
+    send4(0x46, 7, 0, loop);
+    send4(0x46, 58, 0, 0);
+    send4(0x46, 58, 0, 1);
+    send4(0x46, 58, 0, 0);
+}
+
+static void op_EX_LP_DOWN_get(const void *NOTUSED(data), scene_state_t *ss,
+                              exec_state_t *NOTUSED(es), command_state_t *cs) {
+    s16 loop = cs_pop(cs);
+    if (loop < 1 || loop > 4) return;
+
+    send4(0x46, 7, 0, loop);
+    send4(0x46, 62, 0, 0);
+    send4(0x46, 62, 0, 1);
+    send4(0x46, 62, 0, 0);
+}
+
+static void op_EX_LP_CLR_get(const void *NOTUSED(data), scene_state_t *ss,
+                             exec_state_t *NOTUSED(es), command_state_t *cs) {
+    s16 loop = cs_pop(cs);
+    if (loop < 1 || loop > 4) return;
+
+    send4(0x46, 7, 0, loop);
+    send1(0x58);
+}
+
+static u8 get_looper_state(u8 loop) {
+    send2(0x59, loop);
+    data[0] = 0;
+    tele_ii_rx(DISTING_EX_1 + unit, data, 1);
+    return data[0];
+}
+
+static void op_EX_LP_get(const void *NOTUSED(data), scene_state_t *ss,
+                         exec_state_t *NOTUSED(es), command_state_t *cs) {
+    s16 loop = cs_pop(cs) - 1;
+    if (loop < 0 || loop > 3) {
+        cs_push(cs, -1);
+        return;
+    }
+
+    cs_push(cs, get_looper_state(loop) & 0xb1111);
+}
+
+static void op_EX_LP_REVQ_get(const void *NOTUSED(data), scene_state_t *ss,
+                              exec_state_t *NOTUSED(es), command_state_t *cs) {
+    s16 loop = cs_pop(cs) - 1;
+    if (loop < 0 || loop > 3) {
+        cs_push(cs, 0);
+        return;
+    }
+
+    cs_push(cs, get_looper_state(loop) & 0b10000 ? 1 : 0);
+}
+
+static void op_EX_LP_DOWNQ_get(const void *NOTUSED(data), scene_state_t *ss,
+                               exec_state_t *NOTUSED(es), command_state_t *cs) {
+    s16 loop = cs_pop(cs) - 1;
+    if (loop < 0 || loop > 3) {
+        cs_push(cs, 0);
+        return;
+    }
+
+    cs_push(cs, get_looper_state(loop) & 0b100000 ? 1 : 0);
 }

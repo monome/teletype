@@ -16,10 +16,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Help text ///////////////////////////////////////////////////////////////////
 
-#define HELP_PAGES 15
+#define HELP_PAGES 16
 
 #define HELP1_LENGTH 68
-const char* help1[HELP1_LENGTH] = { "1/15 HELP",
+const char* help1[HELP1_LENGTH] = { "1/16 HELP",
                                     "[ ] NAVIGATE HELP PAGES",
                                     "UP/DOWN TO SCROLL",
                                     "CTRL-F  SEARCH FORWARD",
@@ -89,7 +89,7 @@ const char* help1[HELP1_LENGTH] = { "1/15 HELP",
                                     "SHIFT-2|SHOW/HIDE TURTLE" };
 
 #define HELP2_LENGTH 14
-const char* help2[HELP2_LENGTH] = { "2/15 VARIABLES",
+const char* help2[HELP2_LENGTH] = { "2/16 VARIABLES",
                                     " ",
                                     "X, Y, Z|GENERAL PURPOSE",
                                     "T|USE FOR TIME",
@@ -105,7 +105,7 @@ const char* help2[HELP2_LENGTH] = { "2/15 VARIABLES",
                                     "J, K|UNIQUE PER SCRIPT" };
 
 #define HELP3_LENGTH 60
-const char* help3[HELP3_LENGTH] = { "3/15 PARAMETERS",
+const char* help3[HELP3_LENGTH] = { "3/16 PARAMETERS",
                                     " ",
                                     "TR A-D|SET TR VALUE (0,1)",
                                     "TR.TIME A-D|TR PULSE TIME",
@@ -167,7 +167,7 @@ const char* help3[HELP3_LENGTH] = { "3/15 PARAMETERS",
                                     "   RESET FADER X CALIBRATION"};
 
 #define HELP4_LENGTH 73
-const char* help4[HELP4_LENGTH] = { "4/15 DATA AND TABLES",
+const char* help4[HELP4_LENGTH] = { "4/16 DATA AND TABLES",
                                     " ",
                                     "ALL PARAMS HAVE 16B RANGE",
                                     "-32768 TO 32767",
@@ -243,7 +243,7 @@ const char* help4[HELP4_LENGTH] = { "4/15 DATA AND TABLES",
 };
 
 #define HELP5_LENGTH 83
-const char* help5[HELP5_LENGTH] = { "5/15 OPERATORS",
+const char* help5[HELP5_LENGTH] = { "5/16 OPERATORS",
                                     " ",
                                     "RAND A|RANDOM 0 - A",
                                     "RRAND A B|RANDOM A - B",
@@ -328,7 +328,7 @@ const char* help5[HELP5_LENGTH] = { "5/15 OPERATORS",
                                     "TR.PULSE X|PULSE TR X" };
 
 #define HELP6_LENGTH 42
-const char* help6[HELP6_LENGTH] = { "6/15 PRE :",
+const char* help6[HELP6_LENGTH] = { "6/16 PRE :",
                                     " ",
                                     "EACH PRE NEEDS A : FOLLOWED",
                                     "BY A COMMAND TO OPERATE ON",
@@ -372,7 +372,7 @@ const char* help6[HELP6_LENGTH] = { "6/15 PRE :",
                                     "BREAK|STOP EXECUTION" };
 
 #define HELP7_LENGTH 43
-const char* help7[HELP7_LENGTH] = { "7/15 PATTERNS",
+const char* help7[HELP7_LENGTH] = { "7/16 PATTERNS",
                                     " ",
                                     "// DIRECT ACCESS",
                                     "P A|GET VAL AT INDEX A",
@@ -417,7 +417,7 @@ const char* help7[HELP7_LENGTH] = { "7/15 PATTERNS",
                                     "P.MAP:|APPLY FUNC" };
 
 #define HELP8_LENGTH 135
-const char* help8[HELP8_LENGTH] = { "8/15 GRID",
+const char* help8[HELP8_LENGTH] = { "8/16 GRID",
                                     " ",
                                     "G.RST|RESET EVERYTHING",
                                     "G.CLR|CLEAR ALL LEDS",
@@ -553,7 +553,7 @@ const char* help8[HELP8_LENGTH] = { "8/15 GRID",
                                     "G.GFDR.RN group min max",
                                     "    SET FADER RANGE FOR .V" };
 #define HELP9_LENGTH 17
-const char* help9[HELP9_LENGTH] = { "9/15 TURTLE",
+const char* help9[HELP9_LENGTH] = { "9/16 TURTLE",
                                     " ",
                                     "// CRAWLS TRACKER DATA",
                                     "@|GET/SET DATA",
@@ -571,8 +571,78 @@ const char* help9[HELP9_LENGTH] = { "9/15 TURTLE",
                                     "@SCRIPT N|GET/SET EDGE SCRIPT",
                                     "@SHOW 1/0|DISPLAY < ON TRACKER" };
 
-#define HELP10_LENGTH 39
-const char* help10[HELP10_LENGTH] = { "10/15 GENERIC I2C",
+#define HELP10_LENGTH 67
+const char* help10[HELP10_LENGTH] = { "10/16 MIDI IN",
+                                    " ",
+                                    "MI.$",
+                                    "MI.$ x",
+                                    "    GET OR SET SCRIPT",
+                                    "EVENT TYPES:",
+                                    "    0 - ALL EVENTS",
+                                    "    1 - NOTE ON",
+                                    "    2 - NOTE OFF",
+                                    "    3 - CONTROLLER CHANGE",
+                                    "    4 - CLOCK",
+                                    "    5 - START",
+                                    "    6 - STOP",
+                                    "    7 - CONTINUE",
+                                    "MI.LE",
+                                    "    GET LATEST EVENT TYPE",
+                                    "MI.LCH",
+                                    "    GET LATEST CHANNEL",
+                                    "MI.LN",
+                                    "    GET LATEST NOTE ON",
+                                    "MI.LNV",
+                                    "    GET LATEST NOTE ON SCALED",
+                                    "MI.LV",
+                                    "    GET LATEST VELOCITY",
+                                    "MI.LVV",
+                                    "    GET LATEST VELOCITY SCALED",
+                                    "MI.LO",
+                                    "    GET LATEST NOTE OFF",
+                                    "MI.LC",
+                                    "    GET LATEST CONTROLLER",
+                                    "MI.LCC",
+                                    "    GET LATEST CC VALUE",
+                                    "MI.LCCV",
+                                    "    GET LATEST CC SCALED",
+                                    "MI.NL",
+                                    "    GET NOTE ON COUNT",
+                                    "MI.NCH",
+                                    "    GET NOTE ON CHANNEL AT I",
+                                    "MI.N",
+                                    "    GET NOTE ON AT I",
+                                    "MI.NV",
+                                    "    GET NOTE ON AT I SCALED",
+                                    "MI.V",
+                                    "    GET VELOCITY AT I",
+                                    "MI.VV",
+                                    "    GET VELOCITY AT I SCALED",
+                                    "MI.OL",
+                                    "    GET NOTE OFF COUNT",
+                                    "MI.OCH",
+                                    "    GET NOTE OFF CHANNEL AT I",
+                                    "MI.O",
+                                    "    GET NOTE OFF AT I",
+                                    "MI.CL",
+                                    "    GET CC COUNT",
+                                    "MI.CCH",
+                                    "    GET CC CHANNEL AT I",
+                                    "MI.C",
+                                    "    GET CONTROLLER AT I",
+                                    "MI.CC",
+                                    "    GET CC VALUE AT I",
+                                    "MI.CCV",
+                                    "    GET CC VALUE AT I SCALED",
+                                    "MI.CLKD",
+                                    "MI.CLKD X",
+                                    "    GET OR SET CLOCK DIVIDER ",
+                                    "MI.CLKR",
+                                    "    RESET CLOCK COUNTER"
+                                  };
+
+#define HELP11_LENGTH 39
+const char* help11[HELP11_LENGTH] = { "11/16 GENERIC I2C",
                                     " ",
                                     "IIA",
                                     "    GET I2C ADDRESS",
@@ -612,8 +682,8 @@ const char* help10[HELP10_LENGTH] = { "10/15 GENERIC I2C",
                                     "IIBB3 CMD VAL1 VAL2 VAL3",
                                     "    BYTE QUERY BYTE PARAMS" };
 
-#define HELP11_LENGTH 36
-const char* help11[HELP11_LENGTH] = { "11/15 TELEX INPUT",
+#define HELP12_LENGTH 36
+const char* help12[HELP12_LENGTH] = { "12/16 TELEX INPUT",
                                       " ",
                                       "TI.PARAM X|(TI.PRM)",
                                       "    GET KNOB VALUE",
@@ -650,8 +720,8 @@ const char* help11[HELP11_LENGTH] = { "11/15 TELEX INPUT",
                                       "TI.RESET D",
                                       "    RESET CALIB FOR DEVICE D" };
 
-#define HELP12_LENGTH 164
-const char* help12[HELP12_LENGTH] = { "12/15 TELEX OUTPUT",
+#define HELP13_LENGTH 164
+const char* help13[HELP13_LENGTH] = { "13/16 TELEX OUTPUT",
                                       " ",
                                       "TO.TR X Y",
                                       "    SET TR VALUE (0/1)",
@@ -816,8 +886,8 @@ const char* help12[HELP12_LENGTH] = { "12/15 TELEX OUTPUT",
                                       "TO.CV.RESET X",
                                       "    RESET CV CALIB" };
 
-#define HELP13_LENGTH 140
-const char* help13[HELP13_LENGTH] = { "13/15 ANSIBLE",
+#define HELP14_LENGTH 140
+const char* help14[HELP14_LENGTH] = { "14/16 ANSIBLE",
                                       " ",
                                       "ANS.G.LED X Y",
                                       "    READ GRID LED STATE",
@@ -958,8 +1028,8 @@ const char* help13[HELP13_LENGTH] = { "13/15 ANSIBLE",
                                       "    SHIFT VOICE CV BY TT PITCH",
                                       "    (E.G. N 6, V -1)" };
 
-#define HELP14_LENGTH 53
-const char* help14[HELP14_LENGTH] = { "14/15 JUST FRIENDS & W/",
+#define HELP15_LENGTH 53
+const char* help15[HELP15_LENGTH] = { "15/16 JUST FRIENDS & W/",
                                       " ",
                                       "JF.TR X Y",
                                       "    TRIGGER CHANNEL X (0 = ALL)",
@@ -1013,8 +1083,8 @@ const char* help14[HELP14_LENGTH] = { "14/15 JUST FRIENDS & W/",
                                       "WS.LOOP X",
                                       "    SET LOOP STATE ON/OFF" };
 
-#define HELP15_LENGTH 118
-const char* help15[HELP15_LENGTH] = { "15/15 DISTING EX",
+#define HELP16_LENGTH 141
+const char* help16[HELP16_LENGTH] = { "16/16 DISTING EX",
                                       "EX",
                                       "    GET CURRENT UNIT",
                                       "EX X",
@@ -1088,6 +1158,29 @@ const char* help15[HELP15_LENGTH] = { "15/15 DISTING EX",
                                       "    SET AUGUSTUS LOOP PITCH",
                                       "EX.AL.CLK",
                                       "    CLOCK AUGUSTUS LOOP",
+                                      "EX.LP X",
+                                      "    GET LOOP STATE",
+                                      "    0 - INITIAL",
+                                      "    1 - RECORDING",
+                                      "    2 - RECORDING CROSSFADE",
+                                      "    3 - PLAYBACK",
+                                      "    4 - OVERDUB",
+                                      "    5 - PAUSED/MUTED",
+                                      "    6 - FADING OUT TO PAUSE",
+                                      "EX.LP.REC X",
+                                      "    TOGGLE RECORDING",
+                                      "EX.LP.PLAY X",
+                                      "    TOGGLE PLAYBACK",
+                                      "EX.LP.CLR X",
+                                      "    CLEAR LOOP",
+                                      "EX.LP.REV X",
+                                      "    TOGGLE REVERSE",
+                                      "EX.LP.REV? X",
+                                      "    CHECK IF REVERSE",
+                                      "EX.LP.DOWN X",
+                                      "    TOGGLE OCTAVE DOWN",
+                                      "EX.LP.DOWN? X",
+                                      "    CHECK IF OCTAVE DOWN",
                                       "EX.M.CH",
                                       "    GET CURRENT MIDI CHANNEL",
                                       "EX.M.CH X",
@@ -1139,12 +1232,14 @@ const char* help15[HELP15_LENGTH] = { "15/15 DISTING EX",
 
 const char** help_pages[HELP_PAGES] = { help1,  help2,  help3, help4, help5,
                                         help6,  help7,  help8, help9, help10,
-                                        help11, help12, help13, help14, help15
+                                        help11, help12, help13, help14, help15,
+                                        help16
 };
 const uint8_t help_length[HELP_PAGES] = {
     HELP1_LENGTH,  HELP2_LENGTH,  HELP3_LENGTH, HELP4_LENGTH, HELP5_LENGTH,
     HELP6_LENGTH,  HELP7_LENGTH,  HELP8_LENGTH, HELP9_LENGTH, HELP10_LENGTH,
-    HELP11_LENGTH, HELP12_LENGTH, HELP13_LENGTH, HELP14_LENGTH, HELP15_LENGTH
+    HELP11_LENGTH, HELP12_LENGTH, HELP13_LENGTH, HELP14_LENGTH, HELP15_LENGTH,
+    HELP16_LENGTH
 };
 
 static uint8_t page_no;
