@@ -17,7 +17,7 @@
 #define Q_LENGTH 64
 #define TR_COUNT 4
 #define TRIGGER_INPUTS 8
-#define DELAY_SIZE 16
+#define DELAY_SIZE 64
 #define STACK_OP_SIZE 16
 #define PATTERN_COUNT 4
 #define PATTERN_LENGTH 64

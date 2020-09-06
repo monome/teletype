@@ -27,11 +27,16 @@ static void mod_DEL_G_func(scene_state_t *ss, exec_state_t *es,
                            command_state_t *cs,
                            const tele_command_t *post_command);
 
+static void mod_DEL_B_func(scene_state_t *ss, exec_state_t *es,
+                           command_state_t *cs,
+                           const tele_command_t *post_command);
+
 const tele_mod_t mod_DEL = MAKE_MOD(DEL, mod_DEL_func, 1);
 const tele_op_t op_DEL_CLR = MAKE_GET_OP(DEL.CLR, op_DEL_CLR_get, 0, false);
 const tele_mod_t mod_DEL_X = MAKE_MOD(DEL.X, mod_DEL_X_func, 2);
 const tele_mod_t mod_DEL_R = MAKE_MOD(DEL.R, mod_DEL_R_func, 2);
 const tele_mod_t mod_DEL_G = MAKE_MOD(DEL.G, mod_DEL_G_func, 4);
+const tele_mod_t mod_DEL_B = MAKE_MOD(DEL.B, mod_DEL_B_func, 2);
 
 // common code to queue a delay shared between all delay ops
 // NOTE it is the responsibility of the callee to call tele_has_delays
@@ -148,6 +153,31 @@ static void mod_DEL_G_func(scene_state_t *ss, exec_state_t *es,
 
         num_delays--;
     }
+
+    tele_has_delays(ss->delay.count > 0);
+}
+
+static void mod_DEL_B_func(scene_state_t *ss, exec_state_t *es,
+                           command_state_t *cs,
+                           const tele_command_t *post_command) {
+
+    int16_t base_time = cs_pop(cs);
+	if (base_time < 1) base_time = 1;
+	int16_t mask = cs_pop(cs);
+	
+    int16_t delay_time_next = 1;
+
+	for (uint8_t i = 0; i <= 15; i++) {
+		if ((mask >> i) & 1) {
+			if (i == 0) {
+				delay_time_next = 1;
+			}
+			else {
+				delay_time_next = normalise_value(1, 32767, 0, i * base_time);
+			}
+			delay_common_add(ss, es, delay_time_next, post_command);
+		}
+	}
 
     tele_has_delays(ss->delay.count > 0);
 }

@@ -10,6 +10,12 @@
 - **NEW**: binary and hex format for numbers: `B...`, `X...`
 - **NEW**: Disting EX ops
 - **FIX**: `LAST n` is broken for script 1
+- **NEW**: bitmasked delay and quantize: `DEL.B..`,  `QT.B..`
+- **NEW**: scale and chord quantize: `QT.S..`, `QT.CS..`
+- **NEW**: bit toggle OP: `BTOG..`
+- **NEW**: volts to semitones helper OP: `VN..`
+- **IMP**: DELAY_SIZE increased to 64 from 16
+- **FIX**: scale degree arguments 1-indexed: `N.S`, `N.CS`
 
 ## v3.2.0
 

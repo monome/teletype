@@ -183,6 +183,9 @@
         "WRAP"        => { MATCH_OP(E_OP_WRAP); };
         "WRP"         => { MATCH_OP(E_OP_WRP); };
         "QT"          => { MATCH_OP(E_OP_QT); };
+        "QT.S"        => { MATCH_OP(E_OP_QT_S); };
+        "QT.CS"       => { MATCH_OP(E_OP_QT_CS); };		
+        "QT.B"        => { MATCH_OP(E_OP_QT_B); };
         "AVG"         => { MATCH_OP(E_OP_AVG); };
         "EQ"          => { MATCH_OP(E_OP_EQ); };
         "NE"          => { MATCH_OP(E_OP_NE); };
@@ -205,6 +208,7 @@
         "SCALE"       => { MATCH_OP(E_OP_SCALE); };
         "SCL"         => { MATCH_OP(E_OP_SCL); };
         "N"           => { MATCH_OP(E_OP_N); };
+        "VN"          => { MATCH_OP(E_OP_VN); };
         "N.S"         => { MATCH_OP(E_OP_N_S); };
         "N.C"         => { MATCH_OP(E_OP_N_C); };
         "N.CS"        => { MATCH_OP(E_OP_N_CS); };
@@ -220,6 +224,7 @@
         "BSET"        => { MATCH_OP(E_OP_BSET);; };
         "BGET"        => { MATCH_OP(E_OP_BGET);; };
         "BCLR"        => { MATCH_OP(E_OP_BCLR);; };
+        "BTOG"        => { MATCH_OP(E_OP_BTOG);; };
         "XOR"         => { MATCH_OP(E_OP_XOR); };
         "CHAOS"       => { MATCH_OP(E_OP_CHAOS); };
         "CHAOS.R"     => { MATCH_OP(E_OP_CHAOS_R); };
@@ -760,6 +765,7 @@
         "DEL.X"       => { MATCH_MOD(E_MOD_DEL_X); };
         "DEL.R"       => { MATCH_MOD(E_MOD_DEL_R); };
         "DEL.G"       => { MATCH_MOD(E_MOD_DEL_G); };
+        "DEL.B"       => { MATCH_MOD(E_MOD_DEL_B); };
 
         # matrixarchate
         "MA.SELECT"   => { MATCH_OP(E_OP_MA_SELECT); };
