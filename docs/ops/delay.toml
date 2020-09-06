@@ -36,3 +36,6 @@ Trigger the command once immediately and `x - 1` times at ms intervals of `delay
 The buffer can hold up to 16 commands. If the buffer is full, additional commands
 will be discarded.
 """
+["DEL.B"]
+prototype = "DEL.B delay_time bitmask: ..."
+short = "Trigger the command up to 16 times at intervals of `delay_time` ms. Active intervals set in 16-bit `bitmask`, LSB = immediate."

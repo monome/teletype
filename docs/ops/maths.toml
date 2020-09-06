@@ -63,6 +63,28 @@ short = "limit the value `x` to the range `y` to `z` inclusive, but with wrappin
 prototype = "QT x y"
 short = "round `x` to the closest multiple of `y` (quantise)"
 
+[QT.S]
+prototype = "QT.S i r s"
+short = "quantize note number `i` (-127..127) to note number in scale `s` (0-8, reference N.S scales) with root note `r` (-127..127)"
+
+[QT.CS]
+prototype = "QT.CS i r s d c"
+short = "quantize note number `i` (-127..127) to note number in chord `c` (1-7) from scale `s` (0-8, reference N.S scales) at degree `d` (1-7) with root note `r` (-127..127)."
+description = """
+Quantize note number `i` (-127..127) to note number in chord `c` (1-7) from scale `s` (0-8, reference N.S scales) at degree `d` (1-7) with root note `r` (-127..127).
+
+Chords (1-7)
+ - `1` = Tonic
+ - `2` = Third
+ - `3` = Triad
+ - `4` = Seventh
+ - etc.
+"""
+
+[QT.B]
+prototype = "QT.B i r b"
+short = "quantize `i` to note number in scale bitmask `b` (LSB = root) with root note `r`"
+
 [AVG]
 prototype = "AVG x y"
 short = "the average of `x` and `y`"
@@ -153,6 +175,10 @@ short = "get bit `y` in value `x`"
 [BCLR]
 prototype = "BCLR x y"
 short = "clear bit `y` in value `x`"
+
+[BTOG]
+prototype = "BTOG x y"
+short = "toggle bit `y` in value `x`"
 
 [ABS]
 prototype = "ABS x"
@@ -248,9 +274,13 @@ CV 1 N RAND 24   => set CV 1 to a random note from the lowest 2 octaves
 ```
 """
 
+[VN]
+prototype = "VN x"
+short = "converts 1V/OCT value `x` to an equal temperament note number"
+
 ["N.S"]
 prototype = "N.S r s d"
-short = "Note Scale operator, `r` is the root note (`0-127`), `s` is the scale (`0-8`) and `d` is the degree (`0-6`), returns a value from the `N` table."
+short = "Note Scale operator, `r` is the root note (`0-127`), `s` is the scale (`0-8`) and `d` is the degree (`1-7`), returns a value from the `N` table."
 description = """
 The `N.S` OP lets you retrieve `N` table values according to traditional western scales. `s` and `d` wrap to their ranges automatically and support negative indexing.
 
@@ -290,7 +320,7 @@ Chords
  
 ["N.CS"]
 prototype = "N.CS r s d c"
-short = "Note Chord Scale operator, `r` is the root note (`0-127`), `s` is the scale (`0-8`), `d` is the scale degree (`0-6`) and `c` is the chord degree (`0-3`), returns a value from the `N` table."
+short = "Note Chord Scale operator, `r` is the root note (`0-127`), `s` is the scale (`0-8`), `d` is the scale degree (`1-7`) and `c` is the chord component (`0-3`), returns a value from the `N` table."
 description = """
 The `N.CS` OP lets you retrieve `N` table values according to traditional western scales and chords. `s`, `c` and `d` wrap to their ranges automatically and support negative indexing.
 
