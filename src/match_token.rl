@@ -803,9 +803,19 @@
     {                                                    \
         out->tag = NUMBER;                               \
         uint8_t base = 0;                                \
-        if (token[0] == 'X') { base = 16; token++; }     \
-        else if (token[0] == 'B') { base = 2; token++; } \
+        uint8_t binhex = 0;                              \
+        if (token[0] == 'X') {                           \
+            binhex = 1;                                  \
+            base = 16;                                   \
+            token++;                                     \
+        }                                                \
+        else if (token[0] == 'B') {                      \
+            binhex = 1;                                  \
+            base = 2;                                    \
+            token++;                                     \
+        }                                                \
         int32_t val = strtol(token, NULL, base);         \
+        if (binhex) val = (int16_t)((uint16_t)val);      \
         val = val > INT16_MAX ? INT16_MAX : val;         \
         val = val < INT16_MIN ? INT16_MIN : val;         \
         out->value = val;                                \

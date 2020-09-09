@@ -45,11 +45,11 @@ static void op_WRAP_get(const void *data, scene_state_t *ss, exec_state_t *es,
 static void op_QT_get(const void *data, scene_state_t *ss, exec_state_t *es,
                       command_state_t *cs);
 static void op_QT_S_get(const void *data, scene_state_t *ss, exec_state_t *es,
-                      command_state_t *cs);
+                        command_state_t *cs);
 static void op_QT_CS_get(const void *data, scene_state_t *ss, exec_state_t *es,
-                      command_state_t *cs);
+                         command_state_t *cs);
 static void op_QT_B_get(const void *data, scene_state_t *ss, exec_state_t *es,
-                      command_state_t *cs);
+                        command_state_t *cs);
 static void op_AVG_get(const void *data, scene_state_t *ss, exec_state_t *es,
                        command_state_t *cs);
 static void op_EQ_get(const void *data, scene_state_t *ss, exec_state_t *es,
@@ -93,13 +93,13 @@ static void op_SCALE_get(const void *data, scene_state_t *ss, exec_state_t *es,
 static void op_N_get(const void *data, scene_state_t *ss, exec_state_t *es,
                      command_state_t *cs);
 static void op_VN_get(const void *data, scene_state_t *ss, exec_state_t *es,
-                     command_state_t *cs);
-static void op_N_S_get(const void *data, scene_state_t *ss, exec_state_t *es,
                       command_state_t *cs);
+static void op_N_S_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                       command_state_t *cs);
 static void op_N_C_get(const void *data, scene_state_t *ss, exec_state_t *es,
-                     command_state_t *cs);
+                       command_state_t *cs);
 static void op_N_CS_get(const void *data, scene_state_t *ss, exec_state_t *es,
-                     command_state_t *cs);
+                        command_state_t *cs);
 static void op_V_get(const void *data, scene_state_t *ss, exec_state_t *es,
                      command_state_t *cs);
 static void op_VV_get(const void *data, scene_state_t *ss, exec_state_t *es,
@@ -417,137 +417,120 @@ static void op_QT_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
 }
 
 static void op_QT_S_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
-                     exec_state_t *NOTUSED(es), command_state_t *cs) {
-	
-	int16_t note_in = cs_pop(cs);
+                        exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t note_in = cs_pop(cs);
     int16_t root = cs_pop(cs);
     int16_t scale = cs_pop(cs) % 9;
     if (scale < 0) scale = 9 + scale;
-	
-	note_in = note_in - root;	
-	int16_t octave = (note_in >= 0) ? (note_in / 12) : ((note_in + 1) / 12 - 1);
 
-	if (note_in >= 0) {
-		note_in = note_in % 12;
-	}
-	else {
-		if (note_in % 12 == 0) {
-			note_in = 0;
-		}
-		else {
-			note_in = 12 + (note_in % 12);
-		}
-	}
+    note_in = note_in - root;
+    int16_t octave = (note_in >= 0) ? (note_in / 12) : ((note_in + 1) / 12 - 1);
 
-	int16_t note_out = 0;
-	
-	for (uint8_t i = 0; i < 7; i++) {
-		if (note_in >= table_n_s[scale][i]) note_out = table_n_s[scale][i];
-	}
-	
-	cs_push(cs, normalise_value(-127, 127, 0, 12 * octave + note_out + root));
+    if (note_in >= 0) { note_in = note_in % 12; }
+    else {
+        if (note_in % 12 == 0) { note_in = 0; }
+        else {
+            note_in = 12 + (note_in % 12);
+        }
+    }
+
+    int16_t note_out = 0;
+
+    for (uint8_t i = 0; i < 7; i++) {
+        if (note_in >= table_n_s[scale][i]) note_out = table_n_s[scale][i];
+    }
+
+    cs_push(cs, normalise_value(-127, 127, 0, 12 * octave + note_out + root));
 }
 
 static void op_QT_CS_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
-                     exec_state_t *NOTUSED(es), command_state_t *cs) {
-	
-	int16_t note_in = cs_pop(cs);
+                         exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t note_in = cs_pop(cs);
     int16_t root = cs_pop(cs);
     int16_t scale = cs_pop(cs) % 9;
     if (scale < 0) scale = 9 + scale;
-	
+
     int16_t degree = cs_pop(cs) - 1;
-	int16_t degree_octave = (degree >= 0) ? (degree / 7) : ((degree + 1) / 7 - 1);
-	if (degree >= 0) {
-		degree = degree % 7;
-	}
-	else {
-		if (degree % 7 == 0) {
-			degree = 0;
-		}
-		else {
-			degree = 7 + (degree % 7);
-		}
-	}
-	
-	int16_t voices = normalise_value(1, 7, 0, cs_pop(cs));
-	
-	note_in = note_in - root;	
-	int16_t octave = (note_in >= 0) ? (note_in / 12) : ((note_in + 1) / 12 - 1);
+    int16_t degree_octave =
+        (degree >= 0) ? (degree / 7) : ((degree + 1) / 7 - 1);
+    if (degree >= 0) { degree = degree % 7; }
+    else {
+        if (degree % 7 == 0) { degree = 0; }
+        else {
+            degree = 7 + (degree % 7);
+        }
+    }
 
-	if (note_in >= 0) {
-		note_in = note_in % 12;
-	}
-	else {
-		if (note_in % 12 == 0) {
-			note_in = 0;
-		}
-		else {
-			note_in = 12 + (note_in % 12);
-		}
-	}
+    int16_t voices = normalise_value(1, 7, 0, cs_pop(cs));
 
-	bool quant = false;
-	int16_t max_n_s_val = 0;
-	int16_t n_s_val;
-	int16_t note_out = 0;
-	int16_t dix;
-	
-	for (int8_t i = 0; i < voices; i++) {
-		dix = (2 * i + degree) % 7;
-		n_s_val = table_n_s[scale][dix];
-		if (n_s_val > max_n_s_val) max_n_s_val = n_s_val;
-		if ((note_in >= n_s_val) && (note_out <= n_s_val)){
-			note_out = n_s_val;
-			quant = true;
-		}
-	}
-	
-	if (!quant) note_out = max_n_s_val - 12;
-	
-	cs_push(cs, normalise_value(-127, 127, 0, 12 * (octave + degree_octave) + note_out + root));
+    note_in = note_in - root;
+    int16_t octave = (note_in >= 0) ? (note_in / 12) : ((note_in + 1) / 12 - 1);
+
+    if (note_in >= 0) { note_in = note_in % 12; }
+    else {
+        if (note_in % 12 == 0) { note_in = 0; }
+        else {
+            note_in = 12 + (note_in % 12);
+        }
+    }
+
+    bool quant = false;
+    int16_t max_n_s_val = 0;
+    int16_t n_s_val;
+    int16_t note_out = 0;
+    int16_t dix;
+
+    for (int8_t i = 0; i < voices; i++) {
+        dix = (2 * i + degree) % 7;
+        n_s_val = table_n_s[scale][dix];
+        if (n_s_val > max_n_s_val) max_n_s_val = n_s_val;
+        if ((note_in >= n_s_val) && (note_out <= n_s_val)) {
+            note_out = n_s_val;
+            quant = true;
+        }
+    }
+
+    if (!quant) note_out = max_n_s_val - 12;
+
+    cs_push(cs, normalise_value(-127, 127, 0, 12 * (octave + degree_octave) +
+                                                  note_out + root));
 }
 
 static void op_QT_B_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
-                     exec_state_t *NOTUSED(es), command_state_t *cs) {
-	
-	int16_t note_in = cs_pop(cs);
+                        exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t note_in = cs_pop(cs);
     int16_t root = cs_pop(cs);
     int16_t mask = cs_pop(cs);
-	
-	note_in = note_in - root;
-	int16_t octave = (note_in >= 0) ? (note_in / 12) : ((note_in + 1) / 12 - 1);
 
-	if (note_in >= 0) {
-		note_in = note_in % 12;
-	}
-	else {
-		if (note_in % 12 == 0) {
-			note_in = 0;
-		}
-		else {
-			note_in = 12 + (note_in % 12);
-		}
-	}
+    note_in = note_in - root;
+    int16_t octave = (note_in >= 0) ? (note_in / 12) : ((note_in + 1) / 12 - 1);
 
-	bool quant = false;
-	int16_t b_val = 0;
-	int16_t note_out = 0;
-	
-	for (uint8_t i=0; i<=11; i++) {
-		if ((mask >> i) & 1) {
-			b_val = i;
-			if	(note_in >= b_val) {
-				note_out = b_val;
-				quant = true;
-			}
-		}
-	}
-	
-	if (!quant) note_out = b_val - 12;
-	note_out = 12 * octave + note_out + root;
-	
-	cs_push(cs, normalise_value(-127, 127, 0, note_out));
+    if (note_in >= 0) { note_in = note_in % 12; }
+    else {
+        if (note_in % 12 == 0) { note_in = 0; }
+        else {
+            note_in = 12 + (note_in % 12);
+        }
+    }
+
+    bool quant = false;
+    int16_t b_val = 0;
+    int16_t note_out = 0;
+
+    for (uint8_t i = 0; i <= 11; i++) {
+        if ((mask >> i) & 1) {
+            b_val = i;
+            if (note_in >= b_val) {
+                note_out = b_val;
+                quant = true;
+            }
+        }
+    }
+
+    if (!quant) note_out = b_val - 12;
+    note_out = 12 * octave + note_out + root;
+
+    cs_push(cs, normalise_value(-127, 127, 0, note_out));
 }
 
 static void op_AVG_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
@@ -619,10 +602,13 @@ static uint16_t lrot(uint16_t x, uint8_t n) {
     return (x << n) | (x >> (16 - n));
 }
 
-typedef union { int16_t si; uint16_t ui; } bits16;
+typedef union {
+    int16_t si;
+    uint16_t ui;
+} bits16;
 
 static void op_RROT_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
-                       exec_state_t *NOTUSED(es), command_state_t *cs) {
+                        exec_state_t *NOTUSED(es), command_state_t *cs) {
     bits16 u;
     u.si = cs_pop(cs);
     int16_t n = cs_pop(cs) % 16;
@@ -631,7 +617,7 @@ static void op_RROT_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
 }
 
 static void op_LROT_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
-                       exec_state_t *NOTUSED(es), command_state_t *cs) {
+                        exec_state_t *NOTUSED(es), command_state_t *cs) {
     bits16 u;
     u.si = cs_pop(cs);
     int16_t n = cs_pop(cs) % 16;
@@ -776,21 +762,21 @@ static void op_N_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
 }
 
 static void op_VN_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
-                     exec_state_t *NOTUSED(es), command_state_t *cs) {
+                      exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t v_in = cs_pop(cs);
-	int16_t n_out = 0;
+    int16_t n_out = 0;
 
     if (v_in < 0) {
-		v_in = -v_in;
-		for (int16_t i = 127; i >= 0; i--) {
-			if (v_in <= table_n[i]) n_out = i;
-		}
+        v_in = -v_in;
+        for (int16_t i = 127; i >= 0; i--) {
+            if (v_in <= table_n[i]) n_out = i;
+        }
         cs_push(cs, -n_out);
     }
     else {
-		for (int16_t i = 0; i <= 127; i++) {
-			if (v_in >= table_n[i]) n_out = i;
-		}
+        for (int16_t i = 0; i <= 127; i++) {
+            if (v_in >= table_n[i]) n_out = i;
+        }
         cs_push(cs, n_out);
     }
 }
@@ -832,20 +818,16 @@ static void op_ER_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
 }
 
 static void op_NR_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
-                     exec_state_t *NOTUSED(es), command_state_t *cs) {
+                      exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t prime = cs_pop(cs) % 32;
-    if (prime < 0)
-        prime = 32 + prime;
+    if (prime < 0) prime = 32 + prime;
     uint16_t rhythm = (uint16_t)table_nr[prime];
     int16_t mask = cs_pop(cs) % 4;
-    if (mask < 0)
-        mask = 4 + mask;
+    if (mask < 0) mask = 4 + mask;
     int16_t factor = cs_pop(cs) % 17;
-    if (factor < 0)
-        factor = 17 + factor;
+    if (factor < 0) factor = 17 + factor;
     int16_t step = cs_pop(cs) % 16;
-    if (step < 0)
-        step = 16 + step;
+    if (step < 0) step = 16 + step;
     if (mask == 1)
         rhythm = rhythm & 0x0F0F;
     else if (mask == 2)
@@ -859,16 +841,12 @@ static void op_NR_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
 }
 
 static void op_N_S_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
-                     exec_state_t *NOTUSED(es), command_state_t *cs) {
+                       exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t root = cs_pop(cs);
     int16_t scale = cs_pop(cs) % 9;
-    if (scale < 0) {
-        scale = 9 + scale;
-    }
+    if (scale < 0) { scale = 9 + scale; }
     int16_t degree = (cs_pop(cs) - 1) % 7;
-    if (degree < 0) {
-        degree = 7 + degree;
-    }
+    if (degree < 0) { degree = 7 + degree; }
     int16_t transpose = table_n_s[scale][degree];
     if (root < 0) {
         if (root < -127) root = -127;
@@ -882,16 +860,12 @@ static void op_N_S_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
 }
 
 static void op_N_C_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
-                     exec_state_t *NOTUSED(es), command_state_t *cs) {
+                       exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t root = cs_pop(cs);
     int16_t chord = cs_pop(cs) % 13;
-    if (chord < 0) {
-        chord = 13 + chord;
-    }
+    if (chord < 0) { chord = 13 + chord; }
     int16_t component = cs_pop(cs) % 4;
-    if (component < 0) {
-        component = 4 + component;
-    }
+    if (component < 0) { component = 4 + component; }
     int16_t transpose = table_n_c[chord][component];
     if (root < 0) {
         if (root < -127) root = -127;
@@ -905,21 +879,15 @@ static void op_N_C_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
 }
 
 static void op_N_CS_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
-                     exec_state_t *NOTUSED(es), command_state_t *cs) {
+                        exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t root = cs_pop(cs);
     int16_t scale = cs_pop(cs) % 9;
-    if (scale < 0) {
-        scale = 9 + scale;
-    }
+    if (scale < 0) { scale = 9 + scale; }
     int16_t scl_deg = (cs_pop(cs) - 1) % 7;
-    if (scl_deg < 0) {
-        scl_deg = 7 + scl_deg;
-    }
+    if (scl_deg < 0) { scl_deg = 7 + scl_deg; }
     int16_t scl_trans = table_n_s[scale][scl_deg];
     int16_t ch_deg = cs_pop(cs) % 4;
-    if (ch_deg < 0) {
-        ch_deg = 4 + ch_deg;
-    }
+    if (ch_deg < 0) { ch_deg = 4 + ch_deg; }
     int16_t ch_trans = table_n_c[table_n_cs[scale][scl_deg]][ch_deg];
     if (root < 0) {
         if (root < -127) root = -127;
@@ -997,8 +965,10 @@ static void op_BTOG_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                         exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t v = cs_pop(cs);
     int16_t b = cs_pop(cs);
-    if ((v >> b) & 1) cs_push(cs, v & ~(1 << b));
-	else cs_push(cs, v | (1 << b));
+    if ((v >> b) & 1)
+        cs_push(cs, v & ~(1 << b));
+    else
+        cs_push(cs, v | (1 << b));
 }
 
 static void op_CHAOS_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),

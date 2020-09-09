@@ -160,24 +160,21 @@ static void mod_DEL_G_func(scene_state_t *ss, exec_state_t *es,
 static void mod_DEL_B_func(scene_state_t *ss, exec_state_t *es,
                            command_state_t *cs,
                            const tele_command_t *post_command) {
-
     int16_t base_time = cs_pop(cs);
-	if (base_time < 1) base_time = 1;
-	int16_t mask = cs_pop(cs);
-	
+    if (base_time < 1) base_time = 1;
+    int16_t mask = cs_pop(cs);
+
     int16_t delay_time_next = 1;
 
-	for (uint8_t i = 0; i <= 15; i++) {
-		if ((mask >> i) & 1) {
-			if (i == 0) {
-				delay_time_next = 1;
-			}
-			else {
-				delay_time_next = normalise_value(1, 32767, 0, i * base_time);
-			}
-			delay_common_add(ss, es, delay_time_next, post_command);
-		}
-	}
+    for (uint8_t i = 0; i <= 15; i++) {
+        if ((mask >> i) & 1) {
+            if (i == 0) { delay_time_next = 1; }
+            else {
+                delay_time_next = normalise_value(1, 32767, 0, i * base_time);
+            }
+            delay_common_add(ss, es, delay_time_next, post_command);
+        }
+    }
 
     tele_has_delays(ss->delay.count > 0);
 }

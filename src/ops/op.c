@@ -83,18 +83,18 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     // maths
     &op_ADD, &op_SUB, &op_MUL, &op_DIV, &op_MOD, &op_RAND, &op_RND, &op_RRAND,
     &op_RRND, &op_R, &op_R_MIN, &op_R_MAX, &op_TOSS, &op_MIN, &op_MAX, &op_LIM,
-    &op_WRAP, &op_WRP, &op_QT, &op_QT_S, &op_QT_CS, &op_QT_B, &op_AVG, &op_EQ, &op_NE, &op_LT, &op_GT, &op_LTE,
-    &op_GTE, &op_NZ, &op_EZ, &op_RSH, &op_LSH, &op_LROT, &op_RROT,
-    &op_EXP, &op_ABS, &op_SGN, &op_AND, &op_OR,
-    &op_JI, &op_SCALE, &op_SCL, &op_N, &op_VN, &op_N_S, &op_N_C, &op_N_CS, &op_V, &op_VV, &op_ER, &op_NR, &op_BPM,
-    &op_BIT_OR, &op_BIT_AND, &op_BIT_NOT, &op_BIT_XOR, &op_BSET, &op_BGET,
-    &op_BCLR, &op_BTOG, &op_XOR, &op_CHAOS, &op_CHAOS_R, &op_CHAOS_ALG, &op_SYM_PLUS,
-    &op_SYM_DASH, &op_SYM_STAR, &op_SYM_FORWARD_SLASH, &op_SYM_PERCENTAGE,
-    &op_SYM_EQUAL_x2, &op_SYM_EXCLAMATION_EQUAL, &op_SYM_LEFT_ANGLED,
-    &op_SYM_RIGHT_ANGLED, &op_SYM_LEFT_ANGLED_EQUAL, &op_SYM_RIGHT_ANGLED_EQUAL,
-    &op_SYM_EXCLAMATION, &op_SYM_LEFT_ANGLED_x2, &op_SYM_RIGHT_ANGLED_x2,
-    &op_SYM_LEFT_ANGLED_x3, &op_SYM_RIGHT_ANGLED_x3,
-    &op_SYM_AMPERSAND_x2, &op_SYM_PIPE_x2, &op_TIF,
+    &op_WRAP, &op_WRP, &op_QT, &op_QT_S, &op_QT_CS, &op_QT_B, &op_AVG, &op_EQ,
+    &op_NE, &op_LT, &op_GT, &op_LTE, &op_GTE, &op_NZ, &op_EZ, &op_RSH, &op_LSH,
+    &op_LROT, &op_RROT, &op_EXP, &op_ABS, &op_SGN, &op_AND, &op_OR, &op_JI,
+    &op_SCALE, &op_SCL, &op_N, &op_VN, &op_N_S, &op_N_C, &op_N_CS, &op_V,
+    &op_VV, &op_ER, &op_NR, &op_BPM, &op_BIT_OR, &op_BIT_AND, &op_BIT_NOT,
+    &op_BIT_XOR, &op_BSET, &op_BGET, &op_BCLR, &op_BTOG, &op_XOR, &op_CHAOS,
+    &op_CHAOS_R, &op_CHAOS_ALG, &op_SYM_PLUS, &op_SYM_DASH, &op_SYM_STAR,
+    &op_SYM_FORWARD_SLASH, &op_SYM_PERCENTAGE, &op_SYM_EQUAL_x2,
+    &op_SYM_EXCLAMATION_EQUAL, &op_SYM_LEFT_ANGLED, &op_SYM_RIGHT_ANGLED,
+    &op_SYM_LEFT_ANGLED_EQUAL, &op_SYM_RIGHT_ANGLED_EQUAL, &op_SYM_EXCLAMATION,
+    &op_SYM_LEFT_ANGLED_x2, &op_SYM_RIGHT_ANGLED_x2, &op_SYM_LEFT_ANGLED_x3,
+    &op_SYM_RIGHT_ANGLED_x3, &op_SYM_AMPERSAND_x2, &op_SYM_PIPE_x2, &op_TIF,
 
     // stack
     &op_S_ALL, &op_S_POP, &op_S_CLR, &op_S_L,
@@ -130,18 +130,16 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     &op_OR_ROTS, &op_OR_ROTW, &op_OR_GRST, &op_OR_CVA, &op_OR_CVB,
 
     // ansible
-    &op_ANS_G_LED, &op_ANS_G, &op_ANS_G_P,
-    &op_ANS_A_LED, &op_ANS_A,
-    &op_ANS_APP,
-    &op_KR_PRE, &op_KR_PAT, &op_KR_SCALE, &op_KR_PERIOD, &op_KR_POS,
-    &op_KR_L_ST, &op_KR_L_LEN, &op_KR_RES, &op_KR_CV, &op_KR_MUTE, &op_KR_TMUTE,
-    &op_KR_CLK, &op_KR_PG, &op_KR_CUE, &op_KR_DIR, &op_KR_DUR,
-    &op_ME_PRE, &op_ME_RES, &op_ME_STOP, &op_ME_SCALE,
-    &op_ME_PERIOD, &op_ME_CV, &op_LV_PRE, &op_LV_RES, &op_LV_POS, &op_LV_L_ST,
-    &op_LV_L_LEN, &op_LV_L_DIR, &op_LV_CV, &op_CY_PRE, &op_CY_RES, &op_CY_POS,
-    &op_CY_REV, &op_CY_CV, &op_MID_SHIFT, &op_MID_SLEW, &op_ARP_STY,
-    &op_ARP_HLD, &op_ARP_RPT, &op_ARP_GT, &op_ARP_DIV, &op_ARP_RES,
-    &op_ARP_SHIFT, &op_ARP_SLEW, &op_ARP_FIL, &op_ARP_ROT, &op_ARP_ER,
+    &op_ANS_G_LED, &op_ANS_G, &op_ANS_G_P, &op_ANS_A_LED, &op_ANS_A,
+    &op_ANS_APP, &op_KR_PRE, &op_KR_PAT, &op_KR_SCALE, &op_KR_PERIOD,
+    &op_KR_POS, &op_KR_L_ST, &op_KR_L_LEN, &op_KR_RES, &op_KR_CV, &op_KR_MUTE,
+    &op_KR_TMUTE, &op_KR_CLK, &op_KR_PG, &op_KR_CUE, &op_KR_DIR, &op_KR_DUR,
+    &op_ME_PRE, &op_ME_RES, &op_ME_STOP, &op_ME_SCALE, &op_ME_PERIOD, &op_ME_CV,
+    &op_LV_PRE, &op_LV_RES, &op_LV_POS, &op_LV_L_ST, &op_LV_L_LEN, &op_LV_L_DIR,
+    &op_LV_CV, &op_CY_PRE, &op_CY_RES, &op_CY_POS, &op_CY_REV, &op_CY_CV,
+    &op_MID_SHIFT, &op_MID_SLEW, &op_ARP_STY, &op_ARP_HLD, &op_ARP_RPT,
+    &op_ARP_GT, &op_ARP_DIV, &op_ARP_RES, &op_ARP_SHIFT, &op_ARP_SLEW,
+    &op_ARP_FIL, &op_ARP_ROT, &op_ARP_ER,
 
     // justfriends
     &op_JF_TR, &op_JF_RMODE, &op_JF_RUN, &op_JF_SHIFT, &op_JF_VTR, &op_JF_MODE,
@@ -196,7 +194,8 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
 
     // fader
     &op_FADER, &op_FADER_SCALE, &op_FADER_CAL_MIN, &op_FADER_CAL_MAX,
-    &op_FADER_CAL_RESET, &op_FB, &op_FB_S, &op_FB_C_MIN, &op_FB_C_MAX, &op_FB_C_R,
+    &op_FADER_CAL_RESET, &op_FB, &op_FB_S, &op_FB_C_MIN, &op_FB_C_MAX,
+    &op_FB_C_R,
 
     // ER301
     &op_SC_TR, &op_SC_TR_TOG, &op_SC_TR_PULSE, &op_SC_TR_TIME, &op_SC_TR_POL,
@@ -263,7 +262,7 @@ const tele_mod_t *tele_mods[E_MOD__LENGTH] = {
 
     // stack
     &mod_S,
-    
+
     // disting ex
     &mod_EX1, &mod_EX2, &mod_EX3, &mod_EX4
 };
