@@ -1,3 +1,7 @@
+---
+title: teletype - manual
+---
+
 # Introduction
 
 Teletype is a dynamic, musical event triggering platform.
