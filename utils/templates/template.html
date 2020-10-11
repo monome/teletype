@@ -52,24 +52,6 @@
             $include-before$
         $endfor$
 
-        $if(title)$
-            <header>
-                <h1 class="title">$title$</h1>
-
-                $if(subtitle)$
-                    <p class="subtitle">$subtitle$</p>
-                $endif$
-
-                $for(author)$
-                    <p class="author">$author$</p>
-                $endfor$
-
-                $if(date)$
-                    <p class="date">$date$</p>
-                $endif$
-            </header>
-        $endif$
-
         <svg style="display: none;">
             <symbol id="custom-hamburger-icon" viewBox="0 0 22 17"
                 xmlns="http://www.w3.org/2000/svg">
