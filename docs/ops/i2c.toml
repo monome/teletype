@@ -20,7 +20,7 @@ prototype = "IIS2 cmd value1 value2"
 short = "Execute the specified command with 2 parameters"
 
 ["IIS3"]
-prototype = "IIS3 cmd value"
+prototype = "IIS3 cmd value1 value2 value3"
 short = "Execute the specified command with 3 parameters"
 
 ["IISB1"]
