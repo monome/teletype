@@ -26,35 +26,44 @@ extern const tele_op_t op_IIBB1;
 extern const tele_op_t op_IIBB2;
 extern const tele_op_t op_IIBB3;
 
-extern void i2c_get_0(command_state_t *cs, uint8_t addr, uint8_t cmd);
-extern void i2c_get_8(command_state_t *cs, uint8_t addr, uint8_t cmd);
-extern void i2c_get_8_8(command_state_t *cs, uint8_t addr, uint8_t cmd);
-extern void i2c_get_8_16(command_state_t *cs, uint8_t addr, uint8_t cmd);
-extern void i2c_get_8_16_16(command_state_t *cs, uint8_t addr, uint8_t cmd);
-extern void i2c_get_16(command_state_t *cs, uint8_t addr, uint8_t cmd);
-extern void i2c_get_16_16(command_state_t *cs, uint8_t addr, uint8_t cmd);
-extern void i2c_get_32(command_state_t *cs, uint8_t addr, uint8_t cmd);
+extern void i2c_write_0(command_state_t *cs, uint8_t addr, uint8_t cmd);
+extern void i2c_write_8(command_state_t *cs, uint8_t addr, uint8_t cmd);
+extern void i2c_write_8_8(command_state_t *cs, uint8_t addr, uint8_t cmd);
+extern void i2c_write_8_16(command_state_t *cs, uint8_t addr, uint8_t cmd);
+extern void i2c_write_8_16_16(command_state_t *cs, uint8_t addr, uint8_t cmd);
+extern void i2c_write_16(command_state_t *cs, uint8_t addr, uint8_t cmd);
+extern void i2c_write_16_16(command_state_t *cs, uint8_t addr, uint8_t cmd);
+extern void i2c_write_32(command_state_t *cs, uint8_t addr, uint8_t cmd);
+extern void i2c_recv_16(command_state_t *cs, uint8_t addr, uint8_t cmd);
+extern void i2c_recv_8(command_state_t *cs, uint8_t addr, uint8_t cmd);
 
-#define I2C_GET(name, addr, cmd, fn)                                        \
+#define I2C_WRITE(name, addr, cmd, fn)                                      \
     static void name(const void *NOTUSED(data), scene_state_t *NOTUSED(ss), \
                      exec_state_t *NOTUSED(es), command_state_t *cs) {      \
         fn(cs, addr, cmd);                                                  \
     }
 
-#define I2C_GET_0(name, addr, cmd) I2C_GET(name, addr, cmd, i2c_get_0)
+#define I2C_WRITE_0(name, addr, cmd) I2C_WRITE(name, addr, cmd, i2c_write_0)
 
-#define I2C_GET_8(name, addr, cmd) I2C_GET(name, addr, cmd, i2c_get_8)
+#define I2C_WRITE_8(name, addr, cmd) I2C_WRITE(name, addr, cmd, i2c_write_8)
 
-#define I2C_GET_8_8(name, addr, cmd) I2C_GET(name, addr, cmd, i2c_get_8_8)
+#define I2C_WRITE_8_8(name, addr, cmd) I2C_WRITE(name, addr, cmd, i2c_write_8_8)
 
-#define I2C_GET_8_16(name, addr, cmd) I2C_GET(name, addr, cmd, i2c_get_8_16)
+#define I2C_WRITE_8_16(name, addr, cmd) \
+    I2C_WRITE(name, addr, cmd, i2c_write_8_16)
 
-#define I2C_GET_8_16_16(name, addr, cmd) \
-    I2C_GET(name, addr, cmd, i2c_get_8_16_16)
+#define I2C_WRITE_8_16_16(name, addr, cmd) \
+    I2C_WRITE(name, addr, cmd, i2c_write_8_16_16)
 
-#define I2C_GET_16(name, addr, cmd) I2C_GET(name, addr, cmd, i2c_get_16)
+#define I2C_WRITE_16(name, addr, cmd) I2C_WRITE(name, addr, cmd, i2c_write_16)
 
-#define I2C_GET_16_16(name, addr, cmd) I2C_GET(name, addr, cmd, i2c_get_16_16)
+#define I2C_WRITE_16_16(name, addr, cmd) \
+    I2C_WRITE(name, addr, cmd, i2c_write_16_16)
 
-#define I2C_GET_32(name, addr, cmd) I2C_GET(name, addr, cmd, i2c_get_32)
+#define I2C_WRITE_32(name, addr, cmd) I2C_WRITE(name, addr, cmd, i2c_write_32)
+
+#define I2C_RECV_8(name, addr, cmd) I2C_WRITE(name, addr, cmd, i2c_recv_8)
+
+#define I2C_RECV_16(name, addr, cmd) I2C_WRITE(name, addr, cmd, i2c_recv_16)
+
 #endif
