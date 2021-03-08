@@ -212,6 +212,8 @@
         "N.S"         => { MATCH_OP(E_OP_N_S); };
         "N.C"         => { MATCH_OP(E_OP_N_C); };
         "N.CS"        => { MATCH_OP(E_OP_N_CS); };
+        "N.B"         => { MATCH_OP(E_OP_N_B); };
+        "N.BX"        => { MATCH_OP(E_OP_N_BX); };
         "V"           => { MATCH_OP(E_OP_V); };
         "VV"          => { MATCH_OP(E_OP_VV); };
         "ER"          => { MATCH_OP(E_OP_ER); };

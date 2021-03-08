@@ -16,6 +16,7 @@
 - **NEW**: volts to semitones helper OP: `VN..`
 - **IMP**: DELAY_SIZE increased to 64 from 16
 - **FIX**: scale degree arguments 1-indexed: `N.S`, `N.CS`
+- **NEW**: binary scale ops `N.B` and `N.BX`
 
 ## v3.2.0
 

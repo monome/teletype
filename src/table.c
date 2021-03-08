@@ -131,3 +131,27 @@ const int table_n_cs[9][7] = {
     {6, 0, 1, 1, 0, 2, 1}, // Locrian
     {2, 1, 6, 0, 1, 1, 0}, // Myxolydian
 };
+
+// preset bit mast scales for N.B
+const int table_n_b[] = {
+    0b101011010101,  // ionian (major)
+    0b101101010110,  // dorian
+    0b110101011010,  // phrygian
+    0b101010110101,  // lydian
+    0b101011010110,  // mixolydian
+    0b101101011010,  // aeolean (natural minor)
+    0b110101101010,  // locrian
+    0b101101010101,  // melodic minor
+    0b101101011001,  // harmonic minor
+    0b101010010100,  // major pentatonic
+    0b100101010010,  // minor pentatonic
+    0b101010101010,  // whole note (1st messiaen mode)
+    0b110110110110,  // octatonic (half-whole, 2nd messiaen mode)
+    0b101101101101,  // octatonic (whole-half)
+    0b101110111011,  // 3rd messiaen mode
+    0b111001111001,  // 4th messiaen mode
+    0b110001110001,  // 5th messiaen mode
+    0b101011101011,  // 6th mesiaen mode
+    0b111101111101,  // 7th messiaen mode
+    0b100110011001,  // augmented
+};

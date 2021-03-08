@@ -51,6 +51,8 @@ extern const tele_op_t op_VN;
 extern const tele_op_t op_N_S;
 extern const tele_op_t op_N_C;
 extern const tele_op_t op_N_CS;
+extern const tele_op_t op_N_B;
+extern const tele_op_t op_N_BX;
 extern const tele_op_t op_V;
 extern const tele_op_t op_VV;
 extern const tele_op_t op_ER;

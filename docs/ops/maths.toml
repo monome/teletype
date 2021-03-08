@@ -278,6 +278,79 @@ CV 1 N RAND 24   => set CV 1 to a random note from the lowest 2 octaves
 prototype = "VN x"
 short = "converts 1V/OCT value `x` to an equal temperament note number"
 
+["N.B"]
+prototype = "N.B d"
+prototype_set = "N.B r s"
+short = "get degree `d` of scale/set scale root to `r`, scale to `s`, `s` is either bit mask (`s` >= 1) or scale preset (`s` < 1)"
+description = """
+Converts a degree in a user-defined equal temperament scale to a value usable by the CV outputs. Default values of `r` and  `s` are 0 and B101011010101, corresponding to C-major.
+
+Note that N.B is using scale at index 0 as used by N.BX ,so N.B and N.BX 0 are equivalent.
+
+
+Examples:
+```
+CV 1 N.B 1            ==>  set CV 1 to 1st degree of default scale
+                           (C, value corresponding to N 0)
+N.B 0 B101011010101   ==>  set scale to C-major (default)
+CV 1 N.B 1            ==>  set CV 1 get 1st degree of scale
+                           (C, value corresponding to N 0)
+N.B 2 B101011010101   ==>  set scale to D-major
+CV 1 N.B 3            ==>  set CV 1 to 3rd degree of scale
+                           (F#, value corresponding to N 6)
+N.B 3 B100101010010   ==>  set scale to Eb-minor pentatonic
+CV 1 N.B 2            ==>  set CV 1 to 2nd degree of scale 
+                           (Gb, value corresponding to N 6)
+N.B 5 -3              ==>  set scale to F-lydian using preset
+```
+Values of `s` less than 1 sets the bit mask to a preset scale:
+```
+0:   Ionian (major)
+-1:  Dorian
+-2:  Phrygian
+-3:  Lydian
+-4:  Mixolydian
+-5:  Aeolean (natural minor)
+-6:  Locrian
+-7:  Melodic minor
+-8:  Harmonic minor
+-9:  Major pentatonic
+-10: Minor pentatonic
+-11  Whole note (1st Messiaen mode)
+-12  Octatonic (half-whole, 2nd Messiaen mode)
+-13  Octatonic (whole-half)
+-14  3rd Messiaen mode
+-15  4th Messiaen mode
+-16  5th Messiaen mode
+-17  6th Messiaen mode
+-18  7th Messiaen mode
+-19  Augmented
+```
+"""
+
+["N.BX"]
+prototype = "N.BX i d"
+prototype_set = "N.BX i r s"
+short = "multi-index version of N.B, scale at `i` (index) 0 is shared with N.B"
+description = """
+Multi-index version of N.B. Index `i` in the range 0-7, allows working with 8 independent scales. Scale at `i` 0 is shared with N.B.
+
+Note that bit 0 (LSB) is referring to the 12th note in the scale and bit 11 is referring to the 1st note in the scale.
+
+Examples:
+```
+N.BX 0 0 B101011010101   ==>  set scale at index 0 to C-major (default)
+CV 1 N.BX 0 1            ==>  set CV 1 to 1st degree of scale
+                              (C, value corresponding to N 0)
+N.BX 1 3 B100101010010   ==>  set scale at index 1 to Eb-minor pentatonic
+CV 1 N.BX 1 2            ==>  set CV 1 to 2nd degree of scale
+                              (Gb, value corresponding to N 6)
+N.BX 2 5 -3              ==>  set scale at index 2 to F-lydian using preset
+```
+
+"""
+
+
 ["N.S"]
 prototype = "N.S r s d"
 short = "Note Scale operator, `r` is the root note (`0-127`), `s` is the scale (`0-8`) and `d` is the degree (`1-7`), returns a value from the `N` table."
