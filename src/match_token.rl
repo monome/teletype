@@ -7,11 +7,12 @@
 
 #include "ops/op.h"
 #include "ops/op_enum.h"
+#include "helpers.h"
 
 %%{
     machine match_token; # declare our ragel machine
 
-    number = (('-')? [0-9]+) | ([X] [0-9A-F]+) | ([B] [0-1]+);
+    number = (('-')? [0-9]+) | ([X] [0-9A-F]+) | ([B|R] [0-1]+);
 
     main := |*
         # NUMBERS
@@ -227,6 +228,7 @@
         "BGET"        => { MATCH_OP(E_OP_BGET);; };
         "BCLR"        => { MATCH_OP(E_OP_BCLR);; };
         "BTOG"        => { MATCH_OP(E_OP_BTOG);; };
+        "BREV"        => { MATCH_OP(E_OP_BREV);; };
         "XOR"         => { MATCH_OP(E_OP_XOR); };
         "CHAOS"       => { MATCH_OP(E_OP_CHAOS); };
         "CHAOS.R"     => { MATCH_OP(E_OP_CHAOS_R); };
@@ -858,6 +860,7 @@
         out->tag = NUMBER;                               \
         uint8_t base = 0;                                \
         uint8_t binhex = 0;                              \
+        uint8_t bitrev = 0;                              \
         if (token[0] == 'X') {                           \
             binhex = 1;                                  \
             base = 16;                                   \
@@ -868,8 +871,15 @@
             base = 2;                                    \
             token++;                                     \
         }                                                \
+        else if (token[0] == 'R') {                      \
+            binhex = 1;                                  \
+            bitrev = 1;                                  \
+            base = 2;                                    \
+            token++;                                     \
+        }                                                \
         int32_t val = strtol(token, NULL, base);         \
         if (binhex) val = (int16_t)((uint16_t)val);      \
+        if (bitrev) val = bit_reverse(val);              \
         val = val > INT16_MAX ? INT16_MAX : val;         \
         val = val < INT16_MIN ? INT16_MIN : val;         \
         out->value = val;                                \

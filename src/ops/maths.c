@@ -134,6 +134,8 @@ static void op_BCLR_get(const void *data, scene_state_t *ss, exec_state_t *es,
                         command_state_t *cs);
 static void op_BTOG_get(const void *data, scene_state_t *ss, exec_state_t *es,
                         command_state_t *cs);
+static void op_BREV_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                        command_state_t *cs);
 static void op_CHAOS_get(const void *data, scene_state_t *ss, exec_state_t *es,
                          command_state_t *cs);
 static void op_CHAOS_set(const void *data, scene_state_t *ss, exec_state_t *es,
@@ -213,6 +215,7 @@ const tele_op_t op_BSET  = MAKE_GET_OP(BSET    , op_BSET_get    , 2, true);
 const tele_op_t op_BGET  = MAKE_GET_OP(BGET    , op_BGET_get    , 2, true);
 const tele_op_t op_BCLR  = MAKE_GET_OP(BCLR    , op_BCLR_get    , 2, true);
 const tele_op_t op_BTOG  = MAKE_GET_OP(BTOG    , op_BTOG_get    , 2, true);
+const tele_op_t op_BREV  = MAKE_GET_OP(BREV    , op_BREV_get    , 1, true);
 const tele_op_t op_CHAOS   = MAKE_GET_SET_OP(CHAOS,   op_CHAOS_get,   op_CHAOS_set, 0, true);
 const tele_op_t op_CHAOS_R = MAKE_GET_SET_OP(CHAOS.R, op_CHAOS_R_get, op_CHAOS_R_set, 0, true);
 const tele_op_t op_CHAOS_ALG = MAKE_GET_SET_OP(CHAOS.ALG, op_CHAOS_ALG_get, op_CHAOS_ALG_set, 0, true);
@@ -1071,6 +1074,12 @@ static void op_BTOG_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
         cs_push(cs, v & ~(1 << b));
     else
         cs_push(cs, v | (1 << b));
+}
+
+static void op_BREV_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+                        exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t unreversed = cs_pop(cs);
+    cs_push(cs, bit_reverse(unreversed));
 }
 
 static void op_CHAOS_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),

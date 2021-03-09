@@ -180,6 +180,10 @@ short = "clear bit `y` in value `x`"
 prototype = "BTOG x y"
 short = "toggle bit `y` in value `x`"
 
+[BREV]
+prototype = "BREV x"
+short = "reverse bit order in value `x` ()"
+
 [ABS]
 prototype = "ABS x"
 short = "absolute value of `x`"

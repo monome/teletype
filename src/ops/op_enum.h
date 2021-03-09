@@ -200,6 +200,7 @@ typedef enum {
     E_OP_BGET,
     E_OP_BCLR,
     E_OP_BTOG,
+    E_OP_BREV,
     E_OP_XOR,
     E_OP_CHAOS,
     E_OP_CHAOS_R,

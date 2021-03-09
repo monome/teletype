@@ -93,3 +93,13 @@ const char *to_voltage(int16_t i) {
 
     return v;
 }
+
+
+int16_t bit_reverse(int16_t unreversed) {
+    int16_t NO_OF_BITS = 16;
+    int16_t reversed = 0;
+    for (int i = 0; i < NO_OF_BITS; i++) {
+        if ((unreversed & (1 << i))) reversed |= 1 << ((NO_OF_BITS - 1) - i);
+    }
+    return reversed;
+}
