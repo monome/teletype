@@ -57,7 +57,10 @@ error_t validate(const tele_command_t *c,
         bool first_cmd = idx == 0 || c->data[idx - 1].tag == PRE_SEP ||
                          c->data[idx - 1].tag == SUB_SEP;
 
-        if (word_type == NUMBER) { stack_depth++; }
+        if (word_type == NUMBER || word_type == XNUMBER ||
+            word_type == BNUMBER || word_type == RNUMBER) {
+            stack_depth++;
+        }
         else if (word_type == OP) {
             const tele_op_t *op = tele_ops[word_value];
 
@@ -260,7 +263,10 @@ process_result_t process_command(scene_state_t *ss, exec_state_t *es,
             const tele_word_t word_type = c->data[idx].tag;
             const int16_t word_value = c->data[idx].value;
 
-            if (word_type == NUMBER) { cs_push(&cs, word_value); }
+            if (word_type == NUMBER || word_type == XNUMBER ||
+                word_type == BNUMBER || word_type == RNUMBER) {
+                cs_push(&cs, word_value);
+            }
             else if (word_type == OP) {
                 const tele_op_t *op = tele_ops[word_value];
 

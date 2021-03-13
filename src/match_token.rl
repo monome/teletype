@@ -862,11 +862,13 @@
         uint8_t binhex = 0;                              \
         uint8_t bitrev = 0;                              \
         if (token[0] == 'X') {                           \
+            out->tag = XNUMBER;                          \
             binhex = 1;                                  \
             base = 16;                                   \
             token++;                                     \
         }                                                \
         else if (token[0] == 'B') {                      \
+            out->tag = BNUMBER;                          \
             binhex = 1;                                  \
             base = 2;                                    \
             token++;                                     \
