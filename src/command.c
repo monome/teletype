@@ -82,19 +82,19 @@ void print_command(const tele_command_t *cmd, char *out) {
                 break;
             }
             case XNUMBER: {
-                char number[5];
+                char number[6];
                 itoa_hex(value, number);
                 strcat(out, number);
                 break;
             }
             case BNUMBER: {
-                char number[17];
+                char number[18];
                 itoa_bin(value, number);
                 strcat(out, number);
                 break;
             }
             case RNUMBER: {
-                char number[17];
+                char number[18];
                 itoa_rbin(value, number);
                 strcat(out, number);
                 break;
