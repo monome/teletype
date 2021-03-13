@@ -874,6 +874,7 @@
             token++;                                     \
         }                                                \
         else if (token[0] == 'R') {                      \
+            out->tag = RNUMBER;                          \
             binhex = 1;                                  \
             bitrev = 1;                                  \
             base = 2;                                    \
