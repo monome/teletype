@@ -1,0 +1,63 @@
+["W/D.FBK"]
+prototype = "W/D.FBK level"
+short = "amount of feedback from read head to write head (s16V)"
+
+["W/D.MIX"]
+prototype = "W/D.MIX fade"
+short = "fade from dry to delayed signal"
+
+["W/D.LPASS"]
+prototype = "W/D.LPASS cutoff"
+short = "centre frequency of filter in feedback loop (s16V)"
+
+["W/D.FREEZE"]
+prototype = "W/D.FREEZE is_active"
+short = "deactivate record head to freeze the current buffer (s8)"
+
+["W/D.TIME"]
+prototype = "W/D.TIME seconds"
+short = "set delay buffer length in `seconds` (s16V), when rate == 1"
+
+["W/D.LNG"]
+prototype = "W/D.LNG count divisions"
+short = "set buffer loop size as a fraction of buffer time (u8)"
+
+["W/D.POS"]
+prototype = "W/D.POS count divisions"
+short = "set loop location as a fraction of buffer time (u8)"
+
+["W/D.CUT"]
+prototype = "W/D.CUT count divisions"
+short = "jump to loop location as a fraction of buffer time (u8)"
+
+["W/D.FREQ.RNG"]
+prototype = "W/D.FREQ.RNG freq_range"
+short = "TBD (s8)"
+
+["W/D.RATE"]
+prototype = "W/D.RATE multiplier"
+short = "direct `multiplier` (s16V) of tape speed"
+
+["W/D.FREQ"]
+prototype = "W/D.FREQ volts"
+short = "manipulate tape speed with musical values (s16V)"
+
+["W/D.CLK"]
+prototype = "W/D.CLK"
+short = "receive clock pulse for synchronization"
+
+["W/D.CLK.RATIO"]
+prototype = "W/D.CLK.RATIO mul div"
+short = "set clock pulses per buffer time, with clock `mul`/`div` (s8)"
+
+["W/D.PLUCK"]
+prototype = "W/D.PLUCK volume"
+short = "pluck the delay line with noise at volume (s16V)"
+
+["W/D.MOD.RATE"]
+prototype = "W/D.MOD.RATE rate"
+short = "set the multiplier for the modulation rate (s16V)"
+
+["W/D.MOD.AMT"]
+prototype = "W/D.MOD.AMT amount"
+short = "set the `amount` (s16V) of delay line modulation to be applied"

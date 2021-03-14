@@ -1,0 +1,63 @@
+["W/T.REC"]
+prototype = "W/T.REC active"
+short = "Sets recording state to `active` (s8)"
+
+["W/T.PLAY"]
+prototype = "W/T.PLAY playback"
+short = "Set the playback state. -1 will flip playback direction (s8)"
+
+["W/T.REV"]
+prototype = "W/T.REV"
+short = "Reverse the direction of playback"
+
+["W/T.SPEED"]
+prototype = "W/T.SPEED speed deno"
+short = "Set speed as a rate, or ratio. Negative values are reverse (s16V)"
+
+["W/T.FREQ"]
+prototype = "W/T.FREQ freq"
+short = "Set speed as a `frequency` (s16V) style value. Maintains reverse state"
+
+["W/T.PRE.LVL"]
+prototype = "W/T.PRE.LVL level"
+short = "Strength of erase head when recording. 0 is overdub, 1 is overwrite. Opposite of feedback (s16V)"
+
+["W/T.MONITOR.LVL"]
+prototype = "W/T.MONITOR.LVL gain"
+short = "Level of input passed directly to output (s16V)"
+
+["W/T.REC.LVL"]
+prototype = "W/T.REC.LVL gain"
+short = "Level of input material recorded to tape (s16V)"
+
+["W/T.HEAD.ORDER"]
+prototype = "W/T.HEAD.ORDER is_echo"
+short = "Set to 1 to playback before erase. 0 (default) erases first (s8)"
+
+["W/T.LOOP.START"]
+prototype = "W/T.LOOP.START"
+short = "Set the current time as the beginning of a loop"
+
+["W/T.LOOP.END"]
+prototype = "W/T.LOOP.END"
+short = "Set the current time as the loop end, and jump to start"
+
+["W/T.LOOP.ACTIVE"]
+prototype = "W/T.LOOP.ACTIVE state"
+short = "Set the state of looping (s8)"
+
+["W/T.LOOP.SCALE"]
+prototype = "W/T.LOOP.SCALE scale"
+short = "Mul(Positive) or Div(Negative) loop brace by arg. Zero resets to original window (s8)"
+
+["W/T.LOOP.NEXT"]
+prototype = "W/T.LOOP.NEXT direction"
+short = "Move loop brace forward/backward by length of loop. Zero jumps to loop start (s8)"
+
+["W/T.TIME"]
+prototype = "W/T.TIME seconds sub"
+short = "Move playhead to an arbitrary location on tape (s16)"
+
+["W/T.SEEK"]
+prototype = "W/T.SEEK seconds sub"
+short = "Move playhead relative to current position (s16)"
