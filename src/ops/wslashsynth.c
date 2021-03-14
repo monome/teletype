@@ -24,7 +24,6 @@ I2C_RECV_16(op_WS_S_FM_INDEX_recv, WS_S_ADDR, WS_S_FM_INDEX)
 I2C_WRITE_16(op_WS_S_FM_ENV_write, WS_S_ADDR, WS_S_FM_ENV)
 I2C_RECV_16(op_WS_S_FM_ENV_recv, WS_S_ADDR, WS_S_FM_ENV)
 I2C_WRITE_16_16(op_WS_S_FM_RATIO_write, WS_S_ADDR, WS_S_FM_RATIO)
-I2C_RECV_16(op_WS_S_FM_RATIO_recv, WS_S_ADDR, WS_S_FM_RATIO)
 
 I2C_WRITE_16(op_WS_S_LPG_TIME_write, WS_S_ADDR, WS_S_LPG_TIME)
 I2C_RECV_16(op_WS_S_LPG_TIME_recv, WS_S_ADDR, WS_S_LPG_TIME)
@@ -49,7 +48,7 @@ const tele_op_t op_WS_S_RAMP  = MAKE_GET_SET_OP(W/S.RAMP , op_WS_S_RAMP_recv, op
 
 const tele_op_t op_WS_S_FM_INDEX  = MAKE_GET_SET_OP(W/S.FM.INDEX , op_WS_S_FM_INDEX_recv, op_WS_S_FM_INDEX_write, 0, true);
 const tele_op_t op_WS_S_FM_ENV  = MAKE_GET_SET_OP(W/S.FM.ENV , op_WS_S_FM_ENV_recv, op_WS_S_FM_ENV_write, 0, true);
-const tele_op_t op_WS_S_FM_RATIO  = MAKE_GET_SET_OP(W/S.FM.RATIO , op_WS_S_FM_RATIO_recv, op_WS_S_FM_RATIO_write, 0, true);
+const tele_op_t op_WS_S_FM_RATIO  = MAKE_GET_OP(W/S.FM.RATIO , op_WS_S_FM_RATIO_write, 2, false);
 
 const tele_op_t op_WS_S_LPG_TIME  = MAKE_GET_SET_OP(W/S.LPG.TIME , op_WS_S_LPG_TIME_recv, op_WS_S_LPG_TIME_write, 0, true);
 const tele_op_t op_WS_S_LPG_SYMMETRY  = MAKE_GET_SET_OP(W/S.LPG.SYM , op_WS_S_LPG_SYMMETRY_recv, op_WS_S_LPG_SYMMETRY_write, 0, true);
