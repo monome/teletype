@@ -1,0 +1,55 @@
+["W/S.PITCH"]
+prototype = "W/S.PITCH voice pitch"
+short = "set `voice` (s8) to `pitch` (s16V) in volts-per-octave"
+
+["W/S.VEL"]
+prototype = "W/S.VEL voice velocity"
+short = "strike the vactrol of `voice` (s8) at `velocity` (s16V) in volts"
+
+["W/S.VOX"]
+prototype = "W/S.VOX voice pitch velocity"
+short = "set `voice` (s8) to `pitch` (s16V) and strike the vactrol at `velocity` (s16V)"
+
+["W/S.NOTE"]
+prototype = "W/S.NOTE pitch level"
+short = "dynamically assign a voice, set to `pitch` (s16V), strike with `velocity`(s16V)"
+
+["W/S.AR.MODE"]
+prototype = "W/S.AR.MODE is_ar"
+short = "in attack-release mode, all notes are `plucked` and no `release` is required'"
+
+["W/S.LPG.TIME"]
+prototype = "W/S.LPG.TIME time"
+short = "vactrol `time` (s16V) constant. -5=drones, 0=vtl5c3, 5=blits"
+
+["W/S.LPG.SYM"]
+prototype = "W/S.LPG.SYM symmetry"
+short = "vactrol attack-release ratio. -5=fastest attack, 5=long swells (s16V)"
+
+["W/S.CURVE"]
+prototype = "W/S.CURVE curve"
+short = "cross-fade waveforms: -5=square, 0=triangle, 5=sine (s16V)"
+
+["W/S.RAMP"]
+prototype = "W/S.RAMP ramp"
+short = "waveform symmetry: -5=rampwave, 0=triangle, 5=sawtooth (NB: affects FM tone)"
+
+["W/S.FM.INDEX"]
+prototype = "W/S.FM.INDEX index"
+short = "amount of FM modulation. -5=negative, 0=minimum, 5=maximum (s16V)"
+
+["W/S.FM.RATIO"]
+prototype = "W/S.FM.RATIO num den"
+short = "ratio of the FM modulator to carrier as a ratio. floating point values up to 20.0 supported (s16V)"
+
+["W/S.FM.ENV"]
+prototype = "W/S.ENV amount"
+short = "amount of vactrol envelope applied to fm index, -5 to +5 (s16V)"
+
+["W/S.PATCH"]  
+prototype = "W/S.PATCH jack param"
+short = "patch a hardware `jack` (s8) to a `param` (s8) destination"
+
+["W/S.VOICES"]
+prototype = "W/S.VOICES count"
+short = "set number of polyphonic voices to allocate. use 0 for unison mode (s8)"

@@ -73,7 +73,8 @@ OPS_SECTIONS = [
     ("matrixarchate", "Matrixarchate", True),
     ("telex_i",       "TELEXi",        False),
     ("telex_o",       "TELEXo",        False),
-    ("disting",       "Disting EX",    False)
+    ("disting",       "Disting EX",    False),
+    ("wslashsynth",   "W/2.0 synth",   False),
 ]
 
 
