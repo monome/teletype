@@ -2,7 +2,6 @@
 #
 #include <ctype.h>   // isdigit
 #include <stdlib.h>  // rand, strtol
-
 #include <stdio.h>
 
 #include "ops/op.h"
@@ -882,7 +881,7 @@
         }                                                \
         int32_t val = strtol(token, NULL, base);         \
         if (binhex) val = (int16_t)((uint16_t)val);      \
-        if (bitrev) val = bit_reverse(val);              \
+        if (bitrev) val = tokentol_reverse(token, NULL, base); \
         val = val > INT16_MAX ? INT16_MAX : val;         \
         val = val < INT16_MIN ? INT16_MIN : val;         \
         out->value = val;                                \

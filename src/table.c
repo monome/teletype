@@ -132,7 +132,7 @@ const int table_n_cs[9][7] = {
     {2, 1, 6, 0, 1, 1, 0}, // Myxolydian
 };
 
-// preset bit mast scales for N.B
+// preset bit mask scales for N.B and N.BX
 const int table_n_b[] = {
     0b101011010101,  // ionian (major)
     0b101101010110,  // dorian

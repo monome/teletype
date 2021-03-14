@@ -1,6 +1,7 @@
 #include "command.h"
 
 #include <string.h>  // memcpy
+#include "helpers.h"
 
 #include "ops/op.h"
 #include "util.h"
@@ -57,14 +58,19 @@ static void itoa_rbin(uint16_t value, char *out) {
 
     for (int8_t i = 0; i < 16; i++) {
         v = (value >> i) & 1;
-        if (dont_ignore_zeros || v) {
-            out[index++] = '0' + v;
-            dont_ignore_zeros = 1;
-        }
+        out[index++] = '0' + v;
     }
-
-    if (!dont_ignore_zeros) out[index++] = '0';
     out[index] = '\0';
+
+    if (!dont_ignore_zeros) {
+        for (int8_t i = 16; i > 0; i--) {
+            if (out[i] == '1') {
+                index = i;
+                break;
+            }
+        }
+        out[index + 1] = '\0';
+    }
 }
 
 void print_command(const tele_command_t *cmd, char *out) {

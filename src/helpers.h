@@ -2,6 +2,7 @@
 #define _HELPERS_H_
 
 #include <stdint.h>
+#include <stdlib.h>  // strtol
 
 // http://stackoverflow.com/questions/3599160/unused-parameter-warnings-in-c-code
 // Needs to be named NOTUSED to void conflict with UNUSED from
@@ -16,6 +17,8 @@
 
 int16_t normalise_value(int16_t min, int16_t max, int16_t wrap, int16_t value);
 const char *to_voltage(int16_t);
-int16_t bit_reverse(int16_t unreversed);
+int16_t bit_reverse(int16_t unreversed, int8_t bits_to_reverse);
+long int tokentol_reverse(const char *str, char **endptr, int base);
+const char *strrev(const char *str);
 
 #endif

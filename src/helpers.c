@@ -1,7 +1,6 @@
 #include "helpers.h"
-
+#include <stdlib.h>  // malloc
 #include <string.h>
-
 #include "table.h"
 #include "util.h"
 
@@ -94,12 +93,26 @@ const char *to_voltage(int16_t i) {
     return v;
 }
 
-
-int16_t bit_reverse(int16_t unreversed) {
-    int16_t NO_OF_BITS = 16;
+int16_t bit_reverse(int16_t unreversed, int8_t bits_to_reverse) {
     int16_t reversed = 0;
-    for (int i = 0; i < NO_OF_BITS; i++) {
-        if ((unreversed & (1 << i))) reversed |= 1 << ((NO_OF_BITS - 1) - i);
+    for (int i = 0; i < bits_to_reverse; i++) {
+        if ((unreversed & (1 << i)))
+            reversed |= 1 << ((bits_to_reverse - 1) - i);
     }
     return reversed;
+}
+
+long int tokentol_reverse(const char* str, char** endptr, int base) {
+    long int reverse_val;
+    reverse_val = strtol(strrev(str), endptr, base);
+    return reverse_val;
+}
+
+const char* strrev(const char* str) {
+    int index = strlen(str);
+    char* revStr = (char*)malloc(index--);
+    int destIndex = 0;
+    while (0 <= index) revStr[destIndex++] = str[index--];
+    revStr[destIndex] = 0;
+    return revStr;
 }

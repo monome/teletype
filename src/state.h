@@ -53,7 +53,7 @@
 #define METRO_MIN_MS 25
 #define METRO_MIN_UNSUPPORTED_MS 2
 
-#define NB_NBX_SCALES 8
+#define NB_NBX_SCALES 16
 
 
 ////////////////////////////////////////////////////////////////////////////////

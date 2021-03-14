@@ -1,4 +1,5 @@
 #include "state.h"
+#include "helpers.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -16,6 +17,10 @@ void ss_init(scene_state_t *ss) {
     ss_midi_init(ss);
     ss->delay.count = 0;
     for (size_t i = 0; i < TR_COUNT; i++) { ss->tr_pulse_timer[i] = 0; }
+    for (size_t i = 0; i < NB_NBX_SCALES; i++) {
+        ss->variables.n_scale_bits[i] = bit_reverse(0b101011010101, 12);
+        ss->variables.n_scale_root[i] = 0;
+    }
     ss->stack_op.top = 0;
     memset(&ss->scripts, 0, ss_scripts_size());
     turtle_init(&ss->turtle);
@@ -46,16 +51,6 @@ void ss_variables_init(scene_state_t *ss) {
         .q_n = 1,
         .r_min = 0,
         .r_max = 16383,
-	.n_scale_bits = {
-			 0b101011010101,
-			 0b101011010101,
-			 0b101011010101,
-			 0b101011010101,
-			 0b101011010101,
-			 0b101011010101,
-			 0b101011010101,
-			 0b101011010101},
-	.n_scale_root = {0, 0, 0, 0, 0, 0, 0, 0},
         .script_pol = { 1, 1, 1, 1, 1, 1, 1, 1 },
         .time_act = 1,
         .tr_pol = { 1, 1, 1, 1 },

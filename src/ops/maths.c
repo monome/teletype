@@ -249,7 +249,7 @@ static int16_t get_degree_in_bitmask_scale(int16_t scale_bits,
 
     if (degree > 0) {
         for (int i = 0; i < 128; i++) {
-            if ((scale_bits >> (11 - (i % 12))) & 1) {
+            if ((scale_bits >> i % 12) & 1) {
                 degree--;
                 if (!degree) { break; }
             }
@@ -259,7 +259,7 @@ static int16_t get_degree_in_bitmask_scale(int16_t scale_bits,
     else {
         degree--;
         for (int i = 0; i < 128; i++) {
-            if ((scale_bits >> i % 12) & 1) {
+            if ((scale_bits >> (11 - (i % 12))) & 1) {
                 degree++;
                 if (!degree) { break; }
             }
@@ -920,10 +920,10 @@ static void op_N_B_set(const void *NOTUSED(data), scene_state_t *ss,
     if (scale_bits > 0b111111111111) { scale_bits = 0b111111111111; }
     if (scale_bits < 1) {
         if (scale_bits > -nb_nbx_scale_presets) {
-            scale_bits = table_n_b[-scale_bits];
+            scale_bits = bit_reverse(table_n_b[-scale_bits], 12);
         }
         else {
-            scale_bits = table_n_b[0];
+            scale_bits = bit_reverse(table_n_b[0], 12);
         }
     }
     ss->variables.n_scale_bits[0] = scale_bits;
@@ -955,10 +955,10 @@ static void op_N_BX_set(const void *NOTUSED(data), scene_state_t *ss,
     if (scale_bits > 0b111111111111) { scale_bits = 0b111111111111; }
     if (scale_bits < 1) {
         if (scale_bits > -nb_nbx_scale_presets) {
-            scale_bits = table_n_b[-scale_bits];
+            scale_bits = bit_reverse(table_n_b[-scale_bits], 12);
         }
         else {
-            scale_bits = table_n_b[0];
+            scale_bits = bit_reverse(table_n_b[0], 12);
         }
     }
     ss->variables.n_scale_bits[scale_nb] = scale_bits;
@@ -1079,7 +1079,7 @@ static void op_BTOG_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
 static void op_BREV_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                         exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t unreversed = cs_pop(cs);
-    cs_push(cs, bit_reverse(unreversed));
+    cs_push(cs, bit_reverse(unreversed, 16));
 }
 
 static void op_CHAOS_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
