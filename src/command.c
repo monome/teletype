@@ -62,10 +62,10 @@ static void itoa_rbin(uint16_t value, char *out) {
 
     index = 0; // catch this below if all 0s
     for (int8_t i = 16; i > 0; i--) {
-	if (out[i] == '1') {
-	    index = i;
-	    break;
-	}
+        if (out[i] == '1') {
+            index = i;
+            break;
+        }
     }
     if (index == 0){     // all 0s....
 	index = 1;       // ..in idx1 ...

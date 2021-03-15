@@ -1,5 +1,4 @@
 #include "helpers.h"
-#include <stdlib.h>  // malloc
 #include <string.h>
 #include "table.h"
 #include "util.h"
@@ -101,20 +100,11 @@ int16_t bit_reverse(int16_t unreversed, int8_t bits_to_reverse) {
     return reversed;
 }
 
-
-long int tokentol_reverse(const char* str, char** endptr, int base) {
-    int16_t reverse_val;                                                                    
-    reverse_val = strtol(strrev(str), endptr, base);                                         
-    return reverse_val;                                                                      
-}
-
-const char* strrev(const char* str){
-    int8_t length = strlen(str);
-    char rev[length];
-    for(int8_t i = 0; i<length; i++){
-	rev[length-1-i] = str[i];
+int16_t rev_bitstring_to_int(const char* token) {
+    int8_t length = strlen(token);
+    int16_t value = 0;
+    for (int8_t i = 0; i < length; i++) {
+        if (token[i] == '1') { value += 1 << i; }
     }
-    strcpy(str,rev);
-    return str;
+    return value;
 }
-

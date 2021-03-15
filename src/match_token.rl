@@ -881,7 +881,7 @@
         }                                                \
         int32_t val = strtol(token, NULL, base);         \
         if (binhex) val = (int16_t)((uint16_t)val);      \
-        if (bitrev) val = tokentol_reverse(token, NULL, base); \
+        if (bitrev) val = rev_bitstring_to_int(token);         \
         val = val > INT16_MAX ? INT16_MAX : val;         \
         val = val < INT16_MIN ? INT16_MIN : val;         \
         out->value = val;                                \
