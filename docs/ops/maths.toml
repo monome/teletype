@@ -63,11 +63,11 @@ short = "limit the value `x` to the range `y` to `z` inclusive, but with wrappin
 prototype = "QT x y"
 short = "round `x` to the closest multiple of `y` (quantise)"
 
-[QT.S]
+["QT.S"]
 prototype = "QT.S i r s"
 short = "quantize note number `i` (-127..127) to note number in scale `s` (0-8, reference N.S scales) with root note `r` (-127..127)"
 
-[QT.CS]
+["QT.CS"]
 prototype = "QT.CS i r s d c"
 short = "quantize note number `i` (-127..127) to note number in chord `c` (1-7) from scale `s` (0-8, reference N.S scales) at degree `d` (1-7) with root note `r` (-127..127)."
 description = """
@@ -81,7 +81,7 @@ Chords (1-7)
  - etc.
 """
 
-[QT.B]
+["QT.B"]
 prototype = "QT.B i r b"
 short = "quantize `i` to note number in scale bitmask `b` (LSB = root) with root note `r`"
 

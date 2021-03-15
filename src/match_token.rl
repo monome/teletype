@@ -400,18 +400,30 @@
         "ARP.ER"      => { MATCH_OP(E_OP_ARP_ER); };
 
         # justfriends
-        "JF.TR"       => { MATCH_OP(E_OP_JF_TR); };
-        "JF.RMODE"    => { MATCH_OP(E_OP_JF_RMODE); };
-        "JF.RUN"      => { MATCH_OP(E_OP_JF_RUN); };
-        "JF.SHIFT"    => { MATCH_OP(E_OP_JF_SHIFT); };
-        "JF.VTR"      => { MATCH_OP(E_OP_JF_VTR); };
-        "JF.MODE"     => { MATCH_OP(E_OP_JF_MODE); };
-        "JF.TICK"     => { MATCH_OP(E_OP_JF_TICK); };
-        "JF.VOX"      => { MATCH_OP(E_OP_JF_VOX); };
-        "JF.NOTE"     => { MATCH_OP(E_OP_JF_NOTE); };
-        "JF.GOD"      => { MATCH_OP(E_OP_JF_GOD); };
-        "JF.TUNE"     => { MATCH_OP(E_OP_JF_TUNE); };
-        "JF.QT"       => { MATCH_OP(E_OP_JF_QT); };
+        "JF.TR"         => { MATCH_OP(E_OP_JF_TR); };
+        "JF.RMODE"      => { MATCH_OP(E_OP_JF_RMODE); };
+        "JF.RUN"        => { MATCH_OP(E_OP_JF_RUN); };
+        "JF.SHIFT"      => { MATCH_OP(E_OP_JF_SHIFT); };
+        "JF.VTR"        => { MATCH_OP(E_OP_JF_VTR); };
+        "JF.MODE"       => { MATCH_OP(E_OP_JF_MODE); };
+        "JF.TICK"       => { MATCH_OP(E_OP_JF_TICK); };
+        "JF.VOX"        => { MATCH_OP(E_OP_JF_VOX); };
+        "JF.NOTE"       => { MATCH_OP(E_OP_JF_NOTE); };
+        "JF.GOD"        => { MATCH_OP(E_OP_JF_GOD); };
+        "JF.TUNE"       => { MATCH_OP(E_OP_JF_TUNE); };
+        "JF.QT"         => { MATCH_OP(E_OP_JF_QT); };
+		"JF.PITCH"      => { MATCH_OP(E_OP_JF_PITCH); };
+        "JF.ADDR"       => { MATCH_OP(E_OP_JF_ADDR); };
+        "JF.SPEED"      => { MATCH_OP(E_OP_JF_SPEED); };
+        "JF.TSC"        => { MATCH_OP(E_OP_JF_TSC); };
+        "JF.RAMP"       => { MATCH_OP(E_OP_JF_RAMP); };
+        "JF.CURVE"      => { MATCH_OP(E_OP_JF_CURVE); };
+        "JF.FM"         => { MATCH_OP(E_OP_JF_FM); };
+        "JF.TIME"       => { MATCH_OP(E_OP_JF_TIME); };
+        "JF.INTONE"     => { MATCH_OP(E_OP_JF_INTONE); };
+        "JF.POLY"       => { MATCH_OP(E_OP_JF_POLY); };
+        "JF.POLY.RESET" => { MATCH_OP(E_OP_JF_POLY_RESET); };
+        "JF.SEL"        => { MATCH_OP(E_OP_JF_SEL); };
 
         # telex
         "TO.TR"            => { MATCH_OP(E_OP_TO_TR); };
@@ -766,6 +778,11 @@
         "DEL.R"       => { MATCH_MOD(E_MOD_DEL_R); };
         "DEL.G"       => { MATCH_MOD(E_MOD_DEL_G); };
         "DEL.B"       => { MATCH_MOD(E_MOD_DEL_B); };
+		
+		# justfriends
+        "JF0"         => { MATCH_MOD(E_MOD_JF0); };
+        "JF1"         => { MATCH_MOD(E_MOD_JF1); };
+        "JF2"         => { MATCH_MOD(E_MOD_JF2); };		
 
         # matrixarchate
         "MA.SELECT"   => { MATCH_OP(E_OP_MA_SELECT); };

@@ -16,6 +16,7 @@
 - **NEW**: volts to semitones helper OP: `VN..`
 - **IMP**: DELAY_SIZE increased to 64 from 16
 - **FIX**: scale degree arguments 1-indexed: `N.S`, `N.CS`
+- **NEW**: Just Friends 4.0 OPs and dual JF OPs
 
 ## v3.2.0
 

@@ -1,6 +1,54 @@
+["JF.ADDR"]
+prototype = "JF.ADDR x"
+short = "Sets JF II address (`1` = primary, `2` = secondary). Use with only one JF on the bus! Saves to JF internal memory, so only one-time config is needed."
+
+["JF.SEL"]
+prototype = "JF.SEL x"
+short = "Sets target JF unit (`1` = primary, `2` = secondary)."
+
+["JF0"]
+prototype = "JF0: ..."
+short = "Send following JF OPs to both units starting with selected unit."
+
+["JF1"]
+prototype = "JF1: ..."
+short = "Send following JF OPs to unit 1 ignoring the currently selected unit."
+
+["JF2"]
+prototype = "JF2: ..."
+short = "Send following JF OPs to unit 2 ignoring the currently selected unit."
+
+["JF.RAMP"]
+prototype = "JF.RAMP"
+short = "Gets value of RAMP knob."
+
+["JF.CURVE"]
+prototype = "JF.CURVE"
+short = "Gets value of CURVE knob."
+
+["JF.FM"]
+prototype = "JF.FM"
+short = "Gets value of FM knob."
+
+["JF.INTONE"]
+prototype = "JF.INTONE"
+short = "Gets value of INTONE knob and CV offset."
+
+["JF.TIME"]
+prototype = "JF.TIME"
+short = "Gets value of TIME knob and CV offset."
+
+["JF.SPEED"]
+prototype = "JF.SPEED"
+short = "Gets value of SPEED switch (`1` = sound, `0` = shape)."
+
+["JF.TSC"]
+prototype = "JF.TSC"
+short = "Gets value of MODE switch (`0` = transient, `1` = sustain, `2` = cycle)."
+
 ["JF.TR"]
 prototype = "JF.TR x y"
-short = "Simulate a TRIGGER input. `x` is channel (`0` = all) and y is state (`0` or `1`)"
+short = "Simulate a TRIGGER input. `x` is channel (`0` = all primary JF channels, `1..6` = primary JF, `7..12` = secondary JF, `-1` = all channels both JF) and y is state (`0` or `1`)"
 
 ["JF.RMODE"]
 prototype = "JF.RMODE x"
@@ -20,19 +68,31 @@ short = "Like `JF.TR` with added volume control. Velocity is scaled with volts, 
 
 ["JF.TUNE"]
 prototype = "JF.TUNE x y z"
-short = "Adjust the tuning ratios used by the INTONE control. `x` = channel, `y` = numerator (set the multiplier for the tuning ratio), `z` = denominator (set the divisor for the tuning ratio)."
+short = "Adjust the tuning ratios used by the INTONE control. `x` = channel, `y` = numerator (set the multiplier for the tuning ratio), `z` = denominator (set the divisor for the tuning ratio). `JF.TUNE 0 0 0` resets to default ratios."
 
 ["JF.MODE"]
 prototype = "JF.MODE x"
-short = "Set the current choice of standard functionality, or Just Type alternate modes. You'll likely want to put JF.MODE x in your Teletype INIT scripts. `x` = nonzero activates alternative modes. `0` restores normal."
+short = "Set the current choice of standard functionality, or Just Type alternate modes (Speed switch to Sound for Synth, Shape for Geode). You'll likely want to put JF.MODE x in your Teletype INIT scripts. `x` = nonzero activates alternative modes. `0` restores normal."
 
 ["JF.VOX"]
 prototype = "JF.VOX x y z"
-short = "Create a note at the specified channel, of the defined pitch & velocity. All channels can be set simultaneously with a chan value of 0. `x` = channel, `y` = pitch relative to C3, `z` = velocity (like `JF.VTR`)."
+short = "Synth mode: create a note at the specified channel, of the defined pitch & velocity. All channels can be set simultaneously with a chan value of 0. `x` = channel, `y` = pitch relative to C3, `z` = velocity (like `JF.VTR`). Geode mode: Create a stream of rhythmic envelopes on the named channel. `x` = channel, `y` = division, `z` = number of repeats."
 
 ["JF.NOTE"]
 prototype = "JF.NOTE x y"
-short = "Polyphonically allocated note sequencing. Works as JF.VOX with chan selected automatically. Free voices will be taken first. If all voices are busy, will steal from the voice which has been active the longest. `x` = pitch relative to C3, `y` = velocity."
+short = "Synth: polyphonically allocated note sequencing. Works as JF.VOX with chan selected automatically. Free voices will be taken first. If all voices are busy, will steal from the voice which has been active the longest. `x` = pitch relative to C3, `y` = velocity. Geode: works as JF.VOX with dynamic allocation of channel. Assigns the rhythmic stream to the oldest unused channel, or if all are busy, the longest running channel. `x` = division, `y` = number of repeats."
+
+["JF.POLY"]
+prototype = "JF.POLY x y"
+short = "As `JF.NOTE` but across dual JF. Switches between primary and secondary units every 6 notes or until reset using `JF.POLY.RESET`."
+
+["JF.POLY.RESET"]
+prototype = "JF.POLY.RESET"
+short = "Resets `JF.POLY` note count."
+
+["JF.PITCH"]
+prototype = "JF.PITCH x y"
+short = "Change pitch without retriggering. `x` = channel, `y` = pitch relative to C3."
 
 ["JF.GOD"]
 prototype = "JF.GOD x"
@@ -41,14 +101,6 @@ short = "Redefines C3 to align with the 'God' note. `x` = `0` sets A to 440, `x`
 ["JF.TICK"]
 prototype = "JF.TICK x"
 short = "Sets the underlying timebase of the Geode. `x` = clock. 0 resets the timebase to the start of measure. 1 to 48 shall be sent repetitively. The value representing ticks per measure. 49 to 255 sets beats-per-minute and resets the timebase to start of measure."
-
-#["JF.VOX"]
-#prototype = "JF.VOX x y z"
-#short = "Create a stream of rhythmic envelopes on the named channel. `x` = channel, `y` = division, `z` = number of repeats."
-
-#["JF.NOTE"]
-#prototype = "JF.NOTE x y"
-#short = "Works as JF.VOX with dynamic allocation of channel. Assigns the rhythmic stream to the oldest unused channel, or if all are busy, the longest running channel. `x` = division, `y` = number of repeats."
 
 ["JF.QT"]
 prototype = "JF.QT x"
