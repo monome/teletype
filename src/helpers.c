@@ -4,7 +4,6 @@
 #include "table.h"
 #include "util.h"
 
-
 int16_t normalise_value(int16_t min, int16_t max, int16_t wrap, int16_t value) {
     if (value >= min && value <= max) return value;
 
@@ -102,17 +101,20 @@ int16_t bit_reverse(int16_t unreversed, int8_t bits_to_reverse) {
     return reversed;
 }
 
+
 long int tokentol_reverse(const char* str, char** endptr, int base) {
-    long int reverse_val;
-    reverse_val = strtol(strrev(str), endptr, base);
-    return reverse_val;
+    int16_t reverse_val;                                                                    
+    reverse_val = strtol(strrev(str), endptr, base);                                         
+    return reverse_val;                                                                      
 }
 
-const char* strrev(const char* str) {
-    int index = strlen(str);
-    char* revStr = (char*)malloc(index--);
-    int destIndex = 0;
-    while (0 <= index) revStr[destIndex++] = str[index--];
-    revStr[destIndex] = 0;
-    return revStr;
+const char* strrev(const char* str){
+    int8_t length = strlen(str);
+    char rev[length];
+    for(int8_t i = 0; i<length; i++){
+	rev[length-1-i] = str[i];
+    }
+    strcpy(str,rev);
+    return str;
 }
+

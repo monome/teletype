@@ -288,9 +288,11 @@ prototype_set = "N.B r s"
 short = "get degree `d` of scale/set scale root to `r`, scale to `s`, `s` is either bit mask (`s` >= 1) or scale preset (`s` < 1)"
 description = """
 Converts a degree in a user-defined equal temperament scale to a value usable by the CV outputs. Default values of `r` and  `s` are 0 and R101011010101, corresponding to C-major.
+To make it easier to generate bit-masks in code, LSB (bit 0) represent the first note in the octave. To avoid having to mirror scales in our heads when entering them by hand, we use `R...` (reverse binary) instead of `B...` (binary ).
+
+The bit-masks uses the 12 lower bits.
 
 Note that N.B is using scale at index 0 as used by N.BX ,so N.B and N.BX 0 are equivalent.
-
 
 Examples:
 ```
