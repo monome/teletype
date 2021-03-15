@@ -60,18 +60,18 @@ static void itoa_rbin(uint16_t value, char *out) {
         out[index++] = '0' + v;
     }
 
-    index = 0; // catch this below if all 0s
+    index = 0;
     for (int8_t i = 16; i > 0; i--) {
         if (out[i] == '1') {
             index = i;
             break;
         }
     }
-    if (index == 0){     // all 0s....
-	index = 1;       // ..in idx1 ...
-	out[index] = '0';// ..add a single 0 next to R
+    if (index == 0) {
+        index = 1;
+        out[index] = '0';
     }
-    out[index + 1] = '\0'; //terminate
+    out[index + 1] = '\0';
 }
 
 void print_command(const tele_command_t *cmd, char *out) {
