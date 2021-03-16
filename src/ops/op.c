@@ -3,8 +3,6 @@
 #include <stddef.h>  // offsetof
 
 #include "helpers.h"
-#include "teletype_io.h"
-
 #include "ops/ansible.h"
 #include "ops/controlflow.h"
 #include "ops/delay.h"
@@ -32,7 +30,10 @@
 #include "ops/variables.h"
 #include "ops/whitewhale.h"
 #include "ops/wslash.h"
-
+#include "ops/wslashdelay.h"
+#include "ops/wslashsynth.h"
+#include "ops/wslashtape.h"
+#include "teletype_io.h"
 
 /////////////////////////////////////////////////////////////////
 // OPS //////////////////////////////////////////////////////////
@@ -86,11 +87,11 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     &op_WRAP, &op_WRP, &op_QT, &op_QT_S, &op_QT_CS, &op_QT_B, &op_AVG, &op_EQ,
     &op_NE, &op_LT, &op_GT, &op_LTE, &op_GTE, &op_NZ, &op_EZ, &op_RSH, &op_LSH,
     &op_LROT, &op_RROT, &op_EXP, &op_ABS, &op_SGN, &op_AND, &op_OR, &op_JI,
-    &op_SCALE, &op_SCL, &op_N, &op_VN, &op_N_S, &op_N_C, &op_N_CS, &op_V,
-    &op_VV, &op_ER, &op_NR, &op_BPM, &op_BIT_OR, &op_BIT_AND, &op_BIT_NOT,
-    &op_BIT_XOR, &op_BSET, &op_BGET, &op_BCLR, &op_BTOG, &op_XOR, &op_CHAOS,
-    &op_CHAOS_R, &op_CHAOS_ALG, &op_SYM_PLUS, &op_SYM_DASH, &op_SYM_STAR,
-    &op_SYM_FORWARD_SLASH, &op_SYM_PERCENTAGE, &op_SYM_EQUAL_x2,
+    &op_SCALE, &op_SCL, &op_N, &op_VN, &op_N_S, &op_N_C, &op_N_CS, &op_N_B,
+    &op_N_BX, &op_V, &op_VV, &op_ER, &op_NR, &op_BPM, &op_BIT_OR, &op_BIT_AND,
+    &op_BIT_NOT, &op_BIT_XOR, &op_BSET, &op_BGET, &op_BCLR, &op_BTOG, &op_BREV,
+    &op_XOR, &op_CHAOS, &op_CHAOS_R, &op_CHAOS_ALG, &op_SYM_PLUS, &op_SYM_DASH,
+    &op_SYM_STAR, &op_SYM_FORWARD_SLASH, &op_SYM_PERCENTAGE, &op_SYM_EQUAL_x2,
     &op_SYM_EXCLAMATION_EQUAL, &op_SYM_LEFT_ANGLED, &op_SYM_RIGHT_ANGLED,
     &op_SYM_LEFT_ANGLED_EQUAL, &op_SYM_RIGHT_ANGLED_EQUAL, &op_SYM_EXCLAMATION,
     &op_SYM_LEFT_ANGLED_x2, &op_SYM_RIGHT_ANGLED_x2, &op_SYM_LEFT_ANGLED_x3,
@@ -149,6 +150,25 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
 
     // W/
     &op_WS_PLAY, &op_WS_REC, &op_WS_CUE, &op_WS_LOOP,
+
+    // W/S
+    &op_WS_S_PITCH, &op_WS_S_VEL, &op_WS_S_VOX, &op_WS_S_NOTE, &op_WS_S_AR_MODE,
+    &op_WS_S_LPG_TIME, &op_WS_S_LPG_SYMMETRY, &op_WS_S_CURVE, &op_WS_S_RAMP,
+    &op_WS_S_FM_INDEX, &op_WS_S_FM_RATIO, &op_WS_S_FM_ENV, &op_WS_S_VOICES,
+    &op_WS_S_PATCH,
+
+    // W/D
+    &op_WS_D_FEEDBACK, &op_WS_D_MIX, &op_WS_D_LOWPASS, &op_WS_D_FREEZE,
+    &op_WS_D_TIME, &op_WS_D_LENGTH, &op_WS_D_POSITION, &op_WS_D_CUT,
+    &op_WS_D_FREQ_RANGE, &op_WS_D_RATE, &op_WS_D_FREQ, &op_WS_D_CLK,
+    &op_WS_D_CLK_RATIO, &op_WS_D_PLUCK, &op_WS_D_MOD_RATE, &op_WS_D_MOD_AMOUNT,
+
+    // W/T
+    &op_WS_T_RECORD, &op_WS_T_PLAY, &op_WS_T_REV, &op_WS_T_SPEED, &op_WS_T_FREQ,
+    &op_WS_T_PRE_LEVEL, &op_WS_T_MONITOR_LEVEL, &op_WS_T_REC_LEVEL,
+    &op_WS_T_HEAD_ORDER, &op_WS_T_LOOP_START, &op_WS_T_LOOP_END,
+    &op_WS_T_LOOP_ACTIVE, &op_WS_T_LOOP_SCALE, &op_WS_T_LOOP_NEXT,
+    &op_WS_T_TIMESTAMP, &op_WS_T_SEEK,
 
     // telex
     &op_TO_TR, &op_TO_TR_TOG, &op_TO_TR_PULSE, &op_TO_TR_TIME, &op_TO_TR_TIME_S,

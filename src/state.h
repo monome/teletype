@@ -53,6 +53,9 @@
 #define METRO_MIN_MS 25
 #define METRO_MIN_UNSUPPORTED_MS 2
 
+#define NB_NBX_SCALES 16
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // SCENE STATE /////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -95,6 +98,8 @@ typedef struct {
     int16_t q_n;
     int16_t r_min;
     int16_t r_max;
+    int16_t n_scale_bits[NB_NBX_SCALES];
+    int16_t n_scale_root[NB_NBX_SCALES];
     int16_t scene;
     uint8_t script_pol[8];
     int64_t time;

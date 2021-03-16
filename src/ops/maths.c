@@ -100,6 +100,14 @@ static void op_N_C_get(const void *data, scene_state_t *ss, exec_state_t *es,
                        command_state_t *cs);
 static void op_N_CS_get(const void *data, scene_state_t *ss, exec_state_t *es,
                         command_state_t *cs);
+static void op_N_B_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                       command_state_t *cs);
+static void op_N_B_set(const void *data, scene_state_t *ss, exec_state_t *es,
+                       command_state_t *cs);
+static void op_N_BX_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                        command_state_t *cs);
+static void op_N_BX_set(const void *data, scene_state_t *ss, exec_state_t *es,
+                        command_state_t *cs);
 static void op_V_get(const void *data, scene_state_t *ss, exec_state_t *es,
                      command_state_t *cs);
 static void op_VV_get(const void *data, scene_state_t *ss, exec_state_t *es,
@@ -125,6 +133,8 @@ static void op_BGET_get(const void *data, scene_state_t *ss, exec_state_t *es,
 static void op_BCLR_get(const void *data, scene_state_t *ss, exec_state_t *es,
                         command_state_t *cs);
 static void op_BTOG_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                        command_state_t *cs);
+static void op_BREV_get(const void *data, scene_state_t *ss, exec_state_t *es,
                         command_state_t *cs);
 static void op_CHAOS_get(const void *data, scene_state_t *ss, exec_state_t *es,
                          command_state_t *cs);
@@ -190,6 +200,8 @@ const tele_op_t op_VN    = MAKE_GET_OP(VN      , op_VN_get      , 1, true);
 const tele_op_t op_N_S   = MAKE_GET_OP(N.S      , op_N_S_get    , 3, true);
 const tele_op_t op_N_C   = MAKE_GET_OP(N.C      , op_N_C_get    , 3, true);
 const tele_op_t op_N_CS  = MAKE_GET_OP(N.CS     , op_N_CS_get   , 4, true);
+const tele_op_t op_N_B   = MAKE_GET_SET_OP(N.B, op_N_B_get,op_N_B_set, 1, true);
+const tele_op_t op_N_BX  = MAKE_GET_SET_OP(N.BX, op_N_BX_get, op_N_BX_set, 2, true);
 const tele_op_t op_V     = MAKE_GET_OP(V       , op_V_get       , 1, true);
 const tele_op_t op_VV    = MAKE_GET_OP(VV      , op_VV_get      , 1, true);
 const tele_op_t op_ER    = MAKE_GET_OP(ER      , op_ER_get      , 3, true);
@@ -203,6 +215,7 @@ const tele_op_t op_BSET  = MAKE_GET_OP(BSET    , op_BSET_get    , 2, true);
 const tele_op_t op_BGET  = MAKE_GET_OP(BGET    , op_BGET_get    , 2, true);
 const tele_op_t op_BCLR  = MAKE_GET_OP(BCLR    , op_BCLR_get    , 2, true);
 const tele_op_t op_BTOG  = MAKE_GET_OP(BTOG    , op_BTOG_get    , 2, true);
+const tele_op_t op_BREV  = MAKE_GET_OP(BREV    , op_BREV_get    , 1, true);
 const tele_op_t op_CHAOS   = MAKE_GET_SET_OP(CHAOS,   op_CHAOS_get,   op_CHAOS_set, 0, true);
 const tele_op_t op_CHAOS_R = MAKE_GET_SET_OP(CHAOS.R, op_CHAOS_R_get, op_CHAOS_R_set, 0, true);
 const tele_op_t op_CHAOS_ALG = MAKE_GET_SET_OP(CHAOS.ALG, op_CHAOS_ALG_get, op_CHAOS_ALG_set, 0, true);
@@ -230,6 +243,36 @@ const tele_op_t op_SYM_AMPERSAND_x2       = MAKE_ALIAS_OP(&&,  op_AND_get,  NULL
 const tele_op_t op_SYM_PIPE_x2            = MAKE_ALIAS_OP(||,  op_OR_get ,  NULL, 2, true);
 // clang-format on
 
+static int16_t get_degree_in_bitmask_scale(int16_t scale_bits,
+                                           int16_t transpose, int16_t degree) {
+    int16_t note = 0;
+
+    if (degree > 0) {
+        for (int i = 0; i < 128; i++) {
+            if ((scale_bits >> i % 12) & 1) {
+                degree--;
+                if (!degree) { break; }
+            }
+            note++;
+        }
+    }
+    else {
+        degree--;
+        for (int i = 0; i < 128; i++) {
+            if ((scale_bits >> (11 - (i % 12))) & 1) {
+                degree++;
+                if (!degree) { break; }
+            }
+            note--;
+        }
+        note--;
+    }
+    note = note + transpose;
+    if (note > 0) { return table_n[note]; }
+    else {
+        return -table_n[-note];
+    }
+}
 
 static void op_ADD_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                        exec_state_t *NOTUSED(es), command_state_t *cs) {
@@ -859,6 +902,68 @@ static void op_N_S_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
     }
 }
 
+static void op_N_B_get(const void *NOTUSED(data), scene_state_t *ss,
+                       exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t degree = cs_pop(cs);
+    // degree = degree + 1 // 1-indexed, uncomment for 0-indexed
+
+    int16_t scale_bits = ss->variables.n_scale_bits[0];
+    int16_t transpose = ss->variables.n_scale_root[0];
+
+    cs_push(cs, get_degree_in_bitmask_scale(scale_bits, transpose, degree));
+}
+
+static void op_N_B_set(const void *NOTUSED(data), scene_state_t *ss,
+                       exec_state_t *NOTUSED(es), command_state_t *cs) {
+    ss->variables.n_scale_root[0] = cs_pop(cs);
+    int16_t scale_bits = cs_pop(cs);
+    if (scale_bits > 0b111111111111) { scale_bits = 0b111111111111; }
+    if (scale_bits < 1) {
+        if (scale_bits > -nb_nbx_scale_presets) {
+            scale_bits = bit_reverse(table_n_b[-scale_bits], 12);
+        }
+        else {
+            scale_bits = bit_reverse(table_n_b[0], 12);
+        }
+    }
+    ss->variables.n_scale_bits[0] = scale_bits;
+}
+
+static void op_N_BX_get(const void *NOTUSED(data), scene_state_t *ss,
+                        exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t scale_nb = cs_pop(cs);
+    int16_t degree = cs_pop(cs);
+    // degree = degree + 1 // 1-indexed, uncomment for 0-indexed
+
+    if (scale_nb < 0) { scale_nb = 0; }
+    if (scale_nb > NB_NBX_SCALES - 1) { scale_nb = NB_NBX_SCALES - 1; }
+
+    int16_t scale_bits = ss->variables.n_scale_bits[scale_nb];
+    int16_t transpose = ss->variables.n_scale_root[scale_nb];
+
+    cs_push(cs, get_degree_in_bitmask_scale(scale_bits, transpose, degree));
+}
+
+static void op_N_BX_set(const void *NOTUSED(data), scene_state_t *ss,
+                        exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t scale_nb = cs_pop(cs) % 8;
+    ss->variables.n_scale_root[scale_nb] = cs_pop(cs);
+    int16_t scale_bits = cs_pop(cs);
+
+    if (scale_nb < 0) { scale_nb = 0; }
+    if (scale_nb > NB_NBX_SCALES - 1) { scale_nb = NB_NBX_SCALES - 1; }
+    if (scale_bits > 0b111111111111) { scale_bits = 0b111111111111; }
+    if (scale_bits < 1) {
+        if (scale_bits > -nb_nbx_scale_presets) {
+            scale_bits = bit_reverse(table_n_b[-scale_bits], 12);
+        }
+        else {
+            scale_bits = bit_reverse(table_n_b[0], 12);
+        }
+    }
+    ss->variables.n_scale_bits[scale_nb] = scale_bits;
+}
+
 static void op_N_C_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                        exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t root = cs_pop(cs);
@@ -969,6 +1074,12 @@ static void op_BTOG_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
         cs_push(cs, v & ~(1 << b));
     else
         cs_push(cs, v | (1 << b));
+}
+
+static void op_BREV_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+                        exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t unreversed = cs_pop(cs);
+    cs_push(cs, bit_reverse(unreversed, 16));
 }
 
 static void op_CHAOS_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),

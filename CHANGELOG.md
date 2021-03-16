@@ -17,6 +17,9 @@
 - **IMP**: DELAY_SIZE increased to 64 from 16
 - **FIX**: scale degree arguments 1-indexed: `N.S`, `N.CS`
 - **NEW**: Just Friends 4.0 OPs and dual JF OPs
+- **NEW**: binary scale ops `N.B` and `N.BX`
+- **NEW**: reverse binary for numbers: `R...`
+- **NEW**: reverse binary OP: `BREV`
 
 ## v3.2.0
 

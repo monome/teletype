@@ -2,16 +2,16 @@
 #
 #include <ctype.h>   // isdigit
 #include <stdlib.h>  // rand, strtol
-
 #include <stdio.h>
 
 #include "ops/op.h"
 #include "ops/op_enum.h"
+#include "helpers.h"
 
 %%{
     machine match_token; # declare our ragel machine
 
-    number = (('-')? [0-9]+) | ([X] [0-9A-F]+) | ([B] [0-1]+);
+    number = (('-')? [0-9]+) | ([X] [0-9A-F]+) | ([B|R] [0-1]+);
 
     main := |*
         # NUMBERS
@@ -212,6 +212,8 @@
         "N.S"         => { MATCH_OP(E_OP_N_S); };
         "N.C"         => { MATCH_OP(E_OP_N_C); };
         "N.CS"        => { MATCH_OP(E_OP_N_CS); };
+        "N.B"         => { MATCH_OP(E_OP_N_B); };
+        "N.BX"        => { MATCH_OP(E_OP_N_BX); };
         "V"           => { MATCH_OP(E_OP_V); };
         "VV"          => { MATCH_OP(E_OP_VV); };
         "ER"          => { MATCH_OP(E_OP_ER); };
@@ -225,6 +227,7 @@
         "BGET"        => { MATCH_OP(E_OP_BGET);; };
         "BCLR"        => { MATCH_OP(E_OP_BCLR);; };
         "BTOG"        => { MATCH_OP(E_OP_BTOG);; };
+        "BREV"        => { MATCH_OP(E_OP_BREV);; };
         "XOR"         => { MATCH_OP(E_OP_XOR); };
         "CHAOS"       => { MATCH_OP(E_OP_CHAOS); };
         "CHAOS.R"     => { MATCH_OP(E_OP_CHAOS_R); };
@@ -713,6 +716,58 @@
         "EX.LP.DOWN?" => { MATCH_OP(E_OP_EX_LP_DOWNQ); };
         "EX.LP.REV?"  => { MATCH_OP(E_OP_EX_LP_REVQ); };
 
+        # w/s
+        "W/S.PITCH"    => { MATCH_OP(E_OP_WS_S_PITCH); };
+        "W/S.VEL"      => { MATCH_OP(E_OP_WS_S_VEL); };
+        "W/S.VOX"      => { MATCH_OP(E_OP_WS_S_VOX); };
+        "W/S.NOTE"     => { MATCH_OP(E_OP_WS_S_NOTE); };
+        "W/S.AR.MODE"  => { MATCH_OP(E_OP_WS_S_AR_MODE); };
+        "W/S.LPG.TIME" => { MATCH_OP(E_OP_WS_S_LPG_TIME); };
+        "W/S.LPG.SYM"  => { MATCH_OP(E_OP_WS_S_LPG_SYMMETRY); };
+        "W/S.CURVE"    => { MATCH_OP(E_OP_WS_S_CURVE); };
+        "W/S.RAMP"     => { MATCH_OP(E_OP_WS_S_RAMP); };
+        "W/S.FM.INDEX" => { MATCH_OP(E_OP_WS_S_FM_INDEX); };
+        "W/S.FM.RATIO" => { MATCH_OP(E_OP_WS_S_FM_RATIO); };
+        "W/S.FM.ENV"   => { MATCH_OP(E_OP_WS_S_FM_ENV); };
+        "W/S.PATCH"    => { MATCH_OP(E_OP_WS_S_PATCH); };
+        "W/S.VOICES"   => { MATCH_OP(E_OP_WS_S_VOICES); };
+
+        # w/d
+        "W/D.FBK"       => { MATCH_OP(E_OP_WS_D_FEEDBACK); };
+        "W/D.MIX"       => { MATCH_OP(E_OP_WS_D_MIX ); };
+        "W/D.LPASS"     => { MATCH_OP(E_OP_WS_D_LOWPASS); };
+        "W/D.FREEZE"    => { MATCH_OP(E_OP_WS_D_FREEZE ); };
+        "W/D.TIME"      => { MATCH_OP(E_OP_WS_D_TIME); };
+        "W/D.LNG"       => { MATCH_OP(E_OP_WS_D_LENGTH); };
+        "W/D.POS"       => { MATCH_OP(E_OP_WS_D_POSITION); };
+        "W/D.CUT"       => { MATCH_OP(E_OP_WS_D_CUT); };
+        "W/D.FREQ.RNG"  => { MATCH_OP(E_OP_WS_D_FREQ_RANGE); };
+        "W/D.RATE"      => { MATCH_OP(E_OP_WS_D_RATE); };
+        "W/D.FREQ"      => { MATCH_OP(E_OP_WS_D_FREQ); };
+        "W/D.CLK"       => { MATCH_OP(E_OP_WS_D_CLK); };
+        "W/D.CLK.RATIO" => { MATCH_OP(E_OP_WS_D_CLK_RATIO); };
+        "W/D.PLUCK"     => { MATCH_OP(E_OP_WS_D_PLUCK); };
+        "W/D.MOD.RATE"  => { MATCH_OP(E_OP_WS_D_MOD_RATE); };
+        "W/D.MOD.AMT"   => { MATCH_OP(E_OP_WS_D_MOD_AMOUNT); };
+
+        # w/t
+        "W/T.REC"         => { MATCH_OP(E_OP_WS_T_RECORD  ); };
+        "W/T.PLAY"        => { MATCH_OP(E_OP_WS_T_PLAY  ); };
+        "W/T.REV"         => { MATCH_OP(E_OP_WS_T_REV); };
+        "W/T.SPEED"       => { MATCH_OP(E_OP_WS_T_SPEED  ); };
+        "W/T.FREQ"        => { MATCH_OP(E_OP_WS_T_FREQ  ); };
+        "W/T.PRE.LVL"     => { MATCH_OP(E_OP_WS_T_PRE_LEVEL ); };
+        "W/T.MONITOR.LVL" => { MATCH_OP(E_OP_WS_T_MONITOR_LEVEL ); };
+        "W/T.REC.LVL"     => { MATCH_OP(E_OP_WS_T_REC_LEVEL ); };
+        "W/T.HEAD.ORDER"  => { MATCH_OP(E_OP_WS_T_HEAD_ORDER ); };
+        "W/T.LOOP.START"  => { MATCH_OP(E_OP_WS_T_LOOP_START); };
+        "W/T.LOOP.END"    => { MATCH_OP(E_OP_WS_T_LOOP_END ); };
+        "W/T.LOOP.ACTIVE" => { MATCH_OP(E_OP_WS_T_LOOP_ACTIVE ); };
+        "W/T.LOOP.SCALE"  => { MATCH_OP(E_OP_WS_T_LOOP_SCALE ); };
+        "W/T.LOOP.NEXT"   => { MATCH_OP(E_OP_WS_T_LOOP_NEXT ); };
+        "W/T.TIME"        => { MATCH_OP(E_OP_WS_T_TIMESTAMP  ); };
+        "W/T.SEEK"        => { MATCH_OP(E_OP_WS_T_SEEK ); };
+
         # seed
         "SEED"        => { MATCH_OP(E_OP_SEED); };
         "RAND.SEED"      => { MATCH_OP(E_OP_RAND_SEED); };
@@ -821,18 +876,29 @@
         out->tag = NUMBER;                               \
         uint8_t base = 0;                                \
         uint8_t binhex = 0;                              \
+        uint8_t bitrev = 0;                              \
         if (token[0] == 'X') {                           \
+            out->tag = XNUMBER;                          \
             binhex = 1;                                  \
             base = 16;                                   \
             token++;                                     \
         }                                                \
         else if (token[0] == 'B') {                      \
+            out->tag = BNUMBER;                          \
             binhex = 1;                                  \
+            base = 2;                                    \
+            token++;                                     \
+        }                                                \
+        else if (token[0] == 'R') {                      \
+            out->tag = RNUMBER;                          \
+            binhex = 1;                                  \
+            bitrev = 1;                                  \
             base = 2;                                    \
             token++;                                     \
         }                                                \
         int32_t val = strtol(token, NULL, base);         \
         if (binhex) val = (int16_t)((uint16_t)val);      \
+        if (bitrev) val = rev_bitstring_to_int(token);         \
         val = val > INT16_MAX ? INT16_MAX : val;         \
         val = val < INT16_MIN ? INT16_MIN : val;         \
         out->value = val;                                \

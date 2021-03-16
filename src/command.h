@@ -6,7 +6,16 @@
 
 #define COMMAND_MAX_LENGTH 16
 
-typedef enum { NUMBER, OP, MOD, PRE_SEP, SUB_SEP } tele_word_t;
+typedef enum {
+    NUMBER,
+    XNUMBER,
+    BNUMBER,
+    RNUMBER,
+    OP,
+    MOD,
+    PRE_SEP,
+    SUB_SEP
+} tele_word_t;
 
 typedef struct {
     tele_word_t tag;

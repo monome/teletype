@@ -33,12 +33,12 @@ static void op_WS_REC_set(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                           exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t a = cs_pop(cs);
     uint8_t d[] = { WS_REC, a };
-    tele_ii_tx(WS_ADDR, d, 2);
+    tele_ii_tx(WS_T_ADDR, d, 2);
 }
 static void op_WS_REC_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                           exec_state_t *NOTUSED(es), command_state_t *cs) {
     uint8_t d[] = { WS_REC | II_GET };
-    uint8_t addr = WS_ADDR;
+    uint8_t addr = WS_T_ADDR;
     tele_ii_tx(addr, d, 1);
     d[0] = 0;
     tele_ii_rx(addr, d, 1);
@@ -50,13 +50,13 @@ static void op_WS_PLAY_set(const void *NOTUSED(data),
                            exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t a = cs_pop(cs);
     uint8_t d[] = { WS_PLAY, a };
-    tele_ii_tx(WS_ADDR, d, 2);
+    tele_ii_tx(WS_T_ADDR, d, 2);
 }
 static void op_WS_PLAY_get(const void *NOTUSED(data),
                            scene_state_t *NOTUSED(ss),
                            exec_state_t *NOTUSED(es), command_state_t *cs) {
     uint8_t d[] = { WS_PLAY | II_GET };
-    uint8_t addr = WS_ADDR;
+    uint8_t addr = WS_T_ADDR;
     tele_ii_tx(addr, d, 1);
     d[0] = 0;
     tele_ii_rx(addr, d, 1);
@@ -68,13 +68,13 @@ static void op_WS_LOOP_set(const void *NOTUSED(data),
                            exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t a = cs_pop(cs);
     uint8_t d[] = { WS_LOOP, a };
-    tele_ii_tx(WS_ADDR, d, 2);
+    tele_ii_tx(WS_T_ADDR, d, 2);
 }
 static void op_WS_LOOP_get(const void *NOTUSED(data),
                            scene_state_t *NOTUSED(ss),
                            exec_state_t *NOTUSED(es), command_state_t *cs) {
     uint8_t d[] = { WS_LOOP | II_GET };
-    uint8_t addr = WS_ADDR;
+    uint8_t addr = WS_T_ADDR;
     tele_ii_tx(addr, d, 1);
     d[0] = 0;
     tele_ii_rx(addr, d, 1);
@@ -85,12 +85,12 @@ static void op_WS_CUE_set(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                           exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t a = cs_pop(cs);
     uint8_t d[] = { WS_CUE, a };
-    tele_ii_tx(WS_ADDR, d, 2);
+    tele_ii_tx(WS_T_ADDR, d, 2);
 }
 static void op_WS_CUE_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                           exec_state_t *NOTUSED(es), command_state_t *cs) {
     uint8_t d[] = { WS_CUE | II_GET };
-    uint8_t addr = WS_ADDR;
+    uint8_t addr = WS_T_ADDR;
     tele_ii_tx(addr, d, 1);
     d[0] = 0;
     tele_ii_rx(addr, d, 1);

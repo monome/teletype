@@ -1,5 +1,7 @@
 #include "ops/i2c.h"
+
 #include <stdarg.h>
+
 #include "helpers.h"
 #include "teletype_io.h"
 
@@ -260,4 +262,60 @@ static void op_IIBB3_get(const void *NOTUSED(data), scene_state_t *ss,
                          exec_state_t *NOTUSED(es), command_state_t *cs) {
     send_bytes(ss, cs, 3);
     query_byte(ss, cs);
+}
+
+void i2c_get_0(command_state_t *cs, uint8_t addr, uint8_t cmd) {
+    uint8_t d[] = { cmd };
+    tele_ii_tx(addr, d, 1);
+}
+
+void i2c_get_8(command_state_t *cs, uint8_t addr, uint8_t cmd) {
+    int16_t a = cs_pop(cs);
+    uint8_t d[] = { cmd, (uint8_t)(a & 0xff) };
+    tele_ii_tx(addr, d, 2);
+}
+
+void i2c_get_8_8(command_state_t *cs, uint8_t addr, uint8_t cmd) {
+    int16_t a = cs_pop(cs);
+    int16_t b = cs_pop(cs);
+    uint8_t d[] = { cmd, (uint8_t)(a & 0xff), (uint8_t)(b & 0xff) };
+    tele_ii_tx(addr, d, 3);
+}
+
+void i2c_get_8_16(command_state_t *cs, uint8_t addr, uint8_t cmd) {
+    int16_t a = cs_pop(cs);
+    int16_t b = cs_pop(cs);
+    uint8_t d[] = { cmd, (uint8_t)(a & 0xff), b >> 8, b & 0xff };
+    tele_ii_tx(addr, d, 4);
+}
+
+void i2c_get_8_16_16(command_state_t *cs, uint8_t addr, uint8_t cmd) {
+    int16_t a = cs_pop(cs);
+    int16_t b = cs_pop(cs);
+    int16_t c = cs_pop(cs);
+    uint8_t d[] = {
+        cmd, (uint8_t)(a & 0xff), b >> 8, b & 0xff, c >> 8, c & 0xff
+    };
+    tele_ii_tx(addr, d, 6);
+}
+
+void i2c_get_16(command_state_t *cs, uint8_t addr, uint8_t cmd) {
+    int16_t a = cs_pop(cs);
+    uint8_t d[] = { cmd, a >> 8, a & 0xff };
+    tele_ii_tx(addr, d, 3);
+}
+
+void i2c_get_16_16(command_state_t *cs, uint8_t addr, uint8_t cmd) {
+    int16_t a = cs_pop(cs);
+    int16_t b = cs_pop(cs);
+    uint8_t d[] = { cmd, a >> 8, a & 0xff, b >> 8, b & 0xff };
+    tele_ii_tx(addr, d, 5);
+}
+
+void i2c_get_32(command_state_t *cs, uint8_t addr, uint8_t cmd) {
+    int16_t a = cs_pop(cs);
+    uint8_t d[] = { cmd, a >> 8, a & 0xff, 0,
+                    0 };  // currently used only for w/s.t which uses to last
+                          // bytes to pass subseconds precission
+    tele_ii_tx(addr, d, 5);
 }
