@@ -43,7 +43,7 @@ prototype = "W/S.FM.RATIO num den"
 short = "ratio of the FM modulator to carrier as a ratio. floating point values up to 20.0 supported (s16V)"
 
 ["W/S.FM.ENV"]
-prototype = "W/S.ENV amount"
+prototype = "W/S.FM.ENV amount"
 short = "amount of vactrol envelope applied to fm index, -5 to +5 (s16V)"
 
 ["W/S.PATCH"]  
