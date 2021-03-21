@@ -20,6 +20,8 @@
 - **NEW**: binary scale ops `N.B` and `N.BX`
 - **NEW**: reverse binary for numbers: `R...`
 - **NEW**: reverse binary OP: `BREV`
+- **FIX**: most of one argument W/2.0 ops will now return value when called without args
+- **NEW**: W/2.0 ops documentation
 
 ## v3.2.0
 
