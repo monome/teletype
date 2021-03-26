@@ -12,5 +12,6 @@ extern const tele_op_t op_ES_TRANS;
 extern const tele_op_t op_ES_STOP;
 extern const tele_op_t op_ES_TRIPLE;
 extern const tele_op_t op_ES_MAGIC;
+extern const tele_op_t op_ES_CV;
 
 #endif

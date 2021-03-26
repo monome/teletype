@@ -20,6 +20,7 @@
 - **NEW**: binary scale ops `N.B` and `N.BX`
 - **NEW**: reverse binary for numbers: `R...`
 - **NEW**: reverse binary OP: `BREV`
+- **NEW**: `ES.CV` read earthsea CV values
 
 ## v3.2.0
 

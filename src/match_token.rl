@@ -184,7 +184,7 @@
         "WRP"         => { MATCH_OP(E_OP_WRP); };
         "QT"          => { MATCH_OP(E_OP_QT); };
         "QT.S"        => { MATCH_OP(E_OP_QT_S); };
-        "QT.CS"       => { MATCH_OP(E_OP_QT_CS); };		
+        "QT.CS"       => { MATCH_OP(E_OP_QT_CS); };
         "QT.B"        => { MATCH_OP(E_OP_QT_B); };
         "AVG"         => { MATCH_OP(E_OP_AVG); };
         "EQ"          => { MATCH_OP(E_OP_EQ); };
@@ -328,6 +328,7 @@
         "ES.STOP"     => { MATCH_OP(E_OP_ES_STOP); };
         "ES.TRIPLE"   => { MATCH_OP(E_OP_ES_TRIPLE); };
         "ES.MAGIC"    => { MATCH_OP(E_OP_ES_MAGIC); };
+        "ES.CV"       => { MATCH_OP(E_OP_ES_CV); };
 
         # orca
         "OR.TRK"      => { MATCH_OP(E_OP_OR_TRK); };
@@ -833,11 +834,11 @@
         "DEL.R"       => { MATCH_MOD(E_MOD_DEL_R); };
         "DEL.G"       => { MATCH_MOD(E_MOD_DEL_G); };
         "DEL.B"       => { MATCH_MOD(E_MOD_DEL_B); };
-		
+
 		# justfriends
         "JF0"         => { MATCH_MOD(E_MOD_JF0); };
         "JF1"         => { MATCH_MOD(E_MOD_JF1); };
-        "JF2"         => { MATCH_MOD(E_MOD_JF2); };		
+        "JF2"         => { MATCH_MOD(E_MOD_JF2); };
 
         # matrixarchate
         "MA.SELECT"   => { MATCH_OP(E_OP_MA_SELECT); };

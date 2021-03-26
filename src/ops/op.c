@@ -123,7 +123,7 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
 
     // earthsea
     &op_ES_PRESET, &op_ES_MODE, &op_ES_CLOCK, &op_ES_RESET, &op_ES_PATTERN,
-    &op_ES_TRANS, &op_ES_STOP, &op_ES_TRIPLE, &op_ES_MAGIC,
+    &op_ES_TRANS, &op_ES_STOP, &op_ES_TRIPLE, &op_ES_MAGIC, &op_ES_CV,
 
     // orca
     &op_OR_TRK, &op_OR_CLK, &op_OR_DIV, &op_OR_PHASE, &op_OR_RST, &op_OR_WGT,
@@ -287,9 +287,9 @@ const tele_mod_t *tele_mods[E_MOD__LENGTH] = {
 
     // disting ex
     &mod_EX1, &mod_EX2, &mod_EX3, &mod_EX4,
-	
+
     // just friends
-    &mod_JF0, &mod_JF1, &mod_JF2	
+    &mod_JF0, &mod_JF1, &mod_JF2
 };
 
 /////////////////////////////////////////////////////////////////
