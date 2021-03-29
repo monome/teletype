@@ -21,7 +21,7 @@
 - **NEW**: reverse binary for numbers: `R...`
 - **NEW**: reverse binary OP: `BREV`
 - **NEW**: `ES.CV` read earthsea CV values
-- **NEW**: added setter for `R`, sets R.MAX and R.MIN to value, allowing R to be used as variable
+- **NEW**: added setter for `R`, sets R.MIN and R.MAX to same value, allowing R to be used as variable
 
 ## v3.2.0
 
