@@ -443,12 +443,12 @@ short = "get or set the algorithm for the `CHAOS` generator. 0 = LOGISTIC, 1 = C
 
 [R]
 prototype = "R"
-short = "generate a random number"
+short = "get a random number/set `R.MIN` and `R.MAX` to same value (effectively allowing `R` to be used as a global variable)"
 
 ["R.MIN"]
 prototype = "R.MIN x"
-short = "set the lower end of the range from 0 – 32767"
+short = "set the lower end of the range from -32768 – 32767, default: 0"
 
 ["R.MAX"]
 prototype = "R.MAX x"
-short = "set the upper end of the range from 0 – 32767"
+short = "set the upper end of the range from -32768 – 32767, default: 16383"
