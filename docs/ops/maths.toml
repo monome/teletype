@@ -443,7 +443,8 @@ short = "get or set the algorithm for the `CHAOS` generator. 0 = LOGISTIC, 1 = C
 
 [R]
 prototype = "R"
-short = "get a random number/set `R.MIN` and `R.MAX` to same value (effectively allowing `R` to be used as a global variable)"
+prototype_set = "R x"
+short = "get a random number/set `R.MIN` and `R.MAX` to same value `x` (effectively allowing `R` to be used as a global variable)"
 
 ["R.MIN"]
 prototype = "R.MIN x"
