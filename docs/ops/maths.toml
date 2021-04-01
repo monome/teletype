@@ -182,7 +182,7 @@ short = "toggle bit `y` in value `x`"
 
 [BREV]
 prototype = "BREV x"
-short = "reverse bit order in value `x` ()"
+short = "reverse bit order in value `x`"
 
 [ABS]
 prototype = "ABS x"
