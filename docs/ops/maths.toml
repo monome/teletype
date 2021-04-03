@@ -24,6 +24,10 @@ prototype = "MOD x y"
 aliases = ["%"]
 short = "find the remainder after division of `x` by `y`"
 
+[CNT]
+prototype = "CNT x"
+short = "subtract 1 from `x`, if the result is less than 0, return 0"
+
 [RAND]
 prototype = "RAND x"
 aliases = ["RND"]

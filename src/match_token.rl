@@ -169,6 +169,7 @@
         "MUL"         => { MATCH_OP(E_OP_MUL); };
         "DIV"         => { MATCH_OP(E_OP_DIV); };
         "MOD"         => { MATCH_OP(E_OP_MOD); };
+        "CNT"         => { MATCH_OP(E_OP_CNT); };
         "RAND"        => { MATCH_OP(E_OP_RAND); };
         "RND"         => { MATCH_OP(E_OP_RND); };
         "RRAND"       => { MATCH_OP(E_OP_RRAND); };

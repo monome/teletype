@@ -18,6 +18,8 @@ static void op_DIV_get(const void *data, scene_state_t *ss, exec_state_t *es,
                        command_state_t *cs);
 static void op_MOD_get(const void *data, scene_state_t *ss, exec_state_t *es,
                        command_state_t *cs);
+static void op_CNT_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                       command_state_t *cs);
 static void op_RAND_get(const void *data, scene_state_t *ss, exec_state_t *es,
                         command_state_t *cs);
 static void op_RRAND_get(const void *data, scene_state_t *ss, exec_state_t *es,
@@ -159,6 +161,7 @@ const tele_op_t op_SUB   = MAKE_GET_OP(SUB     , op_SUB_get     , 2, true);
 const tele_op_t op_MUL   = MAKE_GET_OP(MUL     , op_MUL_get     , 2, true);
 const tele_op_t op_DIV   = MAKE_GET_OP(DIV     , op_DIV_get     , 2, true);
 const tele_op_t op_MOD   = MAKE_GET_OP(MOD     , op_MOD_get     , 2, true);
+const tele_op_t op_CNT   = MAKE_GET_OP(CNT     , op_CNT_get     , 1, true);
 const tele_op_t op_RAND  = MAKE_GET_OP(RAND    , op_RAND_get    , 1, true);
 const tele_op_t op_RND   = MAKE_GET_OP(RND     , op_RAND_get    , 1, true);
 const tele_op_t op_RRAND = MAKE_GET_OP(RRAND   , op_RRAND_get   , 2, true);
@@ -308,6 +311,13 @@ static void op_MOD_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
     int16_t a = cs_pop(cs);
     int16_t b = cs_pop(cs);
     int16_t out = b != 0 ? a % b : 0;
+    cs_push(cs, out);
+}
+
+static void op_CNT_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+                       exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t a = cs_pop(cs);
+    int16_t out = a > 1 ? a - 1 : 0;
     cs_push(cs, out);
 }
 

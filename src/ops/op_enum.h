@@ -142,6 +142,7 @@ typedef enum {
     E_OP_MUL,
     E_OP_DIV,
     E_OP_MOD,
+    E_OP_CNT,
     E_OP_RAND,
     E_OP_RND,
     E_OP_RRAND,

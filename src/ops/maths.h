@@ -8,6 +8,7 @@ extern const tele_op_t op_SUB;
 extern const tele_op_t op_MUL;
 extern const tele_op_t op_DIV;
 extern const tele_op_t op_MOD;
+extern const tele_op_t op_CNT;
 extern const tele_op_t op_RAND;
 extern const tele_op_t op_RND;
 extern const tele_op_t op_RRAND;
