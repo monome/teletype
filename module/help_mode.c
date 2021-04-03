@@ -245,7 +245,7 @@ const char* help4[HELP4_LENGTH] = { "4/16 DATA AND TABLES",
                                     "  RETURNS N TABLE VALUE",
 };
 
-#define HELP5_LENGTH 119
+#define HELP5_LENGTH 120
 const char* help5[HELP5_LENGTH] = { "5/16 OPERATORS",
                                     " ",
                                     "RAND A|RANDOM 0 - A",
@@ -266,6 +266,7 @@ const char* help5[HELP5_LENGTH] = { "5/16 OPERATORS",
                                     "SUB A B|A - B",
                                     "MUL A B|A * B",
                                     "DIV A B|A / B",
+                                    "CNT A|A - 1 MINIMUM VALUE 0",
                                     "MOD A B|REMAINDER OF A / B",
                                     " ",
                                     "// LOGIC COMPARISONS",
