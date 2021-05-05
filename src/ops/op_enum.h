@@ -182,6 +182,7 @@ typedef enum {
     E_OP_SCL,
     E_OP_N,
     E_OP_VN,
+    E_OP_HZ,
     E_OP_N_S,
     E_OP_N_C,
     E_OP_N_CS,

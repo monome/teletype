@@ -8,6 +8,7 @@
 #include "helpers.h"
 #include "table.h"
 
+
 static void op_ADD_get(const void *data, scene_state_t *ss, exec_state_t *es,
                        command_state_t *cs);
 static void op_SUB_get(const void *data, scene_state_t *ss, exec_state_t *es,
@@ -95,6 +96,8 @@ static void op_SCALE_get(const void *data, scene_state_t *ss, exec_state_t *es,
 static void op_N_get(const void *data, scene_state_t *ss, exec_state_t *es,
                      command_state_t *cs);
 static void op_VN_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                      command_state_t *cs);
+static void op_HZ_get(const void *data, scene_state_t *ss, exec_state_t *es,
                       command_state_t *cs);
 static void op_N_S_get(const void *data, scene_state_t *ss, exec_state_t *es,
                        command_state_t *cs);
@@ -199,6 +202,7 @@ const tele_op_t op_SCALE = MAKE_GET_OP(SCALE   , op_SCALE_get   , 5, true);
 const tele_op_t op_SCL   = MAKE_GET_OP(SCL     , op_SCALE_get   , 5, true);
 const tele_op_t op_N     = MAKE_GET_OP(N       , op_N_get       , 1, true);
 const tele_op_t op_VN    = MAKE_GET_OP(VN      , op_VN_get      , 1, true);
+const tele_op_t op_HZ    = MAKE_GET_OP(HZ      , op_HZ_get      , 1, true);
 const tele_op_t op_N_S   = MAKE_GET_OP(N.S      , op_N_S_get    , 3, true);
 const tele_op_t op_N_C   = MAKE_GET_OP(N.C      , op_N_C_get    , 3, true);
 const tele_op_t op_N_CS  = MAKE_GET_OP(N.CS     , op_N_CS_get   , 4, true);
@@ -831,6 +835,17 @@ static void op_VN_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
         }
         cs_push(cs, n_out);
     }
+}
+
+static void op_HZ_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+                      exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t v_in = cs_pop(cs);
+    int16_t v_out;
+
+    v_out = fs_pow(2, v_in / 1638.4) * 1638.4;
+    if (v_in > 5442) v_out = 16384;
+
+    cs_push(cs, v_out);
 }
 
 static void op_V_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),

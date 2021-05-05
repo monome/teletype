@@ -282,6 +282,10 @@ CV 1 N RAND 24   => set CV 1 to a random note from the lowest 2 octaves
 prototype = "VN x"
 short = "converts 1V/OCT value `x` to an equal temperament note number"
 
+[HZ]
+prototype = "HZ x"
+short = "converts 1V/OCT value `x` to Hz/Volt value, useful for controlling non-euro synths like Korg MS-20"
+
 ["N.B"]
 prototype = "N.B d"
 prototype_set = "N.B r s"
