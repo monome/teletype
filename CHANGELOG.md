@@ -22,6 +22,7 @@
 - **NEW**: reverse binary OP: `BREV`
 - **NEW**: `ES.CV` read earthsea CV values
 - **NEW**: added setter for `R`, sets R.MIN and R.MAX to same value, allowing R to be used as variable
+- **NEW**: `HZ` v/oct to hz/v converter
 
 ## v3.2.0
 
