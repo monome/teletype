@@ -96,6 +96,8 @@ static void op_N_get(const void *data, scene_state_t *ss, exec_state_t *es,
                      command_state_t *cs);
 static void op_VN_get(const void *data, scene_state_t *ss, exec_state_t *es,
                       command_state_t *cs);
+static void op_HZ_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                      command_state_t *cs);
 static void op_N_S_get(const void *data, scene_state_t *ss, exec_state_t *es,
                        command_state_t *cs);
 static void op_N_C_get(const void *data, scene_state_t *ss, exec_state_t *es,
@@ -199,6 +201,7 @@ const tele_op_t op_SCALE = MAKE_GET_OP(SCALE   , op_SCALE_get   , 5, true);
 const tele_op_t op_SCL   = MAKE_GET_OP(SCL     , op_SCALE_get   , 5, true);
 const tele_op_t op_N     = MAKE_GET_OP(N       , op_N_get       , 1, true);
 const tele_op_t op_VN    = MAKE_GET_OP(VN      , op_VN_get      , 1, true);
+const tele_op_t op_HZ    = MAKE_GET_OP(HZ      , op_HZ_get      , 1, true);
 const tele_op_t op_N_S   = MAKE_GET_OP(N.S      , op_N_S_get    , 3, true);
 const tele_op_t op_N_C   = MAKE_GET_OP(N.C      , op_N_C_get    , 3, true);
 const tele_op_t op_N_CS  = MAKE_GET_OP(N.CS     , op_N_CS_get   , 4, true);
@@ -831,6 +834,59 @@ static void op_VN_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
         }
         cs_push(cs, n_out);
     }
+}
+
+static void op_HZ_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+                      exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t v_in = cs_pop(cs);
+    int16_t note = 0;
+    int16_t hz = 0;
+    float interpolate = 0;
+    int16_t delta_total, delta;
+
+    int16_t size_of_table_hzv = sizeof(table_hzv) / sizeof(table_hzv[0]);
+    int16_t size_of_table_n = sizeof(table_n) / sizeof(table_n[0]);
+
+    if (v_in < 0) {
+        v_in = -v_in;
+        for (int16_t i = 127; i >= 0; i--) {
+            if (v_in <= table_n[i]) note = i;
+        }
+        delta_total = table_n[note] - table_n[note - 1];
+        delta = table_n[note] - v_in;
+        interpolate = delta / (delta_total * 1.);
+        note = -note;
+    }
+    else {
+        for (int16_t i = 0; i <= 127; i++) {
+            if (v_in >= table_n[i]) note = i;
+        }
+        if (note < size_of_table_n) {
+            delta_total = table_n[note + 1] - table_n[note];
+            delta = v_in - table_n[note];
+            interpolate = delta / (delta_total * 1.);
+        }
+    }
+
+    note = note + 36;
+
+    if (note < 0) { hz = table_hzv[0]; }
+    else if (note >= size_of_table_hzv) {
+        hz = table_hzv[size_of_table_hzv - 1];
+    }
+    else {
+        if (note < size_of_table_hzv - 1) {
+            hz = table_hzv[note] +
+                 (table_hzv[note + 1] - table_hzv[note]) * interpolate;
+        }
+        else {
+            hz = table_hzv[note];
+        }
+    }
+
+    // return hz;
+
+    cs_push(cs, hz);
 }
 
 static void op_V_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),

@@ -209,6 +209,7 @@
         "SCL"         => { MATCH_OP(E_OP_SCL); };
         "N"           => { MATCH_OP(E_OP_N); };
         "VN"          => { MATCH_OP(E_OP_VN); };
+        "HZ"          => { MATCH_OP(E_OP_HZ); };
         "N.S"         => { MATCH_OP(E_OP_N_S); };
         "N.C"         => { MATCH_OP(E_OP_N_C); };
         "N.CS"        => { MATCH_OP(E_OP_N_CS); };

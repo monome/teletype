@@ -48,6 +48,7 @@ extern const tele_op_t op_SCALE;
 extern const tele_op_t op_SCL;
 extern const tele_op_t op_N;
 extern const tele_op_t op_VN;
+extern const tele_op_t op_HZ;
 extern const tele_op_t op_N_S;
 extern const tele_op_t op_N_C;
 extern const tele_op_t op_N_CS;
