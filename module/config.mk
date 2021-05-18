@@ -66,6 +66,7 @@ CSRCS = \
 	../module/flash.c					\
 	../module/gitversion.c					\
 	../module/grid.c						\
+	../module/arc.c						\
 	../module/help_mode.c  					\
 	../module/line_editor.c					\
 	../module/live_mode.c   				\

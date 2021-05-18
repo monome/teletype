@@ -39,6 +39,7 @@
 #include "flash.h"
 #include "globals.h"
 #include "grid.h"
+#include "arc.h"
 #include "help_mode.h"
 #include "keyboard_helper.h"
 #include "live_mode.h"
@@ -99,6 +100,7 @@ static tele_mode_t mode = M_LIVE;
 static tele_mode_t last_mode = M_LIVE;
 static uint32_t ss_counter = 0;
 static u8 grid_connected = 0;
+static u8 arc_connected = 0;
 static u8 grid_control_mode = 0;
 static u8 midi_clock_counter = 0;
 
@@ -292,7 +294,7 @@ static void monome_poll_timer_callback(void* obj) {
 
 // monome refresh callback
 static void monome_refresh_timer_callback(void* obj) {
-    if (grid_connected && scene_state.grid.grid_dirty) {
+    if ((grid_connected && scene_state.grid.grid_dirty)||(arc_connected && scene_state.arc.arc_dirty)) {
         static event_t e;
         e.type = kEventMonomeRefresh;
         event_post(&e);
@@ -391,7 +393,6 @@ void handler_PollADC(int32_t data) {
     static int16_t last_knob = 0;
 
     adc_convert(&adc);
-
     ss_set_in(&scene_state, adc[0] << 2);
 
     if (ss_counter >= SS_TIMEOUT && (adc[1] >> 8 != last_knob >> 8)) {
@@ -566,16 +567,21 @@ void handler_AppCustom(int32_t data) {
 }
 
 static void handler_FtdiConnect(s32 data) {
+    //print_dbg("FTDI\n"); 
     ftdi_setup();
 }
 static void handler_FtdiDisconnect(s32 data) {
     grid_connected = 0;
+    arc_connected = 0;
     timers_unset_monome();
 }
 
 static void handler_MonomeConnect(s32 data) {
     hold_key = 0;
     timers_set_monome();
+
+    //print_dbg("MonomeConnect\n"); 
+    if(monome_device() == eDeviceGrid){
     grid_connected = 1;
 
     if (grid_control_mode && mode == M_HELP) set_mode(M_LIVE);
@@ -583,6 +589,14 @@ static void handler_MonomeConnect(s32 data) {
 
     scene_state.grid.grid_dirty = 1;
     grid_clear_held_keys();
+    }
+    if(monome_device() == eDeviceArc){
+    arc_connected = 1;
+    scene_state.arc.arc_dirty = 1;
+
+    //print_dbg("\r\nARC found"); 
+   // arc_clear_held_keys();
+    }
 }
 
 static void handler_MonomePoll(s32 data) {
@@ -591,6 +605,7 @@ static void handler_MonomePoll(s32 data) {
 
 static void handler_MonomeRefresh(s32 data) {
     grid_refresh(&scene_state);
+    arc_refresh(&scene_state);
     monomeFrameDirty = 0b1111;
     (*monome_refresh)();
 }
@@ -605,6 +620,14 @@ static void handler_MonomeGridKey(s32 data) {
     u8 x, y, z;
     monome_grid_key_parse_event_data(data, &x, &y, &z);
     grid_process_key(&scene_state, x, y, z, 0);
+}
+
+static void handler_MonomeRingEnc(s32 data) {
+
+    u8 n;
+    s8 delta;
+    monome_ring_enc_parse_event_data(data, &n, &delta);
+    arc_process_enc(&scene_state, n, delta, 0);
 }
 
 static void handler_midi_connect(s32 data) {
@@ -726,6 +749,7 @@ void assign_main_event_handlers() {
     app_event_handlers[kEventMonomePoll] = &handler_MonomePoll;
     app_event_handlers[kEventMonomeRefresh] = &handler_MonomeRefresh;
     app_event_handlers[kEventMonomeGridKey] = &handler_MonomeGridKey;
+    app_event_handlers[kEventMonomeRingEnc] = &handler_MonomeRingEnc;
     app_event_handlers[kEventMidiConnect] = &handler_midi_connect;
     app_event_handlers[kEventMidiDisconnect] = &handler_midi_disconnect;
     app_event_handlers[kEventMidiPacket] = &handler_standard_midi_packet;
@@ -1000,6 +1024,7 @@ void tele_metro_updated() {
         set_metro_icon(false);
 
     if (grid_connected && grid_control_mode) scene_state.grid.grid_dirty = 1;
+    if (arc_connected ) scene_state.arc.arc_dirty = 1;
 
     edit_mode_refresh();
 }
@@ -1133,9 +1158,11 @@ int main(void) {
     print_dbg("\r\n\r\n// teletype! //////////////////////////////// ");
 
     ss_init(&scene_state);
+    print_dbg("\r\ninit done ");
 
     // screen init
     render_init();
+    print_dbg("\r\nscreen done ");
 
     if (is_flash_fresh()) {
         char s[36];
