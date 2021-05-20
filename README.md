@@ -82,8 +82,10 @@ See section 6.3 in the Ragel manual for information on the `=>` scanner construc
 If you want to add a new `OP` or `MOD`, please create the relevant `tele_op_t` or `tele_mod_t` in the `src/ops` directory. You will then need to reference it in the following places:
 
 - `src/ops/op.c`: add a reference to your struct to the relevant table, `tele_ops` or `tele_mods`. Ideally grouped with other ops from the same file.
-- `src/ops/op_enum.h`: please run `utils/op_enums.py` to generate this file using Python3.
+- `src/ops/op_enum.h`: please run `python3 utils/op_enums.py` to generate this file.
 - `src/match_token.rl`: add an entry to the Ragel list to match the token to the struct. Again, please try to keep the order in the list sensible.
+- `module/config.mk`: add a reference to any added .c files in the CSRCS list.
+- `tests/Makefile`: add a reference to any added .c files in /src, replacing ".c" with ".o".
 
 There is a test that checks to see if the above have all been entered correctly. (See above to run tests.)
 
