@@ -23,6 +23,7 @@
 - **NEW**: `ES.CV` read earthsea CV values
 - **NEW**: added setter for `R`, sets R.MIN and R.MAX to same value, allowing R to be used as variable
 - **NEW**: v/oct to hz/v conversion op: `HZ`
+- **NEW**: new CROW ops: for using crow as an ii follower.
 
 ## v3.2.0
 
