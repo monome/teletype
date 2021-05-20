@@ -85,7 +85,8 @@ If you want to add a new `OP` or `MOD`, please create the relevant `tele_op_t` o
 - `src/ops/op_enum.h`: please run `python3 utils/op_enums.py` to generate this file.
 - `src/match_token.rl`: add an entry to the Ragel list to match the token to the struct. Again, please try to keep the order in the list sensible.
 - `module/config.mk`: add a reference to any added .c files in the CSRCS list.
-- `tests/Makefile`: add a reference to any added .c files in /src, replacing ".c" with ".o".
+- `tests/Makefile`: add a reference to any added .c files in /src, replacing ".c" with ".o", in the tests: recipe.
+- `simulator/Makefile`: add a reference to any added .c files in /src, replacing ".c" with ".o", in the OBJS list.
 
 There is a test that checks to see if the above have all been entered correctly. (See above to run tests.)
 
