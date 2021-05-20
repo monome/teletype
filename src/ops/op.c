@@ -5,6 +5,7 @@
 #include "helpers.h"
 #include "ops/ansible.h"
 #include "ops/controlflow.h"
+#include "ops/crow.h"
 #include "ops/delay.h"
 #include "ops/disting.h"
 #include "ops/earthsea.h"
@@ -172,6 +173,12 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     &op_WS_T_LOOP_ACTIVE, &op_WS_T_LOOP_SCALE, &op_WS_T_LOOP_NEXT,
     &op_WS_T_TIMESTAMP, &op_WS_T_SEEK,
 
+    // crow
+    &op_CROW_SEL, &op_CROW_V, &op_CROW_SLEW, &op_CROW_CALL1, &op_CROW_CALL2,
+    &op_CROW_CALL3, &op_CROW_CALL4, &op_CROW_RESET, &op_CROW_PULSE, &op_CROW_AR,
+    &op_CROW_LFO, &op_CROW_IN, &op_CROW_OUT, &op_CROW_Q0, &op_CROW_Q1,
+    &op_CROW_Q2, &op_CROW_Q3,
+
     // telex
     &op_TO_TR, &op_TO_TR_TOG, &op_TO_TR_PULSE, &op_TO_TR_TIME, &op_TO_TR_TIME_S,
     &op_TO_TR_TIME_M, &op_TO_TR_POL, &op_TO_KILL,
@@ -291,7 +298,10 @@ const tele_mod_t *tele_mods[E_MOD__LENGTH] = {
     &mod_EX1, &mod_EX2, &mod_EX3, &mod_EX4,
 
     // just friends
-    &mod_JF0, &mod_JF1, &mod_JF2
+    &mod_JF0, &mod_JF1, &mod_JF2,
+
+    // crow
+    &mod_CROWALL, &mod_CROW1, &mod_CROW2, &mod_CROW3, &mod_CROW4
 };
 
 /////////////////////////////////////////////////////////////////

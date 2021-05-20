@@ -21,6 +21,7 @@ tests: main.o \
 	../src/ops/matrixarchate.o ../src/ops/wslash.o ../src/ops/seed.o \
         ../src/ops/disting.o \
 	../src/ops/wslashtape.o ../src/ops/wslashsynth.o ../src/ops/wslashdelay.o \
+	../src/ops/crow.o \
 	../libavr32/src/euclidean/data.o ../libavr32/src/euclidean/euclidean.o \
 	../libavr32/src/music.o ../libavr32/src/util.o ../libavr32/src/random.o
 	$(CC) -o $@ $^ $(CFLAGS)
