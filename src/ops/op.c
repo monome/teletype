@@ -5,6 +5,7 @@
 #include "helpers.h"
 #include "ops/ansible.h"
 #include "ops/controlflow.h"
+#include "ops/crow.h"
 #include "ops/delay.h"
 #include "ops/disting.h"
 #include "ops/earthsea.h"
@@ -87,15 +88,16 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     &op_WRAP, &op_WRP, &op_QT, &op_QT_S, &op_QT_CS, &op_QT_B, &op_AVG, &op_EQ,
     &op_NE, &op_LT, &op_GT, &op_LTE, &op_GTE, &op_NZ, &op_EZ, &op_RSH, &op_LSH,
     &op_LROT, &op_RROT, &op_EXP, &op_ABS, &op_SGN, &op_AND, &op_OR, &op_JI,
-    &op_SCALE, &op_SCL, &op_N, &op_VN, &op_N_S, &op_N_C, &op_N_CS, &op_N_B,
-    &op_N_BX, &op_V, &op_VV, &op_ER, &op_NR, &op_BPM, &op_BIT_OR, &op_BIT_AND,
-    &op_BIT_NOT, &op_BIT_XOR, &op_BSET, &op_BGET, &op_BCLR, &op_BTOG, &op_BREV,
-    &op_XOR, &op_CHAOS, &op_CHAOS_R, &op_CHAOS_ALG, &op_SYM_PLUS, &op_SYM_DASH,
-    &op_SYM_STAR, &op_SYM_FORWARD_SLASH, &op_SYM_PERCENTAGE, &op_SYM_EQUAL_x2,
-    &op_SYM_EXCLAMATION_EQUAL, &op_SYM_LEFT_ANGLED, &op_SYM_RIGHT_ANGLED,
-    &op_SYM_LEFT_ANGLED_EQUAL, &op_SYM_RIGHT_ANGLED_EQUAL, &op_SYM_EXCLAMATION,
-    &op_SYM_LEFT_ANGLED_x2, &op_SYM_RIGHT_ANGLED_x2, &op_SYM_LEFT_ANGLED_x3,
-    &op_SYM_RIGHT_ANGLED_x3, &op_SYM_AMPERSAND_x2, &op_SYM_PIPE_x2, &op_TIF,
+    &op_SCALE, &op_SCL, &op_N, &op_VN, &op_HZ, &op_N_S, &op_N_C, &op_N_CS,
+    &op_N_B, &op_N_BX, &op_V, &op_VV, &op_ER, &op_NR, &op_BPM, &op_BIT_OR,
+    &op_BIT_AND, &op_BIT_NOT, &op_BIT_XOR, &op_BSET, &op_BGET, &op_BCLR,
+    &op_BTOG, &op_BREV, &op_XOR, &op_CHAOS, &op_CHAOS_R, &op_CHAOS_ALG,
+    &op_SYM_PLUS, &op_SYM_DASH, &op_SYM_STAR, &op_SYM_FORWARD_SLASH,
+    &op_SYM_PERCENTAGE, &op_SYM_EQUAL_x2, &op_SYM_EXCLAMATION_EQUAL,
+    &op_SYM_LEFT_ANGLED, &op_SYM_RIGHT_ANGLED, &op_SYM_LEFT_ANGLED_EQUAL,
+    &op_SYM_RIGHT_ANGLED_EQUAL, &op_SYM_EXCLAMATION, &op_SYM_LEFT_ANGLED_x2,
+    &op_SYM_RIGHT_ANGLED_x2, &op_SYM_LEFT_ANGLED_x3, &op_SYM_RIGHT_ANGLED_x3,
+    &op_SYM_AMPERSAND_x2, &op_SYM_PIPE_x2, &op_TIF,
 
     // stack
     &op_S_ALL, &op_S_POP, &op_S_CLR, &op_S_L,
@@ -123,7 +125,7 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
 
     // earthsea
     &op_ES_PRESET, &op_ES_MODE, &op_ES_CLOCK, &op_ES_RESET, &op_ES_PATTERN,
-    &op_ES_TRANS, &op_ES_STOP, &op_ES_TRIPLE, &op_ES_MAGIC,
+    &op_ES_TRANS, &op_ES_STOP, &op_ES_TRIPLE, &op_ES_MAGIC, &op_ES_CV,
 
     // orca
     &op_OR_TRK, &op_OR_CLK, &op_OR_DIV, &op_OR_PHASE, &op_OR_RST, &op_OR_WGT,
@@ -145,8 +147,9 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     // justfriends
     &op_JF_TR, &op_JF_RMODE, &op_JF_RUN, &op_JF_SHIFT, &op_JF_VTR, &op_JF_MODE,
     &op_JF_TICK, &op_JF_VOX, &op_JF_NOTE, &op_JF_GOD, &op_JF_TUNE, &op_JF_QT,
-    &op_JF_PITCH, &op_JF_ADDR, &op_JF_SPEED, &op_JF_TSC, &op_JF_RAMP, &op_JF_CURVE,
-    &op_JF_FM, &op_JF_TIME, &op_JF_INTONE, &op_JF_POLY, &op_JF_POLY_RESET, &op_JF_SEL,
+    &op_JF_PITCH, &op_JF_ADDR, &op_JF_SPEED, &op_JF_TSC, &op_JF_RAMP,
+    &op_JF_CURVE, &op_JF_FM, &op_JF_TIME, &op_JF_INTONE, &op_JF_POLY,
+    &op_JF_POLY_RESET, &op_JF_SEL,
 
     // W/
     &op_WS_PLAY, &op_WS_REC, &op_WS_CUE, &op_WS_LOOP,
@@ -169,6 +172,12 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     &op_WS_T_HEAD_ORDER, &op_WS_T_LOOP_START, &op_WS_T_LOOP_END,
     &op_WS_T_LOOP_ACTIVE, &op_WS_T_LOOP_SCALE, &op_WS_T_LOOP_NEXT,
     &op_WS_T_TIMESTAMP, &op_WS_T_SEEK,
+
+    // crow
+    &op_CROW_SEL, &op_CROW_V, &op_CROW_SLEW, &op_CROW_CALL1, &op_CROW_CALL2,
+    &op_CROW_CALL3, &op_CROW_CALL4, &op_CROW_RESET, &op_CROW_PULSE, &op_CROW_AR,
+    &op_CROW_LFO, &op_CROW_IN, &op_CROW_OUT, &op_CROW_Q0, &op_CROW_Q1,
+    &op_CROW_Q2, &op_CROW_Q3,
 
     // telex
     &op_TO_TR, &op_TO_TR_TOG, &op_TO_TR_PULSE, &op_TO_TR_TIME, &op_TO_TR_TIME_S,
@@ -287,9 +296,12 @@ const tele_mod_t *tele_mods[E_MOD__LENGTH] = {
 
     // disting ex
     &mod_EX1, &mod_EX2, &mod_EX3, &mod_EX4,
-	
+
     // just friends
-    &mod_JF0, &mod_JF1, &mod_JF2	
+    &mod_JF0, &mod_JF1, &mod_JF2,
+
+    // crow
+    &mod_CROWALL, &mod_CROW1, &mod_CROW2, &mod_CROW3, &mod_CROW4
 };
 
 /////////////////////////////////////////////////////////////////

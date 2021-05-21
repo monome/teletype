@@ -61,3 +61,7 @@ short = "Magic shape (1= halfspeed, 2=doublespeed, 3=linearize)"
 description = """
 Apply one of the magic shapes, (1= halfspeed, 2=doublespeed, 3=linearize). Other shapes are not currently available via II ops.
 """
+
+["ES.CV"]
+prototype = "ES.CV x "
+short = "get the current CV value for channel `x`"

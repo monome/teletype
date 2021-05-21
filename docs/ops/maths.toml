@@ -182,7 +182,7 @@ short = "toggle bit `y` in value `x`"
 
 [BREV]
 prototype = "BREV x"
-short = "reverse bit order in value `x` ()"
+short = "reverse bit order in value `x`"
 
 [ABS]
 prototype = "ABS x"
@@ -281,6 +281,10 @@ CV 1 N RAND 24   => set CV 1 to a random note from the lowest 2 octaves
 [VN]
 prototype = "VN x"
 short = "converts 1V/OCT value `x` to an equal temperament note number"
+
+[HZ]
+prototype = "HZ x"
+short = "converts 1V/OCT value `x` to Hz/Volt value, useful for controlling non-euro synths like Korg MS-20"
 
 ["N.B"]
 prototype = "N.B d"
@@ -443,12 +447,13 @@ short = "get or set the algorithm for the `CHAOS` generator. 0 = LOGISTIC, 1 = C
 
 [R]
 prototype = "R"
-short = "generate a random number"
+prototype_set = "R x"
+short = "get a random number/set `R.MIN` and `R.MAX` to same value `x` (effectively allowing `R` to be used as a global variable)"
 
 ["R.MIN"]
 prototype = "R.MIN x"
-short = "set the lower end of the range from 0 – 32767"
+short = "set the lower end of the range from -32768 – 32767, default: 0"
 
 ["R.MAX"]
 prototype = "R.MAX x"
-short = "set the upper end of the range from 0 – 32767"
+short = "set the upper end of the range from -32768 – 32767, default: 16383"

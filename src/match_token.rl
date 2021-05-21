@@ -184,7 +184,7 @@
         "WRP"         => { MATCH_OP(E_OP_WRP); };
         "QT"          => { MATCH_OP(E_OP_QT); };
         "QT.S"        => { MATCH_OP(E_OP_QT_S); };
-        "QT.CS"       => { MATCH_OP(E_OP_QT_CS); };		
+        "QT.CS"       => { MATCH_OP(E_OP_QT_CS); };
         "QT.B"        => { MATCH_OP(E_OP_QT_B); };
         "AVG"         => { MATCH_OP(E_OP_AVG); };
         "EQ"          => { MATCH_OP(E_OP_EQ); };
@@ -209,6 +209,7 @@
         "SCL"         => { MATCH_OP(E_OP_SCL); };
         "N"           => { MATCH_OP(E_OP_N); };
         "VN"          => { MATCH_OP(E_OP_VN); };
+        "HZ"          => { MATCH_OP(E_OP_HZ); };
         "N.S"         => { MATCH_OP(E_OP_N_S); };
         "N.C"         => { MATCH_OP(E_OP_N_C); };
         "N.CS"        => { MATCH_OP(E_OP_N_CS); };
@@ -328,6 +329,7 @@
         "ES.STOP"     => { MATCH_OP(E_OP_ES_STOP); };
         "ES.TRIPLE"   => { MATCH_OP(E_OP_ES_TRIPLE); };
         "ES.MAGIC"    => { MATCH_OP(E_OP_ES_MAGIC); };
+        "ES.CV"       => { MATCH_OP(E_OP_ES_CV); };
 
         # orca
         "OR.TRK"      => { MATCH_OP(E_OP_OR_TRK); };
@@ -427,6 +429,25 @@
         "JF.POLY"       => { MATCH_OP(E_OP_JF_POLY); };
         "JF.POLY.RESET" => { MATCH_OP(E_OP_JF_POLY_RESET); };
         "JF.SEL"        => { MATCH_OP(E_OP_JF_SEL); };
+
+        # crow
+        "CROW.SEL"      => { MATCH_OP(E_OP_CROW_SEL); };
+        "CROW.V"        => { MATCH_OP(E_OP_CROW_V); };
+        "CROW.SLEW"     => { MATCH_OP(E_OP_CROW_SLEW); };
+        "CROW.C1"       => { MATCH_OP(E_OP_CROW_CALL1); };
+        "CROW.C2"       => { MATCH_OP(E_OP_CROW_CALL2); };
+        "CROW.C3"       => { MATCH_OP(E_OP_CROW_CALL3); };
+        "CROW.C4"       => { MATCH_OP(E_OP_CROW_CALL4); };
+        "CROW.RST"      => { MATCH_OP(E_OP_CROW_RESET); };
+        "CROW.PULSE"    => { MATCH_OP(E_OP_CROW_PULSE); };
+        "CROW.AR"       => { MATCH_OP(E_OP_CROW_AR); };
+        "CROW.LFO"      => { MATCH_OP(E_OP_CROW_LFO); };
+        "CROW.IN"       => { MATCH_OP(E_OP_CROW_IN); };
+        "CROW.OUT"      => { MATCH_OP(E_OP_CROW_OUT); };
+        "CROW.Q0"       => { MATCH_OP(E_OP_CROW_Q0); };
+        "CROW.Q1"       => { MATCH_OP(E_OP_CROW_Q1); };
+        "CROW.Q2"       => { MATCH_OP(E_OP_CROW_Q2); };
+        "CROW.Q3"       => { MATCH_OP(E_OP_CROW_Q3); };
 
         # telex
         "TO.TR"            => { MATCH_OP(E_OP_TO_TR); };
@@ -833,11 +854,18 @@
         "DEL.R"       => { MATCH_MOD(E_MOD_DEL_R); };
         "DEL.G"       => { MATCH_MOD(E_MOD_DEL_G); };
         "DEL.B"       => { MATCH_MOD(E_MOD_DEL_B); };
-		
+
 		# justfriends
         "JF0"         => { MATCH_MOD(E_MOD_JF0); };
         "JF1"         => { MATCH_MOD(E_MOD_JF1); };
-        "JF2"         => { MATCH_MOD(E_MOD_JF2); };		
+        "JF2"         => { MATCH_MOD(E_MOD_JF2); };
+
+        # crow
+        "CROWN"       => { MATCH_MOD(E_MOD_CROWALL); };
+        "CROW1"       => { MATCH_MOD(E_MOD_CROW1); };
+        "CROW2"       => { MATCH_MOD(E_MOD_CROW2); };
+        "CROW3"       => { MATCH_MOD(E_MOD_CROW3); };
+        "CROW4"       => { MATCH_MOD(E_MOD_CROW4); };
 
         # matrixarchate
         "MA.SELECT"   => { MATCH_OP(E_OP_MA_SELECT); };

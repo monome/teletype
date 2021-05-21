@@ -11,4 +11,6 @@
 #### I have,
 * [ ] updated `CHANGELOG.md`
 * [ ] updated the documentation
+* [ ] updated `help_mode.c` (if applicable)
 * [ ] run `make format` on each commit
+* [ ] run tests
