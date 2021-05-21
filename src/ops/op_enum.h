@@ -432,6 +432,7 @@ typedef enum {
     E_OP_WS_T_LOOP_NEXT,
     E_OP_WS_T_TIMESTAMP,
     E_OP_WS_T_SEEK,
+    E_OP_WS_T_CLEARTAPE,
     E_OP_CROW_SEL,
     E_OP_CROW_V,
     E_OP_CROW_SLEW,

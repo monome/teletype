@@ -18,5 +18,6 @@ extern const tele_op_t op_WS_T_LOOP_SCALE;
 extern const tele_op_t op_WS_T_LOOP_NEXT;
 extern const tele_op_t op_WS_T_TIMESTAMP;
 extern const tele_op_t op_WS_T_SEEK;
+extern const tele_op_t op_WS_T_CLEARTAPE;
 
 #endif

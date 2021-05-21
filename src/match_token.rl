@@ -788,6 +788,7 @@
         "W/T.LOOP.NEXT"   => { MATCH_OP(E_OP_WS_T_LOOP_NEXT ); };
         "W/T.TIME"        => { MATCH_OP(E_OP_WS_T_TIMESTAMP  ); };
         "W/T.SEEK"        => { MATCH_OP(E_OP_WS_T_SEEK ); };
+        "W/T.CLEARTAPE"   => { MATCH_OP(E_OP_WS_T_CLEARTAPE ); };
 
         # seed
         "SEED"        => { MATCH_OP(E_OP_SEED); };

@@ -171,7 +171,7 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     &op_WS_T_PRE_LEVEL, &op_WS_T_MONITOR_LEVEL, &op_WS_T_REC_LEVEL,
     &op_WS_T_HEAD_ORDER, &op_WS_T_LOOP_START, &op_WS_T_LOOP_END,
     &op_WS_T_LOOP_ACTIVE, &op_WS_T_LOOP_SCALE, &op_WS_T_LOOP_NEXT,
-    &op_WS_T_TIMESTAMP, &op_WS_T_SEEK,
+    &op_WS_T_TIMESTAMP, &op_WS_T_SEEK, &op_WS_T_CLEARTAPE,
 
     // crow
     &op_CROW_SEL, &op_CROW_V, &op_CROW_SLEW, &op_CROW_CALL1, &op_CROW_CALL2,
