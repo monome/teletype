@@ -81,16 +81,16 @@ CR_PROTO_GET(op_CROW_SEL_get) {
 // send commands to crow
 
 CR_PROTO_GET(op_CROW_V_get) {
-    i2c_get_8_16(cs, unit, CROW_VOLTS);
+    i2c_write_8_16(cs, unit, CROW_VOLTS);
 }
 CR_PROTO_GET(op_CROW_SLEW_get) {
-    i2c_get_8_16(cs, unit, CROW_SLEW);
+    i2c_write_8_16(cs, unit, CROW_SLEW);
 }
 CR_PROTO_GET(op_CROW_CALL1_get) {
-    i2c_get_16(cs, unit, CROW_CALL1);
+    i2c_write_16(cs, unit, CROW_CALL1);
 }
 CR_PROTO_GET(op_CROW_CALL2_get) {
-    i2c_get_16_16(cs, unit, CROW_CALL2);
+    i2c_write_16_16(cs, unit, CROW_CALL2);
 }
 CR_PROTO_GET(op_CROW_CALL3_get) {
     int16_t a = cs_pop(cs);
@@ -110,7 +110,7 @@ CR_PROTO_GET(op_CROW_CALL4_get) {
     tele_ii_tx(unit, d, 9);
 }
 CR_PROTO_GET(op_CROW_RESET_get) {
-    i2c_get_0(cs, unit, CROW_RESET);
+    i2c_write_0(cs, unit, CROW_RESET);
 }
 CR_PROTO_GET(op_CROW_PULSE_get) {
     int16_t a = cs_pop(cs);
