@@ -34,7 +34,7 @@ I2C_RECV_16(op_WS_D_MOD_AMOUNT_recv, WS_D_ADDR, WS_D_MOD_AMOUNT)
 // clang-format off
 const tele_op_t op_WS_D_FEEDBACK = MAKE_GET_SET_OP(W/D.FBK, op_WS_D_FEEDBACK_recv, op_WS_D_FEEDBACK_write, 0, true);
 const tele_op_t op_WS_D_MIX  = MAKE_GET_SET_OP(W/D.MIX, op_WS_D_MIX_recv, op_WS_D_MIX_write, 0, true);
-const tele_op_t op_WS_D_LOWPASS = MAKE_GET_SET_OP(W/D.LPASS, op_WS_D_LOWPASS_recv, op_WS_D_LOWPASS_write, 0, true);
+const tele_op_t op_WS_D_LOWPASS = MAKE_GET_SET_OP(W/D.FILT, op_WS_D_LOWPASS_recv, op_WS_D_LOWPASS_write, 0, true);
 const tele_op_t op_WS_D_FREEZE  = MAKE_GET_SET_OP(W/D.FREEZE, op_WS_D_FREEZE_recv, op_WS_D_FREEZE_write, 0, true);
 const tele_op_t op_WS_D_TIME   = MAKE_GET_SET_OP(W/D.TIME, op_WS_D_TIME_recv, op_WS_D_TIME_write, 0, true);
 const tele_op_t op_WS_D_LENGTH   = MAKE_GET_OP(W/D.LNG, op_WS_D_LENGTH_write, 2, false);
