@@ -34,7 +34,7 @@
 #include "ops/wslashsynth.h"
 #include "ops/wslashtape.h"
 #include "teletype_io.h"
-
+#include "ops/arc_ops.h"
 /////////////////////////////////////////////////////////////////
 // OPS //////////////////////////////////////////////////////////
 
@@ -238,6 +238,9 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     &op_G_GFDR_N, &op_G_GFDR_L, &op_G_GFDR_RN, &op_G_XYP, &op_G_XYP_X,
     &op_G_XYP_Y, &op_G_GBTN_C, &op_G_GBTN_I, &op_G_GBTN_W, &op_G_GBTN_H,
     &op_G_GBTN_X1, &op_G_GBTN_X2, &op_G_GBTN_Y1, &op_G_GBTN_Y2,
+
+    // arc_cycles
+    &op_ARC_METRO, &op_ARC_TRIG,
 
     // matrixarchate
     &op_MA_SELECT, &op_MA_STEP, &op_MA_RESET, &op_MA_PGM, &op_MA_ON, &op_MA_PON,

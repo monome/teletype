@@ -80,16 +80,18 @@ void tele_profile_delay(uint8_t d) {
 scene_state_t scene_state;
 char scene_text[SCENE_TEXT_LINES][SCENE_TEXT_CHARS];
 uint8_t preset_select;
-region line[8] = { { .w = 128, .h = 8, .x = 0, .y = 0 },
-                   { .w = 128, .h = 8, .x = 0, .y = 8 },
-                   { .w = 128, .h = 8, .x = 0, .y = 16 },
-                   { .w = 128, .h = 8, .x = 0, .y = 24 },
-                   { .w = 128, .h = 8, .x = 0, .y = 32 },
-                   { .w = 128, .h = 8, .x = 0, .y = 40 },
-                   { .w = 128, .h = 8, .x = 0, .y = 48 },
-                   { .w = 128, .h = 8, .x = 0, .y = 56 } };
+region line[8] = { { .w = 128, .h = 8, .len = 1024, .x = 0, .y = 0 },
+                   { .w = 128, .h = 8, .len = 1024, .x = 0, .y = 8 },
+                   { .w = 128, .h = 8, .len = 1024, .x = 0, .y = 16 },
+                   { .w = 128, .h = 8, .len = 1024, .x = 0, .y = 24 },
+                   { .w = 128, .h = 8, .len = 1024, .x = 0, .y = 32 },
+                   { .w = 128, .h = 8, .len = 1024, .x = 0, .y = 40 },
+                   { .w = 128, .h = 8, .len = 1024, .x = 0, .y = 48 },
+                   { .w = 128, .h = 8, .len = 1024, .x = 0, .y = 56 } };
 char copy_buffer[SCENE_TEXT_LINES][SCENE_TEXT_CHARS];
 uint8_t copy_buffer_len = 0;
+
+//u8 region_data_buffer[8][128*8];
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -100,8 +102,8 @@ static tele_mode_t mode = M_LIVE;
 static tele_mode_t last_mode = M_LIVE;
 static uint32_t ss_counter = 0;
 static u8 grid_connected = 0;
-static u8 arc_connected = 0;
 static u8 grid_control_mode = 0;
+static u8 arc_control_mode = 0;
 static u8 midi_clock_counter = 0;
 
 static uint16_t adc[4];
@@ -294,7 +296,7 @@ static void monome_poll_timer_callback(void* obj) {
 
 // monome refresh callback
 static void monome_refresh_timer_callback(void* obj) {
-    if ((grid_connected && scene_state.grid.grid_dirty)||(arc_connected && scene_state.arc.arc_dirty)) {
+    if ((grid_connected && scene_state.grid.grid_dirty)||(scene_state.arc.connected && scene_state.arc.arc_dirty)) {
         static event_t e;
         e.type = kEventMonomeRefresh;
         event_post(&e);
@@ -324,23 +326,23 @@ static void safely_run_script(u8 script) {
 
 void midiScriptTimer_callback(void* obj) {
     u8 executed[SCRIPT_COUNT] = { 0 };
-    
+
     if (scene_state.midi.on_count) {
         safely_run_script(scene_state.midi.on_script);
         executed[scene_state.midi.on_script] = 1;
     }
-    
+
     if (scene_state.midi.off_count &&
         !executed[scene_state.midi.off_script]) {
         safely_run_script(scene_state.midi.off_script);
         executed[scene_state.midi.off_script] = 1;
     }
-    
+
     if (scene_state.midi.cc_count &&
         !executed[scene_state.midi.cc_script]) {
         safely_run_script(scene_state.midi.cc_script);
     }
-    
+
     scene_state.midi.on_count = 0;
     scene_state.midi.off_count = 0;
     scene_state.midi.cc_count = 0;
@@ -371,6 +373,13 @@ void handler_Front(int32_t data) {
             return;
         }
 
+/*        if (arc_connected) {
+            arc_control_mode = !arc_control_mode;
+            if (arc_control_mode && mode == M_HELP) set_mode(M_LIVE);
+            arc_set_control_mode(arc_control_mode, mode, &scene_state);
+            return;
+        }
+*/
         if (mode != M_PRESET_R) {
             front_timer = 0;
             set_preset_r_mode(adc[1] >> 7);
@@ -501,6 +510,9 @@ void handler_Trigger(int32_t data) {
         if (tr_state) {
             if (scene_state.variables.script_pol[input] & 1) {
                 run_script(&scene_state, input);
+                if (scene_state.arc.connected && !scene_state.arc.metro )
+                    (*arc_script_triggered)(&scene_state, input);
+
             }
         }
         else {
@@ -561,18 +573,20 @@ void handler_AppCustom(int32_t data) {
         run_script(&scene_state, METRO_SCRIPT);
         if (grid_connected && grid_control_mode)
             grid_metro_triggered(&scene_state);
+        if (scene_state.arc.connected && scene_state.arc.metro)
+            (*arc_metro_triggered)(&scene_state);
     }
     else
         set_metro_icon(false);
 }
 
 static void handler_FtdiConnect(s32 data) {
-    //print_dbg("FTDI\n"); 
+    //print_dbg("FTDI\n");
     ftdi_setup();
 }
 static void handler_FtdiDisconnect(s32 data) {
     grid_connected = 0;
-    arc_connected = 0;
+    scene_state.arc.connected = false;
     timers_unset_monome();
 }
 
@@ -580,7 +594,7 @@ static void handler_MonomeConnect(s32 data) {
     hold_key = 0;
     timers_set_monome();
 
-    //print_dbg("MonomeConnect\n"); 
+    //print_dbg("MonomeConnect\n");
     if(monome_device() == eDeviceGrid){
     grid_connected = 1;
 
@@ -590,11 +604,17 @@ static void handler_MonomeConnect(s32 data) {
     scene_state.grid.grid_dirty = 1;
     grid_clear_held_keys();
     }
+
     if(monome_device() == eDeviceArc){
-    arc_connected = 1;
+      arc_init(&scene_state);
+      scene_state.arc.connected = 1;
+
+    //if (arc_control_mode && mode == M_HELP) set_mode(M_LIVE);
+    //arc_set_control_mode(arc_control_mode, mode, &scene_state);
+
     scene_state.arc.arc_dirty = 1;
 
-    //print_dbg("\r\nARC found"); 
+    //print_dbg("\r\nARC found");
    // arc_clear_held_keys();
     }
 }
@@ -605,7 +625,7 @@ static void handler_MonomePoll(s32 data) {
 
 static void handler_MonomeRefresh(s32 data) {
     grid_refresh(&scene_state);
-    arc_refresh(&scene_state);
+    (*arc_refresh)(&scene_state);
     monomeFrameDirty = 0b1111;
     (*monome_refresh)();
 }
@@ -623,11 +643,14 @@ static void handler_MonomeGridKey(s32 data) {
 }
 
 static void handler_MonomeRingEnc(s32 data) {
-
+  if (arc_control_mode && ss_counter >= SS_TIMEOUT) {
+      exit_screensaver();
+      return;
+  }
     u8 n;
     s8 delta;
     monome_ring_enc_parse_event_data(data, &n, &delta);
-    arc_process_enc(&scene_state, n, delta, 0);
+    (*arc_process_enc)(&scene_state, n, delta);
 }
 
 static void handler_midi_connect(s32 data) {
@@ -676,7 +699,7 @@ static void midi_control_change(u8 ch, u8 num, u8 val) {
     scene_state.midi.last_cc = val;
 
     if (scene_state.midi.cc_script != -1) {
-            
+
         u8 found = 0;
         for (u8 i = 0; i < scene_state.midi.cc_count; i++) {
             if (scene_state.midi.cn[i] == num &&
@@ -686,7 +709,7 @@ static void midi_control_change(u8 ch, u8 num, u8 val) {
                 break;
             }
         }
-        
+
         if (!found && scene_state.midi.cc_count < MAX_MIDI_EVENTS) {
             scene_state.midi.cc_channel[scene_state.midi.cc_count] = ch;
             scene_state.midi.cn[scene_state.midi.cc_count] = num;
@@ -964,6 +987,17 @@ void render_init(void) {
     region_alloc(&line[5]);
     region_alloc(&line[6]);
     region_alloc(&line[7]);
+
+/*
+line[0].data = &region_data_buffer[0][0];
+line[1].data = &region_data_buffer[1][0];
+line[2].data = &region_data_buffer[2][0];
+line[3].data = &region_data_buffer[3][0];
+line[4].data = &region_data_buffer[4][0];
+line[5].data = &region_data_buffer[5][0];
+line[6].data = &region_data_buffer[6][0];
+line[7].data = &region_data_buffer[7][0];
+*/
 }
 
 void exit_screensaver(void) {
@@ -1024,7 +1058,7 @@ void tele_metro_updated() {
         set_metro_icon(false);
 
     if (grid_connected && grid_control_mode) scene_state.grid.grid_dirty = 1;
-    if (arc_connected ) scene_state.arc.arc_dirty = 1;
+    if (scene_state.arc.connected && arc_control_mode) scene_state.arc.arc_dirty = 1;
 
     edit_mode_refresh();
 }
@@ -1242,7 +1276,7 @@ int main(void) {
     uint32_t count = 0;
 #endif
     while (true) {
-        midi_read(); 
+        midi_read();
         check_events();
 #ifdef TELETYPE_PROFILE
         count = (count + 1) % (FCPU_HZ / 10);
@@ -1257,7 +1291,7 @@ int main(void) {
             uint32_t total = 0;
             for (uint8_t i = 0; i < DELAY_SIZE; i++)
                 total += profile_delta_us(&prof_Delay[i]);
-            print_dbg("\r\nDelays (total):\t");
+        /*    print_dbg("\r\nDelays (total):\t");
             print_dbg_ulong(total);
             print_dbg("\r\nCV Write:\t");
             print_dbg_ulong(profile_delta_us(&prof_CV));
@@ -1265,6 +1299,7 @@ int main(void) {
             print_dbg_ulong(profile_delta_us(&prof_ADC));
             print_dbg("\r\nScreen Refresh:\t");
             print_dbg_ulong(profile_delta_us(&prof_ScreenRefresh));
+*/
         }
 #endif
     }

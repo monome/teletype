@@ -8,13 +8,22 @@
 #define MONOME_RING_MAX_ENCS 4
 #define ARC_NUM_PRESETS 1
 
-//extern void arc_set_control_mode(u8 control, u8 mode, scene_state_t *ss);
-//extern void arc_metro_triggered(scene_state_t *ss);
-extern void arc_refresh(scene_state_t *ss);
-extern void arc_process_enc(scene_state_t *ss, u8 n, s8 delta, u8 emulated);
+#define  ARC_EUCLIDEAN 0
+#define  ARC_CIRCLES 1
+#define  ARC_LEVELS 2
+
+extern void arc_init(scene_state_t *ss);
+// callback function pointers
+extern void (*arc_refresh)(scene_state_t *ss);
+extern void (*arc_process_enc)(scene_state_t *ss, u8 enc, s8 delta);
+extern void (*arc_metro_triggered)(scene_state_t *ss);
+extern void (*arc_script_triggered)(scene_state_t *ss, u8 script);
 //extern void generate_scales(uint8_t n);
 //extern void arc_draw_point(uint8_t n, uint16_t p);
 //extern void arc_draw_point_dark(uint8_t n, uint16_t p);
+
+//extern void (*arc_refresh_cycles)(void);
+
 
 
 static u16 bpm2msec(u8 a) {

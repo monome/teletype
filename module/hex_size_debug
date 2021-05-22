@@ -1,0 +1,7 @@
+#!/bin/sh
+pr -w 85 -m -t \
+   <(avr32-size -Ad teletype.elf) 
+   <(avr32-size -Ax teletype.elf | cut -c 19-) 
+| grep '^\..*' 
+| grep -v '^.debug.*' 
+| sort -k 3

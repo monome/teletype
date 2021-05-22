@@ -624,6 +624,8 @@ typedef enum {
     E_OP_G_GBTN_X2,
     E_OP_G_GBTN_Y1,
     E_OP_G_GBTN_Y2,
+    E_OP_ARC_METRO,
+    E_OP_ARC_TRIG,
     E_OP_MA_SELECT,
     E_OP_MA_STEP,
     E_OP_MA_RESET,

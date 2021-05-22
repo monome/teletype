@@ -93,6 +93,7 @@ CSRCS = \
 	../src/ops/er301.c					\
 	../src/ops/fader.c					\
 	../src/ops/grid_ops.c					\
+	../src/ops/arc_ops.c					\
 	../src/ops/hardware.c					\
 	../src/ops/i2c.c					\
 	../src/ops/init.c					\
@@ -250,7 +251,8 @@ CFLAGS = -fshort-enums -fno-common
 CPPFLAGS = -D BOARD=USER_BOARD -D UHD_ENABLE
 
 # Extra flags to use when linking
-LDFLAGS = -Wl,-e,_trampoline
+LDFLAGS = -Wl,-e,_trampoline,--defsym=__flash_nvram_size__=200K
+//LDFLAGS = -Wl,-e,_trampoline
 
 # Pre- and post-build commands
 PREBUILD_CMD =

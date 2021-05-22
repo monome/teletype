@@ -212,13 +212,16 @@ typedef struct {
 
 typedef struct {
     u8 value;
-    u8 arc_cycle_length;
-    u8 arc_cycle_step;
+    u8 cycle_length;
+    u8 cycle_step;
 } arc_enc_t;
 
 typedef struct {
+    bool connected;
+    bool metro;
+    u16 metro_ticks;
+    u8 mode;
     u8 arc_dirty;
-    u16 arc_metro_ticks;
     u8 leds[ARC_MAX_ENCS][ARC_LEDS];
     u8 leds_layer2[ARC_MAX_ENCS][ARC_LEDS];
     arc_enc_t encoder[ARC_MAX_ENCS];
