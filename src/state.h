@@ -211,9 +211,9 @@ typedef struct {
 
 
 typedef struct {
-    u8 value;
-    u8 cycle_length;
+    u16 value;
     u8 cycle_step;
+    u8 pattern_index;
 } arc_enc_t;
 
 typedef struct {

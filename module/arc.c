@@ -24,6 +24,8 @@
 #define CLIP(var, min, max) \
   if (var < (min)) { \
     var = (min); \
+  } else if (var > 65530) { \
+    var = 0; \
   } else if (var > (max)) { \
     var = (max); \
   }
@@ -35,6 +37,22 @@ typedef struct {
     softTimer_t timer;
 } arc_timer_t;
 
+
+typedef struct {
+    u8 length;
+    u8 shift;
+} euclidean_lengths_t;
+
+
+// sensitiviy of arc clone (128+7), original arc must be larger
+#define ARC_SENSITIVITY_EUCL 135
+// if you change also take care of SHIFT_SENSITIVITY below
+// first number is lenght, second is shift divider for 64 leds
+const euclidean_lengths_t el[3] = {
+  {8, 3},
+  {16, 2},
+  {32, 1}
+};
 
 //static arc_state_t arc_state;
 static arc_timer_t arc_timers[4];
@@ -51,6 +69,7 @@ static bool cycle_dir[4];
 
 void (*arc_refresh)(scene_state_t *ss);
 void (*arc_process_enc)(scene_state_t *ss, u8 enc, s8 delta);
+void (*arc_process_key)(scene_state_t *ss, u8 enc, s8 delta);
 void (*arc_metro_triggered)(scene_state_t *ss);
 void (*arc_script_triggered)(scene_state_t *ss, u8 script);
 
@@ -59,6 +78,7 @@ void (*arc_script_triggered)(scene_state_t *ss, u8 script);
 void arc_metro_triggered_eucl(scene_state_t *ss);
 void arc_script_triggered_eucl(scene_state_t *ss, u8 enc);
 void arc_process_enc_eucl(scene_state_t *ss, u8 enc, s8 delta);
+void arc_process_key_eucl(scene_state_t *ss, u8 enc, s8 delta);
 void arc_refresh_eucl(scene_state_t *ss);
 
 
@@ -66,6 +86,7 @@ void arc_init_cycles(void);
 void arc_metro_triggered_circles(scene_state_t *ss);
 void arc_script_triggered_circles(scene_state_t *ss, u8 enc);
 void arc_process_enc_circles(scene_state_t *ss, u8 enc, s8 delta);
+void arc_process_key_circles(scene_state_t *ss, u8 enc, s8 delta);
 void arc_refresh_circles(scene_state_t *ss);
 
 
@@ -139,6 +160,7 @@ void arc_init(scene_state_t *ss) {
       arc_metro_triggered = &arc_metro_triggered_eucl;
       arc_script_triggered = &arc_script_triggered_eucl;
       arc_process_enc = &arc_process_enc_eucl;
+      arc_process_key = &arc_process_key_eucl;
       arc_refresh = &arc_refresh_eucl;
       break;
   }
@@ -152,10 +174,10 @@ void arc_metro_triggered_eucl(scene_state_t *ss) {
 
     for(u8 enc=0; enc<4;enc++){
  	SA.encoder[enc].cycle_step++;
-	CLIP_MAX_ROLL( SA.encoder[enc].cycle_step , 15);
-	int fill =SA.encoder[enc].value >>2;
+	CLIP_MAX_ROLL( SA.encoder[enc].cycle_step , el[SA.encoder[enc].pattern_index].length-1);
+	int fill =SA.encoder[enc].value >> el[SA.encoder[enc].pattern_index].shift+1;//SHIFT_SENSITIVITY
 	int step =SA.encoder[enc].cycle_step;
-	int out = euclidean(fill, 16,step);
+	int out = euclidean(fill, el[SA.encoder[enc].pattern_index].length,step);
 	if(out){
   		tele_tr(enc,1);
 		   ss->tr_pulse_timer[enc]=ARC_TRIGGER_TIME;
@@ -172,10 +194,10 @@ void arc_script_triggered_eucl(scene_state_t *ss, u8 enc) {
     if(enc >= monome_encs())return;
 
  	SA.encoder[enc].cycle_step++;
-	CLIP_MAX_ROLL( SA.encoder[enc].cycle_step , 15);
-	int fill =SA.encoder[enc].value >>2;
+	CLIP_MAX_ROLL( SA.encoder[enc].cycle_step , el[SA.encoder[enc].pattern_index].length-1);
+	int fill =SA.encoder[enc].value >> el[SA.encoder[enc].pattern_index].shift+1;//SHIFT_SENSITIVITY
 	int step =SA.encoder[enc].cycle_step;
-	int out = euclidean(fill, 16,step);
+	int out = euclidean(fill, el[SA.encoder[enc].pattern_index].length,step);
 	if(out){
   		tele_tr(enc,1);
 		   ss->tr_pulse_timer[enc]=ARC_TRIGGER_TIME;
@@ -186,14 +208,36 @@ void arc_script_triggered_eucl(scene_state_t *ss, u8 enc) {
 
 void arc_process_enc_eucl(scene_state_t *ss, u8 enc, s8 delta) {
 	SA.encoder[enc].value += delta;
-	CLIP_MAX_ROLL( SA.encoder[enc].value , 64);
+	CLIP( SA.encoder[enc].value ,0, ARC_SENSITIVITY_EUCL);
+  print_dbg("\r\nARC ring enc");
   print_dbg_hex(SA.encoder[enc].value);
  for(u8 i=0;i<64;i++){
-		int eucl =euclidean(SA.encoder[enc].value >>2, 16,i>>2);
+		int eucl =euclidean(SA.encoder[enc].value >> el[SA.encoder[enc].pattern_index].shift+1 , el[SA.encoder[enc].pattern_index].length,i>>el[SA.encoder[enc].pattern_index].shift);
  		SA.leds[enc][i] = eucl>0?ARC_BRIGHTNESS_ON:ARC_BRIGHTNESS_OFF;
  		SA.leds_layer2[enc][i] = eucl>0?ARC_BRIGHTNESS_DIM:ARC_BRIGHTNESS_OFF;
 	   }
-	}
+  SA.arc_dirty = 1;
+}
+
+void arc_process_key_eucl(scene_state_t *ss, u8 enc, s8 delta) {
+  print_dbg("\r\nARC ring key");
+  print_dbg_hex (delta);
+  switch(SA.encoder[enc].pattern_index){
+    case 0:
+      SA.encoder[enc].pattern_index = 1;
+      break;
+    case 1:
+      SA.encoder[enc].pattern_index = 2;
+      break;
+    case 2:
+      SA.encoder[enc].pattern_index = 0;
+      break;
+    default:
+      SA.encoder[enc].pattern_index = 0;
+      break;
+    }
+   SA.arc_dirty = 1;
+}
 
 
 
@@ -202,7 +246,7 @@ void arc_refresh_eucl(scene_state_t *ss) {
     for (u8 enc = 0; enc < monome_encs(); enc++) {
             //arc_fill_area(i, 0, 63, 0);
 	   for(u8 i=0;i<64;i++){
-	      if(i>>2 != SA.encoder[enc].cycle_step){
+	      if((i>>el[SA.encoder[enc].pattern_index].shift) != SA.encoder[enc].cycle_step){
              	monomeLedBuffer[i + (enc << 6)] = SA.leds[enc][i];
 	      }else{
              	monomeLedBuffer[i + (enc << 6)] = SA.leds_layer2[enc][i];

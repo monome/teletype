@@ -653,6 +653,19 @@ static void handler_MonomeRingEnc(s32 data) {
     (*arc_process_enc)(&scene_state, n, delta);
 }
 
+static void handler_MonomeRingKey(s32 data) {
+  if (arc_control_mode && ss_counter >= SS_TIMEOUT) {
+      exit_screensaver();
+      return;
+  }
+    u8 n;
+    s8 delta;
+    monome_ring_key_parse_event_data(data, &n, &delta);
+    (*arc_process_key)(&scene_state, n, delta);
+}
+
+
+
 static void handler_midi_connect(s32 data) {
 }
 
@@ -773,6 +786,7 @@ void assign_main_event_handlers() {
     app_event_handlers[kEventMonomeRefresh] = &handler_MonomeRefresh;
     app_event_handlers[kEventMonomeGridKey] = &handler_MonomeGridKey;
     app_event_handlers[kEventMonomeRingEnc] = &handler_MonomeRingEnc;
+    app_event_handlers[kEventMonomeRingKey] = &handler_MonomeRingKey;
     app_event_handlers[kEventMidiConnect] = &handler_midi_connect;
     app_event_handlers[kEventMidiDisconnect] = &handler_midi_disconnect;
     app_event_handlers[kEventMidiPacket] = &handler_standard_midi_packet;
@@ -1194,6 +1208,7 @@ int main(void) {
     ss_init(&scene_state);
     print_dbg("\r\ninit done ");
 
+  
     // screen init
     render_init();
     print_dbg("\r\nscreen done ");
