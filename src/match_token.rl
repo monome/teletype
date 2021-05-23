@@ -650,6 +650,9 @@
         "G.XYP.X"          => { MATCH_OP(E_OP_G_XYP_X); };
         "G.XYP.Y"          => { MATCH_OP(E_OP_G_XYP_Y); };
 
+        #arc
+        "ARC.METRO"          => { MATCH_OP(E_OP_ARC_METRO); };
+
         # w/
         "WS.PLAY"     => { MATCH_OP(E_OP_WS_PLAY); };
         "WS.REC"      => { MATCH_OP(E_OP_WS_REC); };

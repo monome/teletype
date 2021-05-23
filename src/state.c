@@ -13,6 +13,7 @@ void ss_init(scene_state_t *ss) {
     ss_variables_init(ss);
     ss_patterns_init(ss);
     ss_grid_init(ss);
+    ss_arc_init(ss);
     ss_rand_init(ss);
     ss_midi_init(ss);
     ss->delay.count = 0;
@@ -142,6 +143,23 @@ void ss_grid_init(scene_state_t *ss) {
     }
 
     ss->grid.grid_dirty = ss->grid.scr_dirty = ss->grid.clear_held = true;
+}
+
+void ss_arc_init(scene_state_t *ss){
+ss->arc.connected=false;
+   for (u8 enc = 0; enc < 4; enc++) {
+        ss->arc.encoder[enc].value = 0;
+        ss->arc.encoder[enc].phase_offset = 0;
+        ss->arc.encoder[enc].cycle_step = 0;
+        ss->arc.encoder[enc].pattern_index = 0;
+	      for (u8 led=0;led<64;led++){
+		         ss->arc.leds[enc][led] = 0;
+		         ss->arc.leds_layer2[enc][led] = 0;
+	      }
+   }
+   ss->arc.metro=false;
+   ss->arc.mode=0;
+   ss->arc.sync=0;
 }
 
 void ss_grid_common_init(grid_common_t *gc) {

@@ -32,6 +32,8 @@
 #define GRID_BUTTON_COUNT 256
 #define GRID_FADER_COUNT 64
 #define GRID_XYPAD_COUNT 8
+#define ARC_MAX_ENCS 4
+#define ARC_LEDS 64
 #define LED_DIM -1
 #define LED_BRI -2
 #define LED_OFF -3
@@ -207,6 +209,27 @@ typedef struct {
     grid_xypad_t xypad[GRID_XYPAD_COUNT];
 } scene_grid_t;
 
+
+typedef struct {
+    u16 value;
+    u8 phase_offset;
+    u8 cycle_step;
+    u8 pattern_index;
+} arc_enc_t;
+
+typedef struct {
+    bool connected;
+    bool metro;
+    u16 metro_ticks;
+    u8 sync;
+    u8 mode;
+    u8 arc_dirty;
+    u8 leds[ARC_MAX_ENCS][ARC_LEDS];
+    u8 leds_layer2[ARC_MAX_ENCS][ARC_LEDS];
+    arc_enc_t encoder[ARC_MAX_ENCS];
+} scene_arc_t;
+
+
 typedef struct {
     int8_t on_script;
     int8_t off_script;
@@ -265,6 +288,7 @@ typedef struct {
     scene_turtle_t turtle;
     bool every_last;
     scene_grid_t grid;
+    scene_arc_t arc;
     scene_rand_t rand_states;
     cal_data_t cal;
     int8_t i2c_op_address;
@@ -277,6 +301,7 @@ extern void ss_patterns_init(scene_state_t *ss);
 extern void ss_pattern_init(scene_state_t *ss, size_t pattern_no);
 extern void ss_grid_init(scene_state_t *ss);
 extern void ss_grid_common_init(grid_common_t *gc);
+extern void ss_arc_init(scene_state_t *ss);
 extern void ss_rand_init(scene_state_t *ss);
 extern void ss_midi_init(scene_state_t *ss);
 
