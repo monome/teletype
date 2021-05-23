@@ -104,6 +104,9 @@ static uint32_t ss_counter = 0;
 static u8 grid_connected = 0;
 static u8 grid_control_mode = 0;
 static u8 arc_control_mode = 0;
+static u16 ring_keybouncing = 0;
+#define RING_KEYDEBOUNCING_TIME 64
+
 static u8 midi_clock_counter = 0;
 
 static uint16_t adc[4];
@@ -553,6 +556,8 @@ void handler_ScreenRefresh(int32_t data) {
 
 void handler_EventTimer(int32_t data) {
     tele_tick(&scene_state, RATE_CLOCK);
+    ring_keybouncing = (ring_keybouncing>0)?ring_keybouncing+1:0;
+    ring_keybouncing = (ring_keybouncing>RING_KEYDEBOUNCING_TIME)?0:ring_keybouncing;
 
     if (ss_counter < SS_TIMEOUT) {
         ss_counter++;
@@ -658,10 +663,14 @@ static void handler_MonomeRingKey(s32 data) {
       exit_screensaver();
       return;
   }
-    u8 n;
-    s8 delta;
-    monome_ring_key_parse_event_data(data, &n, &delta);
-    (*arc_process_key)(&scene_state, n, delta);
+
+    if(!ring_keybouncing){
+      ring_keybouncing++;
+      u8 n;
+      s8 delta;
+      monome_ring_key_parse_event_data(data, &n, &delta);
+      (*arc_process_key)(&scene_state, n, delta);
+    }
 }
 
 
@@ -1208,7 +1217,7 @@ int main(void) {
     ss_init(&scene_state);
     print_dbg("\r\ninit done ");
 
-  
+
     // screen init
     render_init();
     print_dbg("\r\nscreen done ");

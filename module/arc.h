@@ -12,6 +12,7 @@
 #define  ARC_CIRCLES 1
 #define  ARC_LEVELS 2
 
+
 extern void arc_init(scene_state_t *ss);
 // callback function pointers
 extern void (*arc_refresh)(scene_state_t *ss);

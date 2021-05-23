@@ -212,6 +212,7 @@ typedef struct {
 
 typedef struct {
     u16 value;
+    u8 phase_offset;
     u8 cycle_step;
     u8 pattern_index;
 } arc_enc_t;
@@ -220,6 +221,7 @@ typedef struct {
     bool connected;
     bool metro;
     u16 metro_ticks;
+    u8 sync;
     u8 mode;
     u8 arc_dirty;
     u8 leds[ARC_MAX_ENCS][ARC_LEDS];

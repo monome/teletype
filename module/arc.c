@@ -21,7 +21,7 @@
 #define ARC_BRIGHTNESS_DIM 4
 #define CLIP_MAX(var,max) if (var > max) var = max;
 #define CLIP_MAX_ROLL(var,max) if (var > max) var = 0;
-#define CLIP(var, min, max) \
+#define CLIP_U16(var, min, max) \
   if (var < (min)) { \
     var = (min); \
   } else if (var > 65530) { \
@@ -29,6 +29,21 @@
   } else if (var > (max)) { \
     var = (max); \
   }
+#define CLIP_U8(var, min, max) \
+    if (var < (min)) { \
+      var = (min); \
+    } else if (var > 253) { \
+      var = 0; \
+    } else if (var > (max)) { \
+      var = (max); \
+    }
+
+#define CLIP(var, min, max) \
+    if (var < (min)) { \
+      var = (min); \
+    } else if (var > (max)) { \
+      var = (max); \
+    }
 
 
 typedef struct {
@@ -43,9 +58,21 @@ typedef struct {
     u8 shift;
 } euclidean_lengths_t;
 
+typedef enum {
+    EUCL_CONF_LENGTH,
+    EUCL_CONF_PHASE,
+    EUCL_CONF_SYNC,
+    EUCL_LIVE
+} arc_config_mode_t ;
+
+static arc_config_mode_t arc_config_mode = EUCL_LIVE;
 
 // sensitiviy of arc clone (128+7), original arc must be larger
 #define ARC_SENSITIVITY_EUCL 135
+#define ARC_SENSITIVITY_CONF 32
+static u8 ring_sensitivity_shift;
+static s16 delta_buffer = 0;
+
 // if you change also take care of SHIFT_SENSITIVITY below
 // first number is lenght, second is shift divider for 64 leds
 const euclidean_lengths_t el[3] = {
@@ -81,6 +108,12 @@ void arc_process_enc_eucl(scene_state_t *ss, u8 enc, s8 delta);
 void arc_process_key_eucl(scene_state_t *ss, u8 enc, s8 delta);
 void arc_refresh_eucl(scene_state_t *ss);
 
+void arc_process_enc_eucl_conf_length(scene_state_t *ss, u8 enc, s8 delta);
+void arc_process_enc_eucl_conf_phase(scene_state_t *ss, u8 enc, s8 delta);
+void arc_process_enc_eucl_conf_sync(scene_state_t *ss, u8 enc, s8 delta);
+void arc_refresh_eucl_conf_length(scene_state_t *ss);
+void arc_refresh_eucl_conf_phase(scene_state_t *ss);
+void arc_refresh_eucl_conf_sync(scene_state_t *ss);
 
 void arc_init_cycles(void);
 void arc_metro_triggered_circles(scene_state_t *ss);
@@ -172,32 +205,40 @@ void arc_init(scene_state_t *ss) {
 void arc_metro_triggered_eucl(scene_state_t *ss) {
     if(SA.encoder[0].value<=0)return;
 
-    for(u8 enc=0; enc<4;enc++){
- 	SA.encoder[enc].cycle_step++;
-	CLIP_MAX_ROLL( SA.encoder[enc].cycle_step , el[SA.encoder[enc].pattern_index].length-1);
-	int fill =SA.encoder[enc].value >> el[SA.encoder[enc].pattern_index].shift+1;//SHIFT_SENSITIVITY
-	int step =SA.encoder[enc].cycle_step;
-	int out = euclidean(fill, el[SA.encoder[enc].pattern_index].length,step);
-	if(out){
+  for(u8 enc=0; enc< monome_encs();enc++){
+  	SA.encoder[enc].cycle_step++;
+  	CLIP_MAX_ROLL( SA.encoder[enc].cycle_step , el[SA.encoder[enc].pattern_index].length-1);
+    ring_sensitivity_shift = el[SA.encoder[enc].pattern_index].shift+1;
+  	u8 fill =SA.encoder[enc].value >> ring_sensitivity_shift;
+  	s8 step =SA.encoder[enc].cycle_step - SA.encoder[enc].phase_offset;
+  	u8 out = euclidean(fill, el[SA.encoder[enc].pattern_index].length,step);
+	  if(out){
   		tele_tr(enc,1);
 		   ss->tr_pulse_timer[enc]=ARC_TRIGGER_TIME;
     	}
 	//st->ss->arc.leds[enc][step] = ARC_BRIGHTNESS_DIM;
         //monomeLedBuffer[step + (enc << 6)] = ARC_BRIGHTNESS_DIM;
         //monomeFrameDirty |= (1 << enc);
-    }
+  }
 
    SA.arc_dirty = 1;
 }
 
 void arc_script_triggered_eucl(scene_state_t *ss, u8 enc) {
     if(enc >= monome_encs())return;
+    if(SA.encoder[0].value<=0)return;
 
+    if(SA.sync){
+      arc_metro_triggered_eucl(ss);
+      return;
+    }
+
+  ring_sensitivity_shift = el[SA.encoder[enc].pattern_index].shift+1;
  	SA.encoder[enc].cycle_step++;
 	CLIP_MAX_ROLL( SA.encoder[enc].cycle_step , el[SA.encoder[enc].pattern_index].length-1);
-	int fill =SA.encoder[enc].value >> el[SA.encoder[enc].pattern_index].shift+1;//SHIFT_SENSITIVITY
-	int step =SA.encoder[enc].cycle_step;
-	int out = euclidean(fill, el[SA.encoder[enc].pattern_index].length,step);
+	u8 fill =SA.encoder[enc].value >> ring_sensitivity_shift;
+	s8 step =SA.encoder[enc].cycle_step - SA.encoder[enc].phase_offset;
+	u8 out = euclidean(fill, el[SA.encoder[enc].pattern_index].length,step);
 	if(out){
   		tele_tr(enc,1);
 		   ss->tr_pulse_timer[enc]=ARC_TRIGGER_TIME;
@@ -208,35 +249,17 @@ void arc_script_triggered_eucl(scene_state_t *ss, u8 enc) {
 
 void arc_process_enc_eucl(scene_state_t *ss, u8 enc, s8 delta) {
 	SA.encoder[enc].value += delta;
-	CLIP( SA.encoder[enc].value ,0, ARC_SENSITIVITY_EUCL);
+	CLIP_U16( SA.encoder[enc].value ,0, ARC_SENSITIVITY_EUCL);
   print_dbg("\r\nARC ring enc");
   print_dbg_hex(SA.encoder[enc].value);
- for(u8 i=0;i<64;i++){
-		int eucl =euclidean(SA.encoder[enc].value >> el[SA.encoder[enc].pattern_index].shift+1 , el[SA.encoder[enc].pattern_index].length,i>>el[SA.encoder[enc].pattern_index].shift);
+ ring_sensitivity_shift = el[SA.encoder[enc].pattern_index].shift+1;
+  u8 phase_offset_ = SA.encoder[enc].phase_offset;
+ for(u8 i=0;i<(64);i++){
+		int eucl =euclidean(SA.encoder[enc].value >> ring_sensitivity_shift , el[SA.encoder[enc].pattern_index].length,(i >>el[SA.encoder[enc].pattern_index].shift) - phase_offset_);
  		SA.leds[enc][i] = eucl>0?ARC_BRIGHTNESS_ON:ARC_BRIGHTNESS_OFF;
  		SA.leds_layer2[enc][i] = eucl>0?ARC_BRIGHTNESS_DIM:ARC_BRIGHTNESS_OFF;
 	   }
   SA.arc_dirty = 1;
-}
-
-void arc_process_key_eucl(scene_state_t *ss, u8 enc, s8 delta) {
-  print_dbg("\r\nARC ring key");
-  print_dbg_hex (delta);
-  switch(SA.encoder[enc].pattern_index){
-    case 0:
-      SA.encoder[enc].pattern_index = 1;
-      break;
-    case 1:
-      SA.encoder[enc].pattern_index = 2;
-      break;
-    case 2:
-      SA.encoder[enc].pattern_index = 0;
-      break;
-    default:
-      SA.encoder[enc].pattern_index = 0;
-      break;
-    }
-   SA.arc_dirty = 1;
 }
 
 
@@ -244,19 +267,183 @@ void arc_process_key_eucl(scene_state_t *ss, u8 enc, s8 delta) {
 void arc_refresh_eucl(scene_state_t *ss) {
 
     for (u8 enc = 0; enc < monome_encs(); enc++) {
-            //arc_fill_area(i, 0, 63, 0);
-	   for(u8 i=0;i<64;i++){
-	      if((i>>el[SA.encoder[enc].pattern_index].shift) != SA.encoder[enc].cycle_step){
-             	monomeLedBuffer[i + (enc << 6)] = SA.leds[enc][i];
-	      }else{
-             	monomeLedBuffer[i + (enc << 6)] = SA.leds_layer2[enc][i];
-	      }
-	   }
-    	   monomeFrameDirty |= (1 << enc);
-        }
+      for(u8 i=0;i<64;i++){
+ 	      if((i>>el[SA.encoder[enc].pattern_index].shift) != SA.encoder[enc].cycle_step){
+              	monomeLedBuffer[i + (enc << 6)] = SA.leds[enc][i];
+ 	      }else{
+              	monomeLedBuffer[i + (enc << 6)] = SA.leds_layer2[enc][i];
+ 	      }
+      }
+     	   monomeFrameDirty |= (1 << enc);
+    }
 
     SA.arc_dirty = 0;
 }
+
+
+/////////////////////// EUCL CONFIG ///////////////////////////
+
+void arc_process_key_eucl(scene_state_t *ss, u8 enc, s8 delta) {
+  print_dbg("\r\nARC ring key");
+  print_dbg_hex (arc_config_mode);
+
+switch(arc_config_mode){
+  case EUCL_CONF_LENGTH:
+  arc_config_mode = EUCL_CONF_PHASE;
+  arc_process_enc = &arc_process_enc_eucl_conf_length;
+  arc_refresh = &arc_refresh_eucl_conf_length;
+
+    break;
+  case EUCL_CONF_PHASE:
+  arc_config_mode = EUCL_CONF_SYNC;
+  arc_process_enc = &arc_process_enc_eucl_conf_phase;
+  arc_refresh = &arc_refresh_eucl_conf_phase;
+    break;
+  case EUCL_CONF_SYNC:
+  arc_config_mode = EUCL_LIVE;
+  arc_process_enc = &arc_process_enc_eucl_conf_sync;
+  arc_refresh = &arc_refresh_eucl_conf_sync;
+    break;
+  case EUCL_LIVE:
+  default:
+    arc_config_mode = EUCL_CONF_LENGTH;
+    arc_process_enc = &arc_process_enc_eucl;
+    arc_refresh = &arc_refresh_eucl;
+    break;
+  }
+delta_buffer=0;
+SA.arc_dirty = 1;
+}
+
+void arc_process_enc_eucl_conf_length(scene_state_t *ss, u8 enc, s8 delta) {
+
+ delta_buffer += delta;
+ print_dbg("\r\nARC delta_buffer");
+ print_dbg_hex (delta_buffer);
+
+ if(delta_buffer>ARC_SENSITIVITY_CONF||(-delta_buffer)>ARC_SENSITIVITY_CONF){
+  delta_buffer=0;
+  switch(SA.encoder[enc].pattern_index){
+    case 0:
+      SA.encoder[enc].pattern_index = (delta>0)?1:0;
+      break;
+    case 1:
+      SA.encoder[enc].pattern_index = (delta>0)?2:0;
+      break;
+    case 2:
+      SA.encoder[enc].pattern_index = (delta>0)?2:1;
+      break;
+    default:
+      SA.encoder[enc].pattern_index = 0;
+      break;
+    }
+
+  }
+   SA.arc_dirty = 1;
+}
+
+
+
+void arc_refresh_eucl_conf_length(scene_state_t *ss) {
+
+    for (u8 enc = 0; enc < monome_encs(); enc++) {
+
+	   for(u8 i=0;i<64;i++){
+	      if( i < el[SA.encoder[enc].pattern_index].length){
+          monomeLedBuffer[i + (enc << 6)] = ARC_BRIGHTNESS_ON;
+	      }else{
+          monomeLedBuffer[i + (enc << 6)] = ARC_BRIGHTNESS_OFF;
+        }
+	   }
+    	   monomeFrameDirty |= (1 << enc);
+    }
+
+    SA.arc_dirty = 0;
+}
+
+
+void arc_process_enc_eucl_conf_phase(scene_state_t *ss, u8 enc, s8 delta) {
+
+
+  delta_buffer += delta;
+
+  if(delta_buffer>ARC_SENSITIVITY_CONF||delta_buffer<(-ARC_SENSITIVITY_CONF)){
+    delta_buffer=0;
+    SA.encoder[enc].phase_offset += (delta>0)?1:-1;
+
+    print_dbg("\r\nARC phase offset");
+    print_dbg_hex (SA.encoder[enc].phase_offset);
+
+  	CLIP_U8( SA.encoder[enc].phase_offset , 0 , el[SA.encoder[enc].pattern_index].length-1);
+
+    print_dbg("\r\nARC phase offset clipped");
+    print_dbg_hex (SA.encoder[enc].phase_offset);
+
+  }
+
+  SA.arc_dirty = 1;
+}
+
+
+
+void arc_refresh_eucl_conf_phase(scene_state_t *ss) {
+
+    for (u8 enc = 0; enc < monome_encs(); enc++) {
+     for(u8 i=0;i<64;i++){
+       	monomeLedBuffer[i + (enc << 6)] = ARC_BRIGHTNESS_OFF;
+     }
+
+	     for(u8 i=0;i<64;i++){
+          if((i>>el[SA.encoder[enc].pattern_index].shift)== SA.encoder[enc].phase_offset){
+           monomeLedBuffer[i + (enc << 6)] = ARC_BRIGHTNESS_ON;
+   	      }
+        }
+
+
+    	   monomeFrameDirty |= (1 << enc);
+    }
+
+    SA.arc_dirty = 0;
+}
+
+void arc_process_enc_eucl_conf_sync(scene_state_t *ss, u8 enc, s8 delta) {
+
+   delta_buffer += delta;
+
+   if(delta_buffer>ARC_SENSITIVITY_CONF||delta_buffer<(-ARC_SENSITIVITY_CONF)){
+    delta_buffer=0;
+
+    if(delta>0){
+      SA.sync = 1;
+      SA.encoder[3].cycle_step = 0;
+      SA.encoder[2].cycle_step = 0;
+      SA.encoder[1].cycle_step = 0;
+      SA.encoder[0].cycle_step = 0;
+    }else{
+      SA.sync = 0;
+    }
+   }
+   SA.arc_dirty = 1;
+}
+
+
+void arc_refresh_eucl_conf_sync(scene_state_t *ss) {
+
+     if(SA.sync){
+       memset(monomeLedBuffer,ARC_BRIGHTNESS_ON,MONOME_MAX_LED_BYTES);
+     }else{
+       memset(monomeLedBuffer,ARC_BRIGHTNESS_OFF,MONOME_MAX_LED_BYTES);
+     }
+
+	   monomeFrameDirty |= (1 << 1);
+     monomeFrameDirty |= (1 << 2);
+     monomeFrameDirty |= (1 << 3);
+     monomeFrameDirty |= (1 << 4);
+
+
+    SA.arc_dirty = 0;
+}
+
 
 
 ////////////////////////////////////////////////////////////////////////////////
