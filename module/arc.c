@@ -69,7 +69,7 @@ static arc_config_mode_t arc_config_mode = EUCL_LIVE;
 
 // sensitiviy of arc clone (128+7), original arc must be larger
 #define ARC_SENSITIVITY_EUCL 135
-#define ARC_SENSITIVITY_CONF 32
+#define ARC_SENSITIVITY_CONF 16
 static u8 ring_sensitivity_shift;
 static s16 delta_buffer = 0;
 
@@ -104,15 +104,13 @@ void (*arc_script_triggered)(scene_state_t *ss, u8 script);
 
 void arc_metro_triggered_eucl(scene_state_t *ss);
 void arc_script_triggered_eucl(scene_state_t *ss, u8 enc);
-void arc_process_enc_eucl(scene_state_t *ss, u8 enc, s8 delta);
+void arc_process_enc_eucl_live(scene_state_t *ss, u8 enc, s8 delta);
 void arc_process_key_eucl(scene_state_t *ss, u8 enc, s8 delta);
 void arc_refresh_eucl(scene_state_t *ss);
 
 void arc_process_enc_eucl_conf_length(scene_state_t *ss, u8 enc, s8 delta);
 void arc_process_enc_eucl_conf_phase(scene_state_t *ss, u8 enc, s8 delta);
 void arc_process_enc_eucl_conf_sync(scene_state_t *ss, u8 enc, s8 delta);
-void arc_refresh_eucl_conf_length(scene_state_t *ss);
-void arc_refresh_eucl_conf_phase(scene_state_t *ss);
 void arc_refresh_eucl_conf_sync(scene_state_t *ss);
 
 void arc_init_cycles(void);
@@ -192,7 +190,7 @@ void arc_init(scene_state_t *ss) {
     default:
       arc_metro_triggered = &arc_metro_triggered_eucl;
       arc_script_triggered = &arc_script_triggered_eucl;
-      arc_process_enc = &arc_process_enc_eucl;
+      arc_process_enc = &arc_process_enc_eucl_live;
       arc_process_key = &arc_process_key_eucl;
       arc_refresh = &arc_refresh_eucl;
       break;
@@ -247,11 +245,11 @@ void arc_script_triggered_eucl(scene_state_t *ss, u8 enc) {
 }
 
 
-void arc_process_enc_eucl(scene_state_t *ss, u8 enc, s8 delta) {
-	SA.encoder[enc].value += delta;
-	CLIP_U16( SA.encoder[enc].value ,0, ARC_SENSITIVITY_EUCL);
-  print_dbg("\r\nARC ring enc");
-  print_dbg_hex(SA.encoder[enc].value);
+void arc_process_enc_eucl(scene_state_t *ss, u8 enc) {
+//	SA.encoder[enc].value += delta;
+//	CLIP_U16( SA.encoder[enc].value ,0, ARC_SENSITIVITY_EUCL);
+//  print_dbg("\r\nARC ring enc");
+//  print_dbg_hex(SA.encoder[enc].value);
  ring_sensitivity_shift = el[SA.encoder[enc].pattern_index].shift+1;
   u8 phase_offset_ = SA.encoder[enc].phase_offset;
  for(u8 i=0;i<(64);i++){
@@ -260,6 +258,16 @@ void arc_process_enc_eucl(scene_state_t *ss, u8 enc, s8 delta) {
  		SA.leds_layer2[enc][i] = eucl>0?ARC_BRIGHTNESS_DIM:ARC_BRIGHTNESS_OFF;
 	   }
   SA.arc_dirty = 1;
+}
+
+
+
+void arc_process_enc_eucl_live(scene_state_t *ss, u8 enc, s8 delta) {
+	SA.encoder[enc].value += delta;
+	CLIP_U16( SA.encoder[enc].value ,0, ARC_SENSITIVITY_EUCL);
+  print_dbg("\r\nARC ring enc");
+  print_dbg_hex(SA.encoder[enc].value);
+  arc_process_enc_eucl(ss,enc);
 }
 
 
@@ -291,13 +299,15 @@ switch(arc_config_mode){
   case EUCL_CONF_LENGTH:
   arc_config_mode = EUCL_CONF_PHASE;
   arc_process_enc = &arc_process_enc_eucl_conf_length;
-  arc_refresh = &arc_refresh_eucl_conf_length;
+  arc_refresh = &arc_refresh_eucl;
+//  arc_refresh = &arc_refresh_eucl_conf_length;
 
     break;
   case EUCL_CONF_PHASE:
   arc_config_mode = EUCL_CONF_SYNC;
   arc_process_enc = &arc_process_enc_eucl_conf_phase;
-  arc_refresh = &arc_refresh_eucl_conf_phase;
+  arc_refresh = &arc_refresh_eucl;
+//  arc_refresh = &arc_refresh_eucl_conf_phase;
     break;
   case EUCL_CONF_SYNC:
   arc_config_mode = EUCL_LIVE;
@@ -307,7 +317,7 @@ switch(arc_config_mode){
   case EUCL_LIVE:
   default:
     arc_config_mode = EUCL_CONF_LENGTH;
-    arc_process_enc = &arc_process_enc_eucl;
+    arc_process_enc = &arc_process_enc_eucl_live;
     arc_refresh = &arc_refresh_eucl;
     break;
   }
@@ -339,26 +349,7 @@ void arc_process_enc_eucl_conf_length(scene_state_t *ss, u8 enc, s8 delta) {
     }
 
   }
-   SA.arc_dirty = 1;
-}
-
-
-
-void arc_refresh_eucl_conf_length(scene_state_t *ss) {
-
-    for (u8 enc = 0; enc < monome_encs(); enc++) {
-
-	   for(u8 i=0;i<64;i++){
-	      if( i < el[SA.encoder[enc].pattern_index].length){
-          monomeLedBuffer[i + (enc << 6)] = ARC_BRIGHTNESS_ON;
-	      }else{
-          monomeLedBuffer[i + (enc << 6)] = ARC_BRIGHTNESS_OFF;
-        }
-	   }
-    	   monomeFrameDirty |= (1 << enc);
-    }
-
-    SA.arc_dirty = 0;
+     arc_process_enc_eucl(ss,enc);
 }
 
 
@@ -380,31 +371,9 @@ void arc_process_enc_eucl_conf_phase(scene_state_t *ss, u8 enc, s8 delta) {
     print_dbg_hex (SA.encoder[enc].phase_offset);
 
   }
-
-  SA.arc_dirty = 1;
+  arc_process_enc_eucl(ss,enc);
 }
 
-
-
-void arc_refresh_eucl_conf_phase(scene_state_t *ss) {
-
-    for (u8 enc = 0; enc < monome_encs(); enc++) {
-     for(u8 i=0;i<64;i++){
-       	monomeLedBuffer[i + (enc << 6)] = ARC_BRIGHTNESS_OFF;
-     }
-
-	     for(u8 i=0;i<64;i++){
-          if((i>>el[SA.encoder[enc].pattern_index].shift)== SA.encoder[enc].phase_offset){
-           monomeLedBuffer[i + (enc << 6)] = ARC_BRIGHTNESS_ON;
-   	      }
-        }
-
-
-    	   monomeFrameDirty |= (1 << enc);
-    }
-
-    SA.arc_dirty = 0;
-}
 
 void arc_process_enc_eucl_conf_sync(scene_state_t *ss, u8 enc, s8 delta) {
 
