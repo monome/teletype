@@ -58,7 +58,8 @@ OPS_SECTIONS = [
     "fader",
     "wslash",
     "matrixarchate",
-    "disting"
+    "disting",
+    "crow"
 ]
 
 

@@ -174,8 +174,8 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     &op_WS_T_TIMESTAMP, &op_WS_T_SEEK,
 
     // crow
-    &op_CROW_SEL, &op_CROW_V, &op_CROW_SLEW, &op_CROW_CALL1, &op_CROW_CALL2,
-    &op_CROW_CALL3, &op_CROW_CALL4, &op_CROW_RESET, &op_CROW_PULSE, &op_CROW_AR,
+    &op_CROW_SEL, &op_CROW_V, &op_CROW_SLEW, &op_CROW_C1, &op_CROW_C2,
+    &op_CROW_C3, &op_CROW_C4, &op_CROW_RST, &op_CROW_PULSE, &op_CROW_AR,
     &op_CROW_LFO, &op_CROW_IN, &op_CROW_OUT, &op_CROW_Q0, &op_CROW_Q1,
     &op_CROW_Q2, &op_CROW_Q3,
 
@@ -301,7 +301,7 @@ const tele_mod_t *tele_mods[E_MOD__LENGTH] = {
     &mod_JF0, &mod_JF1, &mod_JF2,
 
     // crow
-    &mod_CROWALL, &mod_CROW1, &mod_CROW2, &mod_CROW3, &mod_CROW4
+    &mod_CROWN, &mod_CROW1, &mod_CROW2, &mod_CROW3, &mod_CROW4
 };
 
 /////////////////////////////////////////////////////////////////
