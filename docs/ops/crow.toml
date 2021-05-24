@@ -1,0 +1,87 @@
+["CROW.SEL"]
+prototype = "CROW.SEL x"
+short = "Sets target crow unit (`1` (default), to `4`)."
+
+["CROWN"]
+prototype = "CROWN: ..."
+short = "Send following CROW OPs to all units starting with selected unit."
+
+["CROW1"]
+prototype = "CROW1: ..."
+short = "Send following CROW OPs to unit 1 ignoring the currently selected unit."
+
+["CROW2"]
+prototype = "CROW2: ..."
+short = "Send following CROW OPs to unit 2 ignoring the currently selected unit."
+
+["CROW3"]
+prototype = "CROW3: ..."
+short = "Send following CROW OPs to unit 3 ignoring the currently selected unit."
+
+["CROW4"]
+prototype = "CROW4: ..."
+short = "Send following CROW OPs to unit 4 ignoring the currently selected unit."
+
+["CROW.V"]
+prototype = "CROW.V x y"
+short = "Sets output `x` to value `y`. Use `V y` for volts."
+
+["CROW.SLEW"]
+prototype = "CROW.SLEW x y"
+short = "Sets output `x` slew rate to `y` milliseconds."
+
+["CROW.C1"]
+prototype = "CROW.C1 x"
+short = "Calls the function `ii.self.call1(x)` on crow."
+
+["CROW.C2"]
+prototype = "CROW.C2 x y"
+short = "Calls the function `ii.self.call2(x, y)` on crow."
+
+["CROW.C3"]
+prototype = "CROW.C3 x y z"
+short = "Calls the function `ii.self.call3(x, y, z)` on crow."
+
+["CROW.C4"]
+prototype = "CROW.C4 x y z t"
+short = "Calls the function `ii.self.call4(x, y, z, t)` on crow."
+
+["CROW.RST"]
+prototype = "CROW.RST"
+short = "Calls the function `crow.reset()` returning crow to default state."
+
+["CROW.PULSE"]
+prototype = "CROW.PULSE x y z t"
+short = "Creates a trigger pulse on output `x` with duration `y` (ms) to voltage `z` with polarity `t`."
+
+["CROW.AR"]
+prototype = "CROW.AR x y z t"
+short = "Creates an envelope on output `x`, rising in `y` ms, falling in `z` ms, and reaching height `t`."
+
+["CROW.LFO"]
+prototype = "CROW.LFO x y z t"
+short = "Starts an envelope on output `x` at rate `y` where `0 = 1Hz` with 1v/octave scaling. `z` sets amplitude and `t` sets skew for assymetrical triangle waves."
+
+["CROW.IN"]
+prototype = "CROW.IN x"
+short = "Gets voltage at input `x`."
+
+["CROW.OUT"]
+prototype = "CROW.OUT x"
+short = "Gets voltage of output `x`."
+
+["CROW.Q0"]
+prototype = "CROW.Q0"
+short = "Returns the result of calling the function `crow.self.query0()`."
+
+["CROW.Q1"]
+prototype = "CROW.Q1 x"
+short = "Returns the result of calling the function `crow.self.query1(x)`."
+
+["CROW.Q2"]
+prototype = "CROW.Q2 x y"
+short = "Returns the result of calling the function `crow.self.query2(x, y)`."
+
+["CROW.Q3"]
+prototype = "CROW.Q3 x y z"
+short = "Returns the result of calling the function `crow.self.query3(x, y, z)`."

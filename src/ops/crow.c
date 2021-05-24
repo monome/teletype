@@ -198,7 +198,7 @@ CR_PROTO_GET(op_CROW_Q3_get) {
 
 
 // clang-format off
-const tele_mod_t mod_CROWALL  = MAKE_MOD(CROWN, mod_CROWALL_func, 0);
+const tele_mod_t mod_CROWN    = MAKE_MOD(CROWN, mod_CROWALL_func, 0);
 const tele_mod_t mod_CROW1    = MAKE_MOD(CROW1, mod_CROW1_func, 0);
 const tele_mod_t mod_CROW2    = MAKE_MOD(CROW2, mod_CROW2_func, 0);
 const tele_mod_t mod_CROW3    = MAKE_MOD(CROW3, mod_CROW3_func, 0);
@@ -206,11 +206,11 @@ const tele_mod_t mod_CROW4    = MAKE_MOD(CROW4, mod_CROW4_func, 0);
 const tele_op_t op_CROW_SEL   = MAKE_GET_OP(CROW.SEL   , op_CROW_SEL_get    , 1, false);
 const tele_op_t op_CROW_V     = MAKE_GET_OP(CROW.V     , op_CROW_V_get      , 2, false);
 const tele_op_t op_CROW_SLEW  = MAKE_GET_OP(CROW.SLEW  , op_CROW_SLEW_get   , 2, false);
-const tele_op_t op_CROW_CALL1 = MAKE_GET_OP(CROW.C1    , op_CROW_CALL1_get  , 1, false);
-const tele_op_t op_CROW_CALL2 = MAKE_GET_OP(CROW.C2    , op_CROW_CALL2_get  , 2, false);
-const tele_op_t op_CROW_CALL3 = MAKE_GET_OP(CROW.C3    , op_CROW_CALL3_get  , 3, false);
-const tele_op_t op_CROW_CALL4 = MAKE_GET_OP(CROW.C4    , op_CROW_CALL4_get  , 4, false);
-const tele_op_t op_CROW_RESET = MAKE_GET_OP(CROW.RST   , op_CROW_RESET_get  , 0, false);
+const tele_op_t op_CROW_C1    = MAKE_GET_OP(CROW.C1    , op_CROW_CALL1_get  , 1, false);
+const tele_op_t op_CROW_C2    = MAKE_GET_OP(CROW.C2    , op_CROW_CALL2_get  , 2, false);
+const tele_op_t op_CROW_C3    = MAKE_GET_OP(CROW.C3    , op_CROW_CALL3_get  , 3, false);
+const tele_op_t op_CROW_C4    = MAKE_GET_OP(CROW.C4    , op_CROW_CALL4_get  , 4, false);
+const tele_op_t op_CROW_RST   = MAKE_GET_OP(CROW.RST   , op_CROW_RESET_get  , 0, false);
 const tele_op_t op_CROW_PULSE = MAKE_GET_OP(CROW.PULSE , op_CROW_PULSE_get  , 4, false);
 const tele_op_t op_CROW_AR    = MAKE_GET_OP(CROW.AR    , op_CROW_AR_get     , 4, false);
 const tele_op_t op_CROW_LFO   = MAKE_GET_OP(CROW.LFO   , op_CROW_LFO_get    , 4, false);
