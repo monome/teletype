@@ -18,8 +18,8 @@ short = "Set speed as a rate, or ratio. Negative values are reverse (s16V)"
 prototype = "W/T.FREQ freq"
 short = "Set speed as a `frequency` (s16V) style value. Maintains reverse state"
 
-["W/T.PRE.LVL"]
-prototype = "W/T.PRE.LVL level"
+["W/T.ERASE.LVL"]
+prototype = "W/T.ERASE.LVL level"
 short = "Strength of erase head when recording. 0 is overdub, 1 is overwrite. Opposite of feedback (s16V)"
 
 ["W/T.MONITOR.LVL"]

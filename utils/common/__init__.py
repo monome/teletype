@@ -143,7 +143,7 @@ def _convert_struct_name_to_op_name(name):
         "WS_T_REV":               "W/T.REV",
         "WS_T_SPEED":             "W/T.SPEED",
         "WS_T_FREQ":              "W/T.FREQ",
-        "WS_T_PRE_LEVEL":         "W/T.PRE.LVL",
+        "WS_T_PRE_LEVEL":         "W/T.ERASE.LVL",
         "WS_T_MONITOR_LEVEL":     "W/T.MONITOR.LVL",
         "WS_T_REC_LEVEL":         "W/T.REC.LVL",
         "WS_T_HEAD_ORDER":        "W/T.HEAD.ORDER",
