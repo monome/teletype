@@ -214,7 +214,7 @@ typedef struct {
     u16 value;
     u8 phase_offset;
     u8 cycle_step;
-    u8 pattern_index;
+    u8 length;
 } arc_enc_t;
 
 typedef struct {

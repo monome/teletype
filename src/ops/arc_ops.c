@@ -78,31 +78,19 @@ static void op_ARC_LEN_get(const void *NOTUSED(data), scene_state_t *ss,
   int enc = cs_pop(cs);
   if(enc<0 || enc>3)return;
 
-  cs_push(cs, pattern_lengths[SA.encoder[enc].pattern_index]);
+  cs_push(cs, SA.encoder[enc].length);
 
 }
 
 static void op_ARC_LEN_set(const void *NOTUSED(data), scene_state_t *ss,
                            exec_state_t *NOTUSED(es), command_state_t *cs) {
   int enc = cs_pop(cs);
-  int i = cs_pop(cs);
+  int length = cs_pop(cs);
 
   if(enc<0 || enc>3)return;
+  if(length<1 || length>32)return;
 
-  switch(i){
-    case 8:
-      SA.encoder[enc].pattern_index = 0;
-      break;
-    case 16:
-      SA.encoder[enc].pattern_index = 1;
-      break;
-    case 32:
-      SA.encoder[enc].pattern_index = 2;
-      break;
-    default:
-      SA.encoder[enc].pattern_index = 0;
-      break;
-    }
+  SA.encoder[enc].length = length;
 
 }
 
@@ -122,7 +110,7 @@ static void op_ARC_PHASE_set(const void *NOTUSED(data), scene_state_t *ss,
 
   if(enc<0 || enc>3)return;
 
-	CLIP( phase , 0 , pattern_lengths[SA.encoder[enc].pattern_index]-1);
+	CLIP( phase , 0 , SA.encoder[enc].length-1);
 
   SA.encoder[enc].phase_offset = phase;
 
