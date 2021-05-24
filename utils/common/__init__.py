@@ -146,7 +146,7 @@ def _convert_struct_name_to_op_name(name):
         "WS_T_PRE_LEVEL":         "W/T.ERASE.LVL",
         "WS_T_MONITOR_LEVEL":     "W/T.MONITOR.LVL",
         "WS_T_REC_LEVEL":         "W/T.REC.LVL",
-        "WS_T_HEAD_ORDER":        "W/T.HEAD.ORDER",
+        "WS_T_HEAD_ORDER":        "W/T.ECHOMODE",
         "WS_T_LOOP_START":        "W/T.LOOP.START",
         "WS_T_LOOP_END":          "W/T.LOOP.END",
         "WS_T_LOOP_ACTIVE":       "W/T.LOOP.ACTIVE",

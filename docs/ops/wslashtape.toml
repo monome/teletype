@@ -30,8 +30,8 @@ short = "Level of input passed directly to output (s16V)"
 prototype = "W/T.REC.LVL gain"
 short = "Level of input material recorded to tape (s16V)"
 
-["W/T.HEAD.ORDER"]
-prototype = "W/T.HEAD.ORDER is_echo"
+["W/T.ECHOMODE"]
+prototype = "W/T.ECHOMODE is_echo"
 short = "Set to 1 to playback before erase. 0 (default) erases first (s8)"
 
 ["W/T.LOOP.START"]

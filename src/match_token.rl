@@ -780,7 +780,7 @@
         "W/T.ERASE.LVL"   => { MATCH_OP(E_OP_WS_T_PRE_LEVEL ); };
         "W/T.MONITOR.LVL" => { MATCH_OP(E_OP_WS_T_MONITOR_LEVEL ); };
         "W/T.REC.LVL"     => { MATCH_OP(E_OP_WS_T_REC_LEVEL ); };
-        "W/T.HEAD.ORDER"  => { MATCH_OP(E_OP_WS_T_HEAD_ORDER ); };
+        "W/T.ECHOMODE"    => { MATCH_OP(E_OP_WS_T_HEAD_ORDER ); };
         "W/T.LOOP.START"  => { MATCH_OP(E_OP_WS_T_LOOP_START); };
         "W/T.LOOP.END"    => { MATCH_OP(E_OP_WS_T_LOOP_END ); };
         "W/T.LOOP.ACTIVE" => { MATCH_OP(E_OP_WS_T_LOOP_ACTIVE ); };
