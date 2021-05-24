@@ -2,11 +2,11 @@
 
 // const int table_v[11] = {0, 3277, 6554, 9830, 13107, 16384, 19661, 22938,
 // 26214, 29491, 32768 };
-const int table_v[11] = { 0,    1638,  3277,  4915,  6554, 8192,
+const int16_t table_v[11] = { 0,    1638,  3277,  4915,  6554, 8192,
                           9830, 11469, 13107, 14746, 16384 };
 
 
-const int table_vv[100] = {
+const int16_t table_vv[100] = {
     0,    16,   33,   49,   66,   82,   98,   115,  131,  147,  164,  180,
     197,  213,  229,  246,  262,  279,  295,  311,  328,  344,  360,  377,
     393,  410,  426,  442,  459,  475,  492,  508,  524,  541,  557,  573,
@@ -19,7 +19,7 @@ const int table_vv[100] = {
 };
 
 
-const int table_hzv[76] = {
+const int16_t table_hzv[76] = {
     205,  217,  230,   244,   258,   273,   290,   307,   325,   344,  365,
     387,  410,  434,   460,   487,   516,   547,   579,   614,   650,  689,
     730,  773,  819,   868,   920,   974,   1032,  1094,  1159,  1227, 1300,
@@ -32,7 +32,7 @@ const int table_hzv[76] = {
 
 //>>> for i in range(0,256):
 //...     print '%.0f, ' % (math.pow(i/64.,4)*16384./256.)
-const int table_exp[256] = {
+const int16_t table_exp[256] = {
     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
     0,     0,     0,     0,     0,     0,     0,     0,     0,     1,     1,
     1,     1,     1,     1,     2,     2,     2,     3,     3,     4,     4,
@@ -94,7 +94,7 @@ const int table_exp[256] = {
 // 1000010100100010
 // 1000010100100100
 // 1000010101000100
-const int table_nr[32] = {
+const uint16_t table_nr[32] = {
     0x8888, 0x888A, 0x8892, 0x8894, 0x88A2, 0x88A4, 0x8912, 0x8914,
     0x8922, 0x8924, 0x8A8A, 0x8AAA, 0x9292, 0x92AA, 0x94AA, 0x952A,
     0x8282, 0x828A, 0x8292, 0x82A2, 0x8484, 0x848A, 0x8492, 0x8494,
@@ -102,7 +102,7 @@ const int table_nr[32] = {
 };
 
 // scales for N.S op
-const int table_n_s[9][7] = {
+const uint8_t table_n_s[9][7] = {
     {0, 2, 4, 5, 7, 9, 11}, // Major
     {0, 2, 3, 5, 7, 8, 10}, // Natural Minor
     {0, 2, 3, 5, 7, 8, 11}, // Harmonic Minor
@@ -115,7 +115,7 @@ const int table_n_s[9][7] = {
 };
 
 // chords for N.C op
-const int table_n_c[13][4] = {
+const uint8_t table_n_c[13][4] = {
     {0, 4, 7, 11},  // Major 7th       - 0
     {0, 3, 7, 10},  // Minor 7th       - 1
     {0, 4, 7, 10},  // Dominant 7th    - 2
@@ -132,7 +132,7 @@ const int table_n_c[13][4] = {
 };
 
 // chord scales for N.CS op - values are indices into table_n_c
-const int table_n_cs[9][7] = {
+const uint8_t table_n_cs[9][7] = {
     {0, 1, 1, 0, 2, 1, 6}, // Major
     {1, 6, 0, 1, 1, 0, 2}, // Natural Minor
     {8, 6, 7, 1, 2, 0, 3}, // Harmonic Minor
@@ -145,7 +145,7 @@ const int table_n_cs[9][7] = {
 };
 
 // preset bit mask scales for N.B and N.BX
-const int table_n_b[] = {
+const uint16_t table_n_b[] = {
     0b101011010101,  // ionian (major)
     0b101101010110,  // dorian
     0b110101011010,  // phrygian
