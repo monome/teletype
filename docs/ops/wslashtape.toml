@@ -61,3 +61,7 @@ short = "Move playhead to an arbitrary location on tape (s16)"
 ["W/T.SEEK"]
 prototype = "W/T.SEEK seconds sub"
 short = "Move playhead relative to current position (s16)"
+
+["W/T.CLEARTAPE"]
+prototype = "W/T.CLEARTAPE"
+short = "WARNING! Erases all recorded audio on the tape!"
