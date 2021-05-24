@@ -221,7 +221,8 @@ typedef struct {
     bool connected;
     bool metro;
     u16 metro_ticks;
-    u8 sync;
+    bool sync;
+    bool reset;
     u8 mode;
     u8 arc_dirty;
     u8 leds[ARC_MAX_ENCS][ARC_LEDS];
