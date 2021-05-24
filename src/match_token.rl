@@ -759,7 +759,7 @@
         "W/D.FILT"      => { MATCH_OP(E_OP_WS_D_LOWPASS); };
         "W/D.FREEZE"    => { MATCH_OP(E_OP_WS_D_FREEZE ); };
         "W/D.TIME"      => { MATCH_OP(E_OP_WS_D_TIME); };
-        "W/D.LNG"       => { MATCH_OP(E_OP_WS_D_LENGTH); };
+        "W/D.LEN"       => { MATCH_OP(E_OP_WS_D_LENGTH); };
         "W/D.POS"       => { MATCH_OP(E_OP_WS_D_POSITION); };
         "W/D.CUT"       => { MATCH_OP(E_OP_WS_D_CUT); };
         "W/D.FREQ.RNG"  => { MATCH_OP(E_OP_WS_D_FREQ_RANGE); };

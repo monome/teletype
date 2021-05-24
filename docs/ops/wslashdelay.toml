@@ -6,8 +6,8 @@ short = "amount of feedback from read head to write head (s16V)"
 prototype = "W/D.MIX fade"
 short = "fade from dry to delayed signal"
 
-["W/D.LPASS"]
-prototype = "W/D.LPASS cutoff"
+["W/D.FILT"]
+prototype = "W/D.FILT cutoff"
 short = "centre frequency of filter in feedback loop (s16V)"
 
 ["W/D.FREEZE"]
@@ -18,17 +18,17 @@ short = "deactivate record head to freeze the current buffer (s8)"
 prototype = "W/D.TIME seconds"
 short = "set delay buffer length in `seconds` (s16V), when rate == 1"
 
-["W/D.LNG"]
-prototype = "W/D.LNG count divisions"
-short = "set buffer loop size as a fraction of buffer time (u8)"
+["W/D.LEN"]
+prototype = "W/D.LEN count divisions"
+short = "set buffer loop length as a fraction of buffer time (u8)"
 
 ["W/D.POS"]
 prototype = "W/D.POS count divisions"
-short = "set loop location as a fraction of buffer time (u8)"
+short = "set loop start location as a fraction of buffer time (u8)"
 
 ["W/D.CUT"]
 prototype = "W/D.CUT count divisions"
-short = "jump to loop location as a fraction of buffer time (u8)"
+short = "jump to loop location as a fraction of loop length (u8)"
 
 ["W/D.FREQ.RNG"]
 prototype = "W/D.FREQ.RNG freq_range"
