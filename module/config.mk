@@ -219,7 +219,7 @@ LIB_PATH =
 LIBS =
 
 # Path relative to top level directory pointing to a linker script.
-LINKER_SCRIPT = ../src/link_uc3b0512.lds
+LINKER_SCRIPT = ../src/link_uc3b0512-teletype.lds
 
 # Additional options for debugging. By default the common Makefile.in will
 # add -g3.
