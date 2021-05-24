@@ -627,6 +627,8 @@ typedef enum {
     E_OP_ARC_METRO,
     E_OP_ARC_SYNC,
     E_OP_ARC_RST,
+    E_OP_ARC_LEN,
+    E_OP_ARC_PHASE,
     E_OP_MA_SELECT,
     E_OP_MA_STEP,
     E_OP_MA_RESET,

@@ -240,7 +240,7 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     &op_G_GBTN_X1, &op_G_GBTN_X2, &op_G_GBTN_Y1, &op_G_GBTN_Y2,
 
     // arc_cycles
-    &op_ARC_METRO, &op_ARC_SYNC,&op_ARC_RST,
+    &op_ARC_METRO, &op_ARC_SYNC,&op_ARC_RST,&op_ARC_LEN,&op_ARC_PHASE,
 
     // matrixarchate
     &op_MA_SELECT, &op_MA_STEP, &op_MA_RESET, &op_MA_PGM, &op_MA_ON, &op_MA_PON,

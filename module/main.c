@@ -667,7 +667,7 @@ static void handler_MonomeRingKey(s32 data) {
     if(!ring_keybouncing){
       ring_keybouncing++;
       u8 n;
-      s8 delta;
+      u8 delta;
       monome_ring_key_parse_event_data(data, &n, &delta);
       (*arc_process_key)(&scene_state, n);
     }

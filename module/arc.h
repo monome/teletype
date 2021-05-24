@@ -6,6 +6,8 @@
 
 #define SA ss->arc
 
+#define ARC_EUCLIDEAN 0
+
 
 extern void arc_init(scene_state_t *ss);
 // callback function pointers
