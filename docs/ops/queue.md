@@ -7,8 +7,7 @@ useful for smoothing input values.
 The queue has a maximum size of 64 elements, with a dynamic length marker,
 set by `Q.N`.
 
-Most operators manipulates the elements up to (and including) length, but the
-remaining elements might be affected by some operators.
+Most operators manipulates the elements up to (and including) length. Exceptions are `Q.I i x` and `Q.P2`.
 
 Examples, only first 8 elements shown for clarity:
 By default all elements of the queue have a value of `0` and the length is set to 1.
