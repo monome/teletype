@@ -85,7 +85,7 @@ static void op_Q_P2_set(const void *data, scene_state_t *ss, exec_state_t *es,
 const tele_op_t op_Q =        MAKE_GET_SET_OP(Q,     op_Q_get,     op_Q_set, 0, true);
 const tele_op_t op_Q_AVG =    MAKE_GET_SET_OP(Q.AVG, op_Q_AVG_get, op_Q_AVG_set, 0, true);
 const tele_op_t op_Q_N =      MAKE_GET_SET_OP(Q.N,   op_Q_N_get,   op_Q_N_set, 0, true);
-const tele_op_t op_Q_CLR =    MAKE_GET_SET_OP(Q.CLR, op_Q_CLR_get, op_Q_CLR_set, 0, true);
+const tele_op_t op_Q_CLR =    MAKE_GET_SET_OP(Q.CLR, op_Q_CLR_get, op_Q_CLR_set, 0, false);
 const tele_op_t op_Q_GRW =    MAKE_GET_SET_OP(Q.GRW, op_Q_GRW_get, op_Q_GRW_set, 0, true);
 const tele_op_t op_Q_SUM =    MAKE_GET_SET_OP(Q.SUM, op_Q_SUM_get, op_Q_SUM_get, 0, true);
 const tele_op_t op_Q_MIN =    MAKE_GET_SET_OP(Q.MIN, op_Q_MIN_get, op_Q_MIN_set, 0, true);
