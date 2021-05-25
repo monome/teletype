@@ -91,17 +91,17 @@ const tele_op_t op_Q_SUM =    MAKE_GET_SET_OP(Q.SUM, op_Q_SUM_get, op_Q_SUM_get,
 const tele_op_t op_Q_MIN =    MAKE_GET_SET_OP(Q.MIN, op_Q_MIN_get, op_Q_MIN_set, 0, true);
 const tele_op_t op_Q_MAX =    MAKE_GET_SET_OP(Q.MAX, op_Q_MAX_get, op_Q_MAX_set, 0, true);
 const tele_op_t op_Q_RND =    MAKE_GET_SET_OP(Q.RND, op_Q_RND_get, op_Q_RND_set, 0, true);
-const tele_op_t op_Q_SRT =    MAKE_GET_SET_OP(Q.SRT, op_Q_SRT_get, op_Q_SRT_set, 0, true);
-const tele_op_t op_Q_REV =    MAKE_GET_SET_OP(Q.REV, op_Q_REV_set, op_Q_REV_set, 0, true);
-const tele_op_t op_Q_SH =     MAKE_GET_SET_OP(Q.SH,  op_Q_SH_get,  op_Q_SH_set, 0, true);
-const tele_op_t op_Q_ADD =    MAKE_GET_SET_OP(Q.ADD, op_Q_ADD_get, op_Q_ADD_set, 1, true);
-const tele_op_t op_Q_SUB =    MAKE_GET_SET_OP(Q.SUB, op_Q_SUB_get, op_Q_SUB_set, 1, true);
-const tele_op_t op_Q_MUL =    MAKE_GET_SET_OP(Q.MUL, op_Q_MUL_get, op_Q_MUL_set, 1, true);
-const tele_op_t op_Q_DIV =    MAKE_GET_SET_OP(Q.DIV, op_Q_DIV_get, op_Q_DIV_set, 1, true);
-const tele_op_t op_Q_MOD =    MAKE_GET_SET_OP(Q.MOD, op_Q_MOD_get, op_Q_MOD_set, 1, true);
+const tele_op_t op_Q_SRT =    MAKE_GET_SET_OP(Q.SRT, op_Q_SRT_get, op_Q_SRT_set, 0, false);
+const tele_op_t op_Q_REV =    MAKE_GET_SET_OP(Q.REV, op_Q_REV_set, op_Q_REV_set, 0, false);
+const tele_op_t op_Q_SH =     MAKE_GET_SET_OP(Q.SH,  op_Q_SH_get,  op_Q_SH_set,  0, false);
+const tele_op_t op_Q_ADD =    MAKE_GET_SET_OP(Q.ADD, op_Q_ADD_get, op_Q_ADD_set, 1, false);
+const tele_op_t op_Q_SUB =    MAKE_GET_SET_OP(Q.SUB, op_Q_SUB_get, op_Q_SUB_set, 1, false);
+const tele_op_t op_Q_MUL =    MAKE_GET_SET_OP(Q.MUL, op_Q_MUL_get, op_Q_MUL_set, 1, false);
+const tele_op_t op_Q_DIV =    MAKE_GET_SET_OP(Q.DIV, op_Q_DIV_get, op_Q_DIV_set, 1, false);
+const tele_op_t op_Q_MOD =    MAKE_GET_SET_OP(Q.MOD, op_Q_MOD_get, op_Q_MOD_set, 1, false);
 const tele_op_t op_Q_I =      MAKE_GET_SET_OP(Q.I,   op_Q_I_get,   op_Q_I_set, 1, true);
-const tele_op_t op_Q_2P =     MAKE_GET_SET_OP(Q.2P,  op_Q_2P_get,  op_Q_2P_set, 0, true);
-const tele_op_t op_Q_P2 =     MAKE_GET_SET_OP(Q.P2,  op_Q_P2_get,  op_Q_P2_set, 0, true);
+const tele_op_t op_Q_2P =     MAKE_GET_SET_OP(Q.2P,  op_Q_2P_get,  op_Q_2P_set, 0, false);
+const tele_op_t op_Q_P2 =     MAKE_GET_SET_OP(Q.P2,  op_Q_P2_get,  op_Q_P2_set, 0, false);
 
 
 static void op_Q_get(const void *NOTUSED(data), scene_state_t *ss,
