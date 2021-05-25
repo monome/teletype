@@ -108,3 +108,4 @@ int16_t rev_bitstring_to_int(const char* token) {
     }
     return value;
 }
+

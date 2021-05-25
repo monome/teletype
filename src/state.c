@@ -49,6 +49,7 @@ void ss_variables_init(scene_state_t *ss) {
         .o_max = 63,
         .o_wrap = 1,
         .q_n = 1,
+        .q_grow = 0,
         .r_min = 0,
         .r_max = 16383,
         .script_pol = { 1, 1, 1, 1, 1, 1, 1, 1 },

@@ -136,6 +136,23 @@
         "Q"           => { MATCH_OP(E_OP_Q); };
         "Q.AVG"       => { MATCH_OP(E_OP_Q_AVG); };
         "Q.N"         => { MATCH_OP(E_OP_Q_N); };
+        "Q.CLR"       => { MATCH_OP(E_OP_Q_CLR); };
+        "Q.GRW"       => { MATCH_OP(E_OP_Q_GRW); };
+        "Q.SUM"       => { MATCH_OP(E_OP_Q_SUM); };
+        "Q.MIN"       => { MATCH_OP(E_OP_Q_MIN); };
+        "Q.MAX"       => { MATCH_OP(E_OP_Q_MAX); };
+        "Q.RND"       => { MATCH_OP(E_OP_Q_RND); };
+        "Q.SRT"       => { MATCH_OP(E_OP_Q_SRT); };
+        "Q.REV"       => { MATCH_OP(E_OP_Q_REV); };
+        "Q.SH"        => { MATCH_OP(E_OP_Q_SH); };
+        "Q.ADD"       => { MATCH_OP(E_OP_Q_ADD); };
+        "Q.SUB"       => { MATCH_OP(E_OP_Q_SUB); };
+        "Q.MUL"       => { MATCH_OP(E_OP_Q_MUL); };
+        "Q.DIV"       => { MATCH_OP(E_OP_Q_DIV); };
+        "Q.MOD"       => { MATCH_OP(E_OP_Q_MOD); };
+        "Q.I"         => { MATCH_OP(E_OP_Q_I); };
+        "Q.2P"        => { MATCH_OP(E_OP_Q_2P); };
+        "Q.P2"        => { MATCH_OP(E_OP_Q_P2); };
 
         # hardware
         "CV"          => { MATCH_OP(E_OP_CV); };

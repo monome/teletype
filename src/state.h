@@ -96,6 +96,7 @@ typedef struct {
     int16_t param;
     int16_t q[Q_LENGTH];
     int16_t q_n;
+    int16_t q_grow;
     int16_t r_min;
     int16_t r_max;
     int16_t n_scale_bits[NB_NBX_SCALES];

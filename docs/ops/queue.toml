@@ -11,7 +11,7 @@ prototype = "Q.N"
 prototype_set = "Q.N x"
 short = "The queue length"
 description = """
-Gets/sets the length of the queue.
+Gets/sets the length of the queue. The length is 1-indexed.
 """
 
 ["Q.AVG"]
@@ -22,3 +22,170 @@ description = """
 Getting the value the average of the values in the queue. Setting `x` sets the
 value of each entry in the queue to `x`.
 """
+
+["Q.CLR"]
+prototype = "Q.CLR"
+prototype_set = "Q.CLR x"
+short = "Clear queue"
+description = """
+Clear queue, set all values to 0, length to 1. If parameter `x` is provided, set first elements to `x`.
+"""
+
+["Q.GRW"]
+prototype = "Q.GRW"
+prototype_set = "Q.GRW x"
+short = "Get/set grow state"
+description = """
+If grow is set (value of 1) the queue will automatically grow and shrink when using `Q` (popping and pushing).
+"""
+
+["Q.SUM"]
+prototype = "Q.SUM"
+prototype_set = "Q.SUM x"
+short = "Get sum of elements"
+description = """
+Get sum of all elements in queue.
+"""
+
+["Q.MIN"]
+prototype = "Q.MIN"
+prototype_set = "Q.MIN x"
+short = "Get/set minimum value"
+description = """
+Get the minimum value of elements in queue. If `x` is provided, set elements with a value less than `x` to `x`.
+"""
+
+["Q.MAX"]
+prototype = "Q.MAX"
+prototype_set = "Q.MAX x"
+short = "Get/set maximum value"
+description = """
+Get the maximum value of elements in queue. If `x` is provided, set elements with a value greater than `x` to `x`.
+"""
+
+["Q.RND"]
+prototype = "Q.RND"
+prototype_set = "Q.RND x"
+short = "Get random element/randomize elements"
+description = """
+Get a random element in queue.
+
+If `x` > 0, set all elements to a random value 0-`x`.
+If `x` < 0, swap two elements `-x` number of times.
+IF `x` == 0, do nothing.
+"""
+
+["Q.SRT"]
+prototype = "Q.SRT"
+prototype_set = "Q.SRT "
+short = "Sort all or part of queue"
+description = """
+Sort elements in queue.
+With no arguments, entire queue is sorted in accending order.
+
+If `x` > 0, sort elements from index `i` to the end of queue.
+If `x` < 0, sort elements from beginning of queue to index `-i`.
+IF `x` == 0, sort all elements.
+
+Index `i` is 0-indexed.
+"""
+
+["Q.REV"]
+prototype = "Q.REV"
+short = "Reverse queue"
+description = """
+Reverse order of elements in queue.
+"""
+
+["Q.SH"]
+prototype = "Q.SH"
+prototype_set = "Q.SH x"
+short = "Shift elements in queue"
+description = """
+Shift elements `x` locations to right. Negative values of `x` shifts to the left. No value provided is equal to `x` = 1. Shifting is wrapped.
+"""
+
+["Q.ADD"]
+prototype = "Q.ADD x"
+prototype_set = "Q.ADD x i"
+short = "Perform addition on elements in queue"
+description = """
+Add `x` to all elements in queue. If index `i` is provided, only perform addition on element at index `i`.
+
+Index `i` is 0-indexed.
+"""
+
+["Q.SUB"]
+prototype = "Q.SUB x"
+prototype_set = "Q.SUB x i"
+short = "Perform subtraction on elements in queue"
+description = """
+Subtract `x` from all elements in queue. If index `i` is provided, only perform subtraction on element at index `i`.
+
+Index `i` is 0-indexed.
+"""
+
+["Q.MUL"]
+prototype = "Q.MUL x"
+prototype_set = "Q.MUL x i"
+short = "Perform multiplication on elements in queue"
+description = """
+Multiply all elements in queue with `x`. If index `i` is provided, only perform multiplication on element at index `i`.
+
+Index `i` is 0-indexed.
+
+"""
+
+["Q.DIV"]
+prototype = "Q.DIV x"
+prototype_set = "Q.DIV x i"
+short = "Perform division on elements in queue"
+description = """
+Divide all elements in queue by `x`. If index `i` is provided, only perform division on element at index `i`.
+
+Index `i` is 0-indexed.
+"""
+
+
+["Q.MOD"]
+prototype = "Q.MOD x"
+prototype_set = "Q.MOD x i"
+short = "Perform module (`%`) on elements in queue"
+description = """
+Perform modulo of `x` (value = value % `x`) on all elements in queue. If index `i` is provided, only perform modulo operation on element at index `i`.
+
+Index `i` is 0-indexed.
+"""
+
+
+["Q.I"]
+prototype = "Q.I i"
+prototype_set = "Q.I i x"
+short = "Get/set value of elements at index"
+description = """
+Get value of element at index `i` or set value of element `i` to value `x`. Indexing works on entire lenght of queue, and is not limited to elements below queue end point.
+
+Index `i` is 0-indexed.
+"""
+
+["Q.2P"]
+prototype = "Q.2P"
+prototype_set = "Q.2P i"
+short = "Copy queue to current pattern/copy queue to pattern at index `i`"
+description = """
+Copy entire queue to current pattern or (if `i` provided) pattern at index `i`.
+
+Index `i` is 0-indexed.
+"""
+
+["Q.P2"]
+prototype = "Q.P2"
+prototype_set = "Q.P2 i"
+short = "Copy current pattern to queue/copy pattern at index `i` to queue"
+description = """
+Copy current pattern to queue or (if `i` provided) copy pattern at index `i` to queue.
+
+Index `i` is 0-indexed.
+"""
+
+

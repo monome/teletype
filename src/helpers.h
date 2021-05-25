@@ -19,3 +19,4 @@ int16_t bit_reverse(int16_t unreversed, int8_t bits_to_reverse);
 int16_t rev_bitstring_to_int(const char* token);
 
 #endif
+

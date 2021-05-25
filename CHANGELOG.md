@@ -26,6 +26,7 @@
 - **FIX**: W/2.0 ops added
 - **NEW**: W/2.0 ops documentation
 - **NEW**: `><`, `<>`, `>=<` and `<=>` OPs, checks if value is within or outside of range
+- **IMP**: new powerful Q OPs
 
 ## v3.2.0
 
