@@ -42,7 +42,7 @@ static void op_Q_SRT_get(const void *data, scene_state_t *ss, exec_state_t *es,
                           command_state_t *cs);
 static void op_Q_SRT_set(const void *data, scene_state_t *ss, exec_state_t *es,
                           command_state_t *cs);
-static void op_Q_REV_set(const void *data, scene_state_t *ss, exec_state_t *es,
+static void op_Q_REV_get(const void *data, scene_state_t *ss, exec_state_t *es,
                          command_state_t *cs);
 static void op_Q_SH_get(const void *data, scene_state_t *ss,
                            exec_state_t *es, command_state_t *cs);
@@ -92,7 +92,7 @@ const tele_op_t op_Q_MIN =    MAKE_GET_SET_OP(Q.MIN, op_Q_MIN_get, op_Q_MIN_set,
 const tele_op_t op_Q_MAX =    MAKE_GET_SET_OP(Q.MAX, op_Q_MAX_get, op_Q_MAX_set, 0, true);
 const tele_op_t op_Q_RND =    MAKE_GET_SET_OP(Q.RND, op_Q_RND_get, op_Q_RND_set, 0, true);
 const tele_op_t op_Q_SRT =    MAKE_GET_SET_OP(Q.SRT, op_Q_SRT_get, op_Q_SRT_set, 0, false);
-const tele_op_t op_Q_REV =    MAKE_GET_SET_OP(Q.REV, op_Q_REV_set, op_Q_REV_set, 0, false);
+const tele_op_t op_Q_REV =    MAKE_GET_OP(Q.REV, op_Q_REV_get, 0, false);
 const tele_op_t op_Q_SH =     MAKE_GET_SET_OP(Q.SH,  op_Q_SH_get,  op_Q_SH_set,  0, false);
 const tele_op_t op_Q_ADD =    MAKE_GET_SET_OP(Q.ADD, op_Q_ADD_get, op_Q_ADD_set, 1, false);
 const tele_op_t op_Q_SUB =    MAKE_GET_SET_OP(Q.SUB, op_Q_SUB_get, op_Q_SUB_set, 1, false);
@@ -335,7 +335,7 @@ static void op_Q_SRT_set(const void *NOTUSED(data), scene_state_t *ss,
     }
 }
 
-static void op_Q_REV_set(const void *NOTUSED(data), scene_state_t *ss,
+static void op_Q_REV_get(const void *NOTUSED(data), scene_state_t *ss,
                          exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t *q = ss->variables.q;
     int16_t q_n = ss->variables.q_n;
