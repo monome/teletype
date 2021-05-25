@@ -66,6 +66,14 @@ static void op_LTE_get(const void *data, scene_state_t *ss, exec_state_t *es,
                        command_state_t *cs);
 static void op_GTE_get(const void *data, scene_state_t *ss, exec_state_t *es,
                        command_state_t *cs);
+static void op_INR_get(const void *data, scene_state_t *ss,
+                           exec_state_t *es, command_state_t *cs);
+static void op_OUTR_get(const void *data, scene_state_t *ss,
+                            exec_state_t *es, command_state_t *cs);
+static void op_INRI_get(const void *data, scene_state_t *ss,
+                             exec_state_t *es, command_state_t *cs);
+static void op_OUTRI_get(const void *data, scene_state_t *ss,
+                              exec_state_t *es, command_state_t *cs);
 static void op_NZ_get(const void *data, scene_state_t *ss, exec_state_t *es,
                       command_state_t *cs);
 static void op_EZ_get(const void *data, scene_state_t *ss, exec_state_t *es,
@@ -185,6 +193,10 @@ const tele_op_t op_LT    = MAKE_GET_OP(LT      , op_LT_get      , 2, true);
 const tele_op_t op_GT    = MAKE_GET_OP(GT      , op_GT_get      , 2, true);
 const tele_op_t op_LTE   = MAKE_GET_OP(LTE     , op_LTE_get     , 2, true);
 const tele_op_t op_GTE   = MAKE_GET_OP(GTE     , op_GTE_get     , 2, true);
+const tele_op_t op_INR   = MAKE_GET_OP(INR     , op_INR_get     , 3, true);
+const tele_op_t op_OUTR  = MAKE_GET_OP(OUTR    , op_OUTR_get    , 3, true);
+const tele_op_t op_INRI  = MAKE_GET_OP(INRI    , op_INRI_get    , 3, true);
+const tele_op_t op_OUTRI = MAKE_GET_OP(OUTRI   , op_OUTRI_get   , 3, true);
 const tele_op_t op_NZ    = MAKE_GET_OP(NZ      , op_NZ_get      , 1, true);
 const tele_op_t op_EZ    = MAKE_GET_OP(EZ      , op_EZ_get      , 1, true);
 const tele_op_t op_RSH   = MAKE_GET_OP(RSH     , op_RSH_get     , 2, true);
@@ -239,6 +251,10 @@ const tele_op_t op_SYM_LEFT_ANGLED        = MAKE_ALIAS_OP(< ,  op_LT_get ,  NULL
 const tele_op_t op_SYM_RIGHT_ANGLED       = MAKE_ALIAS_OP(> ,  op_GT_get ,  NULL, 2, true);
 const tele_op_t op_SYM_LEFT_ANGLED_EQUAL  = MAKE_ALIAS_OP(<=,  op_LTE_get,  NULL, 2, true);
 const tele_op_t op_SYM_RIGHT_ANGLED_EQUAL = MAKE_ALIAS_OP(>=,  op_GTE_get,  NULL, 2, true);
+const tele_op_t op_SYM_RIGHT_ANGLED_LEFT_ANGLED = MAKE_ALIAS_OP(><,  op_INR_get,  NULL, 3, true);
+const tele_op_t op_SYM_LEFT_ANGLED_RIGHT_ANGLED = MAKE_ALIAS_OP(<>,  op_OUTR_get,  NULL, 3, true);
+const tele_op_t op_SYM_RIGHT_ANGLED_EQUAL_LEFT_ANGLED = MAKE_ALIAS_OP(>=<,  op_INRI_get,  NULL, 3, true);
+const tele_op_t op_SYM_LEFT_ANGLED_EQUAL_RIGHT_ANGLED = MAKE_ALIAS_OP(<=>,  op_OUTRI_get,  NULL, 3, true);
 const tele_op_t op_SYM_EXCLAMATION        = MAKE_ALIAS_OP(! ,  op_EZ_get ,  NULL, 1, true);
 const tele_op_t op_SYM_LEFT_ANGLED_x2     = MAKE_ALIAS_OP(<<,  op_LSH_get,  NULL, 2, true);
 const tele_op_t op_SYM_RIGHT_ANGLED_x2    = MAKE_ALIAS_OP(>>,  op_RSH_get,  NULL, 2, true);
@@ -623,6 +639,42 @@ static void op_LTE_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
 static void op_GTE_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                        exec_state_t *NOTUSED(es), command_state_t *cs) {
     cs_push(cs, cs_pop(cs) >= cs_pop(cs));
+}
+
+static void op_INR_get(const void *NOTUSED(data),
+                           scene_state_t *NOTUSED(ss),
+                           exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t lo = cs_pop(cs);
+    int16_t x = cs_pop(cs);
+    int16_t hi = cs_pop(cs);
+    cs_push(cs, (lo < x) && (x < hi));
+}
+
+static void op_OUTR_get(const void *NOTUSED(data),
+                            scene_state_t *NOTUSED(ss),
+                            exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t lo = cs_pop(cs);
+    int16_t x = cs_pop(cs);
+    int16_t hi = cs_pop(cs);
+    cs_push(cs, (lo > x) || (x > hi));
+}
+
+static void op_INRI_get(const void *NOTUSED(data),
+                             scene_state_t *NOTUSED(ss),
+                             exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t lo = cs_pop(cs);
+    int16_t x = cs_pop(cs);
+    int16_t hi = cs_pop(cs);
+    cs_push(cs, (lo <= x) && (x <= hi));
+}
+
+static void op_OUTRI_get(const void *NOTUSED(data),
+                              scene_state_t *NOTUSED(ss),
+                              exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t lo = cs_pop(cs);
+    int16_t x = cs_pop(cs);
+    int16_t hi = cs_pop(cs);
+    cs_push(cs, (lo >= x) || (x >= hi));
 }
 
 static void op_NZ_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),

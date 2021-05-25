@@ -193,7 +193,11 @@
         "GT"          => { MATCH_OP(E_OP_GT); };
         "LTE"         => { MATCH_OP(E_OP_LTE); };
         "GTE"         => { MATCH_OP(E_OP_GTE); };
-        "NZ"          => { MATCH_OP(E_OP_NZ); };
+        "INR"         => { MATCH_OP(E_OP_INR); };
+        "OUTR"        => { MATCH_OP(E_OP_OUTR); };
+        "INRI"        => { MATCH_OP(E_OP_INRI); };
+        "OUTRI"       => { MATCH_OP(E_OP_OUTRI); };
+	"NZ"          => { MATCH_OP(E_OP_NZ); };
         "EZ"          => { MATCH_OP(E_OP_EZ); };
         "RSH"         => { MATCH_OP(E_OP_RSH); };
         "LSH"         => { MATCH_OP(E_OP_LSH); };
@@ -245,7 +249,11 @@
         ">"           => { MATCH_OP(E_OP_SYM_RIGHT_ANGLED); };
         "<="          => { MATCH_OP(E_OP_SYM_LEFT_ANGLED_EQUAL); };
         ">="          => { MATCH_OP(E_OP_SYM_RIGHT_ANGLED_EQUAL); };
-        "!"           => { MATCH_OP(E_OP_SYM_EXCLAMATION); };
+        "><"          => { MATCH_OP(E_OP_SYM_RIGHT_ANGLED_LEFT_ANGLED); };
+        "<>"          => { MATCH_OP(E_OP_SYM_LEFT_ANGLED_RIGHT_ANGLED); };
+        ">=<"         => { MATCH_OP(E_OP_SYM_RIGHT_ANGLED_EQUAL_LEFT_ANGLED); };
+        "<=>"         => { MATCH_OP(E_OP_SYM_LEFT_ANGLED_EQUAL_RIGHT_ANGLED); };
+	"!"           => { MATCH_OP(E_OP_SYM_EXCLAMATION); };
         "<<"          => { MATCH_OP(E_OP_SYM_LEFT_ANGLED_x2); };
         ">>"          => { MATCH_OP(E_OP_SYM_RIGHT_ANGLED_x2); };
         "<<<"         => { MATCH_OP(E_OP_SYM_LEFT_ANGLED_x3); };

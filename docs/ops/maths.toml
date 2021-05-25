@@ -119,6 +119,26 @@ prototype = "GTE x y"
 aliases = [">="]
 short = "`x` is greater than or equal to `y`"
 
+[INR]
+prototype = "INR l x h"
+aliases = ["><"]
+short = "`x` is greater than `l` and less than `h` (within range)"
+
+[OUTR]
+prototype = "OUTR l x h"
+aliases = ["<>"]
+short = "`x` is less than `l` or greater than `h` (out of range)"
+
+[INRI]
+prototype = "INRI l x h"
+aliases = [">=<"]
+short = "`x` is greater than or equal to `l` and less than or equal to `h` (within range, inclusive)"
+
+[OUTRI]
+prototype = "OUTRI l x h"
+aliases = ["<=>"]
+short = "`x` is less than or equal to `l` or greater than or equal to `h` (out of range, inclusive)"
+
 [EZ]
 prototype = "EZ x"
 aliases = ["!"]

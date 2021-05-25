@@ -248,7 +248,7 @@ const char* help4[HELP4_LENGTH] = {
     "  RETURNS N TABLE VALUE",
 };
 
-#define HELP5_LENGTH 119
+#define HELP5_LENGTH 123
 const char* help5[HELP5_LENGTH] = { "5/16 OPERATORS",
                                     " ",
                                     "RAND A|RANDOM 0 - A",
@@ -277,6 +277,10 @@ const char* help5[HELP5_LENGTH] = { "5/16 OPERATORS",
                                     "NE A B|A NOT EQUAL TO B",
                                     "GT A B|A GREATER THAN B",
                                     "LT A B|A LESS THAN B",
+                                    ">< L X H|X IN RANGE L-H",
+                                    "<> L X H|X OUT OF RANGE L-H",
+                                    ">=< L X H|X IN RANGE L-H INCLUSIVE",
+                                    "<=> L X H|X OUT OF RANGE L-H INCLUSIVE",
                                     "EZ A|A EQUALS 0",
                                     "NZ A|A NOT EQUAL TO 0",
                                     "? A B C|TERNARY IF",
