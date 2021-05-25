@@ -443,8 +443,9 @@ static void op_Q_DIV_get(const void *NOTUSED(data), scene_state_t *ss,
     int16_t *q = ss->variables.q;
     int16_t q_n = ss->variables.q_n;
     int16_t div = cs_pop(cs);
-
-    for (int8_t i = 0; i < q_n; i++) { q[i] = q[i] / div; }
+    if(div != 0){
+	for (int8_t i = 0; i < q_n; i++) { q[i] = q[i] / div; }
+    }
 }
 
 static void op_Q_DIV_set(const void *NOTUSED(data), scene_state_t *ss,
@@ -453,9 +454,11 @@ static void op_Q_DIV_set(const void *NOTUSED(data), scene_state_t *ss,
     int16_t q_n = ss->variables.q_n;
     int16_t div = cs_pop(cs);
     int8_t i = cs_pop(cs);
-    i = i < 0 ? 0 : i;
-    i = i > q_n - 1 ? q_n - 1 : i;
-    q[i] = q[i] / div;
+    if(div != 0) {
+	i = i < 0 ? 0 : i;
+	i = i > q_n - 1 ? q_n - 1 : i;
+	q[i] = q[i] / div;
+    }
 }
 
 static void op_Q_MOD_get(const void *NOTUSED(data), scene_state_t *ss,
@@ -463,8 +466,9 @@ static void op_Q_MOD_get(const void *NOTUSED(data), scene_state_t *ss,
     int16_t *q = ss->variables.q;
     int16_t q_n = ss->variables.q_n;
     int16_t mod = cs_pop(cs);
-
-    for (int8_t i = 0; i < q_n; i++) { q[i] = q[i] % mod; }
+    if(mod != 0){
+	for (int8_t i = 0; i < q_n; i++) { q[i] = q[i] % mod; }
+    }
 }
 
 static void op_Q_MOD_set(const void *NOTUSED(data), scene_state_t *ss,
@@ -473,9 +477,11 @@ static void op_Q_MOD_set(const void *NOTUSED(data), scene_state_t *ss,
     int16_t q_n = ss->variables.q_n;
     int16_t mod = cs_pop(cs);
     int8_t i = cs_pop(cs);
-    i = i < 0 ? 0 : i;
-    i = i > q_n - 1 ? q_n - 1 : i;
-    q[i] = q[i] % mod;
+    if(mod != 0 ){
+	i = i < 0 ? 0 : i;
+	i = i > q_n - 1 ? q_n - 1 : i;
+	q[i] = q[i] % mod;
+    }
 }
 
 static void op_Q_I_get(const void *NOTUSED(data), scene_state_t *ss,
