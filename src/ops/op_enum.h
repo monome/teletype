@@ -176,6 +176,7 @@ typedef enum {
     E_OP_QT_S,
     E_OP_QT_CS,
     E_OP_QT_B,
+    E_OP_QT_BX,
     E_OP_AVG,
     E_OP_EQ,
     E_OP_NE,

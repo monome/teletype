@@ -25,6 +25,7 @@ extern const tele_op_t op_QT;
 extern const tele_op_t op_QT_S;
 extern const tele_op_t op_QT_CS;
 extern const tele_op_t op_QT_B;
+extern const tele_op_t op_QT_BX;
 extern const tele_op_t op_AVG;
 extern const tele_op_t op_EQ;
 extern const tele_op_t op_NE;

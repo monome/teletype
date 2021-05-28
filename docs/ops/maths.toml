@@ -64,14 +64,14 @@ prototype = "QT x y"
 short = "round `x` to the closest multiple of `y` (quantise)"
 
 ["QT.S"]
-prototype = "QT.S i r s"
-short = "quantize note number `i` (-127..127) to note number in scale `s` (0-8, reference N.S scales) with root note `r` (-127..127)"
+prototype = "QT.S x r s"
+short = "quantize 1V/OCT signal `x` to scale `s` (0-8, reference N.S scales) with root 1V/OCT pitch `r`"
 
 ["QT.CS"]
-prototype = "QT.CS i r s d c"
-short = "quantize note number `i` (-127..127) to note number in chord `c` (1-7) from scale `s` (0-8, reference N.S scales) at degree `d` (1-7) with root note `r` (-127..127)."
+prototype = "QT.CS x r s d c"
+short = "quantize 1V/OCT signal `x` to chord `c` (1-7) from scale `s` (0-8, reference N.S scales) at degree `d` (1-7) with root 1V/OCT pitch `r`"
 description = """
-Quantize note number `i` (-127..127) to note number in chord `c` (1-7) from scale `s` (0-8, reference N.S scales) at degree `d` (1-7) with root note `r` (-127..127).
+Quantize 1V/OCT signal `x` to chord `c` (1-7) from scale `s` (0-8, reference N.S scales) at degree `d` (1-7) with root 1V/OCT pitch `r`.
 
 Chords (1-7)
  - `1` = Tonic
@@ -82,8 +82,12 @@ Chords (1-7)
 """
 
 ["QT.B"]
-prototype = "QT.B i r b"
-short = "quantize `i` to note number in scale bitmask `b` (LSB = root) with root note `r`"
+prototype = "QT.B x"
+short = "quantize 1V/OCT signal `x` to scale defined by `N.B`"
+
+["QT.BX"]
+prototype = "QT.BX x i"
+short = "quantize 1V/OCT signal `x` to scale defined by `N.BX` in scale index `i`"
 
 [AVG]
 prototype = "AVG x y"

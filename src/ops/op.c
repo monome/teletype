@@ -87,8 +87,8 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     // maths
     &op_ADD, &op_SUB, &op_MUL, &op_DIV, &op_MOD, &op_RAND, &op_RND, &op_RRAND,
     &op_RRND, &op_R, &op_R_MIN, &op_R_MAX, &op_TOSS, &op_MIN, &op_MAX, &op_LIM,
-    &op_WRAP, &op_WRP, &op_QT, &op_QT_S, &op_QT_CS, &op_QT_B, &op_AVG, &op_EQ,
-    &op_NE, &op_LT, &op_GT, &op_LTE, &op_GTE,
+    &op_WRAP, &op_WRP, &op_QT, &op_QT_S, &op_QT_CS, &op_QT_B, &op_QT_BX, &op_AVG,
+    &op_EQ, &op_NE, &op_LT, &op_GT, &op_LTE, &op_GTE,
     &op_INR, &op_OUTR, &op_INRI, &op_OUTRI,
     &op_NZ, &op_EZ, &op_RSH, &op_LSH, &op_LROT,
     &op_RROT, &op_EXP, &op_ABS, &op_SGN, &op_AND, &op_OR, &op_JI, &op_SCALE,

@@ -203,6 +203,7 @@
         "QT.S"        => { MATCH_OP(E_OP_QT_S); };
         "QT.CS"       => { MATCH_OP(E_OP_QT_CS); };
         "QT.B"        => { MATCH_OP(E_OP_QT_B); };
+        "QT.BX"       => { MATCH_OP(E_OP_QT_BX); };		
         "AVG"         => { MATCH_OP(E_OP_AVG); };
         "EQ"          => { MATCH_OP(E_OP_EQ); };
         "NE"          => { MATCH_OP(E_OP_NE); };
