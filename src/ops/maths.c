@@ -312,18 +312,6 @@ static int16_t note_number_to_volts(int16_t note_in) {
     }
 }
 
-/* static void note_number_to_oct_semi(int16_t note_in, int16_t *octave, int16_t *semitones) {
-	*octave = (note_in >= 0) ? (note_in / 12) : ((note_in + 1) / 12 - 1);
-	
-    if (note_in >= 0) { *semitones = note_in % 12; }
-    else {
-        if (note_in % 12 == 0) { *semitones = 0; }
-        else {
-            *semitones = 12 + (note_in % 12);
-        } 
-    }
-} */
-
 static int16_t scale_n_s_to_bitmask(int16_t scale_n_s) {
 	// convert a N.S scale into a 12-bit scale mask (LSB = root)
 	uint8_t table_n_s_rows = (sizeof(table_n_s) / sizeof(table_n_s[0]));
