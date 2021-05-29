@@ -10,7 +10,7 @@
 - **NEW**: binary and hex format for numbers: `B...`, `X...`
 - **NEW**: Disting EX ops
 - **FIX**: `LAST n` is broken for script 1
-- **NEW**: bitmasked delay and quantize: `DEL.B..`,  `QT.B..`
+- **NEW**: bitmasked delay and quantize: `DEL.B..`,  `QT.B..`, `QT.BX..`
 - **NEW**: scale and chord quantize: `QT.S..`, `QT.CS..`
 - **NEW**: bit toggle OP: `BTOG..`
 - **NEW**: volts to semitones helper OP: `VN..`
