@@ -34,15 +34,16 @@ In most cases, the clipboard is shared between _live_, _edit_ and the 2 _preset_
 |----------------------------------------|-----------------------------------------|
 | **`<left>`** / **`ctrl-b`**            | move cursor left                        |
 | **`<right>`** / **`ctrl-f`**           | move cursor right                       |
-| **`ctrl-<left>`**                      | move left by one word                   |
-| **`ctrl-<right>`**                     | move right by one word                  |
+| **`ctrl-<left>`** / **`alt-b`**        | move left by one word                   |
+| **`ctrl-<right>`** / **`alt-f`**       | move right by one word                  |
 | **`<home>`** / **`ctrl-a`**            | move to beginning of line               |
 | **`<end>`** / **`ctrl-e`**             | move to end of line                     |
 | **`<backspace>`** / **`ctrl-h`**       | backwards delete one character          |
 | **`<delete>`** / **`ctrl-d`**          | forwards delete one character           |
 | **`shift-<backspace>`** / **`ctrl-u`** | delete from cursor to beginning         |
-| **`shift-<delete>`** / **`ctrl-e`**    | delete from cursor to end               |
+| **`shift-<delete>`** / **`ctrl-k`**    | delete from cursor to end               |
 | **`alt-<backspace>`** / **`ctrl-w`**   | delete from cursor to beginning of word |
+| **`alt-d`**                            | delete from cursor to end of word       |
 | **`ctrl-x`** / **`alt-x`**             | cut to clipboard                        |
 | **`ctrl-c`** / **`alt-c`**             | copy to clipboard                       |
 | **`ctrl-v`** / **`alt-v`**             | paste to clipboard                      |

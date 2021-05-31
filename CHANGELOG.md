@@ -27,6 +27,8 @@
 - **NEW**: W/2.0 ops documentation
 - **NEW**: `><`, `<>`, `>=<` and `<=>` OPs, checks if value is within or outside of range
 - **IMP**: new powerful Q OPs
+- **IMP**: Improved line editing movement (forward/backward by word skips intervening space).
+- **NEW**: Delete to end of word command `alt-d` added.
 
 ## v3.2.0
 

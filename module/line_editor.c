@@ -64,19 +64,31 @@ bool line_editor_process_keys(line_editor_t *le, uint8_t k, uint8_t m,
         le->cursor = le->length;
         return true;
     }
-    // ctrl-<left>: move cursor to previous word
-    else if (match_ctrl(m, k, HID_LEFT)) {
+    // ctrl-<left> or alt-b: move cursor to previous word
+    else if (match_ctrl(m, k, HID_LEFT) || match_alt(m, k, HID_B)) {
+        bool encountered_word = false;
         while (le->cursor) {
+            if (le->buffer[le->cursor - 1] == ' ') {
+                if (encountered_word) break;
+            }
+            else {
+                encountered_word = true;
+            }
             le->cursor--;
-            if (!le->cursor || le->buffer[le->cursor - 1] == ' ') break;
         }
         return true;
     }
-    // ctrl-<right>: move cursor to next word
-    else if (match_ctrl(m, k, HID_RIGHT)) {
+    // ctrl-<right> or alt-f: move cursor to next word
+    else if (match_ctrl(m, k, HID_RIGHT) || match_alt(m, k, HID_F)) {
+        bool encountered_word = false;
         while (le->cursor < le->length) {
+            if (le->buffer[le->cursor] == ' ') {
+                if (encountered_word) break;
+            }
+            else {
+                encountered_word = true;
+            }
             le->cursor++;
-            if (le->buffer[le->cursor - 1] == ' ') break;
         }
         return true;
     }
@@ -110,7 +122,7 @@ bool line_editor_process_keys(line_editor_t *le, uint8_t k, uint8_t m,
         le->cursor = 0;
         return true;
     }
-    // shift-<delete> or ctrl-e: delete from cursor to end
+    // shift-<delete> or ctrl-k: delete from cursor to end
     else if (match_shift(m, k, HID_DELETE) || match_ctrl(m, k, HID_K)) {
         le->buffer[le->cursor] = 0;
         le->length = le->cursor;
@@ -118,17 +130,40 @@ bool line_editor_process_keys(line_editor_t *le, uint8_t k, uint8_t m,
     }
     // alt-<backspace> or ctrl-w: delete from cursor to beginning of word
     else if (match_alt(m, k, HID_BACKSPACE) || match_ctrl(m, k, HID_W)) {
+        bool encountered_word = false;
         while (le->cursor) {
-            // delete a character
+            // Stop after reaching space on the other side of the word.
+            if (le->buffer[le->cursor - 1] == ' ') {
+                if (encountered_word) break;
+            }
+            else {
+                encountered_word = true;
+            }
+            // Delete preceeding character by shifting buffer down.
             le->cursor--;
             for (size_t x = le->cursor; x < LINE_EDITOR_SIZE - 1; x++) {
                 le->buffer[x] = le->buffer[x + 1];
             }
             le->length--;
-
-            // place the check at the bottom so that we can chain invocations to
-            // delete multiple words
-            if (le->buffer[le->cursor - 1] == ' ') break;
+        }
+        return true;
+    }
+    // alt-d: delete from cursor to end of word.
+    else if (match_alt(m, k, HID_D)) {
+        bool encountered_word = false;
+        while (le->cursor < le->length) {
+            // Stop after reaching space on the other side of the word.
+            if (le->buffer[le->cursor] == ' ') {
+                if (encountered_word) break;
+            }
+            else {
+                encountered_word = true;
+            }
+            // Delete this character by shifting the buffer down.
+            for (size_t x = le->cursor; x < LINE_EDITOR_SIZE - 1; ++x) {
+                le->buffer[x] = le->buffer[x + 1];
+            }
+            le->length--;
         }
         return true;
     }
