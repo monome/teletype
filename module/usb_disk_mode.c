@@ -82,7 +82,7 @@ void tele_usb_disk() {
             font_string_region_clip_tab(&line[0], input_buffer, 2, 0, 0xa, 0);
             region_draw(&line[0]);
 
-            flash_read(i, &scene, &text, 1, 1);
+            flash_read(i, &scene, &text, 1, 1, 1);
 
             if (!nav_file_create((FS_STRING)filename)) {
                 if (fs_g_status != FS_ERR_FILE_EXIST) {

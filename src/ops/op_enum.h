@@ -262,6 +262,7 @@ typedef enum {
     E_OP_KILL,
     E_OP_SCENE,
     E_OP_SCENE_G,
+    E_OP_SCENE_P,
     E_OP_BREAK,
     E_OP_BRK,
     E_OP_SYNC,

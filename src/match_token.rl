@@ -203,7 +203,7 @@
         "QT.S"        => { MATCH_OP(E_OP_QT_S); };
         "QT.CS"       => { MATCH_OP(E_OP_QT_CS); };
         "QT.B"        => { MATCH_OP(E_OP_QT_B); };
-        "QT.BX"       => { MATCH_OP(E_OP_QT_BX); };		
+        "QT.BX"       => { MATCH_OP(E_OP_QT_BX); };
         "AVG"         => { MATCH_OP(E_OP_AVG); };
         "EQ"          => { MATCH_OP(E_OP_EQ); };
         "NE"          => { MATCH_OP(E_OP_NE); };
@@ -293,6 +293,7 @@
         "KILL"        => { MATCH_OP(E_OP_KILL); };
         "SCENE"       => { MATCH_OP(E_OP_SCENE); };
         "SCENE.G"     => { MATCH_OP(E_OP_SCENE_G); };
+        "SCENE.P"     => { MATCH_OP(E_OP_SCENE_P); };
         "BREAK"       => { MATCH_OP(E_OP_BREAK); };
         "BRK"         => { MATCH_OP(E_OP_BRK); };
         "SYNC"        => { MATCH_OP(E_OP_SYNC); };

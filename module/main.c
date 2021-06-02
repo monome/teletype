@@ -322,23 +322,23 @@ static void safely_run_script(u8 script) {
 
 void midiScriptTimer_callback(void* obj) {
     u8 executed[SCRIPT_COUNT] = { 0 };
-    
+
     if (scene_state.midi.on_count) {
         safely_run_script(scene_state.midi.on_script);
         executed[scene_state.midi.on_script] = 1;
     }
-    
+
     if (scene_state.midi.off_count &&
         !executed[scene_state.midi.off_script]) {
         safely_run_script(scene_state.midi.off_script);
         executed[scene_state.midi.off_script] = 1;
     }
-    
+
     if (scene_state.midi.cc_count &&
         !executed[scene_state.midi.cc_script]) {
         safely_run_script(scene_state.midi.cc_script);
     }
-    
+
     scene_state.midi.on_count = 0;
     scene_state.midi.off_count = 0;
     scene_state.midi.cc_count = 0;
@@ -653,7 +653,7 @@ static void midi_control_change(u8 ch, u8 num, u8 val) {
     scene_state.midi.last_cc = val;
 
     if (scene_state.midi.cc_script != -1) {
-            
+
         u8 found = 0;
         for (u8 i = 0; i < scene_state.midi.cc_count; i++) {
             if (scene_state.midi.cn[i] == num &&
@@ -663,7 +663,7 @@ static void midi_control_change(u8 ch, u8 num, u8 val) {
                 break;
             }
         }
-        
+
         if (!found && scene_state.midi.cc_count < MAX_MIDI_EVENTS) {
             scene_state.midi.cc_channel[scene_state.midi.cc_count] = ch;
             scene_state.midi.cn[scene_state.midi.cc_count] = num;
@@ -1063,9 +1063,9 @@ void tele_ii_rx(uint8_t addr, uint8_t* data, uint8_t l) {
     i2c_leader_rx(addr, data, l);
 }
 
-void tele_scene(uint8_t i, uint8_t init_grid) {
+void tele_scene(uint8_t i, uint8_t init_grid, uint8_t init_pattern) {
     preset_select = i;
-    flash_read(i, &scene_state, &scene_text, init_grid, 0);
+    flash_read(i, &scene_state, &scene_text, init_pattern, init_grid, 0);
     if (init_grid) scene_state.grid.scr_dirty = scene_state.grid.grid_dirty = 1;
 }
 
@@ -1172,7 +1172,7 @@ int main(void) {
     // load preset from flash
     preset_select = flash_last_saved_scene();
     ss_set_scene(&scene_state, preset_select);
-    flash_read(preset_select, &scene_state, &scene_text, 1, 1);
+    flash_read(preset_select, &scene_state, &scene_text, 1, 1, 1);
 
     // setup daisy chain for two dacs
     spi_selectChip(DAC_SPI, DAC_SPI_NPCS);
@@ -1215,7 +1215,7 @@ int main(void) {
     uint32_t count = 0;
 #endif
     while (true) {
-        midi_read(); 
+        midi_read();
         check_events();
 #ifdef TELETYPE_PROFILE
         count = (count + 1) % (FCPU_HZ / 10);

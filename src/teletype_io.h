@@ -31,7 +31,7 @@ extern void tele_has_stack(bool has_stack);
 extern void tele_cv_off(uint8_t i, int16_t v);
 extern void tele_ii_tx(uint8_t addr, uint8_t *data, uint8_t l);
 extern void tele_ii_rx(uint8_t addr, uint8_t *data, uint8_t l);
-extern void tele_scene(uint8_t i, uint8_t init_grid);
+extern void tele_scene(uint8_t i, uint8_t init_grid, uint8_t init_pattern);
 
 // called when a pattern is updated
 extern void tele_pattern_updated(void);

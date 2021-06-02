@@ -37,6 +37,8 @@ static void op_SCENE_set(const void *data, scene_state_t *ss, exec_state_t *es,
                          command_state_t *cs);
 static void op_SCENE_G_get(const void *data, scene_state_t *ss,
                            exec_state_t *es, command_state_t *cs);
+static void op_SCENE_P_get(const void *data, scene_state_t *ss,
+                          exec_state_t *es, command_state_t *cs);
 static void op_SCRIPT_get(const void *data, scene_state_t *ss, exec_state_t *es,
                           command_state_t *cs);
 static void op_SCRIPT_set(const void *data, scene_state_t *ss, exec_state_t *es,
@@ -70,6 +72,7 @@ const tele_op_t op_SCRIPT_POL = MAKE_GET_SET_OP(SCRIPT.POL, op_SCRIPT_POL_get, o
 const tele_op_t op_SYM_DOLLAR_POL = MAKE_ALIAS_OP($.POL, op_SCRIPT_POL_get, op_SCRIPT_POL_set, 1, true);
 const tele_op_t op_KILL = MAKE_GET_OP(KILL, op_KILL_get, 0, false);
 const tele_op_t op_SCENE_G = MAKE_GET_OP(SCENE.G, op_SCENE_G_get, 1, false);
+const tele_op_t op_SCENE_P = MAKE_GET_OP(SCENE.P, op_SCENE_P_get, 1, false);
 const tele_op_t op_SCENE = MAKE_GET_SET_OP(SCENE, op_SCENE_get, op_SCENE_set, 0, true);
 const tele_op_t op_BREAK = MAKE_GET_OP(BREAK, op_BREAK_get, 0, false);
 const tele_op_t op_BRK = MAKE_ALIAS_OP(BRK, op_BREAK_get, NULL, 0, false);
@@ -219,7 +222,7 @@ static void op_SCENE_set(const void *NOTUSED(data), scene_state_t *ss,
     int16_t scene = cs_pop(cs);
     if (!ss->initializing) {
         ss->variables.scene = scene;
-        tele_scene(scene, 1);
+        tele_scene(scene, 1, 1);
     }
 }
 
@@ -228,7 +231,16 @@ static void op_SCENE_G_get(const void *NOTUSED(data), scene_state_t *ss,
     int16_t scene = cs_pop(cs);
     if (!ss->initializing) {
         ss->variables.scene = scene;
-        tele_scene(scene, 0);
+        tele_scene(scene, 0, 1);
+    }
+}
+
+static void op_SCENE_P_get(const void *NOTUSED(data), scene_state_t *ss,
+                           exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t scene = cs_pop(cs);
+    if (!ss->initializing) {
+        ss->variables.scene = scene;
+        tele_scene(scene, 1, 0);
     }
 }
 

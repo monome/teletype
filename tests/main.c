@@ -25,7 +25,7 @@ void tele_has_stack(bool i) {}
 void tele_cv_off(uint8_t i, int16_t v) {}
 void tele_ii_tx(uint8_t addr, uint8_t *data, uint8_t l) {}
 void tele_ii_rx(uint8_t addr, uint8_t *data, uint8_t l) {}
-void tele_scene(uint8_t i, uint8_t init_grid) {}
+void tele_scene(uint8_t i, uint8_t init_grid, uint8_t init_pattern) {}
 void tele_pattern_updated() {}
 void tele_kill() {}
 void tele_mute() {}
