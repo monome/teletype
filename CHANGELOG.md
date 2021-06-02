@@ -29,6 +29,7 @@
 - **IMP**: new powerful Q OPs
 - **IMP**: Improved line editing movement (forward/backward by word skips intervening space).
 - **NEW**: Delete to end of word command `alt-d` added.
+- **NEW**: new op: `SCENE.P`
 
 ## v3.2.0
 

@@ -104,7 +104,7 @@ const char* help2[HELP2_LENGTH] = { "2/16 VARIABLES",
                                     "Q.AVG|AVERAGE OF ALL Q",
                                     "J, K|UNIQUE PER SCRIPT" };
 
-#define HELP3_LENGTH 60
+#define HELP3_LENGTH 61
 const char* help3[HELP3_LENGTH] = { "3/16 PARAMETERS",
                                     " ",
                                     "TR A-D|SET TR VALUE (0,1)",
@@ -147,6 +147,7 @@ const char* help3[HELP3_LENGTH] = { "3/16 PARAMETERS",
                                     "   1 RISING, 2 FALLING, 3 BOTH",
                                     "SCENE|GET/SET SCENE #",
                                     "SCENE.G|SET SCENE, EXCL GRID",
+                                    "SCENE.P|SET SCENE, EXCL PATTERN",
                                     "LAST N|GET SCRIPT LAST RUN",
                                     " ",
                                     "// 16n FADERBANK OPS",

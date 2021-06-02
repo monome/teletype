@@ -202,6 +202,15 @@ Load scene `x` (0-31) without loading grid button and fader states.
 **WARNING**: You will lose any unsaved changes to your scene.
 """
 
+["SCENE.P"]
+prototype = "SCENE.P x"
+short = "load scene `x` (0-31) without loading pattern state"
+description = """
+Load scene `x` (0-31) without loading pattern data.
+
+**WARNING**: You will lose any unsaved changes to your scene.
+"""
+
 [KILL]
 prototype = "KILL"
 short = "clears stack, clears delays, cancels pulses, cancels slews, disables metronome"
