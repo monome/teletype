@@ -735,8 +735,8 @@ void assign_main_event_handlers() {
     app_event_handlers[kEventMidiConnect] = &handler_midi_connect;
     app_event_handlers[kEventMidiDisconnect] = &handler_midi_disconnect;
     app_event_handlers[kEventMidiPacket] = &handler_standard_midi_packet;
-    app_event_handlers[ kEventSerialConnect ]	= &handler_SerialConnect ;
-	  app_event_handlers[ kEventSerialDisconnect ]	= &handler_FtdiDisconnect ;
+    app_event_handlers[kEventSerialConnect]	= &handler_SerialConnect;
+	  app_event_handlers[kEventSerialDisconnect]	= &handler_FtdiDisconnect;
 }
 
 static void assign_msc_event_handlers(void) {
