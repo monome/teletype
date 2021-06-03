@@ -16,6 +16,7 @@
 
 // system
 #include "adc.h"
+#include "cdc.h"
 #include "events.h"
 #include "font.h"
 #include "hid.h"
@@ -287,7 +288,7 @@ void metroTimer_callback(void* o) {
 static void monome_poll_timer_callback(void* obj) {
     // asynchronous, non-blocking read
     // UHC callback spawns appropriate events
-    ftdi_read();
+    serial_read();
 }
 
 // monome refresh callback
@@ -568,6 +569,11 @@ void handler_AppCustom(int32_t data) {
 static void handler_FtdiConnect(s32 data) {
     ftdi_setup();
 }
+
+static void handler_SerialConnect(s32 data) {
+  monome_setup_mext();
+}
+
 static void handler_FtdiDisconnect(s32 data) {
     grid_connected = 0;
     timers_unset_monome();
@@ -729,6 +735,8 @@ void assign_main_event_handlers() {
     app_event_handlers[kEventMidiConnect] = &handler_midi_connect;
     app_event_handlers[kEventMidiDisconnect] = &handler_midi_disconnect;
     app_event_handlers[kEventMidiPacket] = &handler_standard_midi_packet;
+    app_event_handlers[ kEventSerialConnect ]	= &handler_SerialConnect ;
+	  app_event_handlers[ kEventSerialDisconnect ]	= &handler_FtdiDisconnect ;
 }
 
 static void assign_msc_event_handlers(void) {
