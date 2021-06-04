@@ -98,6 +98,14 @@ static void op_AND_get(const void *data, scene_state_t *ss, exec_state_t *es,
                        command_state_t *cs);
 static void op_OR_get(const void *data, scene_state_t *ss, exec_state_t *es,
                       command_state_t *cs);
+static void op_AND3_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                        command_state_t *cs);
+static void op_OR3_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                       command_state_t *cs);
+static void op_AND4_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                        command_state_t *cs);
+static void op_OR4_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                       command_state_t *cs);
 static void op_JI_get(const void *data, scene_state_t *ss, exec_state_t *es,
                       command_state_t *cs);
 static void op_SCALE_get(const void *data, scene_state_t *ss, exec_state_t *es,
@@ -211,6 +219,10 @@ const tele_op_t op_ABS   = MAKE_GET_OP(ABS     , op_ABS_get     , 1, true);
 const tele_op_t op_SGN   = MAKE_GET_OP(SGN     , op_SGN_get     , 1, true);
 const tele_op_t op_AND   = MAKE_GET_OP(AND     , op_AND_get     , 2, true);
 const tele_op_t op_OR    = MAKE_GET_OP(OR      , op_OR_get      , 2, true);
+const tele_op_t op_AND3  = MAKE_GET_OP(AND3    , op_AND3_get    , 3, true);
+const tele_op_t op_OR3   = MAKE_GET_OP(OR3     , op_OR3_get     , 3, true);
+const tele_op_t op_AND4  = MAKE_GET_OP(AND4    , op_AND4_get    , 4, true);
+const tele_op_t op_OR4   = MAKE_GET_OP(OR4     , op_OR4_get     , 4, true);
 const tele_op_t op_JI    = MAKE_GET_OP(JI      , op_JI_get      , 2, true);
 const tele_op_t op_SCALE = MAKE_GET_OP(SCALE   , op_SCALE_get   , 5, true);
 const tele_op_t op_SCL   = MAKE_GET_OP(SCL     , op_SCALE_get   , 5, true);
@@ -265,6 +277,10 @@ const tele_op_t op_SYM_LEFT_ANGLED_x3     = MAKE_ALIAS_OP(<<<, op_LROT_get, NULL
 const tele_op_t op_SYM_RIGHT_ANGLED_x3    = MAKE_ALIAS_OP(>>>, op_RROT_get, NULL, 2, true);
 const tele_op_t op_SYM_AMPERSAND_x2       = MAKE_ALIAS_OP(&&,  op_AND_get,  NULL, 2, true);
 const tele_op_t op_SYM_PIPE_x2            = MAKE_ALIAS_OP(||,  op_OR_get ,  NULL, 2, true);
+const tele_op_t op_SYM_AMPERSAND_x3       = MAKE_ALIAS_OP(&&&, op_AND3_get, NULL, 3, true);
+const tele_op_t op_SYM_PIPE_x3            = MAKE_ALIAS_OP(|||, op_OR3_get , NULL, 3, true);
+const tele_op_t op_SYM_AMPERSAND_x4       = MAKE_ALIAS_OP(&&&&,op_AND4_get, NULL, 4, true);
+const tele_op_t op_SYM_PIPE_x4            = MAKE_ALIAS_OP(||||,op_OR4_get , NULL, 4, true);
 // clang-format on
 
 static int16_t volts_to_note_number(int16_t v_in) {
@@ -822,6 +838,40 @@ static void op_OR_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
     int16_t a = cs_pop(cs);
     int16_t b = cs_pop(cs);
     cs_push(cs, (a > 0) || (b > 0));
+}
+
+static void op_AND3_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+                        exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t a = cs_pop(cs);
+    int16_t b = cs_pop(cs);
+    int16_t c = cs_pop(cs);
+    cs_push(cs, (a > 0) && (b > 0) && (c > 0));
+}
+
+static void op_OR3_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+                       exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t a = cs_pop(cs);
+    int16_t b = cs_pop(cs);
+    int16_t c = cs_pop(cs);
+    cs_push(cs, (a > 0) || (b > 0) || (c > 0));
+}
+
+static void op_AND4_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+                        exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t a = cs_pop(cs);
+    int16_t b = cs_pop(cs);
+    int16_t c = cs_pop(cs);
+    int16_t d = cs_pop(cs);
+    cs_push(cs, (a > 0) && (b > 0) && (c > 0) && (d > 0));
+}
+
+static void op_OR4_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+                       exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t a = cs_pop(cs);
+    int16_t b = cs_pop(cs);
+    int16_t c = cs_pop(cs);
+    int16_t d = cs_pop(cs);
+    cs_push(cs, (a > 0) || (b > 0) || (c > 0) || (d > 0));
 }
 
 static void op_JI_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),

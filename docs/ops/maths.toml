@@ -220,12 +220,44 @@ description = """
 Logical AND of `x` and `y`. Returns `1` if both `x` and `y` are greater than `0`, otherwise it returns `0`.
 """
 
+[AND3]
+prototype = "AND3 x y z"
+aliases = ["&&&"]
+short = "logical AND of `x`, `y` and `z`"
+description = """
+Logical AND of `x`, `y` and `z`. Returns `1` if both `x`, `y` and `z` are greater than `0`, otherwise it returns `0`.
+"""
+
+[AND4]
+prototype = "AND4 x y z a"
+aliases = ["&&&&"]
+short = "logical AND of `x`, `y`, `z` and `a`"
+description = """
+Logical AND of `x`, `y`, `z` and `a`. Returns `1` if both `x`, `y`, `z` and `a` are greater than `0`, otherwise it returns `0`.
+"""
+
 [OR]
 prototype = "OR x y"
 aliases = ["||"]
 short = "logical OR of `x` and `y`"
 description = """
 Logical OR of `x` and `y`. Returns `1` if either `x` or `y` are greater than `0`, otherwise it returns `0`.
+"""
+
+[OR3]
+prototype = "OR3 x y z"
+aliases = ["|||"]
+short = "logical OR of `x`, `y` and `z`"
+description = """
+Logical OR of `x`, `y` and `z`. Returns `1` if either `x`, `y` or `z` are greater than `0`, otherwise it returns `0`.
+"""
+
+[OR4]
+prototype = "OR4 x y z a"
+aliases = ["||||"]
+short = "logical OR of `x`, `y`, `z` and `a`"
+description = """
+Logical OR of `x`, `y`, `z` and `a`. Returns `1` if either `x`, `y`, `z` or `a` are greater than `0`, otherwise it returns `0`.
 """
 
 [JI]

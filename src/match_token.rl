@@ -226,6 +226,10 @@
         "SGN"         => { MATCH_OP(E_OP_SGN); };
         "AND"         => { MATCH_OP(E_OP_AND); };
         "OR"          => { MATCH_OP(E_OP_OR); };
+        "AND3"        => { MATCH_OP(E_OP_AND3); };
+        "OR3"         => { MATCH_OP(E_OP_OR3); };
+        "AND4"        => { MATCH_OP(E_OP_AND4); };
+        "OR4"         => { MATCH_OP(E_OP_OR4); };
         "JI"          => { MATCH_OP(E_OP_JI); };
         "SCALE"       => { MATCH_OP(E_OP_SCALE); };
         "SCL"         => { MATCH_OP(E_OP_SCL); };
@@ -278,6 +282,10 @@
         ">>>"         => { MATCH_OP(E_OP_SYM_RIGHT_ANGLED_x3); };
         "&&"          => { MATCH_OP(E_OP_SYM_AMPERSAND_x2); };
         "||"          => { MATCH_OP(E_OP_SYM_PIPE_x2); };
+        "&&&"         => { MATCH_OP(E_OP_SYM_AMPERSAND_x3); };
+        "|||"         => { MATCH_OP(E_OP_SYM_PIPE_x3); };
+        "&&&&"        => { MATCH_OP(E_OP_SYM_AMPERSAND_x4); };
+        "||||"        => { MATCH_OP(E_OP_SYM_PIPE_x4); };
 
         # stack
         "S.ALL"       => { MATCH_OP(E_OP_S_ALL); };

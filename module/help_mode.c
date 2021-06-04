@@ -249,7 +249,7 @@ const char* help4[HELP4_LENGTH] = {
     "  RETURNS N TABLE VALUE",
 };
 
-#define HELP5_LENGTH 122
+#define HELP5_LENGTH 128
 const char* help5[HELP5_LENGTH] = { "5/16 OPERATORS",
                                     " ",
                                     "RAND A|RANDOM 0 - A",
@@ -274,6 +274,12 @@ const char* help5[HELP5_LENGTH] = { "5/16 OPERATORS",
                                     " ",
                                     "// LOGIC COMPARISONS",
                                     "RETURNS 1 (TRUE) OR 0 (FALSE)",
+                                    "AND A B|LOGICAL A AND B",
+                                    "AND3 A B C|LOGICAL A AND B AND C",
+                                    "AND4 A B C D|LOGICAL A AND B AND C AND D",
+                                    "OR A B|LOGICAL A OR B",
+                                    "OR3 A B C|LOGICAL A OR B OR C",
+                                    "OR4 A B C D|LOGICAL A OR B OR C OR D",
                                     "EQ A B|A EQUALS B",
                                     "NE A B|A NOT EQUAL TO B",
                                     "GT A B|A GREATER THAN B",
@@ -328,11 +334,11 @@ const char* help5[HELP5_LENGTH] = { "5/16 OPERATORS",
                                     "QT.B X|QUANTIZE TO",
                                     "    BITMASKED SCALE",
                                     "   X = INPUT IN 1V/OCT",
-									"   SCALE DEFINED BY N.B",
+                                    "   SCALE DEFINED BY N.B",
                                     "QT.BX X I|QUANTIZE TO",
                                     "    BITMASKED SCALE",
                                     "   X = INPUT IN 1V/OCT",
-									"   I = SCALE INDEX FROM N.BX",
+                                    "   I = SCALE INDEX FROM N.BX",
                                     " ",
                                     "N.B  D   GET DEGREE IN SCALE"
                                     "N.B  R B SET SCALE ROOT and BITMASK"

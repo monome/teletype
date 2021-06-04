@@ -30,6 +30,7 @@
 - **IMP**: Improved line editing movement (forward/backward by word skips intervening space).
 - **NEW**: Delete to end of word command `alt-d` added.
 - **NEW**: new op: `SCENE.P`
+- **NEW**: new multi-logic OPs `AND3`, `AND4`, `OR3` and `OR4` with aliases `&&&`, `&&&&`, `|||` and `||||`
 
 ## v3.2.0
 

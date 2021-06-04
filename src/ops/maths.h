@@ -48,6 +48,10 @@ extern const tele_op_t op_ABS;
 extern const tele_op_t op_SGN;
 extern const tele_op_t op_AND;
 extern const tele_op_t op_OR;
+extern const tele_op_t op_AND3;
+extern const tele_op_t op_OR3;
+extern const tele_op_t op_AND4;
+extern const tele_op_t op_OR4;
 extern const tele_op_t op_JI;
 extern const tele_op_t op_SCALE;
 extern const tele_op_t op_SCL;
@@ -102,5 +106,9 @@ extern const tele_op_t op_SYM_LEFT_ANGLED_x3;      // <<< alias LROT
 extern const tele_op_t op_SYM_RIGHT_ANGLED_x3;     // >>> alias RROT
 extern const tele_op_t op_SYM_AMPERSAND_x2;        // && alias AND
 extern const tele_op_t op_SYM_PIPE_x2;             // || alias OR
+extern const tele_op_t op_SYM_AMPERSAND_x3;        // &&& alias AND3
+extern const tele_op_t op_SYM_PIPE_x3;             // ||| alias OR3
+extern const tele_op_t op_SYM_AMPERSAND_x4;        // &&&& alias AND4
+extern const tele_op_t op_SYM_PIPE_x4;             // |||| alias OR4
 
 #endif
