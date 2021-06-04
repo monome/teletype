@@ -18,6 +18,7 @@
 - **FIX**: scale degree arguments 1-indexed: `N.S`, `N.CS`
 - **NEW**: Just Friends 4.0 OPs and dual JF OPs
 - **NEW**: `SCENE.P` OP: load another scene but keep current pattern state
+- **NEW**: alias: `EY` for `EVERY`
 
 ## v3.2.0
 

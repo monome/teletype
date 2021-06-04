@@ -10,6 +10,7 @@ extern const tele_mod_t mod_ELSE;
 extern const tele_mod_t mod_L;
 extern const tele_mod_t mod_W;
 extern const tele_mod_t mod_EVERY;
+extern const tele_mod_t mod_EY;
 extern const tele_mod_t mod_SKIP;
 extern const tele_mod_t mod_OTHER;
 

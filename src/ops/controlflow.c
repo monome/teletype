@@ -63,6 +63,7 @@ const tele_mod_t mod_ELSE = MAKE_MOD(ELSE, mod_ELSE_func, 0);
 const tele_mod_t mod_L = MAKE_MOD(L, mod_L_func, 2);
 const tele_mod_t mod_W = MAKE_MOD(W, mod_W_func, 1);
 const tele_mod_t mod_EVERY = MAKE_MOD(EVERY, mod_EVERY_func, 1);
+const tele_mod_t mod_EY = MAKE_MOD(EY, mod_EVERY_func, 1);
 const tele_mod_t mod_SKIP = MAKE_MOD(SKIP, mod_SKIP_func, 1);
 const tele_mod_t mod_OTHER = MAKE_MOD(OTHER, mod_OTHER_func, 0);
 

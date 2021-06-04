@@ -31,6 +31,7 @@
 - **NEW**: Delete to end of word command `alt-d` added.
 - **NEW**: new op: `SCENE.P`
 - **NEW**: new multi-logic OPs `AND3`, `AND4`, `OR3` and `OR4` with aliases `&&&`, `&&&&`, `|||` and `||||`
+- **NEW**: alias: `EY` for `EVERY`
 
 ## v3.2.0
 
