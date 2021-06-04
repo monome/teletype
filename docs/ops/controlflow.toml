@@ -94,7 +94,7 @@ A will be 256.
 
 [EVERY]
 prototype = "EVERY x: ..."
-aliases = ["EY"]
+aliases = ["EV"]
 short = "run the command every `x` times the command is called"
 description = """
 Runs the command every `x` times the line is executed.  This is tracked on a per-line basis, so each script can have 6 different "dividers".

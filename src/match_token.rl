@@ -876,7 +876,7 @@
         "L"           => { MATCH_MOD(E_MOD_L); };
         "W"           => { MATCH_MOD(E_MOD_W); };
         "EVERY"       => { MATCH_MOD(E_MOD_EVERY); };
-        "EY"          => { MATCH_MOD(E_MOD_EY); };
+        "EV"          => { MATCH_MOD(E_MOD_EV); };
         "SKIP"        => { MATCH_MOD(E_MOD_SKIP); };
         "OTHER"       => { MATCH_MOD(E_MOD_OTHER); };
         "EX1"         => { MATCH_MOD(E_MOD_EX1); };

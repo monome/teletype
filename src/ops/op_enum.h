@@ -802,7 +802,7 @@ typedef enum {
     E_MOD_L,
     E_MOD_W,
     E_MOD_EVERY,
-    E_MOD_EY,
+    E_MOD_EV,
     E_MOD_SKIP,
     E_MOD_OTHER,
     E_MOD_PROB,
