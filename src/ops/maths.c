@@ -1105,7 +1105,7 @@ static void op_N_B_set(const void *NOTUSED(data), scene_state_t *ss,
                        exec_state_t *NOTUSED(es), command_state_t *cs) {
     ss->variables.n_scale_root[0] = cs_pop(cs);
     int16_t scale_bits = cs_pop(cs);
-    if (scale_bits > 0b111111111111) { scale_bits = 0b111111111111; }
+
     if (scale_bits < 1) {
         if (scale_bits > -nb_nbx_scale_presets) {
             scale_bits = bit_reverse(table_n_b[-scale_bits], 12);
@@ -1113,7 +1113,10 @@ static void op_N_B_set(const void *NOTUSED(data), scene_state_t *ss,
         else {
             scale_bits = bit_reverse(table_n_b[0], 12);
         }
+    } else {
+	scale_bits = scale_bits & 0b111111111111;
     }
+
     ss->variables.n_scale_bits[0] = scale_bits;
 }
 
@@ -1140,7 +1143,7 @@ static void op_N_BX_set(const void *NOTUSED(data), scene_state_t *ss,
 
     if (scale_nb < 0) { scale_nb = 0; }
     if (scale_nb > NB_NBX_SCALES - 1) { scale_nb = NB_NBX_SCALES - 1; }
-    if (scale_bits > 0b111111111111) { scale_bits = 0b111111111111; }
+
     if (scale_bits < 1) {
         if (scale_bits > -nb_nbx_scale_presets) {
             scale_bits = bit_reverse(table_n_b[-scale_bits], 12);
@@ -1148,7 +1151,10 @@ static void op_N_BX_set(const void *NOTUSED(data), scene_state_t *ss,
         else {
             scale_bits = bit_reverse(table_n_b[0], 12);
         }
+    } else {
+	scale_bits = scale_bits & 0b111111111111;
     }
+
     ss->variables.n_scale_bits[scale_nb] = scale_bits;
 }
 
