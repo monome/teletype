@@ -53,7 +53,7 @@ static void op_QT_CS_get(const void *data, scene_state_t *ss, exec_state_t *es,
 static void op_QT_B_get(const void *data, scene_state_t *ss, exec_state_t *es,
                         command_state_t *cs);
 static void op_QT_BX_get(const void *data, scene_state_t *ss, exec_state_t *es,
-                        command_state_t *cs);						
+                         command_state_t *cs);
 static void op_AVG_get(const void *data, scene_state_t *ss, exec_state_t *es,
                        command_state_t *cs);
 static void op_EQ_get(const void *data, scene_state_t *ss, exec_state_t *es,
@@ -68,14 +68,14 @@ static void op_LTE_get(const void *data, scene_state_t *ss, exec_state_t *es,
                        command_state_t *cs);
 static void op_GTE_get(const void *data, scene_state_t *ss, exec_state_t *es,
                        command_state_t *cs);
-static void op_INR_get(const void *data, scene_state_t *ss,
-                           exec_state_t *es, command_state_t *cs);
-static void op_OUTR_get(const void *data, scene_state_t *ss,
-                            exec_state_t *es, command_state_t *cs);
-static void op_INRI_get(const void *data, scene_state_t *ss,
-                             exec_state_t *es, command_state_t *cs);
-static void op_OUTRI_get(const void *data, scene_state_t *ss,
-                              exec_state_t *es, command_state_t *cs);
+static void op_INR_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                       command_state_t *cs);
+static void op_OUTR_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                        command_state_t *cs);
+static void op_INRI_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                        command_state_t *cs);
+static void op_OUTRI_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                         command_state_t *cs);
 static void op_NZ_get(const void *data, scene_state_t *ss, exec_state_t *es,
                       command_state_t *cs);
 static void op_EZ_get(const void *data, scene_state_t *ss, exec_state_t *es,
@@ -284,36 +284,44 @@ const tele_op_t op_SYM_PIPE_x4            = MAKE_ALIAS_OP(||||,op_OR4_get , NULL
 // clang-format on
 
 static int16_t volts_to_note_number(int16_t v_in) {
-	int16_t target = (v_in < 0) ? -v_in : v_in;
-	int16_t length = sizeof(table_n) / sizeof(table_n[0]);
-	
-	if (target <= table_n[0]) { return 0; }
+    int16_t target = (v_in < 0) ? -v_in : v_in;
+    int16_t length = sizeof(table_n) / sizeof(table_n[0]);
+
+    if (target <= table_n[0]) { return 0; }
     if (target >= table_n[length - 1]) { return length - 1; }
-	
-	int16_t i = 0;
-	int16_t j = length;
-	int16_t mid = 0;
-	while (i < j) {
-		mid = (i + j) / 2;
-		
-		if (table_n[mid] == target) { return (v_in < 0) ? -mid : mid; }
-  
-        if (target < table_n[mid]) { 
+
+    int16_t i = 0;
+    int16_t j = length;
+    int16_t mid = 0;
+    while (i < j) {
+        mid = (i + j) / 2;
+
+        if (table_n[mid] == target) { return (v_in < 0) ? -mid : mid; }
+
+        if (target < table_n[mid]) {
             if (mid > 0 && target > table_n[mid - 1]) {
-                if ((target - table_n[mid - 1]) >= (table_n[mid] - target)) { return (v_in < 0) ? -mid : mid; }
-				else { return (v_in < 0) ? -(mid - 1) : mid - 1; }
-			}
-            j = mid; 
+                if ((target - table_n[mid - 1]) >= (table_n[mid] - target)) {
+                    return (v_in < 0) ? -mid : mid;
+                }
+                else {
+                    return (v_in < 0) ? -(mid - 1) : mid - 1;
+                }
+            }
+            j = mid;
         }
-        else { 
+        else {
             if (mid < length - 1 && target < table_n[mid + 1]) {
-                if ((target - table_n[mid]) >= (table_n[mid + 1] - target)) { return (v_in < 0) ? -(mid + 1) : mid + 1; }
-				else { return (v_in < 0) ? -mid : mid; }
-			}
-            i = mid + 1;  
-        } 
+                if ((target - table_n[mid]) >= (table_n[mid + 1] - target)) {
+                    return (v_in < 0) ? -(mid + 1) : mid + 1;
+                }
+                else {
+                    return (v_in < 0) ? -mid : mid;
+                }
+            }
+            i = mid + 1;
+        }
     }
-	return (v_in < 0) ? -mid : mid;
+    return (v_in < 0) ? -mid : mid;
 }
 
 static int16_t note_number_to_volts(int16_t note_in) {
@@ -329,36 +337,37 @@ static int16_t note_number_to_volts(int16_t note_in) {
 }
 
 static int16_t scale_n_s_to_bitmask(int16_t scale_n_s) {
-	// convert a N.S scale into a 12-bit scale mask (LSB = root)
-	uint8_t table_n_s_rows = (sizeof(table_n_s) / sizeof(table_n_s[0]));
-	uint8_t table_n_s_cols = (sizeof(table_n_s[0]) / sizeof(table_n_s[0][0]));
-	
-	scale_n_s = scale_n_s % table_n_s_rows;
-	
-	int16_t scale_bits = 0;
-	for (uint8_t i = 0; i < table_n_s_cols; i++) {
-		scale_bits = scale_bits | ( 1 << table_n_s[scale_n_s][i] );
-	}
-	
-	return scale_bits;
+    // convert a N.S scale into a 12-bit scale mask (LSB = root)
+    uint8_t table_n_s_rows = (sizeof(table_n_s) / sizeof(table_n_s[0]));
+    uint8_t table_n_s_cols = (sizeof(table_n_s[0]) / sizeof(table_n_s[0][0]));
+
+    scale_n_s = scale_n_s % table_n_s_rows;
+
+    int16_t scale_bits = 0;
+    for (uint8_t i = 0; i < table_n_s_cols; i++) {
+        scale_bits = scale_bits | (1 << table_n_s[scale_n_s][i]);
+    }
+
+    return scale_bits;
 }
 
-static int16_t chord_n_s_to_bitmask(int16_t scale_n_s, int16_t degree, int16_t voices) {
-	// convert a N.S scale's simple chord into a 12-bit scale mask (LSB = root)
-	uint8_t table_n_s_rows = (sizeof(table_n_s) / sizeof(table_n_s[0]));
-	uint8_t table_n_s_cols = (sizeof(table_n_s[0]) / sizeof(table_n_s[0][0]));
-	
-	scale_n_s = scale_n_s % table_n_s_rows;
-	degree = degree % table_n_s_cols;  // degree 0-6
-	voices = normalise_value(1, table_n_s_cols, 0, voices);
-	
-	int16_t scale_bits = 0;
-	for (uint8_t i = 1; i <= voices; i++) {
-		scale_bits = scale_bits | (1 << table_n_s[scale_n_s][degree]);
-		degree = (degree + 2) % table_n_s_cols;
-	}
-	
-	return scale_bits;
+static int16_t chord_n_s_to_bitmask(int16_t scale_n_s, int16_t degree,
+                                    int16_t voices) {
+    // convert a N.S scale's simple chord into a 12-bit scale mask (LSB = root)
+    uint8_t table_n_s_rows = (sizeof(table_n_s) / sizeof(table_n_s[0]));
+    uint8_t table_n_s_cols = (sizeof(table_n_s[0]) / sizeof(table_n_s[0][0]));
+
+    scale_n_s = scale_n_s % table_n_s_rows;
+    degree = degree % table_n_s_cols;  // degree 0-6
+    voices = normalise_value(1, table_n_s_cols, 0, voices);
+
+    int16_t scale_bits = 0;
+    for (uint8_t i = 1; i <= voices; i++) {
+        scale_bits = scale_bits | (1 << table_n_s[scale_n_s][degree]);
+        degree = (degree + 2) % table_n_s_cols;
+    }
+
+    return scale_bits;
 }
 
 static int16_t get_degree_in_bitmask_scale(int16_t scale_bits,
@@ -392,34 +401,36 @@ static int16_t get_degree_in_bitmask_scale(int16_t scale_bits,
     }
 }
 
-static int16_t quantize_to_bitmask_scale(int16_t scale_bits, int16_t transpose, int16_t v_in) {
-	// accepts 12-bit scale mask and a pitch voltage. transpose is voltage for scale offset. returns nearest pitch voltage in scale.
-	if (scale_bits == 0) { return v_in; }	// no active scale bits
-	int16_t sign = (v_in < 0) ? -1 : 1;
-	v_in = (v_in < 0) ? -v_in : v_in;
-	transpose = transpose % table_n[12];
-	
-	if (v_in >= table_n[127]) { return table_n[127] * sign; }
-	
-	int16_t octave_in = v_in / table_n[12];
-	int16_t semitones_in = v_in % table_n[12];
-	
-	int16_t dist_nearest = INT16_MAX;
-	int16_t note_nearest = INT16_MAX;
-	int16_t try_note, try_distance;
-	for (int16_t i = 0; i < 12; i++) {
-		if (scale_bits & (1 << i)) {
-			for (int16_t j = -2; j <=2; j++) {
-				try_note = table_n[i] + transpose + (j * table_n[12]);
-				try_distance = abs(try_note - semitones_in);
-				if (try_distance < dist_nearest) {
-					dist_nearest = try_distance;
-					note_nearest = try_note;
-				}
-			}
-		}
-	}
-	return (note_nearest + table_n[octave_in * 12]) * sign;
+static int16_t quantize_to_bitmask_scale(int16_t scale_bits, int16_t transpose,
+                                         int16_t v_in) {
+    // accepts 12-bit scale mask and a pitch voltage. transpose is voltage for
+    // scale offset. returns nearest pitch voltage in scale.
+    if (scale_bits == 0) { return v_in; }  // no active scale bits
+    int16_t sign = (v_in < 0) ? -1 : 1;
+    v_in = (v_in < 0) ? -v_in : v_in;
+    transpose = transpose % table_n[12];
+
+    if (v_in >= table_n[127]) { return table_n[127] * sign; }
+
+    int16_t octave_in = v_in / table_n[12];
+    int16_t semitones_in = v_in % table_n[12];
+
+    int16_t dist_nearest = INT16_MAX;
+    int16_t note_nearest = INT16_MAX;
+    int16_t try_note, try_distance;
+    for (int16_t i = 0; i < 12; i++) {
+        if (scale_bits & (1 << i)) {
+            for (int16_t j = -2; j <= 2; j++) {
+                try_note = table_n[i] + transpose + (j * table_n[12]);
+                try_distance = abs(try_note - semitones_in);
+                if (try_distance < dist_nearest) {
+                    dist_nearest = try_distance;
+                    note_nearest = try_note;
+                }
+            }
+        }
+    }
+    return (note_nearest + table_n[octave_in * 12]) * sign;
 }
 
 static void op_ADD_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
@@ -615,53 +626,54 @@ static void op_QT_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
 }
 
 static void op_QT_S_get(const void *NOTUSED(data), scene_state_t *ss,
-                        exec_state_t *NOTUSED(es), command_state_t *cs) {					
-    int16_t v_in = cs_pop(cs);	// v/oct
-	int16_t transpose = cs_pop(cs); // v/oct
+                        exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t v_in = cs_pop(cs);       // v/oct
+    int16_t transpose = cs_pop(cs);  // v/oct
     int16_t scale = cs_pop(cs) % 9;
     if (scale < 0) scale = 9 + scale;
-	
-	int16_t mask = scale_n_s_to_bitmask(scale);
-	
-	cs_push(cs, quantize_to_bitmask_scale(mask, transpose, v_in));
+
+    int16_t mask = scale_n_s_to_bitmask(scale);
+
+    cs_push(cs, quantize_to_bitmask_scale(mask, transpose, v_in));
 }
 
 static void op_QT_CS_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                          exec_state_t *NOTUSED(es), command_state_t *cs) {
-    int16_t v_in = cs_pop(cs);	// v/oct
-	int16_t transpose = cs_pop(cs); // v/oct
+    int16_t v_in = cs_pop(cs);       // v/oct
+    int16_t transpose = cs_pop(cs);  // v/oct
     int16_t scale = cs_pop(cs) % 9;
     if (scale < 0) scale = 9 + scale;
     int16_t degree = cs_pop(cs) - 1;
     int16_t voices = cs_pop(cs);
-	voices = normalise_value(1, 7, 0, voices);
-	
-	int16_t mask = chord_n_s_to_bitmask(scale, degree, voices);
-	
-	cs_push(cs, quantize_to_bitmask_scale(mask, transpose, v_in));
+    voices = normalise_value(1, 7, 0, voices);
+
+    int16_t mask = chord_n_s_to_bitmask(scale, degree, voices);
+
+    cs_push(cs, quantize_to_bitmask_scale(mask, transpose, v_in));
 }
 
 static void op_QT_B_get(const void *NOTUSED(data), scene_state_t *ss,
-                        exec_state_t *NOTUSED(es), command_state_t *cs) {					
-    int16_t v_in = cs_pop(cs);	// v/oct
+                        exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t v_in = cs_pop(cs);  // v/oct
     int16_t mask = ss->variables.n_scale_bits[0];
-	int16_t transpose = note_number_to_volts(ss->variables.n_scale_root[0]);
+    int16_t transpose = note_number_to_volts(ss->variables.n_scale_root[0]);
 
-	cs_push(cs, quantize_to_bitmask_scale(mask, transpose, v_in));
+    cs_push(cs, quantize_to_bitmask_scale(mask, transpose, v_in));
 }
 
 static void op_QT_BX_get(const void *NOTUSED(data), scene_state_t *ss,
-                        exec_state_t *NOTUSED(es), command_state_t *cs) {					
+                         exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t scale_nb = cs_pop(cs);
-	
-    if (scale_nb < 0) { scale_nb = 0; }
-    if (scale_nb > NB_NBX_SCALES - 1) { scale_nb = NB_NBX_SCALES - 1; }	
-	
-    int16_t v_in = cs_pop(cs);	// v/oct
-    int16_t mask = ss->variables.n_scale_bits[scale_nb];
-	int16_t transpose = note_number_to_volts(ss->variables.n_scale_root[scale_nb]);
 
-	cs_push(cs, quantize_to_bitmask_scale(mask, transpose, v_in));
+    if (scale_nb < 0) { scale_nb = 0; }
+    if (scale_nb > NB_NBX_SCALES - 1) { scale_nb = NB_NBX_SCALES - 1; }
+
+    int16_t v_in = cs_pop(cs);  // v/oct
+    int16_t mask = ss->variables.n_scale_bits[scale_nb];
+    int16_t transpose =
+        note_number_to_volts(ss->variables.n_scale_root[scale_nb]);
+
+    cs_push(cs, quantize_to_bitmask_scale(mask, transpose, v_in));
 }
 
 static void op_AVG_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
@@ -701,36 +713,32 @@ static void op_GTE_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
     cs_push(cs, cs_pop(cs) >= cs_pop(cs));
 }
 
-static void op_INR_get(const void *NOTUSED(data),
-                           scene_state_t *NOTUSED(ss),
-                           exec_state_t *NOTUSED(es), command_state_t *cs) {
+static void op_INR_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+                       exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t lo = cs_pop(cs);
     int16_t x = cs_pop(cs);
     int16_t hi = cs_pop(cs);
     cs_push(cs, (lo < x) && (x < hi));
 }
 
-static void op_OUTR_get(const void *NOTUSED(data),
-                            scene_state_t *NOTUSED(ss),
-                            exec_state_t *NOTUSED(es), command_state_t *cs) {
+static void op_OUTR_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+                        exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t lo = cs_pop(cs);
     int16_t x = cs_pop(cs);
     int16_t hi = cs_pop(cs);
     cs_push(cs, (lo > x) || (x > hi));
 }
 
-static void op_INRI_get(const void *NOTUSED(data),
-                             scene_state_t *NOTUSED(ss),
-                             exec_state_t *NOTUSED(es), command_state_t *cs) {
+static void op_INRI_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+                        exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t lo = cs_pop(cs);
     int16_t x = cs_pop(cs);
     int16_t hi = cs_pop(cs);
     cs_push(cs, (lo <= x) && (x <= hi));
 }
 
-static void op_OUTRI_get(const void *NOTUSED(data),
-                              scene_state_t *NOTUSED(ss),
-                              exec_state_t *NOTUSED(es), command_state_t *cs) {
+static void op_OUTRI_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+                         exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t lo = cs_pop(cs);
     int16_t x = cs_pop(cs);
     int16_t hi = cs_pop(cs);
@@ -950,13 +958,13 @@ static void op_SCALE_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
 static void op_N_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                      exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t a = cs_pop(cs);
-	cs_push(cs, note_number_to_volts(a));
+    cs_push(cs, note_number_to_volts(a));
 }
 
 static void op_VN_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                       exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t v_in = cs_pop(cs);
-	cs_push(cs, volts_to_note_number(v_in));
+    cs_push(cs, volts_to_note_number(v_in));
 }
 
 static void op_HZ_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
@@ -1113,8 +1121,9 @@ static void op_N_B_set(const void *NOTUSED(data), scene_state_t *ss,
         else {
             scale_bits = bit_reverse(table_n_b[0], 12);
         }
-    } else {
-	scale_bits = scale_bits & 0b111111111111;
+    }
+    else {
+        scale_bits = scale_bits & 0b111111111111;
     }
 
     ss->variables.n_scale_bits[0] = scale_bits;
@@ -1151,8 +1160,9 @@ static void op_N_BX_set(const void *NOTUSED(data), scene_state_t *ss,
         else {
             scale_bits = bit_reverse(table_n_b[0], 12);
         }
-    } else {
-	scale_bits = scale_bits & 0b111111111111;
+    }
+    else {
+        scale_bits = scale_bits & 0b111111111111;
     }
 
     ss->variables.n_scale_bits[scale_nb] = scale_bits;
