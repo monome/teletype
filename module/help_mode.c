@@ -66,6 +66,8 @@ const char* help1[HELP1_LENGTH] = { "1/16 HELP",
                                     "ALT-SLASH|DISABLE LINE(S)",
                                     "ALT-DELETE|DELETE LINE(S)",
                                     "ALT-UP/DN|MOVE LINE(S)",
+				    "ALT-D|DELETE WORD FORWARD",
+				    "ALT-BSP|DELETE WORD BACK"
                                     " ",
                                     "// PATTERN",
                                     "ARROWS|NAVIGATE",
