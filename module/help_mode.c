@@ -20,7 +20,7 @@
 
 // clang-format off
 
-#define HELP1_LENGTH 69
+#define HELP1_LENGTH 71
 const char* help1[HELP1_LENGTH] = { "1/16 HELP",
                                     "[ ] NAVIGATE HELP PAGES",
                                     "UP/DOWN TO SCROLL",
