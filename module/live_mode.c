@@ -395,7 +395,7 @@ void process_live_keys(uint8_t k, uint8_t m, bool is_held_key, bool is_release,
         history_prev();
     }
     // A-D: toggle dash view
-    else if (match_alt(m, k, HID_D)) {
+    else if (match_shift(m, k, HID_D)) {
         if (sub_mode == SUB_MODE_DASH)
             sub_mode = SUB_MODE_OFF;
         else
