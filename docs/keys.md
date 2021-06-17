@@ -58,6 +58,7 @@ In most cases, the clipboard is shared between _live_, _edit_ and the 2 _preset_
 | **`~`**                  | toggle variables         |
 | **`[`** / **`]`**        | switch to edit mode      |
 | **`alt-g`**              | toggle grid visualizer   |
+| **`shift-d`**            | live dashboard           |
 | **`alt-<arrows>`**       | move grid cursor         |
 | **`alt-shift-<arrows>`** | select grid area         |
 | **`alt-<space>`**        | emulate grid press       |
