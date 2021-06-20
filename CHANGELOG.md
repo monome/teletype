@@ -35,6 +35,11 @@
 - **NEW**: live mode dashboard
 - **NEW**: ops to control live mode: `LIVE.OFF`, `LIVE.VARS`, `LIVE.GRID`, `LIVE.DASH`, `PRINT`
 - **FIX**: `PN.ROT` parameters are swapped
+- **FIX**: better rendering for fine grid faders
+- **FIX**: logical operators should treat all non zero values as `true`, not just positive values
+- **NEW**: crow ops
+- **NEW**: `TI.PRM.CALIB` alias added (was already in the docs)
+- **FIX**: `SCENE` would crash if parameter was out of bounds
 
 ## v3.2.0
 

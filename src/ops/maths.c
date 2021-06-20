@@ -838,14 +838,14 @@ static void op_AND_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                        exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t a = cs_pop(cs);
     int16_t b = cs_pop(cs);
-    cs_push(cs, (a > 0) && (b > 0));
+    cs_push(cs, a && b);
 }
 
 static void op_OR_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                       exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t a = cs_pop(cs);
     int16_t b = cs_pop(cs);
-    cs_push(cs, (a > 0) || (b > 0));
+    cs_push(cs, a || b);
 }
 
 static void op_AND3_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
@@ -853,7 +853,7 @@ static void op_AND3_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
     int16_t a = cs_pop(cs);
     int16_t b = cs_pop(cs);
     int16_t c = cs_pop(cs);
-    cs_push(cs, (a > 0) && (b > 0) && (c > 0));
+    cs_push(cs, a && b && c);
 }
 
 static void op_OR3_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
@@ -861,7 +861,7 @@ static void op_OR3_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
     int16_t a = cs_pop(cs);
     int16_t b = cs_pop(cs);
     int16_t c = cs_pop(cs);
-    cs_push(cs, (a > 0) || (b > 0) || (c > 0));
+    cs_push(cs, a || b || c);
 }
 
 static void op_AND4_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
@@ -870,7 +870,7 @@ static void op_AND4_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
     int16_t b = cs_pop(cs);
     int16_t c = cs_pop(cs);
     int16_t d = cs_pop(cs);
-    cs_push(cs, (a > 0) && (b > 0) && (c > 0) && (d > 0));
+    cs_push(cs, a && b && c && d);
 }
 
 static void op_OR4_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
@@ -879,7 +879,7 @@ static void op_OR4_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
     int16_t b = cs_pop(cs);
     int16_t c = cs_pop(cs);
     int16_t d = cs_pop(cs);
-    cs_push(cs, (a > 0) || (b > 0) || (c > 0) || (d > 0));
+    cs_push(cs, a || b || c || d);
 }
 
 static void op_JI_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),

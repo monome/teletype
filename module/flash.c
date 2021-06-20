@@ -119,6 +119,7 @@ void flash_read(uint8_t preset_no, scene_state_t *scene,
                 char (*text)[SCENE_TEXT_LINES][SCENE_TEXT_CHARS],
                 uint8_t init_pattern, uint8_t init_grid,
                 uint8_t init_i2c_op_address) {
+    if (preset_no >= SCENE_SLOTS) return;
     memcpy(ss_scripts_ptr(scene), &f.scenes[preset_no].scripts,
            // Exclude size of TEMP script as above
            ss_scripts_size() - sizeof(scene_script_t));

@@ -231,7 +231,7 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     &op_TI_PARAM_INIT, &op_TI_IN_INIT, &op_TI_INIT,
 
     &op_TI_PRM, &op_TI_PRM_QT, &op_TI_PRM_N, &op_TI_PRM_SCALE, &op_TI_PRM_MAP,
-    &op_TI_PRM_INIT,
+    &op_TI_PRM_CALIB, &op_TI_PRM_INIT,
 
     // fader
     &op_FADER, &op_FADER_SCALE, &op_FADER_CAL_MIN, &op_FADER_CAL_MAX,

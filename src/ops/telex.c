@@ -349,6 +349,7 @@ const tele_op_t op_TI_PRM_QT          = MAKE_ALIAS_OP(TI.PRM.QT         , op_TI_
 const tele_op_t op_TI_PRM_N           = MAKE_ALIAS_OP(TI.PRM.N          , op_TI_PARAM_N_get         , NULL, 1, true);
 const tele_op_t op_TI_PRM_SCALE       = MAKE_ALIAS_OP(TI.PRM.SCALE      , op_TI_PARAM_SCALE_get     , NULL, 2, false);
 const tele_op_t op_TI_PRM_MAP         = MAKE_ALIAS_OP(TI.PRM.MAP        , op_TI_PARAM_MAP_get       , NULL, 3, false);
+const tele_op_t op_TI_PRM_CALIB       = MAKE_ALIAS_OP(TI.PRM.CALIB      , op_TI_PARAM_CALIB_get     , NULL, 2, false);
 const tele_op_t op_TI_PRM_INIT        = MAKE_ALIAS_OP(TI.PRM.INIT       , op_TI_PARAM_INIT_get      , NULL, 1, false);
 
 // clang-format on

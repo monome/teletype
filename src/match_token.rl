@@ -614,6 +614,7 @@
         "TI.PRM.N"         => { MATCH_OP(E_OP_TI_PRM_N); };
         "TI.PRM.SCALE"     => { MATCH_OP(E_OP_TI_PRM_SCALE); };
         "TI.PRM.MAP"       => { MATCH_OP(E_OP_TI_PRM_MAP); };
+        "TI.PRM.CALIB"     => { MATCH_OP(E_OP_TI_PRM_CALIB); };
         "TI.PRM.INIT"      => { MATCH_OP(E_OP_TI_PRM_INIT); };
 
         # fader

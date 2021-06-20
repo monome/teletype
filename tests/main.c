@@ -31,7 +31,7 @@ void tele_kill() {}
 void tele_mute() {}
 void tele_vars_updated() {}
 void tele_profile_script(size_t s) {}
-void tele_profile_delay(uint8_t d)  {}
+void tele_profile_delay(uint8_t d) {}
 bool tele_get_input_state(uint8_t n) {
     return false;
 }

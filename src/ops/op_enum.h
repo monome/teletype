@@ -601,6 +601,7 @@ typedef enum {
     E_OP_TI_PRM_N,
     E_OP_TI_PRM_SCALE,
     E_OP_TI_PRM_MAP,
+    E_OP_TI_PRM_CALIB,
     E_OP_TI_PRM_INIT,
     E_OP_FADER,
     E_OP_FADER_SCALE,

@@ -1065,6 +1065,7 @@ void tele_ii_rx(uint8_t addr, uint8_t* data, uint8_t l) {
 }
 
 void tele_scene(uint8_t i, uint8_t init_grid, uint8_t init_pattern) {
+    if (i >= SCENE_SLOTS) return;
     preset_select = i;
     flash_read(i, &scene_state, &scene_text, init_pattern, init_grid, 0);
     set_dash_updated();

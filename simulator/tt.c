@@ -83,7 +83,8 @@ void select_dash_screen(uint8_t screen) {
 }
 
 void print_dashboard_value(uint8_t index, int16_t value) {
-    printf("PRINT_DASHBOARD_VALUE  index:%" PRIu8 " value:%" PRId16, index, value);
+    printf("PRINT_DASHBOARD_VALUE  index:%" PRIu8 " value:%" PRId16, index,
+           value);
     printf("\n");
 }
 

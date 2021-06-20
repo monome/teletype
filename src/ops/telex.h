@@ -132,6 +132,7 @@ extern const tele_op_t op_TI_PRM_QT;
 extern const tele_op_t op_TI_PRM_N;
 extern const tele_op_t op_TI_PRM_SCALE;
 extern const tele_op_t op_TI_PRM_MAP;
+extern const tele_op_t op_TI_PRM_CALIB;
 extern const tele_op_t op_TI_PRM_INIT;
 
 // helpers
