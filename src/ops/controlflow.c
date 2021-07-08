@@ -234,6 +234,9 @@ static void op_SCENE_set(const void *NOTUSED(data), scene_state_t *ss,
 static void op_SCENE_G_get(const void *NOTUSED(data), scene_state_t *ss,
                            exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t scene = cs_pop(cs);
+    if (scene < 0) { scene = 0; }
+    if (scene >= SCENE_SLOTS) { scene = SCENE_SLOTS - 1; }
+
     if (!ss->initializing) {
         ss->variables.scene = scene;
         tele_scene(scene, 0, 1);
@@ -243,6 +246,9 @@ static void op_SCENE_G_get(const void *NOTUSED(data), scene_state_t *ss,
 static void op_SCENE_P_get(const void *NOTUSED(data), scene_state_t *ss,
                            exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t scene = cs_pop(cs);
+    if (scene < 0) { scene = 0; }
+    if (scene >= SCENE_SLOTS) { scene = SCENE_SLOTS - 1; }
+
     if (!ss->initializing) {
         ss->variables.scene = scene;
         tele_scene(scene, 1, 0);
