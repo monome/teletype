@@ -77,7 +77,6 @@ OPS_SECTIONS = [
     ("wslashdelay",   "W/2.0 delay",   False),
     ("wslashsynth",   "W/2.0 synth",   False),
     ("wslashtape",    "W/2.0 tape",    False),
-    ("disting",       "Disting EX",    False),
     ("crow",          "Crow",          False)
 ]
 
