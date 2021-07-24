@@ -83,6 +83,13 @@ TEST test_ADD() {
     PASS();
 }
 
+TEST test_PROB() {
+    char* test1[3] = { "X 0", "PROB 100: X + X 1", "X" };
+    for (int i = 0; i < 1000; i++) { CHECK_CALL(process_helper(3, test1, 1)); }
+
+    PASS();
+}
+
 TEST test_IF() {
     char* test1[3] = { "X 0", "IF 1: X 1", "X" };
     CHECK_CALL(process_helper(3, test1, 1));
@@ -300,6 +307,7 @@ TEST test_blank_command() {
 SUITE(process_suite) {
     RUN_TEST(test_numbers);
     RUN_TEST(test_ADD);
+    RUN_TEST(test_PROB);
     RUN_TEST(test_IF);
     RUN_TEST(test_FLIP);
     RUN_TEST(test_L);

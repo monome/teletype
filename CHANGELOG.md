@@ -40,6 +40,7 @@
 - **NEW**: crow ops
 - **NEW**: `TI.PRM.CALIB` alias added (was already in the docs)
 - **FIX**: `SCENE` would crash if parameter was out of bounds
+- **FIX**: `PROB 100` would only execute 99.01% of the time.
 
 ## v3.2.0
 
