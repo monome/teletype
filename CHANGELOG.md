@@ -1,5 +1,9 @@
 # Changelog
 
+## v4.0.x
+
+- **FIX**: `PROB 100` would only execute 99.01% of the time.
+
 ## v4.0.0
 
 - **FIX**: `LAST SCRIPT` in live mode gives time since init script was run
@@ -40,7 +44,6 @@
 - **NEW**: crow ops
 - **NEW**: `TI.PRM.CALIB` alias added (was already in the docs)
 - **FIX**: `SCENE` would crash if parameter was out of bounds
-- **FIX**: `PROB 100` would only execute 99.01% of the time.
 
 ## v3.2.0
 
