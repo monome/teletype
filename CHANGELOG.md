@@ -2,6 +2,7 @@
 
 ## v4.0.x
 
+- **FIX**: delay when opening docs
 - **FIX**: `PROB 100` would only execute 99.01% of the time.
 - **FIX**: some `G.FDR` configurations caused incorrect rendering in grid visualizer
 
