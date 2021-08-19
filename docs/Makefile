@@ -15,7 +15,7 @@ teletype.pdf: $(wildcard *.md ops/*.md ops/*.toml) \
 	../utils/docs.py teletype.pdf
 
 teletype.html: $(wildcard *.md ops/*.md ops/*.toml) \
-		../utils/docs.py ../CHANGELOG.md
+		../utils/docs.py ../CHANGELOG.md $(wildcard ../utils/templates/*)
 	../utils/docs.py teletype.html
 
 cheatsheet/include.tex: $(wildcard ops/*.toml) ../utils/cheatsheet.py

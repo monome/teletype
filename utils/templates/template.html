@@ -254,25 +254,21 @@
                 }
             };
 
-            var showMainContent = function () {
+            // handler for navigating to a new nav link
+            var navToSection = function () {
                 // for phone-size screens, navigation pane should
                 // hide as soon as a nav element is clicked
                 if (window.innerWidth < 700) {
                     hidden = false;
                     toggleNavigationArea();
                 }
-
-                // don't show main content until after all navigation changes have
-                // been made to make sure hash links navigate to the right place
-                document.getElementsByClassName("Content-inner")[0]
-                    .classList.remove("Content-inner--hidden");
                 if (window.location.hash) {
                     window.location = window.location.hash;
                 }
             }
 
-            // handler for navigating to a new nav link
-            var navToSection = function () {
+
+            var onFirstLoad = function () {
                 // All non-internal links should open new tab/window
                 var linksToNewTab = function () {
                     var aTags = document.getElementsByTagName("a");
@@ -286,10 +282,10 @@
                 // Fix <br/> issue with code blocks
                 // As well as issue where multi-line code blocks non-first
                 // lines were starting with spaces
-                var fixBr = function () {
+                var fixCodeTagWhitespace = function () {
                     var codeTags = document.getElementsByTagName("code");
                     for (var i = 0; i < codeTags.length; i++) {
-                        var breaks = codeTags[i].innerText.split("<br/>");
+                        var breaks = codeTags[i].textContent.split("<br/>");
                         for (var j = 0; j < breaks.length; j++) {
                             if (breaks[j].split("\n").length > 1) {
                                 splitBreak = breaks[j].split("\n");
@@ -300,24 +296,28 @@
                             }
                         }
                         if (breaks.length > 1) {
-                            codeTags[i].innerText = breaks
-                                .slice(1, breaks.length - 1).join("\n");
-                            codeTags[i].outerHTML = "<pre><code>" + codeTags[i].innerText + "</code></pre>";
+                            var str = breaks.slice(1, breaks.length - 1).join("\n");
+                            codeTags[i].outerHTML = "<pre><code>" + str + "</code></pre>";
                         } else {
-                            codeTags[i].innerText = breaks;
+                            codeTags[i].textContent = breaks;
                         }
                     }
                 };
 
-                showMainContent();
                 linksToNewTab();
-                fixBr();
+                fixCodeTagWhitespace();
+               
+                // don't show main content until after all navigation changes and
+                // DOM modifications have been made, to prevent unnecessary reflows
+                // and to make sure hash links navigate to the right place
+                document.getElementsByClassName("Content-inner")[0]
+                    .classList.remove("Content-inner--hidden");
             };
 
             // this makes back button work for navigating between links
             var changedHashHandler = function () {
                 updateAnchor();
-                showMainContent();
+                navToSection();
             };
 
             var navActionContainer = document
@@ -332,7 +332,7 @@
             updateAnchor();
             navActionContainer.onclick = toggleNavigationArea;
             window.onhashchange = changedHashHandler;
-            window.onload = navToSection;
+            window.onload = onFirstLoad;
         </script>
     </body>
 </html>
