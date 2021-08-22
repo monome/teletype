@@ -52,6 +52,22 @@ void print_command(const tele_command_t *cmd, char *out) {
             case MOD: strcat(out, tele_mods[value]->name); break;
             case PRE_SEP: strcat(out, ":"); break;
             case SUB_SEP: strcat(out, ";"); break;
+            case SUBDEF: {
+                // FIXME
+                char number[9];
+                number[0] = '=';
+                itoa(value, &(number[1]), 10);
+                strcat(out, number);
+                break;
+            }
+            case SUBCALL: {
+                // FIXME
+                char number[9];
+                number[0] = '\\';
+                itoa(value, &(number[1]), 10);
+                strcat(out, number);
+                break;
+            }
         }
 
         // do we need to add a space?

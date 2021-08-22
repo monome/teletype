@@ -24,7 +24,9 @@ typedef enum {
     E_NO_SUB_SEP_IN_PRE,
     E_NOT_LEFT,
     E_NEED_SPACE_PRE_SEP,
-    E_NEED_SPACE_SUB_SEP
+    E_NEED_SPACE_SUB_SEP,
+    E_NO_SUBSTITUTE_HERE,
+    E_SUBSTITUTE_NOT_FOUND
 } error_t;
 
 typedef struct {
@@ -35,7 +37,7 @@ typedef struct {
 
 error_t parse(const char *cmd, tele_command_t *out,
               char error_msg[TELE_ERROR_MSG_LENGTH]);
-error_t validate(const tele_command_t *c,
+error_t validate(scene_state_t* ss, const tele_command_t *c,
                  char error_msg[TELE_ERROR_MSG_LENGTH]);
 process_result_t run_script(scene_state_t *ss, size_t script_no);
 process_result_t run_script_with_exec_state(scene_state_t *ss, exec_state_t *es,

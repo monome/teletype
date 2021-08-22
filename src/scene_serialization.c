@@ -187,7 +187,7 @@ void deserialize_scene(tt_deserializer_t* stream, scene_state_t* scene,
                     status = parse(input, &temp, error_msg);
 
                     if (status == E_OK) {
-                        status = validate(&temp, error_msg);
+                        status = validate(&scene, &temp, error_msg);
 
                         if (status == E_OK) {
                             ss_overwrite_script_command(scene, s, l, &temp);
@@ -212,9 +212,7 @@ void deserialize_scene(tt_deserializer_t* stream, scene_state_t* scene,
                     memset(input, 0, sizeof(input));
                     p = 0;
                 }
-                else {
-                    s = 98;
-                }
+                else { s = 98; }
             }
             else {
                 if (p < 32) input[p] = c;

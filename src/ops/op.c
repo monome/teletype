@@ -11,6 +11,7 @@
 #include "ops/earthsea.h"
 #include "ops/er301.h"
 #include "ops/fader.h"
+#include "ops/forth.h"
 #include "ops/grid_ops.h"
 #include "ops/hardware.h"
 #include "ops/i2c.h"
@@ -109,6 +110,9 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     &op_SYM_RIGHT_ANGLED_x3, &op_SYM_AMPERSAND_x2, &op_SYM_PIPE_x2,
     &op_SYM_AMPERSAND_x3, &op_SYM_PIPE_x3, &op_SYM_AMPERSAND_x4,
     &op_SYM_PIPE_x4, &op_TIF,
+
+    // forth-style stack operations
+    &op_DUP, &op_DROP, &op_SWAP, &op_OVER, &op_ROT,
 
     // stack
     &op_S_ALL, &op_S_POP, &op_S_CLR, &op_S_L,

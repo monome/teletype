@@ -88,6 +88,21 @@ If you want to add a new `OP` or `MOD`, please create the relevant `tele_op_t` o
 
 There is a test that checks to see if the above have all been entered correctly. (See above to run tests.)
 
+## Simulating
+
+When working Ragel, or even just adding a new OP/MOD, it can be very useful to build the `simulator` to ensure the text is being parsed correctly.
+
+Enter the `/simulator` folder, and run `make`.
+Then run the simulation on the command line with `./tt`
+
+If you see a `file in wrong format` error when running `make`, you need to clean the directory, then build again:
+
+```bash
+make clean  # removes any object files built for avr32
+make        # rebuild for x86 / ARM etc
+./tt        # run the simlator
+```
+
 ## Code Formatting
 
 To format the code using `clang-format`, run `make format` in the project's root directory. This will _only_ format code that has not been commited, it will format _both_ staged and unstaged code.

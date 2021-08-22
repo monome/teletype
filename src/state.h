@@ -26,6 +26,7 @@
 #define EXEC_DEPTH 8
 #define WHILE_DEPTH 10000
 #define RAND_STATES_COUNT 5
+#define SUBSTITUTION_COUNT 16
 
 #define GRID_GROUP_COUNT 64
 #define GRID_MAX_DIMENSION 16
@@ -256,6 +257,12 @@ typedef union {
 } scene_rand_t;
 
 typedef struct {
+    tele_command_t cmds[SUBSTITUTION_COUNT];
+    int16_t name[SUBSTITUTION_COUNT];
+    uint8_t next;
+} substitutions_t;
+
+typedef struct {
     bool initializing;
     scene_variables_t variables;
     scene_pattern_t patterns[PATTERN_COUNT];
@@ -263,6 +270,7 @@ typedef struct {
     scene_stack_op_t stack_op;
     int16_t tr_pulse_timer[TR_COUNT];
     scene_script_t scripts[SCRIPT_COUNT];
+    substitutions_t subs;
     scene_turtle_t turtle;
     bool every_last;
     scene_grid_t grid;

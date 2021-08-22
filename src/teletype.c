@@ -1,3 +1,5 @@
+#include "teletype.h"
+
 #include <stdint.h>  // types
 #include <stdio.h>   // printf
 #include <string.h>
@@ -7,7 +9,6 @@
 #include "ops/op.h"
 #include "scanner.h"
 #include "table.h"
-#include "teletype.h"
 #include "teletype_io.h"
 #include "util.h"
 
@@ -42,12 +43,37 @@ error_t parse(const char *cmd, tele_command_t *out,
 /////////////////////////////////////////////////////////////////
 // VALIDATE /////////////////////////////////////////////////////
 
-error_t validate(const tele_command_t *c,
+static int8_t find_sub(scene_state_t *ss, int16_t name);
+static int16_t sub_validate(scene_state_t *ss, const tele_command_t *c,
+                            int16_t *stack_depth,
+                            char error_msg[TELE_ERROR_MSG_LENGTH]);
+
+error_t validate(scene_state_t *ss, const tele_command_t *c,
                  char error_msg[TELE_ERROR_MSG_LENGTH]) {
-    error_msg[0] = 0;
+    if (c->data[0].tag == SUBDEF) {
+        // ignore because a SUB can:
+        // consume any number of stack items
+        // leave any number of items on the stack
+        return E_OK;
+    }
+
+    error_t error_state;
     int16_t stack_depth = 0;
+    if ((error_state = sub_validate(ss, c, &stack_depth, error_msg)) != E_OK)
+        return error_state;
+
+    if (stack_depth > 1)
+        return E_EXTRA_PARAMS;
+    else
+        return E_OK;
+}
+
+static int16_t sub_validate(scene_state_t *ss, const tele_command_t *c,
+                            int16_t *stack_depth,
+                            char error_msg[TELE_ERROR_MSG_LENGTH]) {
     uint8_t idx = c->length;
     int8_t sep_count = 0;
+    error_msg[0] = 0;
 
     while (idx--) {  // process words right to left
         tele_word_t word_type = c->data[idx].tag;
@@ -59,7 +85,7 @@ error_t validate(const tele_command_t *c,
 
         if (word_type == NUMBER || word_type == XNUMBER ||
             word_type == BNUMBER || word_type == RNUMBER) {
-            stack_depth++;
+            *stack_depth += 1;
         }
         else if (word_type == OP) {
             const tele_op_t *op = tele_ops[word_value];
@@ -70,20 +96,20 @@ error_t validate(const tele_command_t *c,
                 return E_NOT_LEFT;
             }
 
-            stack_depth -= op->params;
+            *stack_depth -= op->params;
 
-            if (stack_depth < 0) {
+            if (*stack_depth < 0) {
                 strcpy(error_msg, op->name);
                 return E_NEED_PARAMS;
             }
 
-            stack_depth += op->returns ? 1 : 0;
+            *stack_depth += op->returns ? 1 : 0;
 
             // if we are in the first_cmd position and there is a set fn
             // decrease the stack depth
             // TODO this is technically wrong. the only reason we get away with
             // it is that it's idx == 0, and the while loop is about to end.
-            if (first_cmd && op->set != NULL) stack_depth--;
+            if (first_cmd && op->set != NULL) *stack_depth -= 1;
         }
         else if (word_type == MOD) {
             error_t mod_error = E_OK;
@@ -92,17 +118,18 @@ error_t validate(const tele_command_t *c,
                 mod_error = E_NO_MOD_HERE;
             else if (c->separator == -1)
                 mod_error = E_NEED_PRE_SEP;
-            else if (stack_depth < tele_mods[word_value]->params)
+            else if (*stack_depth < tele_mods[word_value]->params)
                 mod_error = E_NEED_PARAMS;
-            else if (stack_depth > tele_mods[word_value]->params)
+            else if (*stack_depth > tele_mods[word_value]->params) {
                 mod_error = E_EXTRA_PARAMS;
+            }
 
             if (mod_error != E_OK) {
                 strcpy(error_msg, tele_mods[word_value]->name);
                 return mod_error;
             }
 
-            stack_depth = 0;
+            *stack_depth = 0;
         }
         else if (word_type == PRE_SEP) {
             sep_count++;
@@ -112,25 +139,31 @@ error_t validate(const tele_command_t *c,
 
             if (c->data[0].tag != MOD) return E_PLACE_PRE_SEP;
 
-            if (stack_depth > 1) return E_EXTRA_PARAMS;
+            if (*stack_depth > 1) return E_EXTRA_PARAMS;
 
             // reset the stack depth
-            stack_depth = 0;
+            *stack_depth = 0;
         }
         else if (word_type == SUB_SEP) {
             if (sep_count > 0) return E_NO_SUB_SEP_IN_PRE;
 
-            if (stack_depth > 1) return E_EXTRA_PARAMS;
+            if (*stack_depth > 1) return E_EXTRA_PARAMS;
 
             // reset the stack depth
-            stack_depth = 0;
+            *stack_depth = 0;
+        }
+        else if (word_type == SUBDEF) { return E_NO_SUBSTITUTE_HERE; }
+        else if (word_type == SUBCALL) {
+            int8_t ix = find_sub(ss, word_value);
+            if (ix < 0) return E_SUBSTITUTE_NOT_FOUND;
+
+            error_t error_state;
+            if ((error_state = sub_validate(ss, &ss->subs.cmds[ix], stack_depth,
+                                            error_msg)) != E_OK)
+                return error_state;
         }
     }
-
-    if (stack_depth > 1)
-        return E_EXTRA_PARAMS;
-    else
-        return E_OK;
+    return E_OK;
 }
 
 /////////////////////////////////////////////////////////////////
@@ -150,7 +183,7 @@ process_result_t run_script_with_exec_state(scene_state_t *ss, exec_state_t *es,
 #ifdef TELETYPE_PROFILE
     tele_profile_script(script_no);
 #endif
-    process_result_t result = {.has_value = false, .value = 0 };
+    process_result_t result = { .has_value = false, .value = 0 };
 
     es_set_script_number(es, script_no);
 
@@ -201,6 +234,11 @@ process_result_t run_command(scene_state_t *ss, const tele_command_t *cmd) {
 /////////////////////////////////////////////////////////////////
 // PROCESS //////////////////////////////////////////////////////
 
+
+static void process_sub(const ssize_t sub_end, const ssize_t sub_start,
+                        const tele_command_t *c, command_state_t *cs,
+                        scene_state_t *ss, exec_state_t *es);
+
 // run a single command inside a given exec_state
 process_result_t process_command(scene_state_t *ss, exec_state_t *es,
                                  const tele_command_t *cmd) {
@@ -210,7 +248,6 @@ process_result_t process_command(scene_state_t *ss, exec_state_t *es,
 
     tele_command_t c;
     copy_command(&c, cmd);
-
     // 1. Do we have a PRE seperator?
     // ------------------------------
     // if we do then only process the PRE part, the MOD will determine if the
@@ -260,33 +297,30 @@ process_result_t process_command(scene_state_t *ss, exec_state_t *es,
         // it shouldn't
         cs_init(&cs);
 
-        // as we are using a stack based language, we must process commands from
-        // right to left
-        for (ssize_t idx = sub_end; idx >= sub_start; idx--) {
-            const tele_word_t word_type = c.data[idx].tag;
-            const int16_t word_value = c.data[idx].value;
-
-            if (word_type == NUMBER || word_type == XNUMBER ||
-                word_type == BNUMBER || word_type == RNUMBER) {
-                cs_push(&cs, word_value);
+        // in order to add SUBSTITUTIONs we first check if the leftmost
+        // cmd is a SUBSTITUTION definition, in which case we *don't* exec
+        // the other commands, but capture them into the declaration state.
+        if (c.data[sub_start].tag == SUBDEF) {
+            // if the name already exists, update it
+            int8_t ix = find_sub(ss, c.data[sub_start].value);
+            if (ix < 0) {
+                // otherwise assign the next slot
+                ix = (int8_t)ss->subs.next++;
+                ss->subs.next %= SUBSTITUTION_COUNT;
+                ss->subs.name[ix] = c.data[sub_start].value;
             }
-            else if (word_type == OP) {
-                const tele_op_t *op = tele_ops[word_value];
-
-                // if we're in the first command position, and there is a set fn
-                // pointer and we have enough params, then run set, else run get
-                if (idx == sub_start && op->set != NULL &&
-                    cs_stack_size(&cs) >= op->params + 1)
-                    op->set(op->data, ss, es, &cs);
-                else
-                    op->get(op->data, ss, es, &cs);
-            }
-            else if (word_type == MOD) {
-                tele_command_t post_command;
-                post_command.comment = false;
-                copy_post_command(&post_command, &c);
-                tele_mods[word_value]->func(ss, es, &cs, &post_command);
-            }
+            // update the command list
+            tele_command_t *dst = &ss->subs.cmds[ix];
+            dst->length =
+                c.length -
+                1;  // we assume we're in the first position (we MUST be)
+            dst->separator = -1;
+            dst->comment = false;
+            memcpy(dst->data, &cmd->data[1], dst->length * sizeof(tele_data_t));
+        }
+        else {
+            // conversely, the SUBSTITUTION process should proceed as normal.
+            process_sub(sub_end, sub_start, &c, &cs, ss, es);
         }
     }
 
@@ -294,12 +328,71 @@ process_result_t process_command(scene_state_t *ss, exec_state_t *es,
     // ---------
     // sometimes we have single value left of the stack, if so return it
     if (cs_stack_size(&cs)) {
-        process_result_t o = {.has_value = true, .value = cs_pop(&cs) };
+        process_result_t o = { .has_value = true, .value = cs_pop(&cs) };
         return o;
     }
     else {
-        process_result_t o = {.has_value = false, .value = 0 };
+        process_result_t o = { .has_value = false, .value = 0 };
         return o;
+    }
+}
+
+static int8_t find_sub(scene_state_t *ss, int16_t name) {
+    for (int i = 0; i < SUBSTITUTION_COUNT; i++) {
+        if (name == ss->subs.name[i]) return i;
+    }
+    return -1;
+}
+
+static void process_sub(const ssize_t sub_end, const ssize_t sub_start,
+                        const tele_command_t *c, command_state_t *cs,
+                        scene_state_t *ss, exec_state_t *es) {
+    for (ssize_t idx = sub_end; idx >= sub_start; idx--) {
+        const tele_word_t word_type = c->data[idx].tag;
+        const int16_t word_value = c->data[idx].value;
+
+        if (word_type == NUMBER || word_type == XNUMBER ||
+            word_type == BNUMBER || word_type == RNUMBER) {
+            cs_push(cs, word_value);
+            // printf("NUM %i %i\n",word_value, cs->stack.top);
+        }
+        else if (word_type == OP) {
+            const tele_op_t *op = tele_ops[word_value];
+            // printf(" OP %i\n",word_value);
+
+            // if we're in the first command position, and there is a set fn
+            // pointer and we have enough params, then run set, else run get
+            if (idx == sub_start && op->set != NULL &&
+                cs_stack_size(cs) >= op->params + 1) {
+                // printf("  OP SET\n");
+                op->set(op->data, ss, es, cs);
+            }
+            else {
+                // printf("  OP GET, %i %i\n",(op->params + 1),
+                // cs_stack_size(cs));
+                op->get(op->data, ss, es, cs);
+            }
+        }
+        else if (word_type == MOD) {
+            tele_command_t post_command;
+            post_command.comment = false;
+            copy_post_command(&post_command, c);
+            tele_mods[word_value]->func(ss, es, cs, &post_command);
+        }
+        else if (word_type == SUBCALL) {
+            int8_t ix = find_sub(ss, c->data[idx].value);
+            if (ix >= 0)  // if a sub was found
+                process_sub(ss->subs.cmds[ix].length - 1, 0, &ss->subs.cmds[ix],
+                            cs, ss, es);
+            // else ignore as the sub wasn't found
+        }
+        else if (word_type == SUBDEF) {
+            printf("\tERROR. SUBDEF needs to be in left-most position?\n");
+
+            // FIXME how to correctly handle this error?
+            // probably something to do with recursively calling the text?
+            // cs_push(cs, word_value); // JUST TESTING
+        }
     }
 }
 
@@ -399,7 +492,9 @@ const char *tele_error(error_t e) {
                                    "NO SUB SEP IN PRE",
                                    "MOVE LEFT",
                                    "NEED SPACE AFTER :",
-                                   "NEED SPACE AFTER ;" };
+                                   "NEED SPACE AFTER ;",
+                                   "SUB= ONLY AT START",
+                                   "\\SUB NOT FOUND" };
 
     return error_string[e];
 }

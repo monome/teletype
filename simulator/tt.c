@@ -180,7 +180,7 @@ int main() {
         char error_msg[TELE_ERROR_MSG_LENGTH];
         status = parse(in, &temp, error_msg);
         if (status == E_OK) {
-            status = validate(&temp, error_msg);
+            status = validate(&ss, &temp, error_msg);
             printf("validate: %s", tele_error(status));
             if (error_msg[0]) printf(": %s", error_msg);
             printf("\n");

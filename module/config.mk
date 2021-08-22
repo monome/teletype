@@ -95,6 +95,7 @@ CSRCS = \
 	../src/ops/earthsea.c					\
 	../src/ops/er301.c					\
 	../src/ops/fader.c					\
+	../src/ops/forth.c					\
 	../src/ops/grid_ops.c					\
 	../src/ops/hardware.c					\
 	../src/ops/i2c.c					\

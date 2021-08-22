@@ -13,9 +13,16 @@
 
     number = (('-')? [0-9]+) | ([X] [0-9A-F]+) | ([B|R] [0-1]+);
 
+    subdef = ([A-Z0-9]+'=');        # NAME=
+    subcall = (('\\')[A-Z0-9]+);    # \NAME
+
     main := |*
         # NUMBERS
         number        => { MATCH_NUMBER() };
+
+        # SUBSTITUTION
+        subdef        => { MATCH_SUBDEF() };
+        subcall       => { MATCH_SUBCALL() };
 
         # OPS
         # variables
@@ -299,6 +306,13 @@
         "|||"         => { MATCH_OP(E_OP_SYM_PIPE_x3); };
         "&&&&"        => { MATCH_OP(E_OP_SYM_AMPERSAND_x4); };
         "||||"        => { MATCH_OP(E_OP_SYM_PIPE_x4); };
+
+        # forth-style stack
+        "DUP"         => { MATCH_OP(E_OP_DUP); };
+        "DROP"        => { MATCH_OP(E_OP_DROP); };
+        "SWAP"        => { MATCH_OP(E_OP_SWAP); };
+        "OVER"        => { MATCH_OP(E_OP_OVER); };
+        "ROT"         => { MATCH_OP(E_OP_ROT); };
 
         # stack
         "S.ALL"       => { MATCH_OP(E_OP_S_ALL); };
@@ -1115,6 +1129,26 @@
         val = val < INT16_MIN ? INT16_MIN : val;         \
         out->value = val;                                \
         no_of_tokens++;                                  \
+    }
+/*
+all we do is capture the first 1 or 2 chars of the name
+the 'value' is thus the ascii codes of the 1st 2 chars
+*/
+#define MATCH_SUBDEF()                              \
+    {                                               \
+        out->tag = SUBDEF;                          \
+        char* name = (char *)&(out->value);         \
+        name[0] = token[0];                         \
+        name[1] = (token[1]=='=') ? 0 : token[1];   \
+        no_of_tokens++;                             \
+    }
+#define MATCH_SUBCALL()                             \
+    {                                               \
+        out->tag = SUBCALL;                         \
+        char* name = (char *)&(out->value);         \
+        name[0] = token[1];                         \
+        name[1] = (token[2]==' ') ? 0 : token[2];   \
+        no_of_tokens++;                             \
     }
 
 // matches a single token, out contains the token, return value indicates

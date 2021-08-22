@@ -1,5 +1,46 @@
 # Changelog
 
+## TODO rename SUBSITUTION to WORD (ala forth)
+
+the parser is updated with 2 new patterns:
+    `NAME=`
+    `\NAME`
+where `NAME` is a user-definable name for a `SUBSTITUTION`. the former `_=` form is a definition where any following OPs and NUMs will be captured into something like a 'runtime OP'. the `\_` form substitutes that definition in place.
+
+the primary purpose is to allow simple abstractions that enable giving names to otherwise magic strings of OPs. eg: `\BD x` can be defined to articulate a bass drum sound where the volume is set in volts.
+
+## forth style stack OPs
+
+to enable more powerful SUBSTITUTIONS, a few stack-modifying operations are added. the primary use of this is to enable something resembling passing 'arguments' to a 'function', without having to have a call-stack and other associated 'functional' elements. specifically you may want to use an OP where you only need to change the *first* parameter, but there are later ones you want fixed. an example is a SUBSTITUTION that takes an `N` style note number, and plays it on just friend's in synthesis mode with a fixed velocity:
+
+```
+JN= JF.NOTE SWAP V 3 N
+\JN 2
+```
+
+here we have used the `SWAP` stack-modifier which switches the top-2 elements of the stack, effectively reversing the order of arguments for `JF.NOTE`. also note that the `JN=` substitution is 'missing' the last parameter, but it is later supplied when being substituted with `\JN 2`. that `2` becomes the param for the `N` in `JN=`.
+
+while primarily for allowing substitutions, there are some other interesting possibilities where the stack-OPs can enable the scripter to create their own OPs without needing to compile a new firmware:
+
+```
+SQ= * DUP
+\SQ 7
+-> 49
+```
+
+here we use `DUP` to create a copy of the value provided on the stack, then multiply the copy with the original with `*` resulting in the square of the input.
+
+
+## technicals
+
+validate() now takes a scene_state_t so it has access to runtime substitutions. means validation relies upon system state, but otherwise validation of SUBS wouldn't be possible as meaning is configured at runtime.
+`sub_validate` does the bulk of `validate` but allows for recursive calls for SUBCALL validation
+
+`process_command` now checks for a SUBDEF as the first element as we want to capture (not execute) anything that follow it.
+`process_sub` is the core of `process_command` broken out into a recursion-enabled sub-block. this is because (unlike MODs) SUBCALLs need to run in the same `command_state_t` as their parent.
+
+
+
 ## v4.0.x
 
 - **FIX**: fix off-by-one error in `P.ROT` understanding of pattern length

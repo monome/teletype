@@ -14,18 +14,20 @@ typedef enum {
     OP,
     MOD,
     PRE_SEP,
-    SUB_SEP
+    SUB_SEP,
+    SUBDEF,
+    SUBCALL
 } tele_word_t;
 
 typedef struct {
-    tele_word_t tag;
     int16_t value;
+    tele_word_t tag;
 } tele_data_t;
 
 typedef struct {
+    tele_data_t data[COMMAND_MAX_LENGTH];
     uint8_t length;
     int8_t separator;
-    tele_data_t data[COMMAND_MAX_LENGTH];
     bool comment;
 } tele_command_t;
 

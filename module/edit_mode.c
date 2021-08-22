@@ -273,7 +273,7 @@ void process_edit_keys(uint8_t k, uint8_t m, bool is_held_key) {
         command.comment = false;
         for (u8 i = 0; i < copy_buffer_len; i++) {
             if (parse(copy_buffer[i], &command, error_msg) != E_OK) continue;
-            if (validate(&command, error_msg) != E_OK) continue;
+            if (validate(&scene_state, &command, error_msg) != E_OK) continue;
             if (command.length == 0) continue;
 
             ss_insert_script_command(&scene_state, script, idx++, &command);
@@ -320,7 +320,7 @@ void process_edit_keys(uint8_t k, uint8_t m, bool is_held_key) {
         if (status != E_OK)
             return;  // quit, screen_refresh_edit will display the error message
 
-        status = validate(&command, error_msg);
+        status = validate(&scene_state, &command, error_msg);
         if (status != E_OK)
             return;  // quit, screen_refresh_edit will display the error message
 
@@ -354,7 +354,7 @@ void process_edit_keys(uint8_t k, uint8_t m, bool is_held_key) {
         if (status != E_OK)
             return;  // quit, screen_refresh_edit will display the error message
 
-        status = validate(&command, error_msg);
+        status = validate(&scene_state, &command, error_msg);
         if (status != E_OK)
             return;  // quit, screen_refresh_edit will display the error message
 

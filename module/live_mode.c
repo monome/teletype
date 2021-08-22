@@ -327,7 +327,7 @@ void execute_line() {
     if (status != E_OK)
         return;  // quit, screen_refresh_live will display the error message
 
-    status = validate(&command, error_msg);
+    status = validate(&scene_state, &command, error_msg);
     if (status != E_OK)
         return;  // quit, screen_refresh_live will display the error message
 
