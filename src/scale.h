@@ -1,6 +1,8 @@
 #ifndef SCALE_H
 #define SCALE_H
 
+#include <stdint.h>
+
 #define SCALE_T int16_t
 #define _SCALE_T int32_t
 
@@ -17,6 +19,8 @@ typedef struct {
     SCALE_T f_min[16];
     SCALE_T f_max[16];
 } cal_data_t;
+
+extern cal_data_t blank_cal_data;
 
 typedef struct {
     SCALE_T out_min;

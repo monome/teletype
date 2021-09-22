@@ -1,0 +1,2 @@
+#define SCENE_TEXT_LINES 32
+#define SCENE_TEXT_CHARS 32

@@ -7,6 +7,7 @@
 - **FIX**: `PROB 100` would execute only 99.01% of the time.
 - **FIX**: some `G.FDR` configurations caused incorrect rendering in grid visualizer
 - **FIX**: fix `EX.LP` not returning correct values
+- **IMP**: scene load/save code refactor, add scene load/save tests
 
 ## v4.0.0
 

@@ -78,6 +78,8 @@ CSRCS = \
 	../src/helpers.c					\
 	../src/match_token.c					\
 	../src/scanner.c					\
+	../src/scale.c						\
+	../src/scene_serialization.c				\
 	../src/state.c						\
 	../src/table.c						\
 	../src/teletype.c					\

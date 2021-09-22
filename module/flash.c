@@ -82,15 +82,8 @@ void flash_prepare() {
             flash_write(i, &scene, &text);
         }
 
-        cal_data_t cal = { 0,
-                           16383,
-                           0,
-                           16383,
-                           { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                           { 16383, 16383, 16383, 16383, 16383, 16383, 16383,
-                             16383, 16383, 16383, 16383, 16383, 16383, 16383,
-                             16383, 16383 } };
-        flashc_memcpy((void *)&f.cal, &cal, sizeof(cal), true);
+        flashc_memcpy((void *)&f.cal, &blank_cal_data, sizeof(blank_cal_data),
+                      true);
         device_config_t device_config = {.flip = 0 };
         flashc_memcpy((void *)&f.device_config, &device_config,
                       sizeof(device_config), true);

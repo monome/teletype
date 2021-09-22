@@ -10,6 +10,7 @@
 
 void ss_init(scene_state_t *ss) {
     ss->initializing = true;
+    ss_cal_init(ss);
     ss_variables_init(ss);
     ss_patterns_init(ss);
     ss_grid_init(ss);
@@ -197,6 +198,10 @@ void ss_midi_init(scene_state_t *ss) {
         ss->midi.cc_channel[i] = 0;
     }
     ss->midi.clock_div = 24;
+}
+
+void ss_cal_init(scene_state_t *ss) {
+    ss->cal = blank_cal_data;
 }
 
 // Hardware
