@@ -4,7 +4,7 @@ short = "if `x` is not zero execute command"
 description = """
 If `x` is not zero execute command
 
-#### Advanced `IF` / `ELIF` / `ELSE` usage
+#### Advanced `IF` / 'PROB' / `ELIF` / `ELSE` usage
 
   1. Intermediate statements always run
 
@@ -15,7 +15,7 @@ If `x` is not zero execute command
     ELSE: TR.P 2   => else branch runs because of the previous IF
     ```
 
-  2. `ELSE` without an `IF`
+  2. `ELSE` without an `IF` / 'PROB'
 
     ```text
     SCRIPT 1:
@@ -23,7 +23,7 @@ If `x` is not zero execute command
     ```
 
 
-  3. `ELIF` without an `IF`
+  3. `ELIF` without an `IF` / 'PROB'
 
     ```text
     SCRIPT 1:
@@ -56,11 +56,11 @@ If `x` is not zero execute command
 
 [ELIF]
 prototype = "ELIF x: ..."
-short = "if all previous `IF` / `ELIF` fail, and `x` is not zero, execute command"
+short = "if all previous `IF` / `ELIF` / 'PROB' fail, and `x` is not zero, execute command"
 
 [ELSE]
 prototype = "ELSE: ..."
-short = "if all previous `IF` / `ELIF` fail, excute command"
+short = "if all previous `IF` / `ELIF` / 'PROB' fail, excute command"
 
 [L]
 prototype = "L x y: ..."
@@ -155,6 +155,7 @@ Negative numbers will synchronize to to the divisor value, such that `SYNC -1` c
 
 [PROB]
 prototype = "PROB x: ..."
+aliases = ["PRB"]
 short = "potentially execute command with probability `x` (0-100)"
 
 [SCRIPT]

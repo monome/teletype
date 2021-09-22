@@ -817,6 +817,7 @@ typedef enum {
     E_MOD_SKIP,
     E_MOD_OTHER,
     E_MOD_PROB,
+    E_MOD_PRB,
     E_MOD_DEL,
     E_MOD_DEL_X,
     E_MOD_DEL_R,

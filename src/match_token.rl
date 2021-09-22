@@ -897,6 +897,7 @@
 
         # delay
         "PROB"        => { MATCH_MOD(E_MOD_PROB); };
+        "PRB"        => { MATCH_MOD(E_MOD_PRB); };
         "DEL"         => { MATCH_MOD(E_MOD_DEL); };
         "DEL.X"       => { MATCH_MOD(E_MOD_DEL_X); };
         "DEL.R"       => { MATCH_MOD(E_MOD_DEL_R); };

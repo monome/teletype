@@ -57,6 +57,7 @@ static void op_SYNC_get(const void *data, scene_state_t *ss, exec_state_t *es,
 
 // clang-format off
 const tele_mod_t mod_PROB = MAKE_MOD(PROB, mod_PROB_func, 1);
+const tele_mod_t mod_PRB = MAKE_MOD(PRB, mod_PROB_func, 1);
 const tele_mod_t mod_IF = MAKE_MOD(IF, mod_IF_func, 1);
 const tele_mod_t mod_ELIF = MAKE_MOD(ELIF, mod_ELIF_func, 1);
 const tele_mod_t mod_ELSE = MAKE_MOD(ELSE, mod_ELSE_func, 0);
@@ -86,7 +87,11 @@ static void mod_PROB_func(scene_state_t *ss, exec_state_t *es,
     int16_t a = cs_pop(cs);
     random_state_t *r = &ss->rand_states.s.prob.rand;
 
-    if (random_next(r) % 100 < a) { process_command(ss, es, post_command); }
+    es_variables(es)->if_else_condition = false;
+    if (random_next(r) % 100 < a) {
+        es_variables(es)->if_else_condition = true;
+        process_command(ss, es, post_command);
+    }
 }
 
 static void mod_IF_func(scene_state_t *ss, exec_state_t *es,

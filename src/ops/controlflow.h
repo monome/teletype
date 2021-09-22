@@ -4,6 +4,7 @@
 #include "ops/op.h"
 
 extern const tele_mod_t mod_PROB;
+extern const tele_mod_t mod_PRB;
 extern const tele_mod_t mod_IF;
 extern const tele_mod_t mod_ELIF;
 extern const tele_mod_t mod_ELSE;

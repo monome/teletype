@@ -55,3 +55,7 @@ __pycache__/
 /docs/cheatsheet/*
 !/docs/cheatsheet/cheatsheet.tex
 /docs/testServe/
+
+# Jet Brains
+.idea
+*.iml
