@@ -177,6 +177,8 @@ typedef enum {
     E_OP_R_MIN,
     E_OP_R_MAX,
     E_OP_TOSS,
+    E_OP_WTOSS,
+    E_OP_WT,
     E_OP_MIN,
     E_OP_MAX,
     E_OP_LIM,

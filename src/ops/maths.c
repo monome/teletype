@@ -36,6 +36,8 @@ static void op_R_MAX_set(const void *data, scene_state_t *ss, exec_state_t *es,
                          command_state_t *cs);
 static void op_TOSS_get(const void *data, scene_state_t *ss, exec_state_t *es,
                         command_state_t *cs);
+static void op_WTOSS_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                        command_state_t *cs);
 static void op_MIN_get(const void *data, scene_state_t *ss, exec_state_t *es,
                        command_state_t *cs);
 static void op_MAX_get(const void *data, scene_state_t *ss, exec_state_t *es,
@@ -187,6 +189,8 @@ const tele_op_t op_R = MAKE_GET_SET_OP(R, op_R_get, op_R_set, 0, true);
 const tele_op_t op_R_MIN = MAKE_GET_SET_OP(R.MIN, op_R_MIN_get, op_R_MIN_set, 0, true);
 const tele_op_t op_R_MAX = MAKE_GET_SET_OP(R.MAX, op_R_MAX_get, op_R_MAX_set, 0, true);
 const tele_op_t op_TOSS  = MAKE_GET_OP(TOSS    , op_TOSS_get    , 0, true);
+const tele_op_t op_WTOSS = MAKE_GET_OP(WTOSS   , op_WTOSS_get   , 1, true);
+const tele_op_t op_WT    = MAKE_GET_OP(WT      , op_WTOSS_get   , 1, true);
 const tele_op_t op_MIN   = MAKE_GET_OP(MIN     , op_MIN_get     , 2, true);
 const tele_op_t op_MAX   = MAKE_GET_OP(MAX     , op_MAX_get     , 2, true);
 const tele_op_t op_LIM   = MAKE_GET_OP(LIM     , op_LIM_get     , 3, true);
@@ -546,6 +550,13 @@ static void op_TOSS_get(const void *NOTUSED(data), scene_state_t *ss,
                         exec_state_t *NOTUSED(es), command_state_t *cs) {
     random_state_t *r = &ss->rand_states.s.toss.rand;
     cs_push(cs, random_next(r) & 1);
+}
+
+static void op_WTOSS_get(const void *NOTUSED(data), scene_state_t *ss,
+                        exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t a = cs_pop(cs);
+    random_state_t *r = &ss->rand_states.s.toss.rand;
+    cs_push(cs, random_next(r) % 100 < a ? 1 : 0);
 }
 
 static void op_MIN_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),

@@ -13,7 +13,7 @@ short = "get / set the random number generator seed for `R`, `RRAND`, and `RAND`
 prototype = "TOSS.SEED"
 prototype_set = "TOSS.SEED x"
 aliases = ["TOSS.SD"]
-short = "get / set the random number generator seed for the `TOSS` op"
+short = "get / set the random number generator seed for the `TOSS` and `WTOSS` ops"
 
 ["PROB.SEED"]
 prototype = "PROB.SEED"
