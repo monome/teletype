@@ -56,11 +56,11 @@ If `x` is not zero execute command
 
 [ELIF]
 prototype = "ELIF x: ..."
-short = "if all previous `IF` / `ELIF` / 'PROB' fail, and `x` is not zero, execute command"
+short = "if all previous `IF` / `ELIF` fail, and `x` is not zero, execute command"
 
 [ELSE]
 prototype = "ELSE: ..."
-short = "if all previous `IF` / `ELIF` / 'PROB' fail, excute command"
+short = "if all previous `IF` / `ELIF` fail, execute command"
 
 [L]
 prototype = "L x y: ..."
@@ -160,7 +160,7 @@ short = "potentially execute command with probability `x` (0-100)"
 description = """
 If `x` is within probability execute command.
 
-The `ElSE` / `ELIF` statements can follow this to operate as a Bernoulli gate.
+The `ElSE` / `ELIF` statements can follow PROB on subsequent lines to operate as a Bernoulli gate of sorts.
 """
 
 [SCRIPT]
