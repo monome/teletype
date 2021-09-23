@@ -7,7 +7,7 @@
 - **FIX**: some `G.FDR` configurations caused incorrect rendering in grid visualizer
 - **NEW**: `PROB` accepts an `ELSE` condition
 - **NEW**: alias `PRB` for `PROB`
-- 
+
 ## v4.0.0
 
 - **FIX**: `LAST SCRIPT` in live mode gives time since init script was run

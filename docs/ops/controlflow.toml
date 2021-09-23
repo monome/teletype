@@ -4,7 +4,7 @@ short = "if `x` is not zero execute command"
 description = """
 If `x` is not zero execute command
 
-#### Advanced `IF` / 'PROB' / `ELIF` / `ELSE` usage
+#### Advanced `IF` / `ELIF` / `ELSE` usage
 
   1. Intermediate statements always run
 
@@ -15,7 +15,7 @@ If `x` is not zero execute command
     ELSE: TR.P 2   => else branch runs because of the previous IF
     ```
 
-  2. `ELSE` without an `IF` / 'PROB'
+  2. `ELSE` without an `IF`
 
     ```text
     SCRIPT 1:
@@ -23,7 +23,7 @@ If `x` is not zero execute command
     ```
 
 
-  3. `ELIF` without an `IF` / 'PROB'
+  3. `ELIF` without an `IF`
 
     ```text
     SCRIPT 1:
@@ -157,6 +157,11 @@ Negative numbers will synchronize to to the divisor value, such that `SYNC -1` c
 prototype = "PROB x: ..."
 aliases = ["PRB"]
 short = "potentially execute command with probability `x` (0-100)"
+description = """
+If `x` is within probability execute command.
+
+The `ElSE` / `ELIF` statements can follow this to operate as a Bernoulli gate.
+"""
 
 [SCRIPT]
 prototype = "SCRIPT"
