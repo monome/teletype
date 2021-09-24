@@ -203,17 +203,20 @@ process_result_t run_command(scene_state_t *ss, const tele_command_t *cmd) {
 
 // run a single command inside a given exec_state
 process_result_t process_command(scene_state_t *ss, exec_state_t *es,
-                                 const tele_command_t *c) {
+                                 const tele_command_t *cmd) {
     command_state_t cs;
     cs_init(&cs);  // initialise this here as well as inside the loop, in case
                    // the command has 0 length
+
+    tele_command_t  c;
+    copy_command(&c, cmd);
 
     // 1. Do we have a PRE seperator?
     // ------------------------------
     // if we do then only process the PRE part, the MOD will determine if the
     // POST should be run and take care of running it
     ssize_t start_idx = 0;
-    ssize_t end_idx = c->separator == -1 ? c->length : c->separator;
+    ssize_t end_idx = c.separator == -1 ? c.length : c.separator;
 
     // 2. Determine the location of all the SUB commands
     // -------------------------------------------------
@@ -226,9 +229,9 @@ process_result_t process_command(scene_state_t *ss, exec_state_t *es,
     ssize_t sub_len = 0;
     ssize_t sub_start = 0;
 
-    // iterate through c->data to find all the SUB_SEPs and add to the array
+    // iterate through c.data to find all the SUB_SEPs and add to the array
     for (ssize_t idx = start_idx; idx < end_idx; idx++) {
-        tele_word_t word_type = c->data[idx].tag;
+        tele_word_t word_type = c.data[idx].tag;
         if (word_type == SUB_SEP && idx > sub_start) {
             subs[sub_len].start = sub_start;
             subs[sub_len].end = idx - 1;
@@ -260,8 +263,8 @@ process_result_t process_command(scene_state_t *ss, exec_state_t *es,
         // as we are using a stack based language, we must process commands from
         // right to left
         for (ssize_t idx = sub_end; idx >= sub_start; idx--) {
-            const tele_word_t word_type = c->data[idx].tag;
-            const int16_t word_value = c->data[idx].value;
+            const tele_word_t word_type = c.data[idx].tag;
+            const int16_t word_value = c.data[idx].value;
 
             if (word_type == NUMBER || word_type == XNUMBER ||
                 word_type == BNUMBER || word_type == RNUMBER) {
@@ -281,7 +284,7 @@ process_result_t process_command(scene_state_t *ss, exec_state_t *es,
             else if (word_type == MOD) {
                 tele_command_t post_command;
                 post_command.comment = false;
-                copy_post_command(&post_command, c);
+                copy_post_command(&post_command, &c);
                 tele_mods[word_value]->func(ss, es, &cs, &post_command);
             }
         }
