@@ -208,7 +208,7 @@ process_result_t process_command(scene_state_t *ss, exec_state_t *es,
     cs_init(&cs);  // initialise this here as well as inside the loop, in case
                    // the command has 0 length
 
-    tele_command_t  c;
+    tele_command_t c;
     copy_command(&c, cmd);
 
     // 1. Do we have a PRE seperator?
