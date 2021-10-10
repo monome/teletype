@@ -168,6 +168,34 @@ Get value of element at index `i` or set value of element `i` to value `x`. Inde
 Index `i` is 0-indexed.
 """
 
+["Q.POP"]
+prototype = "Q.POP i"
+prototype_set = "Q.POP i"
+short = "Pop first element/pop elements at index i"
+description = """
+Pop first element or pop element at index `i` or set value of element `i` to value `x`. If `i` is greater than queue end point, pop last element of queue.
+
+Index `i` is 0-indexed.
+"""
+
+["Q.FND"]
+prototype = "Q.FND x"
+short = "Get index of first element with value `x`"
+description = """
+Get index of first element with value `x`. If no element is found, return -1. `Q.FND` only searches below queue end point.
+
+Index `i` is 0-indexed.
+"""
+
+["Q.REM"]
+prototype = "Q.I x"
+short = "Remove first element with value `x`"
+description = """
+Remove first element with value `x`, return index of removed element, -1 if no elements were removed. `Q.REM` only searches below queue end point.
+
+Index `i` is 0-indexed.
+"""
+
 ["Q.2P"]
 prototype = "Q.2P"
 prototype_set = "Q.2P i"

@@ -68,6 +68,14 @@ static void op_Q_MOD_get(const void *data, scene_state_t *ss, exec_state_t *es,
                          command_state_t *cs);
 static void op_Q_MOD_set(const void *data, scene_state_t *ss, exec_state_t *es,
                          command_state_t *cs);
+static void op_Q_POP_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                         command_state_t *cs);
+static void op_Q_POP_set(const void *data, scene_state_t *ss, exec_state_t *es,
+                         command_state_t *cs);
+static void op_Q_REM_set(const void *data, scene_state_t *ss, exec_state_t *es,
+                         command_state_t *cs);
+static void op_Q_FND_get(const void *data, scene_state_t *ss, exec_state_t *es,
+                         command_state_t *cs);
 static void op_Q_I_get(const void *data, scene_state_t *ss, exec_state_t *es,
                        command_state_t *cs);
 static void op_Q_I_set(const void *data, scene_state_t *ss, exec_state_t *es,
@@ -112,11 +120,22 @@ const tele_op_t op_Q_DIV =
     MAKE_GET_SET_OP(Q.DIV, op_Q_DIV_get, op_Q_DIV_set, 1, false);
 const tele_op_t op_Q_MOD =
     MAKE_GET_SET_OP(Q.MOD, op_Q_MOD_get, op_Q_MOD_set, 1, false);
+const tele_op_t op_Q_POP =
+    MAKE_GET_SET_OP(Q.POP, op_Q_POP_get, op_Q_POP_set, 0, true);
+const tele_op_t op_Q_REM = MAKE_GET_OP(Q.REM, op_Q_REM_set, 1, true);
+const tele_op_t op_Q_FND = MAKE_GET_OP(Q.FND, op_Q_FND_get, 1, true);
 const tele_op_t op_Q_I = MAKE_GET_SET_OP(Q.I, op_Q_I_get, op_Q_I_set, 1, true);
 const tele_op_t op_Q_2P =
     MAKE_GET_SET_OP(Q.2P,  op_Q_2P_get,  op_Q_2P_set, 0, false);
 const tele_op_t op_Q_P2 =
     MAKE_GET_SET_OP(Q.P2,  op_Q_P2_get,  op_Q_P2_set, 0, false);
+
+int16_t q_find(int16_t needle, int16_t haystack[], int8_t end) {
+    for (int8_t i = 0; i < end; i++) {
+        if (needle == haystack[i]) { return i; }
+    }
+    return -1;
+}
 
 static void op_Q_get(const void *NOTUSED(data), scene_state_t *ss,
                      exec_state_t *NOTUSED(es), command_state_t *cs) {
@@ -496,6 +515,52 @@ static void op_Q_MOD_set(const void *NOTUSED(data), scene_state_t *ss,
         i = i > q_n - 1 ? q_n - 1 : i;
         q[i] = q[i] % mod;
     }
+}
+
+
+static void op_Q_POP_get(const void *NOTUSED(data), scene_state_t *ss,
+                         exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t *q = ss->variables.q;
+    cs_push(cs, q[0]);
+    if (ss->variables.q_grow) {
+        if (ss->variables.q_n > 1) { ss->variables.q_n--; }
+        for (int8_t i = 0; i < Q_LENGTH - 1; i++) { q[i] = q[i + 1]; }
+        q[Q_LENGTH - 1] = 0;
+    }
+}
+
+static void op_Q_POP_set(const void *NOTUSED(data), scene_state_t *ss,
+                         exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t idx = cs_pop(cs);
+    int16_t *q = ss->variables.q;
+    if (idx < 0) idx = 0;
+    if (idx >= ss->variables.q_n) idx = ss->variables.q_n - 1;
+    cs_push(cs, q[idx]);
+    if (ss->variables.q_grow) {
+        if (ss->variables.q_n > 1) { ss->variables.q_n--; }
+        for (int8_t i = idx; i < Q_LENGTH - 1; i++) { q[i] = q[i + 1]; }
+        q[Q_LENGTH - 1] = 0;
+    }
+}
+
+static void op_Q_REM_set(const void *NOTUSED(data), scene_state_t *ss,
+                         exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t *q = ss->variables.q;
+    int8_t needle = cs_pop(cs);
+    int8_t idx = q_find(needle, q, ss->variables.q_n);
+    if (idx != -1) {
+        if (ss->variables.q_n > 1) { ss->variables.q_n--; }
+        for (int8_t i = idx; i < Q_LENGTH - 1; i++) { q[i] = q[i + 1]; }
+        q[Q_LENGTH - 1] = 0;
+    }
+    cs_push(cs, idx);
+}
+
+static void op_Q_FND_get(const void *NOTUSED(data), scene_state_t *ss,
+                         exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t *q = ss->variables.q;
+    int8_t needle = cs_pop(cs);
+    cs_push(cs, q_find(needle, q, ss->variables.q_n));
 }
 
 static void op_Q_I_get(const void *NOTUSED(data), scene_state_t *ss,

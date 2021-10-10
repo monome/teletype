@@ -75,7 +75,8 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     // queue
     &op_Q, &op_Q_AVG, &op_Q_N, &op_Q_CLR, &op_Q_GRW, &op_Q_SUM, &op_Q_MIN,
     &op_Q_MAX, &op_Q_RND, &op_Q_SRT, &op_Q_REV, &op_Q_SH, &op_Q_ADD, &op_Q_SUB,
-    &op_Q_MUL, &op_Q_DIV, &op_Q_MOD, &op_Q_I, &op_Q_2P, &op_Q_P2,
+    &op_Q_MUL, &op_Q_DIV, &op_Q_MOD, &op_Q_POP, &op_Q_REM, &op_Q_FND, &op_Q_I,
+    &op_Q_2P, &op_Q_P2,
 
     // hardware
     &op_CV, &op_CV_OFF, &op_CV_SLEW, &op_IN, &op_IN_SCALE, &op_PARAM,

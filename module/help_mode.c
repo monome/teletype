@@ -93,7 +93,7 @@ const char* help1[HELP1_LENGTH] = { "1/16 HELP",
                                     "ALT-L,S,E|JUMP",
                                     "SHIFT-2|SHOW/HIDE TURTLE" };
 
-#define HELP2_LENGTH 25
+#define HELP2_LENGTH 28
 const char* help2[HELP2_LENGTH] = { "2/16 VARIABLES",
                                     " ",
                                     "X, Y, Z|GENERAL PURPOSE",
@@ -107,6 +107,9 @@ const char* help2[HELP2_LENGTH] = { "2/16 VARIABLES",
                                     "Q|SHIFT REGISTER",
                                     "Q.N|SET Q LENGTH",
                                     "Q.AVG|AVERAGE OF ALL Q",
+				    "Q.POP|POP FIRST ELEMENT",
+				    "Q.FND X|FIND ELEMENT WITH VALUE X",
+				    "Q.REM X|REMOVE ELEMENT WITH VALUE X",
                                     "J, K|UNIQUE PER SCRIPT",
                                     " ",
                                     "LIVE.OFF",

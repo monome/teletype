@@ -49,7 +49,7 @@ Q // get the value at the end, now `2`
 By default grow is disabled, but it can be turned on with `Q.GRW 1`. With grow enabled, the queue will automatically expand when new elements are added with `Q x` and likewise shrink when reading with `Q`.
 
 ```
-Q.GRW // enable grow
+Q.GRW 1 // enable grow
 3 2  |  1 0 0 0 0 0
 Q 4 // add to to queue
 4 3 2  |  1 0 0 0 0
@@ -57,3 +57,14 @@ Q // read element from queue, will return 2
 4 3  |  2 1 0 0 0 0
 ```
 
+With grow enabled `Q.POP` makes Q work like a stack:
+
+```
+Q.GRW 1 // enable grow
+Q.CLR 0 // put 0 on Q
+Q 1 // put 1 on Q
+Q 2 // put 2 on queue
+2 1 0 | 0 0 0 0
+Q.POP // wil return 2
+1 0 | 0 0 0 0
+```

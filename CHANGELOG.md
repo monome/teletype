@@ -6,6 +6,7 @@
 - **FIX**: delay when opening docs
 - **FIX**: `PROB 100` would only execute 99.01% of the time.
 - **FIX**: some `G.FDR` configurations caused incorrect rendering in grid visualizer
+- **NEW**: new Q OPs: `Q.POP`, `Q.FND` and `Q.REM`
 
 ## v4.0.0
 

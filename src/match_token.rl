@@ -150,6 +150,9 @@
         "Q.MUL"       => { MATCH_OP(E_OP_Q_MUL); };
         "Q.DIV"       => { MATCH_OP(E_OP_Q_DIV); };
         "Q.MOD"       => { MATCH_OP(E_OP_Q_MOD); };
+        "Q.POP"       => { MATCH_OP(E_OP_Q_POP); };
+        "Q.REM"       => { MATCH_OP(E_OP_Q_REM); };
+        "Q.FND"       => { MATCH_OP(E_OP_Q_FND); };
         "Q.I"         => { MATCH_OP(E_OP_Q_I); };
         "Q.2P"        => { MATCH_OP(E_OP_Q_2P); };
         "Q.P2"        => { MATCH_OP(E_OP_Q_P2); };
