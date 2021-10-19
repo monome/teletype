@@ -26,3 +26,16 @@ jobs:
         run: |
           cd tests
           make clean && make test-travis
+      - name: Prepare AVR32 toolchain
+        run: |
+          mkdir -p toolchain
+          cd toolchain
+          git clone https://github.com/monome/avr32-toolchain-linux.git deps/avr32-toolchain-linux
+          cd deps/avr32-toolchain-linux
+          tar xvfz avr32-gnu-toolchain-3.4.3.820-linux.any.x86_64.tar.gz
+          mv avr32-gnu-toolchain-linux_x86_64 ${GITHUB_WORKSPACE}/avr32-tools
+          unzip avr32-headers-6.2.0.742.zip -d ${GITHUB_WORKSPACE}/avr32-tools/avr32/include
+      - name: Build module firmware
+        run: |
+          cd module
+          PATH="${GITHUB_WORKSPACE}/avr32-tools/bin:$PATH" make clean && make
