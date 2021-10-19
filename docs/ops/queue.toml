@@ -169,13 +169,10 @@ Index `i` is 0-indexed.
 """
 
 ["Q.POP"]
-prototype = "Q.POP i"
-prototype_set = "Q.POP i"
-short = "Pop first element/pop elements at index i"
+prototype = "Q.POP"
+short = "Pop first element"
 description = """
-Pop first element or pop element at index `i` or set value of element `i` to value `x`. If `i` is greater than queue end point, pop last element of queue.
-
-Index `i` is 0-indexed.
+Pop first element.
 """
 
 ["Q.FND"]
