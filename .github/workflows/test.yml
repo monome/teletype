@@ -35,9 +35,8 @@ jobs:
           tar xvfz avr32-gnu-toolchain-3.4.3.820-linux.any.x86_64.tar.gz
           mv avr32-gnu-toolchain-linux_x86_64 $GITHUB_WORKSPACE/avr32-tools
           chmod u+x $GITHUB_WORKSPACE/avr32-tools/bin/*
-          ls $GITHUB_WORKSPACE/avr32-tools/bin
           unzip avr32-headers-6.2.0.742.zip -d $GITHUB_WORKSPACE/avr32-tools/avr32/include
       - name: Build module firmware
         run: |
           cd module
-          PATH="$GITHUB_WORKSPACE/avr32-tools/bin:$PATH" echo $PATH && make clean && make
+          GITHUB_PATH="$GITHUB_WORKSPACE/avr32-tools/bin:$GITHUB_PATH" make clean && make
