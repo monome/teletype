@@ -57,3 +57,8 @@ jobs:
         run: |
           cd module
           make
+      - name: Upload teletype.hex to artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          path: module/teletype.hex
+          name: teletype.hex
