@@ -88,9 +88,9 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
 
     // maths
     &op_ADD, &op_SUB, &op_MUL, &op_DIV, &op_MOD, &op_RAND, &op_RND, &op_RRAND,
-    &op_RRND, &op_R, &op_R_MIN, &op_R_MAX, &op_TOSS, &op_MIN, &op_MAX, &op_LIM,
-    &op_WRAP, &op_WRP, &op_QT, &op_QT_S, &op_QT_CS, &op_QT_B, &op_QT_BX,
-    &op_AVG, &op_EQ, &op_NE, &op_LT, &op_GT, &op_LTE, &op_GTE, &op_INR,
+    &op_RRND, &op_R, &op_R_MIN, &op_R_MAX, &op_TOSS, &op_WTOSS, &op_WT, &op_MIN,
+    &op_MAX, &op_LIM, &op_WRAP, &op_WRP, &op_QT, &op_QT_S, &op_QT_CS, &op_QT_B,
+    &op_QT_BX, &op_AVG, &op_EQ, &op_NE, &op_LT, &op_GT, &op_LTE, &op_GTE, &op_INR,
     &op_OUTR, &op_INRI, &op_OUTRI, &op_NZ, &op_EZ, &op_RSH, &op_LSH, &op_LROT,
     &op_RROT, &op_EXP, &op_ABS, &op_SGN, &op_AND, &op_OR, &op_AND3, &op_OR3,
     &op_AND4, &op_OR4, &op_JI, &op_SCALE, &op_SCL, &op_N, &op_VN, &op_HZ,
@@ -293,7 +293,7 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
 const tele_mod_t *tele_mods[E_MOD__LENGTH] = {
     // controlflow
     &mod_IF, &mod_ELIF, &mod_ELSE, &mod_L, &mod_W, &mod_EVERY, &mod_EV,
-    &mod_SKIP, &mod_OTHER, &mod_PROB,
+    &mod_SKIP, &mod_OTHER, &mod_PROB, &mod_PRB,
 
     // delay
     &mod_DEL, &mod_DEL_X, &mod_DEL_R, &mod_DEL_G, &mod_DEL_B,

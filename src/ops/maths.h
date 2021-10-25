@@ -16,6 +16,8 @@ extern const tele_op_t op_R;
 extern const tele_op_t op_R_MIN;
 extern const tele_op_t op_R_MAX;
 extern const tele_op_t op_TOSS;
+extern const tele_op_t op_WTOSS;
+extern const tele_op_t op_WT;
 extern const tele_op_t op_MIN;
 extern const tele_op_t op_MAX;
 extern const tele_op_t op_LIM;

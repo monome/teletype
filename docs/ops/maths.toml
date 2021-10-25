@@ -38,6 +38,11 @@ short = "generate a random number between `x` and `y` inclusive"
 prototype = "TOSS"
 short = "randomly return `0` or `1`"
 
+[WTOSS]
+prototype = "WTOSS x"
+aliases = ["WT"]
+short = "return `0` or `1` based on a weighted probability of `x` (0-100)"
+
 ["?"]
 prototype = "? x y z"
 short = "if condition `x` is true return `y`, otherwise return `z`"
@@ -365,7 +370,7 @@ N.B 2 R101011010101   ==>  set scale to D-major
 CV 1 N.B 3            ==>  set CV 1 to 3rd degree of scale
                            (F#, value corresponding to N 6)
 N.B 3 R100101010010   ==>  set scale to Eb-minor pentatonic
-CV 1 N.B 2            ==>  set CV 1 to 2nd degree of scale 
+CV 1 N.B 2            ==>  set CV 1 to 2nd degree of scale
                            (Gb, value corresponding to N 6)
 N.B 5 -3              ==>  set scale to F-lydian using preset
 ```
@@ -454,7 +459,7 @@ Chords
  - `11` = Minor 6th `{0, 3, 7, 9}`
  - `12` = 7sus4 `{0, 5, 7, 10}`
  """
- 
+
 ["N.CS"]
 prototype = "N.CS r s d c"
 short = "Note Chord Scale operator, `r` is the root note (`0-127`), `s` is the scale (`0-8`), `d` is the scale degree (`1-7`) and `c` is the chord component (`0-3`), returns a value from the `N` table."
@@ -472,7 +477,7 @@ Chord Scales - Refer to chord indices in `N.C` OP
  - `7` = Myxolidian `{6, 0, 1, 1, 0, 2, 1}`
  - `8` = Locrian `{6, 0, 1, 1, 0, 2, 1}`
  """
- 
+
 [V]
 prototype = "V x"
 short = "converts a voltage to a value usable by the CV outputs (`x` between `0` and `10`)"

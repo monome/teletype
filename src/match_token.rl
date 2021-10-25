@@ -204,6 +204,8 @@
         "R.MIN"       => { MATCH_OP(E_OP_R_MIN); };
         "R.MAX"       => { MATCH_OP(E_OP_R_MAX); };
         "TOSS"        => { MATCH_OP(E_OP_TOSS); };
+        "WTOSS"       => { MATCH_OP(E_OP_WTOSS); };
+        "WT"          => { MATCH_OP(E_OP_WT); };
         "MIN"         => { MATCH_OP(E_OP_MIN); };
         "MAX"         => { MATCH_OP(E_OP_MAX); };
         "LIM"         => { MATCH_OP(E_OP_LIM); };
@@ -225,7 +227,7 @@
         "OUTR"        => { MATCH_OP(E_OP_OUTR); };
         "INRI"        => { MATCH_OP(E_OP_INRI); };
         "OUTRI"       => { MATCH_OP(E_OP_OUTRI); };
-	"NZ"          => { MATCH_OP(E_OP_NZ); };
+	    "NZ"          => { MATCH_OP(E_OP_NZ); };
         "EZ"          => { MATCH_OP(E_OP_EZ); };
         "RSH"         => { MATCH_OP(E_OP_RSH); };
         "LSH"         => { MATCH_OP(E_OP_LSH); };
@@ -897,6 +899,7 @@
 
         # delay
         "PROB"        => { MATCH_MOD(E_MOD_PROB); };
+        "PRB"        => { MATCH_MOD(E_MOD_PRB); };
         "DEL"         => { MATCH_MOD(E_MOD_DEL); };
         "DEL.X"       => { MATCH_MOD(E_MOD_DEL_X); };
         "DEL.R"       => { MATCH_MOD(E_MOD_DEL_R); };

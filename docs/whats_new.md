@@ -6,6 +6,9 @@
 - **FIX**: delay when opening docs
 - **FIX**: `PROB 100` would execute only 99.01% of the time.
 - **FIX**: some `G.FDR` configurations caused incorrect rendering in grid visualizer
+- **NEW**: `PROB` accepts an `ELSE` condition
+- **NEW**: alias `PRB` for `PROB`
+- **NEW**: new op: `WTOSS`, alias `WT`
 
 ## v4.0.0
 
