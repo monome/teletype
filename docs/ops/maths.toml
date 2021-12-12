@@ -86,7 +86,7 @@ prototype = "QT.B x"
 short = "quantize 1V/OCT signal `x` to scale defined by `N.B`"
 
 ["QT.BX"]
-prototype = "QT.BX x i"
+prototype = "QT.BX i x"
 short = "quantize 1V/OCT signal `x` to scale defined by `N.BX` in scale index `i`"
 
 [AVG]
