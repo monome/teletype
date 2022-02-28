@@ -406,15 +406,17 @@ static int16_t quantize_to_bitmask_scale(int16_t scale_bits, int16_t transpose,
     // accepts 12-bit scale mask and a pitch voltage. transpose is voltage for
     // scale offset. returns nearest pitch voltage in scale.
     if (scale_bits == 0) { return v_in; }  // no active scale bits
-    int16_t sign = (v_in < 0) ? -1 : 1;
-    v_in = (v_in < 0) ? -v_in : v_in;
-    transpose = transpose % table_n[12];
-
-    if (v_in >= table_n[127]) { return table_n[127] * sign; }
-
+	
+	v_in = normalise_value(-table_n[127], table_n[127], 0, v_in);
+	
+    int16_t sign_offset = (v_in < 0) ? 18022 : 0;	//11 octaves
+	v_in = v_in + sign_offset;
+		
     int16_t octave_in = v_in / table_n[12];
+	if (v_in <= 18021 && v_in >= 18018) { octave_in = 10; }  //fix precision error
     int16_t semitones_in = v_in % table_n[12];
-
+    transpose = transpose % table_n[12];
+	
     int16_t dist_nearest = INT16_MAX;
     int16_t note_nearest = INT16_MAX;
     int16_t try_note, try_distance;
@@ -430,7 +432,8 @@ static int16_t quantize_to_bitmask_scale(int16_t scale_bits, int16_t transpose,
             }
         }
     }
-    return (note_nearest + table_n[octave_in * 12]) * sign;
+	
+    return (note_nearest + table_n[octave_in * 12]) - sign_offset;
 }
 
 static void op_ADD_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
