@@ -133,6 +133,8 @@ typedef enum {
     E_OP_CV,
     E_OP_CV_OFF,
     E_OP_CV_SLEW,
+    E_OP_CV_CAL,
+    E_OP_CV_CAL_RESET,
     E_OP_IN,
     E_OP_IN_SCALE,
     E_OP_PARAM,

@@ -1233,6 +1233,7 @@ int main(void) {
     ss_update_param_scale(&scene_state);
     ss_update_in_scale(&scene_state);
     ss_update_fader_scale_all(&scene_state);
+    ss_update_cv_scale_all(&scene_state);
 
     // load preset from flash
     preset_select = flash_last_saved_scene();
