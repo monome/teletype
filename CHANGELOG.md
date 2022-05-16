@@ -7,6 +7,7 @@
 - **FIX**: `PROB 100` would only execute 99.01% of the time.
 - **FIX**: some `G.FDR` configurations caused incorrect rendering in grid visualizer
 - **FIX**: fix `EX.LP` not returning correct values
+- **NEW**: `i` and `p` insert values from CV input and param knob in tracker mode
 
 ## v4.0.0
 

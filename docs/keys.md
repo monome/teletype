@@ -132,6 +132,8 @@ The tracker mode clipboard is independent of text and code clipboard.
 | **`shift-2`** (`@`)     | toggle turtle display marker (`<`)                                                    |
 | **`ctrl-alt`**          | insert knob value scaled to 0..31                                                     |
 | **`ctrl-shift`**        | insert knob value scaled to 0..1023                                                   |
+| **`p`**                 | insert knob value scaled using `PARAM.SCALE` settings                                 |
+| **`i`**                 | insert CV in value scaled using `IN.SCALE` settings                                   |
 
 ## Preset read mode
 

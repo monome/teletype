@@ -486,6 +486,18 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
         }
         dirty = true;
     }
+    // I: set to CV input
+    else if (match_no_mod(m, k, HID_I)) {
+        int16_t in_value = ss_get_in(&scene_state);
+        ss_set_pattern_val(&scene_state, pattern, base + offset, in_value);
+        dirty = true;
+    }
+    // P: set to param input
+    else if (match_no_mod(m, k, HID_P)) {
+        int16_t param_value = ss_get_param(&scene_state);
+        ss_set_pattern_val(&scene_state, pattern, base + offset, param_value);
+        dirty = true;
+    }
     if (!editing_number) edit_negative = false;
 }
 

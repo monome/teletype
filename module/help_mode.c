@@ -91,7 +91,9 @@ const char* help1[HELP1_LENGTH] = { "1/16 HELP",
                                     "SH-S|SET START",
                                     "SH-E|SET END",
                                     "ALT-L,S,E|JUMP",
-                                    "SHIFT-2|SHOW/HIDE TURTLE" };
+                                    "SHIFT-2|SHOW/HIDE TURTLE",
+                                    "I|SET TO CV INPUT",
+                                    "P|SET TO PARAM KNOB" };
 
 #define HELP2_LENGTH 25
 const char* help2[HELP2_LENGTH] = { "2/16 VARIABLES",
