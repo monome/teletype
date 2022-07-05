@@ -113,8 +113,8 @@ typedef struct {
     scale_t in_scale;
     scale_data_t param_range;
     scale_t param_scale;
-    scale_data_t fader_ranges[16];
-    scale_t fader_scales[16];
+    scale_data_t fader_ranges[64];
+    scale_t fader_scales[64];
 } scene_variables_t;
 // clang-format on
 

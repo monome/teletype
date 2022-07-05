@@ -16,8 +16,8 @@ typedef struct {
     SCALE_T p_max;
     SCALE_T i_min;
     SCALE_T i_max;
-    SCALE_T f_min[16];
-    SCALE_T f_max[16];
+    SCALE_T f_min[64];
+    SCALE_T f_max[64];
 } cal_data_t;
 
 extern cal_data_t blank_cal_data;
