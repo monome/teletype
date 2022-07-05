@@ -8,6 +8,7 @@
 - **FIX**: some `G.FDR` configurations caused incorrect rendering in grid visualizer
 - **FIX**: fix `EX.LP` not returning correct values
 - **IMP**: scene load/save code refactor, add scene load/save tests
+- **IMP**: fader ops now support up to four faderbanks
 
 ## v4.0.0
 
