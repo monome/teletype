@@ -2,6 +2,7 @@
 
 ## v4.0.x
 
+- **FIX**: fix `CROW.Q3` calls `ii.self.query2` instead of `ii.self.query3`
 - **FIX**: cache currently-running commands to avoid corruption during SCENE ops.
 - **FIX**: delay when opening docs
 - **FIX**: `PROB 100` would only execute 99.01% of the time.
