@@ -7,6 +7,7 @@
 - **FIX**: `PROB 100` would only execute 99.01% of the time.
 - **FIX**: some `G.FDR` configurations caused incorrect rendering in grid visualizer
 - **FIX**: fix `EX.LP` not returning correct values
+- **FIX**: fix `QT.B` handling of negative voltage input
 
 ## v4.0.0
 
