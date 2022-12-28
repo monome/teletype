@@ -304,6 +304,62 @@ TEST test_blank_command() {
     PASS();
 }
 
+TEST test_P_ROT_1() {
+    scene_state_t ss;
+    ss_init(&ss);
+
+    char* prep1[3] = { "P.START 0", "P.END 3", "0"};
+    CHECK_CALL(process_helper_state(&ss, 3, prep1, 0));
+
+    char* prep2[5] = { "P 0 1", "P 1 2", "P 2 3", "P 3 4", "P P.END" };
+    CHECK_CALL(process_helper_state(&ss, 5, prep2, 4));
+
+    char* prep3[2] = { "L 4 63: P I -1", "P + 1 P.END" };
+    CHECK_CALL(process_helper_state(&ss, 2, prep3, -1));
+
+    char* test1[2] = { "P.ROT 1", "P 0" };
+    CHECK_CALL(process_helper_state(&ss, 2, test1, 4));
+
+    char* test2[1] = { "P 1" };
+    CHECK_CALL(process_helper_state(&ss, 1, test2, 1));
+
+    char* test3[1] = { "P 2" };
+    CHECK_CALL(process_helper_state(&ss, 1, test3, 2));
+
+    char* test4[1] = { "P 3" };
+    CHECK_CALL(process_helper_state(&ss, 1, test4, 3));
+
+    PASS();
+}
+
+TEST test_P_ROT_3() {
+    scene_state_t ss;
+    ss_init(&ss);
+
+    char* prep1[3] = { "P.START 0", "P.END 3", "0"};
+    CHECK_CALL(process_helper_state(&ss, 3, prep1, 0));
+
+    char* prep2[5] = { "P 0 1", "P 1 2", "P 2 3", "P 3 4", "P P.END" };
+    CHECK_CALL(process_helper_state(&ss, 5, prep2, 4));
+
+    char* prep3[2] = { "L 4 63: P I -1", "P + 1 P.END" };
+    CHECK_CALL(process_helper_state(&ss, 2, prep3, -1));
+
+    char* test1[2] = { "P.ROT 3", "P 0" };
+    CHECK_CALL(process_helper_state(&ss, 2, test1, 2));
+
+    char* test2[1] = { "P 1" };
+    CHECK_CALL(process_helper_state(&ss, 1, test2, 3));
+
+    char* test3[1] = { "P 2" };
+    CHECK_CALL(process_helper_state(&ss, 1, test3, 4));
+
+    char* test4[1] = { "P 3" };
+    CHECK_CALL(process_helper_state(&ss, 1, test4, 1));
+
+    PASS();
+}
+
 SUITE(process_suite) {
     RUN_TEST(test_numbers);
     RUN_TEST(test_ADD);
@@ -318,4 +374,6 @@ SUITE(process_suite) {
     RUN_TEST(test_X);
     RUN_TEST(test_sub_commands);
     RUN_TEST(test_blank_command);
+    RUN_TEST(test_P_ROT_1);
+    RUN_TEST(test_P_ROT_3);
 }

@@ -113,8 +113,8 @@ typedef struct {
     scale_t in_scale;
     scale_data_t param_range;
     scale_t param_scale;
-    scale_data_t fader_ranges[16];
-    scale_t fader_scales[16];
+    scale_data_t fader_ranges[64];
+    scale_t fader_scales[64];
 } scene_variables_t;
 // clang-format on
 
@@ -280,6 +280,7 @@ extern void ss_grid_init(scene_state_t *ss);
 extern void ss_grid_common_init(grid_common_t *gc);
 extern void ss_rand_init(scene_state_t *ss);
 extern void ss_midi_init(scene_state_t *ss);
+extern void ss_cal_init(scene_state_t *ss);
 
 extern void ss_set_in(scene_state_t *ss, int16_t value);
 extern void ss_set_param(scene_state_t *ss, int16_t value);

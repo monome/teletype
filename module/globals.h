@@ -3,12 +3,11 @@
 
 #include <stdbool.h>
 #include <stdint.h>
+
 #include "line_editor.h"
 #include "region.h"
+#include "scene_serialization_constants.h"
 #include "teletype.h"
-
-#define SCENE_TEXT_LINES 32
-#define SCENE_TEXT_CHARS LINE_EDITOR_SIZE
 
 // global variables (defined in main.c)
 

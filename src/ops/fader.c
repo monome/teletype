@@ -57,7 +57,7 @@ static void op_FADER_get(const void *NOTUSED(data), scene_state_t *ss,
     // zero-index the input
     input -= 1;
     // return if out of range
-    if (input < 0 || input > 15) {
+    if (input < 0 || input > 63) {
         cs_push(cs, 0);
         return;
     }
@@ -71,7 +71,7 @@ static void op_FADER_SCALE_set(const void *NOTUSED(data), scene_state_t *ss,
     int16_t min = cs_pop(cs);
     int16_t max = cs_pop(cs);
     fader -= 1;
-    if (fader < 0 || fader > 15) { return; }
+    if (fader < 0 || fader > 63) { return; }
     ss_set_fader_scale(ss, fader, min, max);
 }
 
@@ -82,7 +82,7 @@ static void op_FADER_CAL_MIN_set(const void *NOTUSED(data), scene_state_t *ss,
     // zero-index the input
     input -= 1;
     // return if out of range
-    if (input < 0 || input > 15) {
+    if (input < 0 || input > 63) {
         cs_push(cs, 0);
         return;
     }
@@ -98,7 +98,7 @@ static void op_FADER_CAL_MAX_set(const void *NOTUSED(data), scene_state_t *ss,
     // zero-index the input
     input -= 1;
     // return if out of range
-    if (input < 0 || input > 15) {
+    if (input < 0 || input > 63) {
         cs_push(cs, 0);
         return;
     }
@@ -114,6 +114,6 @@ static void op_FADER_CAL_RESET_set(const void *NOTUSED(data), scene_state_t *ss,
     // zero-index the input
     fader -= 1;
     // return if out of range
-    if (fader < 0 || fader > 15) { return; }
+    if (fader < 0 || fader > 63) { return; }
     ss_reset_fader_cal(ss, fader);
 }

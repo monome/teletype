@@ -1,7 +1,7 @@
 ["FADER"]
 prototype = "FADER x"
 aliases = ["FB"]
-short = "reads the value of the `FADER` slider `x`; default return range is from 0 to 16383"
+short = "Reads the value of the `FADER` slider `x`; default return range is from 0 to 16383. Up to four Faderbanks can be addressed; `x` value between 1 and 16 correspond to Faderbank 1, `x` between 17 and 32 to Faderbank 2, etc..."
 
 ["FADER.SCALE"]
 prototype = "FADER.SCALE x y z"

@@ -273,7 +273,11 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     &op_EX_VO, &op_EX_NOTE, &op_EX_N, &op_EX_NOTE_O, &op_EX_NO, &op_EX_ALLOFF,
     &op_EX_AO, &op_EX_T, &op_EX_TV, &op_EX_LP_REC, &op_EX_LP_PLAY,
     &op_EX_LP_REV, &op_EX_LP_DOWN, &op_EX_LP_CLR, &op_EX_LP, &op_EX_LP_DOWNQ,
-    &op_EX_LP_REVQ,
+    &op_EX_LP_REVQ, &op_EX_A1, &op_EX_A2, &op_EX_A12, &op_EX_P1, &op_EX_P2,
+    &op_EX_PV1, &op_EX_PV2, &op_EX_MIN1, &op_EX_MIN2, &op_EX_MAX1, &op_EX_MAX2,
+    &op_EX_PRE1, &op_EX_PRE2, &op_EX_SAVE1, &op_EX_SAVE2, &op_EX_Z1, &op_EX_Z2,
+    &op_EX_ZO1, &op_EX_ZO2, &op_EX_M_N_POUND, &op_EX_M_NO_POUND,
+    &op_EX_M_CC_POUND,
 
     // seed
     &op_SEED, &op_RAND_SEED, &op_SYM_RAND_SD, &op_SYM_R_SD, &op_TOSS_SEED,

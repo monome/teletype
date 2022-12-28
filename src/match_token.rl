@@ -742,9 +742,12 @@
         "EX.AL.CLK"   => { MATCH_OP(E_OP_EX_AL_CLK); };
         "EX.M.CH"     => { MATCH_OP(E_OP_EX_M_CH); };
         "EX.M.N"      => { MATCH_OP(E_OP_EX_M_N); };
+        "EX.M.N#"     => { MATCH_OP(E_OP_EX_M_N_POUND); };
         "EX.M.NO"     => { MATCH_OP(E_OP_EX_M_NO); };
-        "EX.M.PB"     => { MATCH_OP(E_OP_EX_M_PB); };
+        "EX.M.NO#"    => { MATCH_OP(E_OP_EX_M_NO_POUND); };
         "EX.M.CC"     => { MATCH_OP(E_OP_EX_M_CC); };
+        "EX.M.CC#"    => { MATCH_OP(E_OP_EX_M_CC_POUND); };
+        "EX.M.PB"     => { MATCH_OP(E_OP_EX_M_PB); };
         "EX.M.PRG"    => { MATCH_OP(E_OP_EX_M_PRG); };
         "EX.M.CLK"    => { MATCH_OP(E_OP_EX_M_CLK); };
         "EX.M.START"  => { MATCH_OP(E_OP_EX_M_START); };
@@ -782,6 +785,25 @@
         "EX.LP"       => { MATCH_OP(E_OP_EX_LP); };
         "EX.LP.DOWN?" => { MATCH_OP(E_OP_EX_LP_DOWNQ); };
         "EX.LP.REV?"  => { MATCH_OP(E_OP_EX_LP_REVQ); };
+        "EX.A1"       => { MATCH_OP(E_OP_EX_A1); };
+        "EX.A2"       => { MATCH_OP(E_OP_EX_A2); };
+        "EX.A12"      => { MATCH_OP(E_OP_EX_A12); };
+        "EX.P1"       => { MATCH_OP(E_OP_EX_P1); };
+        "EX.P2"       => { MATCH_OP(E_OP_EX_P2); };
+        "EX.PV1"      => { MATCH_OP(E_OP_EX_PV1); };
+        "EX.PV2"      => { MATCH_OP(E_OP_EX_PV2); };
+        "EX.MIN1"     => { MATCH_OP(E_OP_EX_MIN1); };
+        "EX.MIN2"     => { MATCH_OP(E_OP_EX_MIN2); };
+        "EX.MAX1"     => { MATCH_OP(E_OP_EX_MAX1); };
+        "EX.MAX2"     => { MATCH_OP(E_OP_EX_MAX2); };
+        "EX.PRE1"     => { MATCH_OP(E_OP_EX_PRE1); };
+        "EX.PRE2"     => { MATCH_OP(E_OP_EX_PRE2); };
+        "EX.SAVE1"    => { MATCH_OP(E_OP_EX_SAVE1); };
+        "EX.SAVE2"    => { MATCH_OP(E_OP_EX_SAVE2); };
+        "EX.Z1"       => { MATCH_OP(E_OP_EX_Z1); };
+        "EX.Z2"       => { MATCH_OP(E_OP_EX_Z2); };
+        "EX.ZO1"      => { MATCH_OP(E_OP_EX_ZO1); };
+        "EX.ZO2"      => { MATCH_OP(E_OP_EX_ZO2); };
 
         # w/s
         "W/S.PITCH"    => { MATCH_OP(E_OP_WS_S_PITCH); };

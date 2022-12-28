@@ -992,7 +992,7 @@ void tele_metro_updated() {
         metro_timer_enabled = false;
     }
     else if (metro_timer_enabled) {  // just update the time
-        timer_set(&metroTimer, metro_time);
+        metroTimer.ticks = metro_time;
     }
 
     if (metro_timer_enabled && ss_get_script_len(&scene_state, METRO_SCRIPT))

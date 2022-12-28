@@ -66,7 +66,7 @@ use `EX.PV` op instead as it will scale it properly for you.
 
 ["EX.PV"]
 prototype = "EX.PV x y"
-short = "set paramEter `x` using a value determined by scaling `y` from 0..16384 range."
+short = "set parameter `x` using a value determined by scaling `y` from 0..16384 range."
 description = """
 This op sets the specified parameter by scaling the provided value from 0..16384 range
 to the range used by the parameter. This op is useful when used in conjunction with
@@ -193,7 +193,7 @@ prototype = "EX.M.CH"
 prototype_set = "EX.M.CH x"
 short = "get or set the currently selected MIDI channel (1-16)"
 description = """
-All MIDI ops that use a channel will use the currently selected channel.
+All MIDI ops will use the currently selected channel except ops that use a channel parameter.
 MIDI ops require a MIDI breakout.
 """
 
@@ -201,17 +201,29 @@ MIDI ops require a MIDI breakout.
 prototype = "EX.M.N x y"
 short = "send MIDI Note On message for note `x` (0..127) and velocity `y` (0..127)"
 
+["EX.M.N#"]
+prototype = "EX.M.N x y z"
+short = "send MIDI Note On message on channel `x` for note `y` (0..127) and velocity `z` (0..127)"
+
 ["EX.M.NO"]
 prototype = "EX.M.NO x"
 short = "send MIDI Note off message for note `x` (0..127)"
 
-["EX.M.PB"]
-prototype = "EX.M.PB x"
-short = "send MIDI Pitchbend message"
+["EX.M.NO"]
+prototype = "EX.M.NO x y"
+short = "send MIDI Note off message on channel `x` for note `y` (0..127)"
 
 ["EX.M.CC"]
 prototype = "EX.M.CC x y"
 short = "send MIDI CC message for controller `x` (0..127) and value `y` (0..127)"
+
+["EX.M.CC#"]
+prototype = "EX.M.CC x y z"
+short = "send MIDI CC message on channel `x` for controller `y` (0..127) and value `z` (0..127)"
+
+["EX.M.PB"]
+prototype = "EX.M.PB x"
+short = "send MIDI Pitchbend message"
 
 ["EX.M.PRG"]
 prototype = "EX.M.PRG x"
@@ -277,3 +289,91 @@ short = "send Select Bus Stop message"
 ["EX.SB.CONT"]
 prototype = "EX.SB.CONT"
 short = "send Select Bus Continue message"
+
+["EX.A1"]
+prototype = "EX.A1"
+prototype_set = "EX.A1 x"
+short = "get or set the left dual algorithm"
+
+["EX.A2"]
+prototype = "EX.A2"
+prototype_set = "EX.A2 x"
+short = "get or set the right dual algorithm"
+
+["EX.A12"]
+prototype = "EX.A12 x y"
+short = "set both dual algorithms"
+
+["EX.P1"]
+prototype = "EX.P1 x"
+prototype_set = "EX.P1 x y"
+short = "get left algorithm parameter `x` or set it to value `y`"
+
+["EX.P2"]
+prototype = "EX.P2 x"
+prototype_set = "EX.P2 x y"
+short = "get right algorithm parameter `x` or set it to value `y`"
+
+["EX.PV1"]
+prototype = "EX.PV1 x y"
+short = "set left algorithm parameter `x` using a value determined by scaling `y` from 0..16384 range"
+
+["EX.PV2"]
+prototype = "EX.PV2 x y"
+short = "set right algorithm parameter `x` using a value determined by scaling `y` from 0..16384 range"
+
+["EX.MIN1"]
+prototype = "EX.MIN1 x"
+short = "get left algorithm parameter minimum value"
+
+["EX.MAX1"]
+prototype = "EX.MAX1 x"
+short = "get left algorithm parameter maximum value"
+
+["EX.MIN2"]
+prototype = "EX.MIN2 x"
+short = "get right algorithm parameter minimum value"
+
+["EX.MAX2"]
+prototype = "EX.MAX2 x"
+short = "get right algorithm parameter maximum value"
+
+["EX.Z1"]
+prototype = "EX.Z1"
+prototype_set = "EX.Z1 x"
+short = "get left Z knob value or set left Z parameter (0..127 range)"
+description = """
+Setting Z parameter value will disengage Z knob and input, use `EX.ZO1` to restore control.
+"""
+
+["EX.ZO1"]
+prototype = "EX.ZO1"
+short = "restore control for left Z knob and input"
+
+["EX.Z2"]
+prototype = "EX.Z2"
+prototype_set = "EX.Z2 x"
+short = "get right Z knob value or set right Z parameter (0..127 range)"
+description = """
+Setting Z parameter value will disengage Z knob and input, use `EX.ZO2` to restore control.
+"""
+
+["EX.ZO2"]
+prototype = "EX.ZO2"
+short = "restore control for right Z knob and input"
+
+["EX.PRE1"]
+prototype = "EX.PRE1 x"
+short = "load left preset from `x` slot"
+
+["EX.PRE2"]
+prototype = "EX.PRE2 x"
+short = "load right preset from `x` slot"
+
+["EX.SAVE1"]
+prototype = "EX.SAVE1 x"
+short = "save left preset to `x` slot"
+
+["EX.SAVE2"]
+prototype = "EX.SAVE2 x"
+short = "save right preset to `x` slot"
