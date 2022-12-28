@@ -10,6 +10,7 @@
 
 void ss_init(scene_state_t *ss) {
     ss->initializing = true;
+    ss_cal_init(ss);
     ss_variables_init(ss);
     ss_patterns_init(ss);
     ss_grid_init(ss);
@@ -58,25 +59,24 @@ void ss_variables_init(scene_state_t *ss) {
         .tr_time = { 100, 100, 100, 100 },
         .in_range = { 0, 16383 },
         .param_range = { 0, 16383 },
-        .fader_ranges =
-            {
-                { 0, 16383 },
-                { 0, 16383 },
-                { 0, 16383 },
-                { 0, 16383 },
-                { 0, 16383 },
-                { 0, 16383 },
-                { 0, 16383 },
-                { 0, 16383 },
-                { 0, 16383 },
-                { 0, 16383 },
-                { 0, 16383 },
-                { 0, 16383 },
-                { 0, 16383 },
-                { 0, 16383 },
-                { 0, 16383 },
-                { 0, 16383 },
-            },
+        .fader_ranges = {
+            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+        },
     };
 
     memcpy(&ss->variables, &default_variables, sizeof(default_variables));
@@ -197,6 +197,10 @@ void ss_midi_init(scene_state_t *ss) {
         ss->midi.cc_channel[i] = 0;
     }
     ss->midi.clock_div = 24;
+}
+
+void ss_cal_init(scene_state_t *ss) {
+    ss->cal = blank_cal_data;
 }
 
 // Hardware
@@ -495,7 +499,7 @@ void ss_update_fader_scale(scene_state_t *ss, int16_t fader) {
 }
 
 void ss_update_fader_scale_all(scene_state_t *ss) {
-    for (size_t fader = 0; fader < 16; fader++) {
+    for (size_t fader = 0; fader < 64; fader++) {
         ss_update_fader_scale(ss, fader);
     }
 }

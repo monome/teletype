@@ -2,11 +2,17 @@
 
 ## v4.0.x
 
+- **FIX**: fix off-by-one error in `P.ROT` understanding of pattern length
+- **FIX**: fix `CROW.Q3` calls `ii.self.query2` instead of `ii.self.query3`
 - **FIX**: cache currently-running commands to avoid corruption during SCENE ops.
 - **FIX**: delay when opening docs
 - **FIX**: `PROB 100` would execute only 99.01% of the time.
 - **FIX**: some `G.FDR` configurations caused incorrect rendering in grid visualizer
 - **FIX**: fix `EX.LP` not returning correct values
+- **IMP**: scene load/save code refactor, add scene load/save tests
+- **IMP**: fader ops now support up to four faderbanks
+- **NEW**: new Disting EX ops: dual algorithms, `EX.M.N#`, `EX.M.NO#`, `EX.M.CC#`
+- **FIX**: reset M timer when changing metro rate
 
 ## v4.0.0
 

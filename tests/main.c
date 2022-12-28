@@ -1,14 +1,13 @@
 #include <stdint.h>
 
 #include "greatest/greatest.h"
-
-#include "teletype.h"
-#include "teletype_io.h"
-
 #include "match_token_tests.h"
 #include "op_mod_tests.h"
 #include "parser_tests.h"
 #include "process_tests.h"
+#include "serialize_scene_tests.h"
+#include "teletype.h"
+#include "teletype_io.h"
 #include "turtle_tests.h"
 
 uint32_t tele_get_ticks() {
@@ -56,6 +55,7 @@ int main(int argc, char **argv) {
     RUN_SUITE(parser_suite);
     RUN_SUITE(process_suite);
     RUN_SUITE(turtle_suite);
+    RUN_SUITE(serialize_scene_suite);
 
     GREATEST_MAIN_END();
 }

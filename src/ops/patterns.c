@@ -830,7 +830,7 @@ static void p_rotate(scene_state_t *ss, int16_t pn, int16_t shift) {
     int16_t start = ss_get_pattern_start(ss, pn);
     int16_t end = ss_get_pattern_end(ss, pn);
     if (end < start) { return; }
-    int16_t len = end - start;
+    int16_t len = end - start + 1;
 
     if (shift < 0) {
         shift = -shift;

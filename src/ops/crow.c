@@ -185,7 +185,7 @@ CR_PROTO_GET(op_CROW_Q3_get) {
     u16 b = cs_pop(cs);
     u16 c = cs_pop(cs);
     u8 d[] = {
-        CROW_QUERY2, a >> 8, a & 0xFF, b >> 8, b & 0xFF, c >> 8, c & 0xFF
+        CROW_QUERY3, a >> 8, a & 0xFF, b >> 8, b & 0xFF, c >> 8, c & 0xFF
     };
     tele_ii_tx(unit, d, 7);
     u8 r[2];
