@@ -131,7 +131,7 @@ void deserialize_scene(tt_deserializer_t* stream, scene_state_t* scene,
         c = toupper(stream->read_char(stream->data));
         // stream->print_dbg_char(c);
 
-        if (c == '#') {
+        if (c == '#' && !(s >= 0 && s <= 9)) {
             if (!stream->eof(stream->data)) {
                 c = toupper(stream->read_char(stream->data));
                 // stream->print_dbg_char(c);
@@ -211,6 +211,9 @@ void deserialize_scene(tt_deserializer_t* stream, scene_state_t* scene,
 
                     memset(input, 0, sizeof(input));
                     p = 0;
+                }
+                else {
+                    s = 98;
                 }
             }
             else {
