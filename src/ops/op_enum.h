@@ -896,6 +896,8 @@ typedef enum {
     E_OP_I2M_B_MODE,
     E_OP_I2M_C_QN,
     E_OP_I2M_C_QV,
+    E_OP_I2M_MUTE,
+    E_OP_I2M_SOLO,
     E_OP_I2M_TEST,
     E_OP_SEED,
     E_OP_RAND_SEED,

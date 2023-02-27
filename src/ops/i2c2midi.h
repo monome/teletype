@@ -110,6 +110,8 @@ extern const tele_op_t op_I2M_B_VOFF;
 extern const tele_op_t op_I2M_B_TOFF;
 extern const tele_op_t op_I2M_B_CLR;
 extern const tele_op_t op_I2M_B_MODE;
+extern const tele_op_t op_I2M_MUTE;
+extern const tele_op_t op_I2M_SOLO;
 
 extern const tele_op_t op_I2M_TEST;
 

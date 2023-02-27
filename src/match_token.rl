@@ -969,7 +969,9 @@
         "I2M.B.TOFF"      => { MATCH_OP(E_OP_I2M_B_TOFF ); };
         "I2M.B.CLR"       => { MATCH_OP(E_OP_I2M_B_CLR ); };
         "I2M.B.MODE"      => { MATCH_OP(E_OP_I2M_B_MODE ); };
-        
+        "I2M.MUTE"        => { MATCH_OP(E_OP_I2M_MUTE ); };
+        "I2M.SOLO"        => { MATCH_OP(E_OP_I2M_SOLO ); };
+
         "I2M.TEST"        => { MATCH_OP(E_OP_I2M_TEST ); };
         
         # seed
