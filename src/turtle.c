@@ -4,19 +4,21 @@
 #define max(X, Y) ((X) > (Y) ? (X) : (Y))
 
 void turtle_init(scene_turtle_t *st) {
-    scene_turtle_t t = {.fence = {.x1 = 0, .y1 = 0, .x2 = 3, .y2 = 63 },
-                        .mode = TURTLE_BUMP,
-                        .heading = 180,
-                        .speed = 100,
-                        .stepped = false,
-                        .script_number = TEMP_SCRIPT };
+    scene_turtle_t t = { .fence = { .x1 = 0, .y1 = 0, .x2 = 3, .y2 = 63 },
+                         .mode = TURTLE_BUMP,
+                         .heading = 180,
+                         .speed = 100,
+                         .stepped = false,
+                         .script_number = TEMP_SCRIPT };
     memcpy(st, &t, sizeof(t));
     turtle_set_x(st, 0);
     turtle_set_y(st, 0);
     st->last = st->position;
 }
 
-typedef struct { QT x1, y1, x2, y2; } Q_fence_t;
+typedef struct {
+    QT x1, y1, x2, y2;
+} Q_fence_t;
 
 static inline Q_fence_t normalize_fence(turtle_fence_t in, turtle_mode_t mode) {
     Q_fence_t out;

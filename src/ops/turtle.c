@@ -1,6 +1,6 @@
 #include "ops/turtle.h"
-#include "helpers.h"
 
+#include "helpers.h"
 #include "ops/op.h"
 #include "state.h"
 #include "teletype.h"

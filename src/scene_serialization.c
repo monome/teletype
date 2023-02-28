@@ -235,10 +235,18 @@ void deserialize_scene(tt_deserializer_t* stream, scene_state_t* scene,
                         // stream->print_dbg(" ");
                         // stream->print_dbg_ulong(num);
                     }
-                    else if (l == 0) { ss_set_pattern_len(scene, b, num); }
-                    else if (l == 1) { ss_set_pattern_wrap(scene, b, num); }
-                    else if (l == 2) { ss_set_pattern_start(scene, b, num); }
-                    else if (l == 3) { ss_set_pattern_end(scene, b, num); }
+                    else if (l == 0) {
+                        ss_set_pattern_len(scene, b, num);
+                    }
+                    else if (l == 1) {
+                        ss_set_pattern_wrap(scene, b, num);
+                    }
+                    else if (l == 2) {
+                        ss_set_pattern_start(scene, b, num);
+                    }
+                    else if (l == 3) {
+                        ss_set_pattern_end(scene, b, num);
+                    }
                 }
 
                 b++;
@@ -264,7 +272,9 @@ void deserialize_scene(tt_deserializer_t* stream, scene_state_t* scene,
             }
         }
         // GRID
-        else if (s == 11) { deserialize_grid(stream, scene, c); }
+        else if (s == 11) {
+            deserialize_grid(stream, scene, c);
+        }
     }
 }
 

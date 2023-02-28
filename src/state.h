@@ -410,7 +410,9 @@ typedef struct {
     int16_t top;
 } command_state_stack_t;
 
-typedef struct { command_state_stack_t stack; } command_state_t;
+typedef struct {
+    command_state_stack_t stack;
+} command_state_t;
 
 extern void cs_init(command_state_t *cs);
 extern int16_t cs_stack_size(command_state_t *cs);

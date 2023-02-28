@@ -53,7 +53,9 @@ uint16_t test_string_read_char(void* self_data) {
         ss->position += 1;
         return r;
     }
-    else { return -1; }
+    else {
+        return -1;
+    }
 }
 bool test_string_eof(void* self_data) {
     stringsource* ss = (stringsource*)self_data;

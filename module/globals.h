@@ -32,7 +32,9 @@ typedef enum {
 } tele_mode_t;
 
 // device config
-typedef struct { uint8_t flip; } device_config_t;
+typedef struct {
+    uint8_t flip;
+} device_config_t;
 
 void set_mode(tele_mode_t mode);
 void set_last_mode(void);

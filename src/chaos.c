@@ -17,9 +17,9 @@ static const float chaos_henon_b = 0.3;
 static const int chaos_cell_count = 8;
 static const int chaos_cell_max = 0xff;
 
-static chaos_state_t chaos_state = {
-    .ix = 5000, .ir = 5000, .alg = CHAOS_ALGO_LOGISTIC
-};
+static chaos_state_t chaos_state = { .ix = 5000,
+                                     .ir = 5000,
+                                     .alg = CHAOS_ALGO_LOGISTIC };
 
 void chaos_init() {
     chaos_scale_values(&chaos_state);

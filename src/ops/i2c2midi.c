@@ -1313,7 +1313,7 @@ static void op_I2M_B_MODE_get(const void *data, scene_state_t *ss,
 }
 
 static void op_I2M_MUTE_get(const void *data, scene_state_t *ss,
-                           exec_state_t *es, command_state_t *cs) {
+                            exec_state_t *es, command_state_t *cs) {
     s16 channel = cs_pop(cs);
     s16 value = cs_pop(cs);
     RETURN_IF_OUT_OF_RANGE(channel, 0, MAX_CHANNEL);
@@ -1321,7 +1321,7 @@ static void op_I2M_MUTE_get(const void *data, scene_state_t *ss,
 }
 
 static void op_I2M_SOLO_get(const void *data, scene_state_t *ss,
-                           exec_state_t *es, command_state_t *cs) {
+                            exec_state_t *es, command_state_t *cs) {
     s16 channel = cs_pop(cs);
     s16 value = cs_pop(cs);
     RETURN_IF_OUT_OF_RANGE(channel, 0, MAX_CHANNEL);

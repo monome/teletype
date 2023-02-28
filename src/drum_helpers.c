@@ -29,7 +29,8 @@ int tresillo(int bank, int pattern1, int pattern2, int len, int step) {
     if (bank < 0 || bank > 4) return 0;
     if (len < 8) return 0;
     if (step < 0) return 0;
-    if (pattern1 >= drum_ops_pattern_len || pattern2 >= drum_ops_pattern_len) return 0;
+    if (pattern1 >= drum_ops_pattern_len || pattern2 >= drum_ops_pattern_len)
+        return 0;
 
     const char* table1;
     const char* table2;
@@ -80,21 +81,11 @@ int drum(int bank, int pattern, int step) {
     const char* table;
 
     switch (bank) {
-        case 0:
-            table = table_t_r_e[pattern];
-            break;
-        case 1:
-            table = table_dr_bd[pattern];
-            break;
-        case 2:
-            table = table_dr_sd[pattern];
-            break;
-        case 3:
-            table = table_dr_ch[pattern];
-            break;
-        case 4:
-            table = table_dr_oh[pattern];
-            break;
+        case 0: table = table_t_r_e[pattern]; break;
+        case 1: table = table_dr_bd[pattern]; break;
+        case 2: table = table_dr_sd[pattern]; break;
+        case 3: table = table_dr_ch[pattern]; break;
+        case 4: table = table_dr_oh[pattern]; break;
     }
 
     int wrapped_step = wrap(step, 0, 15);

@@ -1,6 +1,7 @@
 #include "ops/init.h"
 
 #include <string.h>  // memset()
+
 #include "helpers.h"
 #include "ops/op.h"
 #include "teletype.h"

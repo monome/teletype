@@ -57,6 +57,14 @@ Set maximum note number for MIDI notes to `x` (0..127), using mode `y` (0..3). D
 prototype = "I2M.MAX# ch x y"  
 short = "Set maximum note number for MIDI notes to `x` (0..127), using mode `y` (0..3) for channel `ch`"  
 
+["I2M.MUTE"]
+prototype = "I2M.MUTE ch x"  
+short = "Set the mute state of MIDI channel `ch` to `x` (0..1)."  
+
+["I2M.SOLO"]
+prototype = "I2M.SOLO ch x"  
+short = "Set the solo state of MIDI channel `ch` to `x` (0..1)."
+
 ["I2M.REP"]  
 prototype = "I2M.REP"  
 prototype_set = "I2M.REP x"  
