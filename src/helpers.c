@@ -1,7 +1,5 @@
 #include "helpers.h"
-
 #include <string.h>
-
 #include "table.h"
 #include "util.h"
 

@@ -1,6 +1,5 @@
 #include <stdint.h>
 
-#include "drum_helpers_tests.h"
 #include "greatest/greatest.h"
 #include "match_token_tests.h"
 #include "op_mod_tests.h"
@@ -10,6 +9,7 @@
 #include "teletype.h"
 #include "teletype_io.h"
 #include "turtle_tests.h"
+#include "drum_helpers_tests.h"
 
 uint32_t tele_get_ticks() {
     return 0;

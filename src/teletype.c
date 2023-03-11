@@ -1,5 +1,3 @@
-#include "teletype.h"
-
 #include <stdint.h>  // types
 #include <stdio.h>   // printf
 #include <string.h>
@@ -9,6 +7,7 @@
 #include "ops/op.h"
 #include "scanner.h"
 #include "table.h"
+#include "teletype.h"
 #include "teletype_io.h"
 #include "util.h"
 
@@ -151,7 +150,7 @@ process_result_t run_script_with_exec_state(scene_state_t *ss, exec_state_t *es,
 #ifdef TELETYPE_PROFILE
     tele_profile_script(script_no);
 #endif
-    process_result_t result = { .has_value = false, .value = 0 };
+    process_result_t result = {.has_value = false, .value = 0 };
 
     es_set_script_number(es, script_no);
 
@@ -295,11 +294,11 @@ process_result_t process_command(scene_state_t *ss, exec_state_t *es,
     // ---------
     // sometimes we have single value left of the stack, if so return it
     if (cs_stack_size(&cs)) {
-        process_result_t o = { .has_value = true, .value = cs_pop(&cs) };
+        process_result_t o = {.has_value = true, .value = cs_pop(&cs) };
         return o;
     }
     else {
-        process_result_t o = { .has_value = false, .value = 0 };
+        process_result_t o = {.has_value = false, .value = 0 };
         return o;
     }
 }

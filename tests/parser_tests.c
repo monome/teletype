@@ -1,6 +1,7 @@
 #include "parser_tests.h"
 
 #include "greatest/greatest.h"
+
 #include "ops/op.h"
 #include "ops/op_enum.h"
 #include "teletype.h"

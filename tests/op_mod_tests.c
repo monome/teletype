@@ -1,6 +1,7 @@
 #include "op_mod_tests.h"
 
 #include "greatest/greatest.h"
+
 #include "ops/op.h"
 #include "teletype.h"
 
@@ -108,10 +109,10 @@ TEST mod_stack_size() {
         for (int j = 0; j < mod->params + stack_extra; j++) cs_push(&cs, 0);
 
         // execute func
-        const tele_command_t sub_command = { .length = 1,
-                                             .separator = 0,
-                                             .data = { { .tag = OP,
-                                                         .value = E_OP_A } } };
+        const tele_command_t sub_command = {.length = 1,
+                                            .separator = 0,
+                                            .data = { {.tag = OP,
+                                                       .value = E_OP_A } } };
         mod->func(&ss, &es, &cs, &sub_command);
 
         // check that the stack has the correct number of items in it

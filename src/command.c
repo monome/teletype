@@ -1,7 +1,6 @@
 #include "command.h"
 
 #include <string.h>  // memcpy
-
 #include "helpers.h"
 #include "ops/op.h"
 #include "util.h"

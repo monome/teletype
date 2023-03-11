@@ -283,7 +283,7 @@ const tele_op_t op_SYM_LEFT_ANGLED_EQUAL_RIGHT_ANGLED = MAKE_ALIAS_OP(<=>,  op_O
 const tele_op_t op_SYM_EXCLAMATION        = MAKE_ALIAS_OP(! ,  op_EZ_get ,  NULL, 1, true);
 const tele_op_t op_SYM_LEFT_ANGLED_x2     = MAKE_ALIAS_OP(<<,  op_LSH_get,  NULL, 2, true);
 const tele_op_t op_SYM_RIGHT_ANGLED_x2    = MAKE_ALIAS_OP(>>,  op_RSH_get,  NULL, 2, true);
-const tele_op_t op_SYM_LEFT_ANGLED_x3     = MAKE_ALIAS_OP(< <<, op_LROT_get, NULL, 2, true);
+const tele_op_t op_SYM_LEFT_ANGLED_x3     = MAKE_ALIAS_OP(<<<, op_LROT_get, NULL, 2, true);
 const tele_op_t op_SYM_RIGHT_ANGLED_x3    = MAKE_ALIAS_OP(>>>, op_RROT_get, NULL, 2, true);
 const tele_op_t op_SYM_AMPERSAND_x2       = MAKE_ALIAS_OP(&&,  op_AND_get,  NULL, 2, true);
 const tele_op_t op_SYM_PIPE_x2            = MAKE_ALIAS_OP(||,  op_OR_get ,  NULL, 2, true);
@@ -1256,7 +1256,7 @@ static void op_BPM_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
     if (a < 2) a = 2;
     if (a > 1000) a = 1000;
     ret = ((((uint32_t)(1 << 31)) / ((a << 20) / 60)) * 1000) >> 10;
-    ret = ret / 2 + (ret & 1);  // rounding
+    ret = ret / 2 + (ret & 1); // rounding
     cs_push(cs, (int16_t)ret);
 }
 

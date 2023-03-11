@@ -1,5 +1,4 @@
 #include "grid.h"
-
 #include "edit_mode.h"
 #include "flash.h"
 #include "font.h"

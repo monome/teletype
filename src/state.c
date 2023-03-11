@@ -1,9 +1,8 @@
 #include "state.h"
+#include "helpers.h"
 
 #include <stdlib.h>
 #include <string.h>
-
-#include "helpers.h"
 #include "teletype_io.h"
 
 ////////////////////////////////////////////////////////////////////////////////

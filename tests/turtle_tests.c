@@ -1,10 +1,10 @@
 #include "turtle_tests.h"
-
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>  // ssize_t
 
 #include "greatest/greatest.h"
+
 #include "log.h"
 #include "teletype.h"
 
@@ -34,7 +34,7 @@ static const char *error_message(error_t e) {
 TEST process_helper_state(scene_state_t *ss, size_t n, char *lines[],
                           int16_t answer) {
     count++;
-    process_result_t result = { .has_value = false, .value = 0 };
+    process_result_t result = {.has_value = false, .value = 0 };
     exec_state_t es;
     memset(&es, 0, sizeof(es));
     es_init(&es);
