@@ -81,6 +81,22 @@ Get current ratcheting / Set ratcheting of MIDI notes to `x` ratchets (1..127). 
 prototype = "I2M.RAT# ch x"  
 short = "Get current ratcheting / Set ratcheting of MIDI notes to `x` ratchets (1..127) for channel `ch`"  
 
+["I2M.MUTE"]
+prototype = "I2M.MUTE x"  
+short = "Set mute state of current MIDI channel to `x` (0..1)"  
+
+["I2M.MUTE#"]
+prototype = "I2M.MUTE# ch x"  
+short = "Set mute state of MIDI channel `ch` to `x` (0..1)"  
+
+["I2M.SOLO"]
+prototype = "I2M.SOLO x"  
+short = "Set solo state of current MIDI channel to `x` (0..1)"  
+
+["I2M.SOLO#"]
+prototype = "I2M.SOLO# ch x"  
+short = "Set solo state of MIDI channel `ch` to `x` (0..1)"  
+
 ["I2M.NOTE"]  
 prototype = "I2M.NOTE x y"  
 aliases = ["I2M.N"]  

@@ -305,7 +305,7 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     &op_I2M_B_SPE, &op_I2M_B_FB, &op_I2M_B_NSHIFT, &op_I2M_B_VSHIFT,
     &op_I2M_B_TSHIFT, &op_I2M_B_NOFF, &op_I2M_B_VOFF, &op_I2M_B_TOFF,
     &op_I2M_B_CLR, &op_I2M_B_MODE, &op_I2M_C_QN, &op_I2M_C_QV, 
-    &op_I2M_MUTE, &op_I2M_SOLO, 
+    &op_I2M_MUTE, &op_I2M_MUTE_POUND, &op_I2M_SOLO, &op_I2M_SOLO_POUND, 
     &op_I2M_TEST,
     
 
