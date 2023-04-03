@@ -1,6 +1,6 @@
 # teletype
 
-monome eurorack module
+monome eurorack module. This fork contains modified code to support a single 4-channel, 14-bit DAC such as the AD5685 (instead of 2 2-channel, 12-bit AD5687 DACs in the original hardware). For more info, see this comment on [lines](https://llllllll.co/t/teletype-hardware-open/27242/522).
 
 http://monome.org/docs/teletype
 
@@ -125,17 +125,17 @@ make teletype.html # build just teletype.html
 ```
 
 [requirements.pip]: utils/requirements.pip
-[Pandoc]: http://pandoc.org/
-[TexLive]: https://www.tug.org/texlive/
-[MacTex]: https://www.tug.org/mactex/
+[pandoc]: http://pandoc.org/
+[texlive]: https://www.tug.org/texlive/
+[mactex]: https://www.tug.org/mactex/
 
 ## Making a Release
 
 To create a `teletype.zip` file containing:
 
- - `teletype.hex`
- - `flash.sh`
- - `update_firmware.command`
- - `teletype.pdf`
+- `teletype.hex`
+- `flash.sh`
+- `update_firmware.command`
+- `teletype.pdf`
 
 Run `make release` in the project's root directory

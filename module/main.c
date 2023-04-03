@@ -80,12 +80,14 @@ void tele_profile_delay(uint8_t d) {
 scene_state_t scene_state;
 char scene_text[SCENE_TEXT_LINES][SCENE_TEXT_CHARS];
 uint8_t preset_select;
-region line[8] = {
-    {.w = 128, .h = 8, .x = 0, .y = 0 },  {.w = 128, .h = 8, .x = 0, .y = 8 },
-    {.w = 128, .h = 8, .x = 0, .y = 16 }, {.w = 128, .h = 8, .x = 0, .y = 24 },
-    {.w = 128, .h = 8, .x = 0, .y = 32 }, {.w = 128, .h = 8, .x = 0, .y = 40 },
-    {.w = 128, .h = 8, .x = 0, .y = 48 }, {.w = 128, .h = 8, .x = 0, .y = 56 }
-};
+region line[8] = { { .w = 128, .h = 8, .x = 0, .y = 0 },
+                   { .w = 128, .h = 8, .x = 0, .y = 8 },
+                   { .w = 128, .h = 8, .x = 0, .y = 16 },
+                   { .w = 128, .h = 8, .x = 0, .y = 24 },
+                   { .w = 128, .h = 8, .x = 0, .y = 32 },
+                   { .w = 128, .h = 8, .x = 0, .y = 40 },
+                   { .w = 128, .h = 8, .x = 0, .y = 48 },
+                   { .w = 128, .h = 8, .x = 0, .y = 56 } };
 char copy_buffer[SCENE_TEXT_LINES][SCENE_TEXT_CHARS];
 uint8_t copy_buffer_len = 0;
 
@@ -122,17 +124,17 @@ static uint64_t last_adc_tick = 0;
 static midi_behavior_t midi_behavior;
 
 // timers
-static softTimer_t clockTimer = {.next = NULL, .prev = NULL };
-static softTimer_t refreshTimer = {.next = NULL, .prev = NULL };
-static softTimer_t keyTimer = {.next = NULL, .prev = NULL };
-static softTimer_t cvTimer = {.next = NULL, .prev = NULL };
-static softTimer_t adcTimer = {.next = NULL, .prev = NULL };
-static softTimer_t hidTimer = {.next = NULL, .prev = NULL };
-static softTimer_t metroTimer = {.next = NULL, .prev = NULL };
-static softTimer_t monomePollTimer = {.next = NULL, .prev = NULL };
-static softTimer_t monomeRefreshTimer = {.next = NULL, .prev = NULL };
-static softTimer_t gridFaderTimer = {.next = NULL, .prev = NULL };
-static softTimer_t midiScriptTimer = {.next = NULL, .prev = NULL };
+static softTimer_t clockTimer = { .next = NULL, .prev = NULL };
+static softTimer_t refreshTimer = { .next = NULL, .prev = NULL };
+static softTimer_t keyTimer = { .next = NULL, .prev = NULL };
+static softTimer_t cvTimer = { .next = NULL, .prev = NULL };
+static softTimer_t adcTimer = { .next = NULL, .prev = NULL };
+static softTimer_t hidTimer = { .next = NULL, .prev = NULL };
+static softTimer_t metroTimer = { .next = NULL, .prev = NULL };
+static softTimer_t monomePollTimer = { .next = NULL, .prev = NULL };
+static softTimer_t monomeRefreshTimer = { .next = NULL, .prev = NULL };
+static softTimer_t gridFaderTimer = { .next = NULL, .prev = NULL };
+static softTimer_t midiScriptTimer = { .next = NULL, .prev = NULL };
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -217,34 +219,40 @@ void cvTimer_callback(void* o) {
         uint16_t a0, a1, a2, a3;
 
         if (device_config.flip) {
-            a0 = aout[3].now >> 2;
-            a1 = aout[2].now >> 2;
-            a2 = aout[1].now >> 2;
-            a3 = aout[0].now >> 2;
+            a0 = aout[3].now;
+            a1 = aout[2].now;
+            a2 = aout[1].now;
+            a3 = aout[0].now;
         }
         else {
-            a0 = aout[0].now >> 2;
-            a1 = aout[1].now >> 2;
-            a2 = aout[2].now >> 2;
-            a3 = aout[3].now >> 2;
+            a0 = aout[0].now;
+            a1 = aout[1].now;
+            a2 = aout[2].now;
+            a3 = aout[3].now;
         }
 
         spi_selectChip(DAC_SPI, DAC_SPI_NPCS);
-        spi_write(DAC_SPI, 0x31);
-        spi_write(DAC_SPI, a2 >> 4);
-        spi_write(DAC_SPI, a2 << 4);
-        spi_write(DAC_SPI, 0x31);
-        spi_write(DAC_SPI, a0 >> 4);
-        spi_write(DAC_SPI, a0 << 4);
+        spi_write(DAC_SPI, 0x31);  // Write CV0 to DAC Channel A
+        spi_write(DAC_SPI, a0 >> 6);
+        spi_write(DAC_SPI, a0 << 2);
         spi_unselectChip(DAC_SPI, DAC_SPI_NPCS);
 
         spi_selectChip(DAC_SPI, DAC_SPI_NPCS);
-        spi_write(DAC_SPI, 0x38);
-        spi_write(DAC_SPI, a3 >> 4);
-        spi_write(DAC_SPI, a3 << 4);
-        spi_write(DAC_SPI, 0x38);
-        spi_write(DAC_SPI, a1 >> 4);
-        spi_write(DAC_SPI, a1 << 4);
+        spi_write(DAC_SPI, 0x32);  // Write CV2 to DAC Channel B
+        spi_write(DAC_SPI, a2 >> 6);
+        spi_write(DAC_SPI, a2 << 2);
+        spi_unselectChip(DAC_SPI, DAC_SPI_NPCS);
+
+        spi_selectChip(DAC_SPI, DAC_SPI_NPCS);
+        spi_write(DAC_SPI, 0x34);  // Write CV3 update DAC Channel C
+        spi_write(DAC_SPI, a3 >> 6);
+        spi_write(DAC_SPI, a3 << 2);
+        spi_unselectChip(DAC_SPI, DAC_SPI_NPCS);
+
+        spi_selectChip(DAC_SPI, DAC_SPI_NPCS);
+        spi_write(DAC_SPI, 0x38);  // Write CV 1 update DAC Channel D
+        spi_write(DAC_SPI, a1 >> 6);
+        spi_write(DAC_SPI, a1 << 2);
         spi_unselectChip(DAC_SPI, DAC_SPI_NPCS);
     }
 #ifdef TELETYPE_PROFILE
@@ -253,32 +261,32 @@ void cvTimer_callback(void* o) {
 }
 
 void clockTimer_callback(void* o) {
-    event_t e = {.type = kEventTimer, .data = 0 };
+    event_t e = { .type = kEventTimer, .data = 0 };
     event_post(&e);
 }
 
 void refreshTimer_callback(void* o) {
-    event_t e = {.type = kEventScreenRefresh, .data = 0 };
+    event_t e = { .type = kEventScreenRefresh, .data = 0 };
     event_post(&e);
 }
 
 void keyTimer_callback(void* o) {
-    event_t e = {.type = kEventKeyTimer, .data = 0 };
+    event_t e = { .type = kEventKeyTimer, .data = 0 };
     event_post(&e);
 }
 
 void adcTimer_callback(void* o) {
-    event_t e = {.type = kEventPollADC, .data = 0 };
+    event_t e = { .type = kEventPollADC, .data = 0 };
     event_post(&e);
 }
 
 void hidTimer_callback(void* o) {
-    event_t e = {.type = kEventHidTimer, .data = 0 };
+    event_t e = { .type = kEventHidTimer, .data = 0 };
     event_post(&e);
 }
 
 void metroTimer_callback(void* o) {
-    event_t e = {.type = kEventAppCustom, .data = 0 };
+    event_t e = { .type = kEventAppCustom, .data = 0 };
     event_post(&e);
 }
 
@@ -407,9 +415,7 @@ void handler_PollADC(int32_t data) {
         if (!deadzone || abs(preset - get_preset()) > 1)
             process_preset_r_preset(preset);
     }
-    else {
-        ss_set_param(&scene_state, adc[1] << 2);
-    }
+    else { ss_set_param(&scene_state, adc[1] << 2); }
 #ifdef TELETYPE_PROFILE
     profile_update(&prof_ADC);
 #endif
@@ -853,9 +859,7 @@ bool process_global_keys(uint8_t k, uint8_t m, bool is_held_key) {
     else if (match_no_mod(m, k, HID_ESCAPE)) {
         if (mode == M_PRESET_R)
             set_last_mode();
-        else {
-            set_mode(M_PRESET_R);
-        }
+        else { set_mode(M_PRESET_R); }
         return true;
     }
     // alt-<esc>: preset write mode
@@ -872,9 +876,7 @@ bool process_global_keys(uint8_t k, uint8_t m, bool is_held_key) {
     else if (match_shift_alt(m, k, HID_SLASH) || match_alt(m, k, HID_H)) {
         if (mode == M_HELP)
             set_last_mode();
-        else {
-            set_mode(M_HELP);
-        }
+        else { set_mode(M_HELP); }
         return true;
     }
     // <F1> through <F8>: run corresponding script
@@ -923,9 +925,7 @@ bool process_global_keys(uint8_t k, uint8_t m, bool is_held_key) {
         if (mode != M_LIVE) { set_mode(M_LIVE); }
         return true;
     }
-    else {
-        return false;
-    }
+    else { return false; }
 }
 
 
@@ -1178,11 +1178,11 @@ int main(void) {
     flash_read(preset_select, &scene_state, &scene_text, 1, 1, 1);
 
     // setup daisy chain for two dacs
-    spi_selectChip(DAC_SPI, DAC_SPI_NPCS);
-    spi_write(DAC_SPI, 0x80);
-    spi_write(DAC_SPI, 0xff);
-    spi_write(DAC_SPI, 0xff);
-    spi_unselectChip(DAC_SPI, DAC_SPI_NPCS);
+    /*     spi_selectChip(DAC_SPI, DAC_SPI_NPCS);
+        spi_write(DAC_SPI, 0x80);
+        spi_write(DAC_SPI, 0xff);
+        spi_write(DAC_SPI, 0xff);
+        spi_unselectChip(DAC_SPI, DAC_SPI_NPCS); */
 
     timer_add(&clockTimer, RATE_CLOCK, &clockTimer_callback, NULL);
     timer_add(&cvTimer, RATE_CV, &cvTimer_callback, NULL);

@@ -43,6 +43,7 @@
 
 # Python
 __pycache__/
+venv
 
 # Build outputs
 /src/match_token.c
