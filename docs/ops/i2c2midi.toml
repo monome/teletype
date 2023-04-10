@@ -11,217 +11,235 @@ Get currently set MIDI channel / Set MIDI channel `x` (1..16 for TRS, 17..32 for
 prototype = "I2M.TIME"  
 prototype_set = "I2M.TIME x"  
 aliases = ["I2M.T"]  
-short = "Get current note duration / Set note duration for MIDI notes to `x` ms (0..32767)"  
+short = "Get current note duration / Set note duration of MIDI notes to `x` ms (0..32767) for current channel"  
 description = """
-Get current note duration / Set note duration for MIDI notes to `x` ms (0..32767). Based on note duration, i2c2midi will send a MIDI Note Off message automatically. Set `x = 0` to deactivate automatic Note Off messages. Default is `x = 100`. Use `I2M.T#` to add channel parameter.
+Get current note duration / Set note duration of MIDI notes to `x` ms (0..32767) for current channel. Based on note duration, i2c2midi will send a MIDI Note Off message automatically. Set `x = 0` to deactivate automatic Note Off messages. Default is `x = 100`.  
 """
 
 ["I2M.T#"]
 prototype = "I2M.T# ch"  
 prototype_set = "I2M.T# ch x"  
-short = "Get current note duration / Set note duration for MIDI notes to `x` ms (0..32767) for channel `ch`"  
+short = "Get current note duration / Set note duration of MIDI notes to `x` ms (0..32767) for channel `ch` (0..32)."  
+description = """
+Get current note duration / Set note duration of MIDI notes to `x` ms (0..32767) for channel `ch` (0..32). Use `ch = 0` to set for all channels.
+"""
 
 ["I2M.SHIFT"]  
 prototype = "I2M.SHIFT"  
 prototype_set = "I2M.SHIFT x"  
 aliases = ["I2M.S"]  
-short = "Get current transposition / Set transposition of MIDI notes to `x` semitones (-127..127)"  
+short = "Get current transposition / Set transposition of MIDI notes to `x` semitones (-127..127) for current channel"  
 description = """
-Get current transposition / Set transposition of MIDI notes to `x` semitones (-127..127). Default is `x = 0`. Use `I2M.S#` to add channel parameter.
+Get current transposition / Set transposition of MIDI notes to `x` semitones (-127..127) for current channel. Default is `x = 0`.  
 """
 
 ["I2M.S#"]
 prototype = "I2M.S# ch"  
 prototype_set = "I2M.S# ch x"  
-short = "Get current transposition / Set transposition of MIDI notes to `x` semitones (-127..127) for channel `ch`"  
+short = "Get current transposition / Set transposition of MIDI notes to `x` semitones (-127..127) for channel `ch` (0..32)"
+description = """
+Get current transposition / Set transposition of MIDI notes to `x` semitones (-127..127) for channel `ch` (0..32). Use `ch = 0` to set for all channels."  
+"""
 
 ["I2M.MIN"]  
 prototype = "I2M.MIN x y"  
-short = "Set minimum note number for MIDI notes to `x` (0..127), using mode `y` (0..3)"  
+short = "Set minimum note number for MIDI notes to `x` (0..127), using mode `y` (0..3), for current channel"  
 description = """
-Set minimum note number for MIDI notes to `x` (0..127), using mode `y` (0..3). Default is `x = 0` and `y = 0`. The following modes are available for notes lower than the minimum: 0) Ignore notes 1) Clamp notes 2) Fold back notes by one octave 3) Fold back notes by multiple octaves. Use `I2M.MIN#` to add channel parameter.
+Set minimum note number for MIDI notes to `x` (0..127), using mode `y` (0..3), for current channel. Default is `x = 0` and `y = 0`. The following modes are available for notes lower than the minimum: 0) Ignore notes 1) Clamp notes 2) Fold back notes by one octave 3) Fold back notes by multiple octaves.  
 """
 
 ["I2M.MIN#"]
 prototype = "I2M.MIN# ch x y"  
-short = "Set minimum note number for MIDI notes to `x` (0..127), using mode `y` (0..3) for channel `ch`"  
+short = "Set minimum note number for MIDI notes to `x` (0..127), using mode `y` (0..3), for channel `ch` (0..32)"  
+description = """
+Set minimum note number for MIDI notes to `x` (0..127), using mode `y` (0..3), for channel `ch` (0..32). Use `ch = 0` to set for all channels.
+"""
 
 ["I2M.MAX"]  
 prototype = "I2M.MAX x y"  
-short = "Set maximum note number for MIDI notes to `x` (0..127), using mode `y` (0..3)"  
+short = "Set maximum note number for MIDI notes to `x` (0..127), using mode `y` (0..3), for current channel"  
 description = """
-Set maximum note number for MIDI notes to `x` (0..127), using mode `y` (0..3). Default is `x = 0` and `y = 0`. The following modes are available for notes higher than the maximum: 0) Ignore notes 1) Clamp notes 2) Fold back notes by one octave 3) Fold back notes by multiple octaves. Use `I2M.MAX#` to add channel parameter.
+Set maximum note number for MIDI notes to `x` (0..127), using mode `y` (0..3), for current channel. Default is `x = 0` and `y = 0`. The following modes are available for notes higher than the maximum: 0) Ignore notes 1) Clamp notes 2) Fold back notes by one octave 3) Fold back notes by multiple octaves.  
 """
 
 ["I2M.MAX#"]
 prototype = "I2M.MAX# ch x y"  
-short = "Set maximum note number for MIDI notes to `x` (0..127), using mode `y` (0..3) for channel `ch`"  
+short = "Set maximum note number for MIDI notes to `x` (0..127), using mode `y` (0..3), for channel `ch` (0..32)"
+description = """
+Set maximum note number for MIDI notes to `x` (0..127), using mode `y` (0..3), for channel `ch` (0..32). Use `ch = 0` to set for all channels.
+"""
 
 ["I2M.REP"]  
 prototype = "I2M.REP"  
 prototype_set = "I2M.REP x"  
-short = "Get current repetition / Set repetition of MIDI notes to `x` repetitions (1..127)"  
+short = "Get current repetition / Set repetition of MIDI notes to `x` repetitions (1..127) for current channel"  
 description = """
-Get current repetition / Set repetition of MIDI notes to `x` repetitions (1..127). Set `x = 1` for no repetitions. Default is `x = 1`. Use `I2M.REP#` to add channel parameter.
+Get current repetition / Set repetition of MIDI notes to `x` repetitions (1..127) for current channel. Set `x = 1` for no repetitions. Default is `x = 1`.  
 """
 
 ["I2M.REP#"]
 prototype = "I2M.REP# ch x"  
-short = "Get current repetition / Set repetition of MIDI notes to `x` repetitions (1..127) for channel `ch`"  
+short = "Get current repetition / Set repetition of MIDI notes to `x` repetitions (1..127) for channel `ch` (0..32)"
+description = """
+Get current repetition / Set repetition of MIDI notes to `x` repetitions (1..127) for channel `ch` (0..32). Use `ch = 0` to set for all channels.
+"""
 
 ["I2M.RAT"]  
 prototype = "I2M.RAT"  
 prototype_set = "I2M.RAT x"  
-short = "Get current ratcheting / Set ratcheting of MIDI notes to `x` ratchets (1..127)"  
+short = "Get current ratcheting / Set ratcheting of MIDI notes to `x` ratchets (1..127) for current channel"  
 description = """
-Get current ratcheting / Set ratcheting of MIDI notes to `x` ratchets (1..127). Set `x = 1` for no ratcheting. Default is `x = 1`. Use `I2M.RAT#` to add channel parameter.
+Get current ratcheting / Set ratcheting of MIDI notes to `x` ratchets (1..127) for current channel. Set `x = 1` for no ratcheting. Default is `x = 1`.  
 """
 
 ["I2M.RAT#"]
 prototype = "I2M.RAT# ch x"  
-short = "Get current ratcheting / Set ratcheting of MIDI notes to `x` ratchets (1..127) for channel `ch`"  
+short = "Get current ratcheting / Set ratcheting of MIDI notes to `x` ratchets (1..127) for channel `ch` (0..32)"  
+description = """
+Get current ratcheting / Set ratcheting of MIDI notes to `x` ratchets (1..127) for channel `ch` (0..32). Use `ch = 0` to set for all channels.  
+"""
 
 ["I2M.NOTE"]  
 prototype = "I2M.NOTE x y"  
 aliases = ["I2M.N"]  
-short = "Send MIDI Note On message for note number `x` (0..127) with velocity `y` (1..127)"
+short = "Send MIDI Note On message for note number `x` (0..127) with velocity `y` (1..127) on current channel"
 description = """
-Send MIDI Note On message for note number `x` (0..127) with velocity `y` (1..127). A velocity of `0` will be treated as a MIDI Note Off message. Use `I2M.N#` to add channel parameter.
+Send MIDI Note On message for note number `x` (0..127) with velocity `y` (1..127) on current channel. A velocity of `0` will be treated as a MIDI Note Off message.  
 """
 
 ["I2M.N#"]  
 prototype = "I2M.N# ch x y"  
-short = "Send MIDI Note On message for note number `x` (0..127) with velocity `y` (1..127) to channel `ch`"
+short = "Send MIDI Note On message for note number `x` (0..127) with velocity `y` (1..127) on channel `ch` (1..32)"
 
 ["I2M.NOTE.O"]  
 prototype = "I2M.NOTE.O x"  
 aliases = ["I2M.NO"]  
 short = "Send a manual MIDI Note Off message for note number `x` (0..127)"  
 description = """
-Send a manual MIDI Note Off message for note number `x` (0..127). This can be used either before i2c2midi sends the automatic Note Off message (to stop the note from playing before its originally planned ending), or in combination with `I2M.TIME` set to `0` (in which case i2c2midi does not send automatic Note Off messages). Use `I2M.NO#` to add channel parameter.
+Send a manual MIDI Note Off message for note number `x` (0..127). This can be used either before i2c2midi sends the automatic Note Off message (to stop the note from playing before its originally planned ending), or in combination with `I2M.TIME` set to `0` (in which case i2c2midi does not send automatic Note Off messages).  
 """
 
 ["I2M.NO#"]  
 prototype = "I2M.NO# ch x"  
-short = "Send a manual MIDI Note Off message for note number `x` (0..127) to channel `ch`"  
+short = "Send a manual MIDI Note Off message for note number `x` (0..127) on channel `ch` (1..32)"  
 
 ["I2M.NT"]   
 prototype = "I2M.NT x y z"  
 short = "Send MIDI Note On message for note number `x` (0..127) with velocity `y` (1..127) and note duration `z` ms (0..32767)"  
 description = """
-Send MIDI Note On message for note number `x` (0..127) with velocity `y` (1..127) and note duration `z` ms (0..32767). Use `I2M.NT#` to add channel parameter.
+Send MIDI Note On message for note number `x` (0..127) with velocity `y` (1..127) and note duration `z` ms (0..32767).  
 """
 
 ["I2M.NT#"]   
 prototype = "I2M.NT# ch x y z"  
-short = "Send MIDI Note On message for note number `x` (0..127) with velocity `y` (1..127) and note duration `z` ms (0..32767) to channel `ch`"  
+short = "Send MIDI Note On message for note number `x` (0..127) with velocity `y` (1..127) and note duration `z` ms (0..32767) on channel `ch` (1..32)"  
 
 ["I2M.CC"]  
 prototype = "I2M.CC x y"  
 short = "Send MIDI CC message for controller `x` (0..127) with value `y` (0..127)"  
 description = """
-Send MIDI CC message for controller `x` (0..127) with value `y` (0..127). Use `I2M.CC#` to add channel parameter.
+Send MIDI CC message for controller `x` (0..127) with value `y` (0..127).  
 """
 
 ["I2M.CC#"]  
 prototype = "I2M.CC# ch x y"  
-short = "Send MIDI CC message for controller `x` (0..127) with value `y` (0..127) to channel `ch`"  
+short = "Send MIDI CC message for controller `x` (0..127) with value `y` (0..127) on channel `ch` (1..32)"  
 
 ["I2M.CC.SET"]  
 prototype = "I2M.CC.SET x y"  
 short = "Send MIDI CC message for controller `x` (0..127) with value `y` (0..127), bypassing any slew settings"  
 description = """
-Send MIDI CC message for controller `x` (0..127) with value `y` (0..127), bypassing any slew settings. Use `I2M.CC.SET#` to add channel parameter.
+Send MIDI CC message for controller `x` (0..127) with value `y` (0..127), bypassing any slew settings.  
 """
 
 ["I2M.CC.SET#"]  
 prototype = "I2M.CC.SET# ch x y"  
-short = "Send MIDI CC message for controller `x` (0..127) with value `y` (0..127) to channel `ch`, bypassing any slew settings"  
+short = "Send MIDI CC message for controller `x` (0..127) with value `y` (0..127) on channel `ch` (1..32), bypassing any slew settings"  
 
 ["I2M.CCV"]  
 prototype = "I2M.CCV x y"  
 short = "Send MIDI CC message for controller `x` (0..127) with volt value `y` (0..16383, 0..+10V)"  
 description = """
-Send MIDI CC message for controller `x` (0..127) with volt value `y` (0..16383, 0..+10V). Use `I2M.CCV#` to add channel parameter.
+Send MIDI CC message for controller `x` (0..127) with volt value `y` (0..16383, 0..+10V).  
 """
 
 ["I2M.CCV#"]  
 prototype = "I2M.CCV# ch x y"  
-short = "Send MIDI CC message for controller `x` (0..127) with volt value `y` (0..16383, 0..+10V) to channel `ch`"  
+short = "Send MIDI CC message for controller `x` (0..127) with volt value `y` (0..16383, 0..+10V) on channel `ch` (1..32)"  
 
 ["I2M.CC.OFF"]  
 prototype = "I2M.CC.OFF x"  
 prototype_set = "I2M.CC.OFF x y"  
 short = "Get current offset / Set offset of values of controller `x` (0..127) to `y` (-127..127)"  
 description = """
-Get current offset / Set offset of values of controller `x` (0..127) to `y` (-127..127). Default is `y = 0`. Use `I2M.CC.OFF#` to add channel parameter.
+Get current offset / Set offset of values of controller `x` (0..127) to `y` (-127..127). Default is `y = 0`.  
 """
 
 ["I2M.CC.OFF#"]  
 prototype = "I2M.CC.OFF# ch x"  
 prototype_set = "I2M.CC.OFF# ch x y"  
-short = "Get current offset / Set offset of values of controller `x` (0..127) to `y` (-127..127) for channel `ch`"  
+short = "Get current offset / Set offset of values of controller `x` (0..127) to `y` (-127..127) for channel `ch` (1..32)"  
 
 ["I2M.CC.SLEW"]  
 prototype = "I2M.CC.SLEW x"  
 prototype_set = "I2M.CC.SLEW x y"  
 short = "Get current slew time for controller `x` / Set slew time for controller `x` (0..127) to `y` ms (0..32767)"   
 description = """
-Get current slew time for controller `x` / Set slew time for controller `x` (0..127) to `y` ms (0..32767). i2c2midi will ramp from the controller's last value to a new value within the given time `x`, sending MIDI CCs at a maximum rate of 30 ms. If the slewing is still ongoing when a new value is set, the slewing uses its current position as the last value. Is 8 CC controller values can be slewed simoultaneously before the oldest currently slewing value is overwritten by the newest. Default is `y = 0`. Use `I2M.CC.SLEW#` to add channel parameter.
+Get current slew time for controller `x` / Set slew time for controller `x` (0..127) to `y` ms (0..32767). i2c2midi will ramp from the controller's last value to a new value within the given time `x`, sending MIDI CCs at a maximum rate of 30 ms. If the slewing is still ongoing when a new value is set, the slewing uses its current position as the last value. Is 8 CC controller values can be slewed simoultaneously before the oldest currently slewing value is overwritten by the newest. Default is `y = 0`.  
 """
 
 ["I2M.CC.SLEW#"]  
 prototype = "I2M.CC.SLEW# ch x"  
 prototype_set = "I2M.CC.SLEW# ch x y"  
-short = "Get current slew time for controller `x` / Set slew time for controller `x` (0..127) to `y` ms (0..32767) for channel `ch`"   
+short = "Get current slew time for controller `x` / Set slew time for controller `x` (0..127) to `y` ms (0..32767) for channel `ch` (1..32)"   
 
 ["I2M.NRPN"]  
 prototype = "I2M.NRPN x y z"  
 short = "Send MIDI NRPN message (high-res CC) for parameter MSB `x` and LSB `y` with value `y` (0..16383)"  
 description = """
-Send MIDI NRPN message (high-res CC) for parameter MSB `x` and LSB `y` with value `y` (0..16383). Use `I2M.NRPN#` to add channel parameter.
+Send MIDI NRPN message (high-res CC) for parameter MSB `x` and LSB `y` with value `y` (0..16383).  
 """
 
 ["I2M.NRPN#"]  
 prototype = "I2M.NRPN# ch x y z"  
-short = "Send MIDI NRPN message (high-res CC) for parameter MSB `x` and LSB `y` with value `y` (0..16383) to channel `ch`"  
+short = "Send MIDI NRPN message (high-res CC) for parameter MSB `x` and LSB `y` with value `y` (0..16383) on channel `ch` (1..32)"  
 
 ["I2M.NRPN.OFF"]  
 prototype = "I2M.NRPN.OFF x y"  
 prototype_set = "I2M.NRPN.OFF x y z"  
 short = "Get current offset / Set offset of values of NRPN messages to `z` (-16384..16383)"  
 description = """
-Get current offset / Set offset of values of NRPN messages to `z` (-16384..16383). Default is z = 0. Use `I2M.NRPN.OFF#` to add channel parameter.
+Get current offset / Set offset of values of NRPN messages to `z` (-16384..16383). Default is z = 0.  
 """
 
 ["I2M.NRPN.OFF#"]  
 prototype = "I2M.NRPN.OFF# ch x y"  
 prototype_set = "I2M.NRPN.OFF# ch x y z"  
-short = "Get current offset / Set offset of values of NRPN messages to `z` (-16384..16383) for channel `ch`"  
+short = "Get current offset / Set offset of values of NRPN messages to `z` (-16384..16383) for channel `ch` (1..32)"  
 
 ["I2M.NRPN.SLEW"]  
 prototype = "I2M.NRPN.SLEW x y"  
 prototype_set = "I2M.NRPN.SLEW x y z"  
 short = "Get current slew time / Set slew time for NRPN messages to `z` ms (0..32767)"  
 description = """
-Get current slew time / Set slew time for NRPN messages to `z` ms (0..32767). Default is z = 0. Use `I2M.NRPN.SLEW#` to add channel parameter.
+Get current slew time / Set slew time for NRPN messages to `z` ms (0..32767). Default is z = 0.  
 """
 
 ["I2M.NRPN.SLEW#"]  
 prototype = "I2M.NRPN.SLEW# ch x y"  
 prototype_set = "I2M.NRPN.SLEW# ch x y z"  
-short = "Get current slew time / Set slew time for NRPN messages to `z` ms (0..32767) for channel `ch`"  
+short = "Get current slew time / Set slew time for NRPN messages to `z` ms (0..32767) for channel `ch` (1..32)"  
 
 ["I2M.NRPN.SET"]  
 prototype = "I2M.NRPN.SET x y z"  
 short = "Send MIDI NRPN message for parameter MSB `x` and LSB `y` with value `y` (0..16383), bypassing any slew settings"  
 description = """
-Send MIDI NRPN message for parameter MSB `x` and LSB `y` with value `y` (0..16383), bypassing any slew settings. Use `I2M.NRPN.SET#` to add channel parameter.
+Send MIDI NRPN message for parameter MSB `x` and LSB `y` with value `y` (0..16383), bypassing any slew settings.  
 """
 
 ["I2M.NRPN.SET#"]  
 prototype = "I2M.NRPN.SET# ch x y z"  
-short = "Send MIDI NRPN message for parameter MSB `x` and LSB `y` with value `y` (0..16383) to channel `ch`, bypassing any slew settings"  
+short = "Send MIDI NRPN message for parameter MSB `x` and LSB `y` with value `y` (0..16383) on channel `ch` (1..32), bypassing any slew settings"  
 
 ["I2M.PRG"]  
 prototype = "I2M.PRG x"  
@@ -256,12 +274,12 @@ prototype = "I2M.CHORD x y z"
 aliases = ["I2M.C"]  
 short = "Play chord `x` (1..8) with root note `y` (-127..127) and velocity `z` (1..127)"  
 description = """
-Play chord `x` (1..8) with root note `y` (-127..127) and velocity `z` (1..127). A chord consists of up to eight notes defined relative to the root note via `I2M.C.ADD`, `I2M.C.RM`, `I2M.C.INS`, `I2M.C.DEL` or `I2M.C.SET`, which are sent out as MIDI Note On messages in the order they are defined in the chord. If no note has been defined in the chord yet, no note will be played. 8 chords can be defined using their respective index 1..8. Use `I2M.C#` to add channel parameter.
+Play chord `x` (1..8) with root note `y` (-127..127) and velocity `z` (1..127). A chord consists of up to eight notes defined relative to the root note via `I2M.C.ADD`, `I2M.C.RM`, `I2M.C.INS`, `I2M.C.DEL` or `I2M.C.SET`, which are sent out as MIDI Note On messages in the order they are defined in the chord. If no note has been defined in the chord yet, no note will be played. 8 chords can be defined using their respective index 1..8.  
 """
 
 ["I2M.C#"]  
 prototype = "I2M.C# ch x y z"  
-short = "Play chord `x` (1..8) with root note `y` (-127..127) and velocity `z` (1..127) on channel `ch`"  
+short = "Play chord `x` (1..8) with root note `y` (-127..127) and velocity `z` (1..127) on channel `ch` (1..32)"  
 
 ["I2M.C.ADD"]  
 prototype = "I2M.C.ADD x y"  
