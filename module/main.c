@@ -53,8 +53,8 @@
 #ifdef TELETYPE_PROFILE
 #include "profile.h"
 
-profile_t prof_Script[SCRIPT_COUNT], prof_Delay[DELAY_SIZE], prof_CV, prof_ADC,
-    prof_ScreenRefresh;
+profile_t prof_Script[TOTAL_SCRIPT_COUNT], prof_Delay[DELAY_SIZE], prof_CV,
+    prof_ADC, prof_ScreenRefresh;
 
 void tele_profile_script(size_t s) {
     profile_update(&prof_Script[s]);
@@ -314,25 +314,27 @@ void grid_fader_timer_callback(void* o) {
     grid_process_fader_slew(&scene_state);
 }
 
-static void safely_run_script(u8 script) {
-    if (script >= 0 && script <= INIT_SCRIPT) run_script(&scene_state, script);
-}
-
 void midiScriptTimer_callback(void* obj) {
-    u8 executed[SCRIPT_COUNT] = { 0 };
+    u8 executed[EDITABLE_SCRIPT_COUNT];
+    for (uint8_t i = 0; i < EDITABLE_SCRIPT_COUNT; i++) executed[i] = 0;
 
-    if (scene_state.midi.on_count) {
-        safely_run_script(scene_state.midi.on_script);
+    if (scene_state.midi.on_count && scene_state.midi.on_script >= 0 &&
+        scene_state.midi.on_script < EDITABLE_SCRIPT_COUNT) {
+        run_script(&scene_state, scene_state.midi.on_script);
         executed[scene_state.midi.on_script] = 1;
     }
 
-    if (scene_state.midi.off_count && !executed[scene_state.midi.off_script]) {
-        safely_run_script(scene_state.midi.off_script);
+    if (scene_state.midi.off_count && scene_state.midi.off_script >= 0 &&
+        scene_state.midi.off_script < EDITABLE_SCRIPT_COUNT) {
+        if (!executed[scene_state.midi.off_script])
+            run_script(&scene_state, scene_state.midi.off_script);
         executed[scene_state.midi.off_script] = 1;
     }
 
-    if (scene_state.midi.cc_count && !executed[scene_state.midi.cc_script]) {
-        safely_run_script(scene_state.midi.cc_script);
+    if (scene_state.midi.cc_count && scene_state.midi.cc_script >= 0 &&
+        scene_state.midi.cc_script < EDITABLE_SCRIPT_COUNT) {
+        if (!executed[scene_state.midi.cc_script])
+            run_script(&scene_state, scene_state.midi.cc_script);
     }
 
     scene_state.midi.on_count = 0;
@@ -675,23 +677,31 @@ static void midi_clock_tick(void) {
     if (++midi_clock_counter >= scene_state.midi.clock_div) {
         midi_clock_counter = 0;
         scene_state.midi.last_event_type = 4;
-        safely_run_script(scene_state.midi.clk_script);
+        if (scene_state.midi.clk_script >= 0 &&
+            scene_state.midi.clk_script < EDITABLE_SCRIPT_COUNT)
+            run_script(&scene_state, scene_state.midi.clk_script);
     }
 }
 
 static void midi_seq_start(void) {
     scene_state.midi.last_event_type = 5;
-    safely_run_script(scene_state.midi.start_script);
+    if (scene_state.midi.start_script >= 0 &&
+        scene_state.midi.start_script < EDITABLE_SCRIPT_COUNT)
+        run_script(&scene_state, scene_state.midi.start_script);
 }
 
 static void midi_seq_stop(void) {
     scene_state.midi.last_event_type = 6;
-    safely_run_script(scene_state.midi.stop_script);
+    if (scene_state.midi.stop_script >= 0 &&
+        scene_state.midi.stop_script < EDITABLE_SCRIPT_COUNT)
+        run_script(&scene_state, scene_state.midi.stop_script);
 }
 
 static void midi_seq_continue(void) {
     scene_state.midi.last_event_type = 7;
-    safely_run_script(scene_state.midi.continue_script);
+    if (scene_state.midi.continue_script >= 0 &&
+        scene_state.midi.continue_script < EDITABLE_SCRIPT_COUNT)
+        run_script(&scene_state, scene_state.midi.continue_script);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -878,17 +888,35 @@ bool process_global_keys(uint8_t k, uint8_t m, bool is_held_key) {
         return true;
     }
     // <F1> through <F8>: run corresponding script
-    // <F9>: run metro script
-    // <F10>: run init script
-    else if (no_mod(m) && k >= HID_F1 && k <= HID_F10) {
+    else if (no_mod(m) && k >= HID_F1 && k <= HID_F8) {
         run_script(&scene_state, k - HID_F1);
         return true;
     }
+    // <F9>: run metro script
+    else if (no_mod(m) && k == HID_F9) {
+        run_script(&scene_state, METRO_SCRIPT);
+        return true;
+    }
+    // <F10>: run init script
+    else if (no_mod(m) && k == HID_F10) {
+        run_script(&scene_state, INIT_SCRIPT);
+        return true;
+    }
     // alt-<F1> through alt-<F8>: edit corresponding script
-    // alt-<F9>: edit metro script
-    // alt-<F10>: edit init script
-    else if (mod_only_alt(m) && k >= HID_F1 && k <= HID_F10) {
+    else if (mod_only_alt(m) && k >= HID_F1 && k <= HID_F8) {
         set_edit_mode_script(k - HID_F1);
+        set_mode(M_EDIT);
+        return true;
+    }
+    // alt-<F9>: edit metro script
+    else if (mod_only_alt(m) && k == HID_F9) {
+        set_edit_mode_script(METRO_SCRIPT);
+        set_mode(M_EDIT);
+        return true;
+    }
+    // alt-<F10>: edit init script
+    else if (mod_only_alt(m) && k == HID_F10) {
+        set_edit_mode_script(INIT_SCRIPT);
         set_mode(M_EDIT);
         return true;
     }
@@ -1080,7 +1108,8 @@ void tele_kill() {
 }
 
 bool tele_get_input_state(uint8_t n) {
-    return gpio_get_pin_value(A00 + n) > 0;
+    u8 input = device_config.flip ? 7 - n : n;
+    return gpio_get_pin_value(A00 + input) > 0;
 }
 
 void tele_vars_updated() {
@@ -1224,7 +1253,7 @@ int main(void) {
         count = (count + 1) % (FCPU_HZ / 10);
         if (count == 0) {
             print_dbg("\r\n\r\nProfile Data (us)");
-            for (uint8_t i = 0; i < SCRIPT_COUNT - 1; i++) {
+            for (uint8_t i = 0; i < TOTAL_SCRIPT_COUNT - 1; i++) {
                 print_dbg("\r\nScript ");
                 print_dbg_ulong(i);
                 print_dbg(":\t");

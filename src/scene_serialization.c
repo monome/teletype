@@ -3,6 +3,13 @@
 #include "teletype.h"
 #include "util.h"
 
+#define STATE_DESC 0
+#define STATE_POUND 1
+#define STATE_POUND_IGNORE 2
+#define STATE_SCRIPT 3
+#define STATE_PATTERNS 4
+#define STATE_GRID 5
+
 uint8_t grid_state = 0;
 uint16_t grid_count = 0;
 uint8_t grid_num = 0;
@@ -36,13 +43,13 @@ void serialize_scene(tt_serializer_t* stream, scene_state_t* scene,
     }
 
     char input[36];
-    for (int s = 0; s < 10; s++) {
+    for (int s = 0; s < EDITABLE_SCRIPT_COUNT; s++) {
         stream->write_char(stream->data, '\n');
         stream->write_char(stream->data, '\n');
         stream->write_char(stream->data, '#');
-        if (s == 8)
+        if (s == METRO_SCRIPT)
             stream->write_char(stream->data, 'M');
-        else if (s == 9)
+        else if (s == INIT_SCRIPT)
             stream->write_char(stream->data, 'I');
         else
             stream->write_char(stream->data, s + 49);
@@ -109,17 +116,37 @@ void serialize_scene(tt_serializer_t* stream, scene_state_t* scene,
         }
     }
 
-    serialize_grid(stream, scene);
+    // serialize grid
+
+    char fvalue[36];
+
+    stream->write_char(stream->data, '\n');
+    stream->write_char(stream->data, '#');
+    stream->write_char(stream->data, 'G');
+    stream->write_char(stream->data, '\n');
+    for (uint16_t i = 0; i < GRID_BUTTON_COUNT; i++) {
+        stream->write_char(stream->data, '0' + scene->grid.button[i].state);
+        if ((i & 15) == 15) stream->write_char(stream->data, '\n');
+    }
+    stream->write_char(stream->data, '\n');
+    for (uint16_t i = 0; i < GRID_FADER_COUNT; i++) {
+        itoa(scene->grid.fader[i].value, fvalue, 10);
+        stream->write_buffer(stream->data, (uint8_t*)fvalue, strlen(fvalue));
+        stream->write_char(stream->data, (i & 15) == 15 ? '\n' : '\t');
+    }
 }
 
 void deserialize_scene(tt_deserializer_t* stream, scene_state_t* scene,
                        char (*text)[SCENE_TEXT_LINES][SCENE_TEXT_CHARS]) {
     if (!check_deserializer(stream)) { return; }
 
-    char c;
+    char c = '\n';
+    uint8_t prev_cr = 0;
+    uint8_t new_line = 0;
     uint8_t l = 0;
     uint8_t p = 0;
-    int8_t s = 99;
+    uint8_t s = STATE_DESC, s2 = STATE_DESC;
+    uint8_t script = NO_SCRIPT;
     uint8_t b = 0;
     int16_t num = 0;
     int16_t neg = 1;
@@ -127,44 +154,32 @@ void deserialize_scene(tt_deserializer_t* stream, scene_state_t* scene,
     char input[32];
     memset(input, 0, sizeof(input));
 
-    while (!stream->eof(stream->data) && s != -1) {
+    while (!stream->eof(stream->data)) {
+        new_line = c == '\n';
         c = toupper(stream->read_char(stream->data));
         // stream->print_dbg_char(c);
 
-        if (c == '#' && !(s >= 0 && s <= 9)) {
-            if (!stream->eof(stream->data)) {
-                c = toupper(stream->read_char(stream->data));
-                // stream->print_dbg_char(c);
-
-                if (c == 'M')
-                    s = 8;
-                else if (c == 'I')
-                    s = 9;
-                else if (c == 'P')
-                    s = 10;
-                else if (c == 'G') {
-                    grid_state = grid_num = grid_count = 0;
-                    s = 11;
-                }
-                else {
-                    s = c - 49;
-                    if (s < 0 || s > 7) s = -1;
-                }
-
-                l = 0;
-                p = 0;
-
-                if (!stream->eof(stream->data))
-                    c = toupper(stream->read_char(stream->data));
-            }
-            else
-                s = -1;
-
-            // stream->print_dbg("\r\nsection: ");
-            // stream->print_dbg_ulong(s);
+        // deal with line endings
+        // DOS: \r\n, *nix: \n, Mac: \r
+        if (c == '\r') {
+            c = '\n';
+            prev_cr = 1;
         }
+        else if (c == '\n' && prev_cr) {
+            prev_cr = 0;
+            continue;
+        }
+        else {
+            prev_cr = 0;
+        }
+
+        if (c == '#' && new_line) {
+            s = STATE_POUND;
+            continue;
+        }
+
         // SCENE TEXT
-        else if (s == 99) {
+        if (s == STATE_DESC) {
             if (c == '\n') {
                 l++;
                 p = 0;
@@ -175,10 +190,56 @@ void deserialize_scene(tt_deserializer_t* stream, scene_state_t* scene,
                     p++;
                 }
             }
+            continue;
         }
-        // SCRIPTS
-        else if (s >= 0 && s <= 9) {
-            if (c == '\n') {
+
+        if (s == STATE_POUND) {
+            if (c == 'M') {
+                script = METRO_SCRIPT;
+                s2 = STATE_SCRIPT;
+            }
+            else if (c == 'I') {
+                script = INIT_SCRIPT;
+                s2 = STATE_SCRIPT;
+            }
+            else if (c == 'P') {
+                s2 = STATE_PATTERNS;
+            }
+            else if (c == 'G') {
+                grid_state = grid_num = grid_count = 0;
+                s2 = STATE_GRID;
+            }
+            else {
+                script = c - 49;
+                if (script < 0 || script >= EDITABLE_SCRIPT_COUNT) {
+                    script = NO_SCRIPT;
+                }
+                else {
+                    s2 = STATE_SCRIPT;
+                }
+            }
+
+            l = 0;
+            p = 0;
+            s = STATE_POUND_IGNORE;
+            continue;
+        }
+
+        if (s == STATE_POUND_IGNORE) {
+            if (c == '\n') { s = s2; }
+            continue;
+        }
+
+        if (s == STATE_SCRIPT) {
+            if (script < 0 || script >= EDITABLE_SCRIPT_COUNT) continue;
+
+            if (c != '\n') {
+                if (p < 32) {
+                    input[p] = c;
+                    p++;
+                }
+            }
+            else {
                 if (p && l < SCRIPT_MAX_COMMANDS) {
                     tele_command_t temp;
                     temp.comment = false;
@@ -190,7 +251,8 @@ void deserialize_scene(tt_deserializer_t* stream, scene_state_t* scene,
                         status = validate(&temp, error_msg);
 
                         if (status == E_OK) {
-                            ss_overwrite_script_command(scene, s, l, &temp);
+                            ss_overwrite_script_command(scene, script, l,
+                                                        &temp);
                             l++;
                         }
                         else {
@@ -212,18 +274,14 @@ void deserialize_scene(tt_deserializer_t* stream, scene_state_t* scene,
                     memset(input, 0, sizeof(input));
                     p = 0;
                 }
-                else {
-                    s = 98;
-                }
             }
-            else {
-                if (p < 32) input[p] = c;
-                p++;
-            }
+            continue;
         }
+
         // PATTERNS
-        // tele_patterns[]. l wrap start end v[64]
-        else if (s == 10) {
+        if (s == STATE_PATTERNS) {
+            // tele_patterns[]. l wrap start end v[64]
+
             if (c == '\n' || c == '\t') {
                 if (b < 4) {
                     if (l > 3) {
@@ -235,10 +293,18 @@ void deserialize_scene(tt_deserializer_t* stream, scene_state_t* scene,
                         // stream->print_dbg(" ");
                         // stream->print_dbg_ulong(num);
                     }
-                    else if (l == 0) { ss_set_pattern_len(scene, b, num); }
-                    else if (l == 1) { ss_set_pattern_wrap(scene, b, num); }
-                    else if (l == 2) { ss_set_pattern_start(scene, b, num); }
-                    else if (l == 3) { ss_set_pattern_end(scene, b, num); }
+                    else if (l == 0) {
+                        ss_set_pattern_len(scene, b, num);
+                    }
+                    else if (l == 1) {
+                        ss_set_pattern_wrap(scene, b, num);
+                    }
+                    else if (l == 2) {
+                        ss_set_pattern_start(scene, b, num);
+                    }
+                    else if (l == 3) {
+                        ss_set_pattern_end(scene, b, num);
+                    }
                 }
 
                 b++;
@@ -262,9 +328,33 @@ void deserialize_scene(tt_deserializer_t* stream, scene_state_t* scene,
                 }
                 p++;
             }
+            continue;
         }
-        // GRID
-        else if (s == 11) { deserialize_grid(stream, scene, c); }
+
+        if (s == STATE_GRID) {
+            if (grid_state == 0) {
+                if (c >= '0' && c <= '9') {
+                    scene->grid.button[grid_count].state = c != '0';
+                    if (++grid_count >= GRID_BUTTON_COUNT) {
+                        grid_count = 0;
+                        grid_state = 1;
+                    }
+                }
+            }
+            else if (grid_state == 1) {
+                if (c >= '0' && c <= '9') {
+                    grid_num = grid_num * 10 + c - '0';
+                }
+                else if (c == '\t' || c == '\n') {
+                    if (grid_count < GRID_FADER_COUNT) {
+                        scene->grid.fader[grid_count].value = grid_num;
+                        grid_num = 0;
+                        grid_count++;
+                    }
+                }
+            }
+            continue;
+        }
     }
 }
 
@@ -275,52 +365,4 @@ bool check_serializer(tt_serializer_t* stream) {
 
 bool check_deserializer(tt_deserializer_t* stream) {
     return (stream && stream->read_char && stream->eof && stream->print_dbg);
-}
-
-void serialize_grid(tt_serializer_t* stream, scene_state_t* scene) {
-    if (!check_serializer(stream)) { return; }
-
-    char fvalue[36];
-
-    stream->write_char(stream->data, '\n');
-    stream->write_char(stream->data, '#');
-    stream->write_char(stream->data, 'G');
-    stream->write_char(stream->data, '\n');
-    for (uint16_t i = 0; i < GRID_BUTTON_COUNT; i++) {
-        stream->write_char(stream->data, '0' + scene->grid.button[i].state);
-        if ((i & 15) == 15) stream->write_char(stream->data, '\n');
-    }
-    stream->write_char(stream->data, '\n');
-    for (uint16_t i = 0; i < GRID_FADER_COUNT; i++) {
-        itoa(scene->grid.fader[i].value, fvalue, 10);
-        stream->write_buffer(stream->data, (uint8_t*)fvalue, strlen(fvalue));
-        stream->write_char(stream->data, (i & 15) == 15 ? '\n' : '\t');
-    }
-}
-
-void deserialize_grid(tt_deserializer_t* stream, scene_state_t* scene, char c) {
-    if (!check_deserializer(stream)) { return; }
-
-    if (grid_state == 0) {
-        if (c >= '0' && c <= '9') {
-            scene->grid.button[grid_count].state = c != '0';
-            if (++grid_count >= GRID_BUTTON_COUNT) {
-                grid_count = 0;
-                grid_state = 1;
-                if (!stream->eof(stream->data)) stream->read_char(stream->data);
-                if (!stream->eof(stream->data))
-                    stream->read_char(stream->data);  // eat \n\n
-            }
-        }
-    }
-    else if (grid_state == 1) {
-        if (c >= '0' && c <= '9') { grid_num = grid_num * 10 + c - '0'; }
-        else if (c == '\t' || c == '\n') {
-            if (grid_count < GRID_FADER_COUNT) {
-                scene->grid.fader[grid_count].value = grid_num;
-                grid_num = 0;
-                grid_count++;
-            }
-        }
-    }
 }

@@ -40,7 +40,6 @@ error_t validate(const tele_command_t *c,
 process_result_t run_script(scene_state_t *ss, size_t script_no);
 process_result_t run_script_with_exec_state(scene_state_t *ss, exec_state_t *es,
                                             size_t script_no);
-process_result_t run_command(scene_state_t *ss, const tele_command_t *cmd);
 process_result_t process_command(scene_state_t *ss, exec_state_t *es,
                                  const tele_command_t *cmd);
 

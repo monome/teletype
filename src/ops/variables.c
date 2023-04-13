@@ -102,10 +102,15 @@ static void op_LAST_get(const void *NOTUSED(data), scene_state_t *ss,
                         exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t script_number = cs_pop(cs) - 1;
 
+    if (script_number < -1 || script_number >= EDITABLE_SCRIPT_COUNT) {
+        cs_push(cs, 0);
+        return;
+    }
+
     // when run in LIVE mode, SCRIPT will be 0.
     // LIVE SCRIPT should give time since INIT
     // was run in this case.
-    if (script_number < 0) { script_number = 9; }
+    if (script_number == -1) { script_number = INIT_SCRIPT; }
     int16_t last = ss_get_script_last(ss, script_number);
     cs_push(cs, last);
 }
@@ -182,8 +187,10 @@ static void op_J_get(const void *NOTUSED(data), scene_state_t *ss,
 
 static void op_J_set(const void *NOTUSED(data), scene_state_t *ss,
                      exec_state_t *es, command_state_t *cs) {
+    int16_t j = cs_pop(cs);
     int16_t sn = es_variables(es)->script_number;
-    ss->variables.j[sn] = cs_pop(cs);
+    if (sn < 0 || sn >= TOTAL_SCRIPT_COUNT) return;
+    ss->variables.j[sn] = j;
 }
 
 static void op_K_get(const void *NOTUSED(data), scene_state_t *ss,
@@ -194,6 +201,8 @@ static void op_K_get(const void *NOTUSED(data), scene_state_t *ss,
 
 static void op_K_set(const void *NOTUSED(data), scene_state_t *ss,
                      exec_state_t *es, command_state_t *cs) {
+    int16_t k = cs_pop(cs);
     int16_t sn = es_variables(es)->script_number;
-    ss->variables.k[sn] = cs_pop(cs);
+    if (sn < 0 || sn >= TOTAL_SCRIPT_COUNT) return;
+    ss->variables.k[sn] = k;
 }

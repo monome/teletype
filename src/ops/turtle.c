@@ -275,7 +275,7 @@ static void op_TURTLE_BOUNCE_set(const void *NOTUSED(data), scene_state_t *ss,
 static void op_TURTLE_SCRIPT_get(const void *NOTUSED(data), scene_state_t *ss,
                                  exec_state_t *NOTUSED(es),
                                  command_state_t *cs) {
-    script_number_t s = turtle_get_script(&ss->turtle);
+    uint8_t s = turtle_get_script(&ss->turtle);
     if (s == TEMP_SCRIPT)
         cs_push(cs, 0);
     else
@@ -285,11 +285,11 @@ static void op_TURTLE_SCRIPT_get(const void *NOTUSED(data), scene_state_t *ss,
 static void op_TURTLE_SCRIPT_set(const void *NOTUSED(data), scene_state_t *ss,
                                  exec_state_t *NOTUSED(es),
                                  command_state_t *cs) {
-    int16_t sn = cs_pop(cs);
-    if (sn == 0)
+    int16_t sn = cs_pop(cs) - 1;
+    if (sn < 0 || sn >= EDITABLE_SCRIPT_COUNT)
         turtle_set_script(&ss->turtle, TEMP_SCRIPT);  // magic number
     else
-        turtle_set_script(&ss->turtle, sn - 1);
+        turtle_set_script(&ss->turtle, sn);
 }
 
 static void op_TURTLE_SHOW_get(const void *NOTUSED(data), scene_state_t *ss,

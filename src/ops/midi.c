@@ -278,28 +278,31 @@ static void op_MI_CCV_get(const void *NOTUSED(data), scene_state_t *ss,
 
 static void op_MI_LCH_get(const void *NOTUSED(data), scene_state_t *ss,
                           exec_state_t *NOTUSED(es), command_state_t *cs) {
-    cs_push(cs, ss->midi.last_channel);
+    cs_push(cs, ss->midi.last_channel + 1);
 }
 
 static void op_MI_NCH_get(const void *NOTUSED(data), scene_state_t *ss,
                           exec_state_t *es, command_state_t *cs) {
     s16 i = es_variables(es)->i;
-    cs_push(cs,
-            i < 1 || i > ss->midi.on_count ? 0 : ss->midi.on_channel[i - 1]);
+    cs_push(cs, i < 1 || i > ss->midi.on_count
+                    ? 0
+                    : ss->midi.on_channel[i - 1] + 1);
 }
 
 static void op_MI_OCH_get(const void *NOTUSED(data), scene_state_t *ss,
                           exec_state_t *es, command_state_t *cs) {
     s16 i = es_variables(es)->i;
-    cs_push(cs,
-            i < 1 || i > ss->midi.off_count ? 0 : ss->midi.off_channel[i - 1]);
+    cs_push(cs, i < 1 || i > ss->midi.off_count
+                    ? 0
+                    : ss->midi.off_channel[i - 1] + 1);
 }
 
 static void op_MI_CCH_get(const void *NOTUSED(data), scene_state_t *ss,
                           exec_state_t *es, command_state_t *cs) {
     s16 i = es_variables(es)->i;
-    cs_push(cs,
-            i < 1 || i > ss->midi.cc_count ? 0 : ss->midi.cc_channel[i - 1]);
+    cs_push(cs, i < 1 || i > ss->midi.cc_count
+                    ? 0
+                    : ss->midi.cc_channel[i - 1] + 1);
 }
 
 static void op_MI_CLKD_get(const void *NOTUSED(data), scene_state_t *ss,

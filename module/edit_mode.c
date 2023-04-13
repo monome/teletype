@@ -49,7 +49,7 @@ void set_edit_mode() {
 
 void set_edit_mode_script(uint8_t new_script) {
     script = new_script;
-    if (script >= SCRIPT_COUNT) script = SCRIPT_COUNT - 2;
+    if (script >= EDITABLE_SCRIPT_COUNT) script = EDITABLE_SCRIPT_COUNT - 1;
     undo_count = 0;
     dirty = D_ALL;
 }
@@ -161,7 +161,7 @@ void process_edit_keys(uint8_t k, uint8_t m, bool is_held_key) {
         if (script)
             script--;
         else
-            script = SCRIPT_COUNT - 2;  // due to TEMP_SCRIPT
+            script = EDITABLE_SCRIPT_COUNT - 1;
         if (line_no1 > ss_get_script_len(&scene_state, script))
             line_no1 = ss_get_script_len(&scene_state, script);
         line_editor_set_command(
@@ -175,7 +175,7 @@ void process_edit_keys(uint8_t k, uint8_t m, bool is_held_key) {
         status = E_OK;
         error_msg[0] = 0;
         script++;
-        if (script >= SCRIPT_COUNT - 1) script = 0;  // due to TEMP_SCRIPT
+        if (script >= EDITABLE_SCRIPT_COUNT) script = 0;
         if (line_no1 > ss_get_script_len(&scene_state, script))
             line_no1 = ss_get_script_len(&scene_state, script);
         line_editor_set_command(
@@ -409,7 +409,7 @@ uint8_t screen_refresh_edit() {
         }
         else if (script == INIT_SCRIPT)
             prefix = 'I';
-        else if (script <= TT_SCRIPT_8)
+        else if (script < REGULAR_SCRIPT_COUNT)
             muted = ss_get_mute(&scene_state, script);
 
         if (sel1 == sel2)

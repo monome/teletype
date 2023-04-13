@@ -179,6 +179,9 @@ static void mod_EVERY_func(scene_state_t *ss, exec_state_t *es,
                            command_state_t *cs,
                            const tele_command_t *post_command) {
     int16_t mod = cs_pop(cs);
+
+    if (es_variables(es)->script_number >= TOTAL_SCRIPT_COUNT) return;
+
     every_count_t *every = ss_get_every(ss, es_variables(es)->script_number,
                                         es_variables(es)->line_number);
     every_set_skip(every, false);
@@ -191,6 +194,9 @@ static void mod_SKIP_func(scene_state_t *ss, exec_state_t *es,
                           command_state_t *cs,
                           const tele_command_t *post_command) {
     int16_t mod = cs_pop(cs);
+
+    if (es_variables(es)->script_number >= TOTAL_SCRIPT_COUNT) return;
+
     every_count_t *every = ss_get_every(ss, es_variables(es)->script_number,
                                         es_variables(es)->line_number);
     every_set_skip(every, true);
@@ -248,14 +254,14 @@ static void op_SCENE_P_get(const void *NOTUSED(data), scene_state_t *ss,
 static void op_SCRIPT_get(const void *NOTUSED(data), scene_state_t *ss,
                           exec_state_t *es, command_state_t *cs) {
     int16_t sn = es_variables(es)->script_number + 1;
-    if (sn == 11) sn = 0;
+    if (sn > EDITABLE_SCRIPT_COUNT) sn = 0;
     cs_push(cs, sn);
 }
 
 static void op_SCRIPT_set(const void *NOTUSED(data), scene_state_t *ss,
                           exec_state_t *es, command_state_t *cs) {
-    uint16_t a = cs_pop(cs) - 1;
-    if (a > INIT_SCRIPT || a < TT_SCRIPT_1) return;
+    int16_t a = cs_pop(cs) - 1;
+    if (a >= EDITABLE_SCRIPT_COUNT || a < 0) return;
 
     es_push(es);
     // an overflow causes all future SCRIPT calls to fail
@@ -266,8 +272,8 @@ static void op_SCRIPT_set(const void *NOTUSED(data), scene_state_t *ss,
 
 static void op_SCRIPT_POL_get(const void *NOTUSED(data), scene_state_t *ss,
                               exec_state_t *NOTUSED(es), command_state_t *cs) {
-    uint16_t a = cs_pop(cs) - 1;
-    if (a > TT_SCRIPT_8 || a < TT_SCRIPT_1) {
+    int16_t a = cs_pop(cs) - 1;
+    if (a >= TRIGGER_INPUTS || a < 0) {
         cs_push(cs, 0);
         return;
     }
@@ -280,13 +286,13 @@ static void op_SCRIPT_POL_set(const void *NOTUSED(data), scene_state_t *ss,
     uint8_t pol = cs_pop(cs);
     if (pol > 3) return;
     if (a == 0) {
-        for (uint8_t i = 0; i < 8; i++) { ss_set_script_pol(ss, i, pol); }
+        for (uint8_t i = 0; i < TRIGGER_INPUTS; i++) {
+            ss_set_script_pol(ss, i, pol);
+        }
     }
     else {
         uint8_t s = a - 1;
-        if (s >= TT_SCRIPT_1 && s <= TT_SCRIPT_8) {
-            ss_set_script_pol(ss, s, pol);
-        }
+        if (s >= 0 && s < TRIGGER_INPUTS) { ss_set_script_pol(ss, s, pol); }
     }
 }
 

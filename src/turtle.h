@@ -5,6 +5,8 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "script.h"
+
 // In this code, we use signed fixed-point maths.  This means that the int16_t
 // is used to store a signed number with both an integer and a fraction part.
 //
@@ -27,23 +29,6 @@
 #define TO_Q(X) (X << Q_BITS)
 #define TO_I(X) ((X >> Q_BITS) & 0xFFFF)
 
-// Can't include state.h first, so put script_number_t here
-// really should be in a different header file?
-
-typedef enum {
-    TT_SCRIPT_1 = 0,
-    TT_SCRIPT_2,
-    TT_SCRIPT_3,
-    TT_SCRIPT_4,
-    TT_SCRIPT_5,
-    TT_SCRIPT_6,
-    TT_SCRIPT_7,
-    TT_SCRIPT_8,
-    METRO_SCRIPT,
-    INIT_SCRIPT,
-    TEMP_SCRIPT
-} script_number_t;
-
 typedef struct {
     int32_t x;  // higher resolution to permit fixed-point math
     int32_t y;
@@ -65,7 +50,7 @@ typedef struct {
     turtle_mode_t mode;
     uint16_t heading;
     int16_t speed;
-    script_number_t script_number;
+    uint8_t script_number;
     bool stepping;
     bool stepped;
     bool shown;
@@ -91,8 +76,8 @@ uint16_t turtle_get_heading(scene_turtle_t*);
 void turtle_set_heading(scene_turtle_t*, int16_t);
 int16_t turtle_get_speed(scene_turtle_t*);
 void turtle_set_speed(scene_turtle_t*, int16_t);
-script_number_t turtle_get_script(scene_turtle_t*);
-void turtle_set_script(scene_turtle_t*, script_number_t);
+uint8_t turtle_get_script(scene_turtle_t*);
+void turtle_set_script(scene_turtle_t*, uint8_t);
 void turtle_check_step(scene_turtle_t*);
 bool turtle_get_shown(scene_turtle_t*);
 void turtle_set_shown(scene_turtle_t*, bool);

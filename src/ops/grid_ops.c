@@ -387,7 +387,7 @@ static void op_G_GRP_SC_set(const void *NOTUSED(data), scene_state_t *ss,
     s16 script = cs_pop(cs) - 1;
 
     if (group < (s16)0 || group >= (s16)GRID_GROUP_COUNT) return;
-    if (script < 0 || script > INIT_SCRIPT) script = -1;
+    if (script < 0 || script >= EDITABLE_SCRIPT_COUNT) script = -1;
 
     SG.group[group].script = script;
 }
@@ -1493,7 +1493,7 @@ static void grid_init_button(scene_state_t *ss, s16 group, s16 i, s16 x, s16 y,
     else if (level > (s16)15)
         level = 15;
 
-    if (script < 0 || script > INIT_SCRIPT) script = -1;
+    if (script < 0 || script >= EDITABLE_SCRIPT_COUNT) script = -1;
 
     GBC.enabled = true;
     GBC.group = group;
@@ -1530,7 +1530,7 @@ static void grid_init_fader(scene_state_t *ss, s16 group, s16 i, s16 x, s16 y,
 
     level = grid_fader_clamp_level(level, type, w, h);
 
-    if (script < 0 || script > INIT_SCRIPT) script = -1;
+    if (script < 0 || script >= EDITABLE_SCRIPT_COUNT) script = -1;
 
     GFC.enabled = true;
     GFC.group = group;

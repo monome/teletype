@@ -39,7 +39,7 @@ TEST process_helper_state(scene_state_t *ss, size_t n, char *lines[],
     memset(&es, 0, sizeof(es));
     es_init(&es);
     es_push(&es);
-    es_variables(&es)->script_number = 1;
+    es_variables(&es)->script_number = 0;
 
     log_clear();
     lprintf("---- Test #%d ----", count);

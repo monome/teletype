@@ -40,7 +40,7 @@ TEST op_stack_size() {
             exec_state_t es;
             es_init(&es);
             es_push(&es);
-            es_variables(&es)->script_number = 1;
+            es_variables(&es)->script_number = 0;
             command_state_t cs;
             cs_init(&cs);
 
@@ -68,6 +68,7 @@ TEST op_stack_size() {
             exec_state_t es;
             es_init(&es);
             es_push(&es);
+            es_variables(&es)->script_number = 0;
             command_state_t cs;
             cs_init(&cs);
 
@@ -99,6 +100,7 @@ TEST mod_stack_size() {
         exec_state_t es;
         es_init(&es);
         es_push(&es);
+        es_variables(&es)->script_number = 0;
         command_state_t cs;
         cs_init(&cs);
 

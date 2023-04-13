@@ -22,7 +22,7 @@ static grid_data_t grid_data;
 
 // NVRAM data structure located in the flash array.
 typedef const struct {
-    scene_script_t scripts[SCRIPT_COUNT - 1];  // Exclude TEMP script
+    scene_script_t scripts[EDITABLE_SCRIPT_COUNT];
     scene_pattern_t patterns[PATTERN_COUNT];
     grid_data_t grid_data;
     char text[SCENE_TEXT_LINES][SCENE_TEXT_CHARS];
@@ -97,8 +97,7 @@ void flash_write(uint8_t preset_no, scene_state_t *scene,
                  char (*text)[SCENE_TEXT_LINES][SCENE_TEXT_CHARS]) {
     if (preset_no >= SCENE_SLOTS) return;
     flashc_memcpy((void *)&f.scenes[preset_no].scripts, ss_scripts_ptr(scene),
-                  // Exclude TEMP script from flash storage by subtracting one
-                  ss_scripts_size() - sizeof(scene_script_t), true);
+                  ss_scripts_size(EDITABLE_SCRIPT_COUNT), true);
     flashc_memcpy((void *)&f.scenes[preset_no].patterns, ss_patterns_ptr(scene),
                   ss_patterns_size(), true);
     pack_grid(scene);
@@ -114,8 +113,7 @@ void flash_read(uint8_t preset_no, scene_state_t *scene,
                 uint8_t init_i2c_op_address) {
     if (preset_no >= SCENE_SLOTS) return;
     memcpy(ss_scripts_ptr(scene), &f.scenes[preset_no].scripts,
-           // Exclude size of TEMP script as above
-           ss_scripts_size() - sizeof(scene_script_t));
+           ss_scripts_size(EDITABLE_SCRIPT_COUNT));
     if (init_pattern) {
         memcpy(ss_patterns_ptr(scene), &f.scenes[preset_no].patterns,
                ss_patterns_size());

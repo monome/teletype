@@ -255,15 +255,15 @@ void turtle_set_speed(scene_turtle_t *st, int16_t v) {
     st->speed = v;
 }
 
-void turtle_set_script(scene_turtle_t *st, script_number_t sn) {
-    if (sn >= METRO_SCRIPT)
+void turtle_set_script(scene_turtle_t *st, uint8_t sn) {
+    if (sn >= EDITABLE_SCRIPT_COUNT)
         st->script_number = TEMP_SCRIPT;
     else
         st->script_number = sn;
     st->stepped = false;
 }
 
-script_number_t turtle_get_script(scene_turtle_t *st) {
+uint8_t turtle_get_script(scene_turtle_t *st) {
     return st->script_number;
 }
 

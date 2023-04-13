@@ -180,24 +180,6 @@ process_result_t run_script_with_exec_state(scene_state_t *ss, exec_state_t *es,
     return result;
 }
 
-// Only the test framework should call this, and it needs to follow up its
-// es_init() with an es_push().
-// es_variables()->script_number should be set to test SCRIPT
-process_result_t run_command(scene_state_t *ss, const tele_command_t *cmd) {
-    exec_state_t es;
-    process_result_t o;
-    es_init(&es);
-    es_push(&es);
-    // the lack of a script number here is a bug, so if you use this code,
-    // something needs to set the script number
-    // es_variables(es)->script_number =
-    do {
-        o = process_command(ss, &es, cmd);
-    } while (es_variables(&es)->while_continue && !es_variables(&es)->breaking);
-    return o;
-}
-
-
 /////////////////////////////////////////////////////////////////
 // PROCESS //////////////////////////////////////////////////////
 

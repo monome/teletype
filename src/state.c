@@ -23,10 +23,11 @@ void ss_init(scene_state_t *ss) {
         ss->variables.n_scale_root[i] = 0;
     }
     ss->stack_op.top = 0;
-    memset(&ss->scripts, 0, ss_scripts_size());
+    memset(&ss->scripts, 0, ss_scripts_size(TOTAL_SCRIPT_COUNT));
     turtle_init(&ss->turtle);
     uint32_t ticks = tele_get_ticks();
-    for (size_t i = 0; i < TEMP_SCRIPT; i++) ss->scripts[i].last_time = ticks;
+    for (size_t i = 0; i < EDITABLE_SCRIPT_COUNT; i++)
+        ss->scripts[i].last_time = ticks;
     ss->variables.time = 0;
     ss->variables.time_act = 1;
     ss->i2c_op_address = -1;
@@ -59,24 +60,25 @@ void ss_variables_init(scene_state_t *ss) {
         .tr_time = { 100, 100, 100, 100 },
         .in_range = { 0, 16383 },
         .param_range = { 0, 16383 },
-        .fader_ranges = {
-            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
-            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
-            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
-            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
-            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
-            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
-            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
-            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
-            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
-            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
-            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
-            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
-            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
-            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
-            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
-            { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
-        },
+        .fader_ranges =
+            {
+                { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+                { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+                { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+                { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+                { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+                { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+                { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+                { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+                { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+                { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+                { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+                { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+                { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+                { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+                { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+                { 0, 16383 }, { 0, 16383 }, { 0, 16383 }, { 0, 16383 },
+            },
     };
 
     memcpy(&ss->variables, &default_variables, sizeof(default_variables));
@@ -222,17 +224,18 @@ uint8_t ss_get_script_pol(scene_state_t *ss, size_t idx) {
 }
 
 void ss_set_script_pol(scene_state_t *ss, size_t idx, uint8_t value) {
+    if (idx >= TRIGGER_INPUTS) return;
     ss->variables.script_pol[idx] = value;
     tele_mute();  // to redraw indicators
 }
 
 // mutes
-// TODO: size_t SHOULD be a script_number_t
-bool ss_get_mute(scene_state_t *ss, size_t idx) {
+bool ss_get_mute(scene_state_t *ss, uint8_t idx) {
     return ss->variables.mutes[idx];
 }
 
-void ss_set_mute(scene_state_t *ss, size_t idx, bool value) {
+void ss_set_mute(scene_state_t *ss, uint8_t idx, bool value) {
+    if (idx >= TRIGGER_INPUTS) return;
     ss->variables.mutes[idx] = value;
     tele_mute();
 }
@@ -298,50 +301,48 @@ size_t ss_patterns_size() {
 
 // script manipulation
 
-uint8_t ss_get_script_len(scene_state_t *ss, script_number_t idx) {
+uint8_t ss_get_script_len(scene_state_t *ss, uint8_t idx) {
     return ss->scripts[idx].l;
 }
 
 // private
-static void ss_set_script_len(scene_state_t *ss, script_number_t idx,
-                              uint8_t l) {
+static void ss_set_script_len(scene_state_t *ss, uint8_t idx, uint8_t l) {
     ss->scripts[idx].l = l;
 }
 
 const tele_command_t *ss_get_script_command(scene_state_t *ss,
-                                            script_number_t script_idx,
-                                            size_t c_idx) {
+                                            uint8_t script_idx, size_t c_idx) {
     return &ss->scripts[script_idx].c[c_idx];
 }
 
 void ss_copy_script_command(tele_command_t *dest, scene_state_t *ss,
-                            script_number_t script_idx, size_t c_idx) {
+                            uint8_t script_idx, size_t c_idx) {
     memcpy(dest, &ss->scripts[script_idx].c[c_idx], sizeof(tele_command_t));
 }
 
 // private
-static void ss_set_script_command(scene_state_t *ss, script_number_t script_idx,
+static void ss_set_script_command(scene_state_t *ss, uint8_t script_idx,
                                   size_t c_idx, const tele_command_t *cmd) {
     memcpy(&ss->scripts[script_idx].c[c_idx], cmd, sizeof(tele_command_t));
 }
 
-bool ss_get_script_comment(scene_state_t *ss, script_number_t script_idx,
+bool ss_get_script_comment(scene_state_t *ss, uint8_t script_idx,
                            size_t c_idx) {
     return ss->scripts[script_idx].c[c_idx].comment;
 }
 
-void ss_set_script_comment(scene_state_t *ss, script_number_t script_idx,
-                           size_t c_idx, uint8_t on) {
+void ss_set_script_comment(scene_state_t *ss, uint8_t script_idx, size_t c_idx,
+                           uint8_t on) {
     ss->scripts[script_idx].c[c_idx].comment = on;
 }
 
-void ss_toggle_script_comment(scene_state_t *ss, script_number_t script_idx,
+void ss_toggle_script_comment(scene_state_t *ss, uint8_t script_idx,
                               size_t c_idx) {
     ss->scripts[script_idx].c[c_idx].comment =
         !ss->scripts[script_idx].c[c_idx].comment;
 }
 
-void ss_overwrite_script_command(scene_state_t *ss, script_number_t script_idx,
+void ss_overwrite_script_command(scene_state_t *ss, uint8_t script_idx,
                                  size_t command_idx,
                                  const tele_command_t *cmd) {
     // Few of the commands in this file bounds-check.
@@ -363,7 +364,7 @@ void ss_overwrite_script_command(scene_state_t *ss, script_number_t script_idx,
     }
 }
 
-void ss_insert_script_command(scene_state_t *ss, script_number_t script_idx,
+void ss_insert_script_command(scene_state_t *ss, uint8_t script_idx,
                               size_t command_idx, const tele_command_t *cmd) {
     if (command_idx >= SCRIPT_MAX_COMMANDS) return;
 
@@ -387,7 +388,7 @@ void ss_insert_script_command(scene_state_t *ss, script_number_t script_idx,
     ss_overwrite_script_command(ss, script_idx, command_idx, cmd);
 }
 
-void ss_delete_script_command(scene_state_t *ss, script_number_t script_idx,
+void ss_delete_script_command(scene_state_t *ss, uint8_t script_idx,
                               size_t command_idx) {
     uint8_t script_len = ss_get_script_len(ss, script_idx);
     if (command_idx >= SCRIPT_MAX_COMMANDS || command_idx >= script_len) return;
@@ -420,28 +421,28 @@ scene_script_t *ss_scripts_ptr(scene_state_t *ss) {
     return ss->scripts;
 }
 
-size_t ss_scripts_size() {
-    return sizeof(scene_script_t) * SCRIPT_COUNT;
+size_t ss_scripts_size(uint8_t script_count) {
+    return sizeof(scene_script_t) * script_count;
 }
 
-int16_t ss_get_script_last(scene_state_t *ss, script_number_t idx) {
-    if (idx < TT_SCRIPT_1) return 0;
-    if (idx > INIT_SCRIPT) return 0;
+int16_t ss_get_script_last(scene_state_t *ss, uint8_t idx) {
+    if (idx < 0) return 0;
+    if (idx >= EDITABLE_SCRIPT_COUNT) return 0;
     uint32_t delta = (tele_get_ticks() - ss->scripts[idx].last_time) & 0x7fff;
     return delta;
 }
 
-void ss_update_script_last(scene_state_t *ss, script_number_t idx) {
+void ss_update_script_last(scene_state_t *ss, uint8_t idx) {
     ss->scripts[idx].last_time = tele_get_ticks();
 }
 
-every_count_t *ss_get_every(scene_state_t *ss, script_number_t idx,
+every_count_t *ss_get_every(scene_state_t *ss, uint8_t idx,
                             uint8_t line_number) {
     return &ss->scripts[idx].every[line_number];
 }
 
 void ss_sync_every(scene_state_t *ss, int16_t count) {
-    for (int script = 0; script < SCRIPT_COUNT; script++)
+    for (int script = 0; script < TOTAL_SCRIPT_COUNT; script++)
         for (int line = 0; line < SCRIPT_MAX_COMMANDS; line++) {
             int16_t count_e = count;
             if (ss->scripts[script].every[line].mod == 0)
@@ -624,6 +625,8 @@ void ss_reset_in_cal(scene_state_t *ss) {
 void es_init(exec_state_t *es) {
     es->exec_depth = 0;
     es->overflow = false;
+    for (uint8_t i = 0; i < EXEC_DEPTH; i++)
+        es->variables[i].script_number = NO_SCRIPT;
 }
 
 size_t es_depth(exec_state_t *es) {
