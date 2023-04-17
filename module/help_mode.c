@@ -1396,7 +1396,7 @@ const char* help16[HELP16_LENGTH] = { "16/17 DISTING EX",
                                       "EX.SAVE2 x",
                                       "    SAVE RIGHT PRESET"};
 
-#define HELP17_LENGTH 192
+#define HELP17_LENGTH 198
 const char* help17[HELP17_LENGTH] = { "17/17 I2C2MIDI",
                                       " ",
                                       "I2M.CH x",
