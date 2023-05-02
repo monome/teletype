@@ -99,17 +99,25 @@ To format all the code in this repo, run `make format-all`.
 
 ## Documentation
 
-In order to build the documentation you will need Python 3.6 or greater, [Pandoc][], as well as the Python libraries specified in the [`requirements.pip`][requirements.pip] file. In addition, to generate the PDF output you will also require [TexLive][] (or [MacTex][]).
+In order to build the documentation you will need Python 3.6 or greater, [Pandoc][], as well as the Python libraries specified in the [`requirements.pip`][requirements.pip] file. In addition, to generate the PDF output you will also require [TexLive][], [TinyTeX][], or [MacTex][].
 
-On OSX the dependencies can be installed with `brew`.
+On macOS the dependencies aside from TinyTeX can be installed with `brew`.
 
 ```bash
 brew install python3
 brew install pandoc
-brew cask install mactex  # warning, MacTex is a very large install!
 cd utils
 pip3 install -r requirements.pip
 ```
+
+To install TinyTeX on macOS, as well as the `titlesec` package that pandoc needs, do the following.
+```bash
+curl -sL "https://yihui.org/tinytex/install-bin-unix.sh" | sh
+tlmgr install titlesec
+fmtutil-sys -all
+```
+As opposed to TeXLive or MacTeX, TinyTeX is "only" a 105MB install.
+(Note: `fmtutil-sys` will produce copious output.)
 
 On Linux I would suggest using [`virtualenv`][virtualenv] to install all the Python dependencies (including those in the [`requirements.pip`][requirements.pip] file), and to ensure that the `python3` binary is version 3.6 or greater instead of the default of your distro.
 
@@ -126,6 +134,7 @@ make teletype.html # build just teletype.html
 
 [requirements.pip]: utils/requirements.pip
 [Pandoc]: http://pandoc.org/
+[TinyTeX]: https://yihui.org/tinytex/
 [TexLive]: https://www.tug.org/texlive/
 [MacTex]: https://www.tug.org/mactex/
 
