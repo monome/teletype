@@ -75,7 +75,7 @@ jobs:
         run: |
           sudo apt-get install pandoc
           pip install -r utils/requirements.pip
-          tlmgr install titlesec
+          tlmgr install titlesec ulem
           fmtutil-sys -all
       - name: Build documentation
         run: |
