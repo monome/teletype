@@ -71,9 +71,9 @@ jobs:
           fetch-depth: 0
       - name: Setup TinyTeX
         uses: r-lib/actions/setup-tinytex@v2
-      - name: Install Python dependencies
+      - name: Install dependencies
         run: |
-          sudo apt-get install pandoc
+          sudo apt-get install pandoc latexmk lmodern texlive-fonts-recommended texlive-plain-generic
           pip install -r utils/requirements.pip
       - name: Build documentation
         run: |
