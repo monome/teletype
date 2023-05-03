@@ -10,10 +10,20 @@ on:
   workflow_dispatch:
 
 jobs:
+  run-clang-format:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+    - uses: jidicula/clang-format-action@v4.11.0
+      with:
+        clang-format-version: '14'
+        check-path: '.'    
   run-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: recursive
       - name: Install ragel
@@ -25,7 +35,7 @@ jobs:
   build-simulator:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           submodules: recursive
       - name: Install ragel
@@ -62,3 +72,20 @@ jobs:
         with:
           path: module/teletype.hex
           name: teletype.hex
+  build-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Setup TinyTeX
+        uses: r-lib/actions/setup-tinytex@v2
+      - name: Build documentation
+        run: |
+          cd docs
+          make
+      - name: Upload docs to artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          path: docs/teletype.pdf
+          name: teletype.pdf
