@@ -72,7 +72,7 @@ jobs:
         uses: r-lib/actions/setup-tinytex@v2
       - name: Install Python dependencies
         run: |
-          apt-get install pandoc
+          sudo apt-get install pandoc
           pip install -r utils/requirements.pip
       - name: Build documentation
         run: |
