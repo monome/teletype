@@ -73,8 +73,10 @@ jobs:
         uses: r-lib/actions/setup-tinytex@v2
       - name: Install dependencies
         run: |
-          sudo apt-get install pandoc latexmk lmodern texlive-fonts-recommended texlive-plain-generic
+          sudo apt-get install pandoc
           pip install -r utils/requirements.pip
+          tlmgr install titlesec
+          fmtutil-sys -all
       - name: Build documentation
         run: |
           cd docs
