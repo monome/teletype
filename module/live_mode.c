@@ -570,9 +570,7 @@ void process_live_keys(uint8_t k, uint8_t m, bool is_held_key, bool is_release,
     // tilde: show the variables
     else if (match_no_mod(m, k, HID_TILDE)) {
         if (sub_mode == SUB_MODE_VARS) { sub_mode = SUB_MODE_OFF; }
-        else {
-            sub_mode = SUB_MODE_VARS;
-        }
+        else { sub_mode = SUB_MODE_VARS; }
         dirty = D_ALL;
     }
     // pass the key though to the line editor
@@ -774,9 +772,7 @@ uint8_t screen_refresh_live() {
             strncat(s, git_version, 35 - strlen(s));
             show_welcome_message = false;
         }
-        else {
-            s[0] = 0;
-        }
+        else { s[0] = 0; }
 
         region_fill(&line[6], 0);
         font_string_region_clip(&line[6], s, 0, 0, 0x4, 0);

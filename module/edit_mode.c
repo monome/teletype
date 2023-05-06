@@ -436,9 +436,7 @@ uint8_t screen_refresh_edit() {
             }
             status = E_OK;
         }
-        else {
-            s[0] = 0;
-        }
+        else { s[0] = 0; }
 
         region_fill(&line[6], 0);
         font_string_region_clip(&line[6], s, 0, 0, 0x4, 0);

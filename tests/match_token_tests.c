@@ -3,7 +3,6 @@
 #include <string.h>
 
 #include "greatest/greatest.h"
-
 #include "match_token.h"
 #include "ops/op.h"
 #include "ops/op_enum.h"

@@ -1711,18 +1711,14 @@ void process_help_keys(uint8_t k, uint8_t m, bool is_held_key) {
     else if (match_ctrl(m, k, HID_F) || match_ctrl(m, k, HID_S)) {
         search_result = SEARCH_RESULT_NONE;
         if (search_mode == SEARCH_MODE_FWD) { search_mode = SEARCH_MODE_NONE; }
-        else {
-            search_mode = SEARCH_MODE_FWD;
-        }
+        else { search_mode = SEARCH_MODE_FWD; }
         dirty = true;
     }
     // C-r: search in reverse
     else if (match_ctrl(m, k, HID_R)) {
         search_result = SEARCH_RESULT_NONE;
         if (search_mode == SEARCH_MODE_REV) { search_mode = SEARCH_MODE_NONE; }
-        else {
-            search_mode = SEARCH_MODE_REV;
-        }
+        else { search_mode = SEARCH_MODE_REV; }
         dirty = true;
     }
     else if (search_mode != SEARCH_MODE_NONE) {

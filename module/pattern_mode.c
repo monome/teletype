@@ -80,9 +80,7 @@ void pattern_down() {
 static int16_t transpose_n_value(int16_t value, int8_t interval) {
     uint8_t last_note = 127;
     if (interval > last_note) { interval = last_note; }
-    else if (interval < -last_note) {
-        interval = -last_note;
-    }
+    else if (interval < -last_note) { interval = -last_note; }
     if (value > table_n[last_note]) {
         uint8_t idx = last_note;
         if (interval < 0) idx++;
@@ -95,9 +93,7 @@ static int16_t transpose_n_value(int16_t value, int8_t interval) {
             if (table_n[i] > value && interval > 0)
                 j--;  // quantize to lower note
             if (j > last_note) { j = j % last_note + 1; }
-            else if (j < 0) {
-                j = j + last_note + 1;
-            }
+            else if (j < 0) { j = j + last_note + 1; }
             new_value = table_n[j];
             break;
         }
@@ -133,9 +129,7 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
         dirty = true;
     }
     // <up>: move up
-    else if (match_no_mod(m, k, HID_UP)) {
-        pattern_up();
-    }
+    else if (match_no_mod(m, k, HID_UP)) { pattern_up(); }
     // alt-<up>: move a page up
     else if (match_alt(m, k, HID_UP)) {
         editing_number = false;
@@ -213,29 +207,17 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
         }
     }
     // alt-[: decrement by 1 semitone
-    else if (match_alt(m, k, HID_OPEN_BRACKET)) {
-        note_nudge(-1);
-    }
+    else if (match_alt(m, k, HID_OPEN_BRACKET)) { note_nudge(-1); }
     // alt-]: increment by 1 semitone
-    else if (match_alt(m, k, HID_CLOSE_BRACKET)) {
-        note_nudge(1);
-    }
+    else if (match_alt(m, k, HID_CLOSE_BRACKET)) { note_nudge(1); }
     // ctrl-[: decrement by a fifth (7 semitones)
-    else if (match_ctrl(m, k, HID_OPEN_BRACKET)) {
-        note_nudge(-7);
-    }
+    else if (match_ctrl(m, k, HID_OPEN_BRACKET)) { note_nudge(-7); }
     // ctrl-]: increment by a fifth (7 semitones)
-    else if (match_ctrl(m, k, HID_CLOSE_BRACKET)) {
-        note_nudge(7);
-    }
+    else if (match_ctrl(m, k, HID_CLOSE_BRACKET)) { note_nudge(7); }
     // sh-[: decrement by 1 octave
-    else if (match_shift(m, k, HID_OPEN_BRACKET)) {
-        note_nudge(-12);
-    }
+    else if (match_shift(m, k, HID_OPEN_BRACKET)) { note_nudge(-12); }
     // sh-]: increment by 1 octave
-    else if (match_shift(m, k, HID_CLOSE_BRACKET)) {
-        note_nudge(12);
-    }
+    else if (match_shift(m, k, HID_CLOSE_BRACKET)) { note_nudge(12); }
     // alt-<0-9>: transpose up by numeric semitones
     else if (mod_only_alt(m) && k >= HID_1 && k <= HID_0) {
         uint8_t n = (k - HID_1 + 1);  // convert HID numbers to decimal,
@@ -441,9 +423,7 @@ void process_pattern_keys(uint8_t k, uint8_t m, bool is_held_key) {
             else
                 edit_buffer *= -1;
         }
-        else {
-            ss_set_pattern_val(&scene_state, pattern, base + offset, -v);
-        }
+        else { ss_set_pattern_val(&scene_state, pattern, base + offset, -v); }
         dirty = true;
     }
     // <space>: toggle non-zero to zero, and zero to 1

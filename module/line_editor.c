@@ -71,9 +71,7 @@ bool line_editor_process_keys(line_editor_t *le, uint8_t k, uint8_t m,
             if (le->buffer[le->cursor - 1] == ' ') {
                 if (encountered_word) break;
             }
-            else {
-                encountered_word = true;
-            }
+            else { encountered_word = true; }
             le->cursor--;
         }
         return true;
@@ -85,9 +83,7 @@ bool line_editor_process_keys(line_editor_t *le, uint8_t k, uint8_t m,
             if (le->buffer[le->cursor] == ' ') {
                 if (encountered_word) break;
             }
-            else {
-                encountered_word = true;
-            }
+            else { encountered_word = true; }
             le->cursor++;
         }
         return true;
@@ -136,9 +132,7 @@ bool line_editor_process_keys(line_editor_t *le, uint8_t k, uint8_t m,
             if (le->buffer[le->cursor - 1] == ' ') {
                 if (encountered_word) break;
             }
-            else {
-                encountered_word = true;
-            }
+            else { encountered_word = true; }
             // Delete preceeding character by shifting buffer down.
             le->cursor--;
             for (size_t x = le->cursor; x < LINE_EDITOR_SIZE - 1; x++) {
@@ -156,9 +150,7 @@ bool line_editor_process_keys(line_editor_t *le, uint8_t k, uint8_t m,
             if (le->buffer[le->cursor] == ' ') {
                 if (encountered_word) break;
             }
-            else {
-                encountered_word = true;
-            }
+            else { encountered_word = true; }
             // Delete this character by shifting the buffer down.
             for (size_t x = le->cursor; x < LINE_EDITOR_SIZE - 1; ++x) {
                 le->buffer[x] = le->buffer[x + 1];

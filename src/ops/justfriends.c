@@ -127,9 +127,7 @@ static void mod_JF2_func(scene_state_t *ss, exec_state_t *es,
 static void op_JF_SEL_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                           exec_state_t *NOTUSED(es), command_state_t *cs) {
     if (cs_pop(cs) == 2) { unit = JF_ADDR_2; }
-    else {
-        unit = JF_ADDR;
-    }
+    else { unit = JF_ADDR; }
 }
 
 static void op_JF_TR_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
@@ -145,9 +143,7 @@ static void op_JF_TR_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
         a = a - 6;
         uint8_t d[] = { JF_TR, a, b };
         if (unit == JF_ADDR) { tele_ii_tx(JF_ADDR_2, d, 3); }
-        else {
-            tele_ii_tx(JF_ADDR, d, 3);
-        }
+        else { tele_ii_tx(JF_ADDR, d, 3); }
     }
     else {
         uint8_t d[] = { JF_TR, a, b };
@@ -191,9 +187,7 @@ static void op_JF_VTR_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
         a = a - 6;
         uint8_t d[] = { JF_VTR, a, b >> 8, b & 0xff };
         if (unit == JF_ADDR) { tele_ii_tx(JF_ADDR_2, d, 4); }
-        else {
-            tele_ii_tx(JF_ADDR, d, 4);
-        }
+        else { tele_ii_tx(JF_ADDR, d, 4); }
     }
     else {
         uint8_t d[] = { JF_VTR, a, b >> 8, b & 0xff };
@@ -231,9 +225,7 @@ static void op_JF_VOX_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
         a = a - 6;
         uint8_t d[] = { JF_VOX, a, b >> 8, b & 0xff, c >> 8, c & 0xff };
         if (unit == JF_ADDR) { tele_ii_tx(JF_ADDR_2, d, 6); }
-        else {
-            tele_ii_tx(JF_ADDR, d, 6);
-        }
+        else { tele_ii_tx(JF_ADDR, d, 6); }
     }
     else {
         uint8_t d[] = { JF_VOX, a, b >> 8, b & 0xff, c >> 8, c & 0xff };
@@ -262,9 +254,7 @@ static void op_JF_POLY_get(const void *NOTUSED(data),
     }
     else {
         if (unit == JF_ADDR) { tele_ii_tx(JF_ADDR_2, d, 5); }
-        else {
-            tele_ii_tx(JF_ADDR, d, 5);
-        }
+        else { tele_ii_tx(JF_ADDR, d, 5); }
         note_count++;
         if (note_count > 12) { note_count = 1; }
     }
@@ -299,9 +289,7 @@ static void op_JF_TUNE_get(const void *NOTUSED(data),
         a = a - 6;
         uint8_t d[] = { JF_TUNE, a, b, c };
         if (unit == JF_ADDR) { tele_ii_tx(JF_ADDR_2, d, 4); }
-        else {
-            tele_ii_tx(JF_ADDR, d, 4);
-        }
+        else { tele_ii_tx(JF_ADDR, d, 4); }
     }
     else {
         uint8_t d[] = { JF_TUNE, a, b, c };
@@ -338,9 +326,7 @@ static void op_JF_PITCH_get(const void *NOTUSED(data),
         a = a - 6;
         uint8_t d[] = { JF_PITCH, a, b >> 8, b & 0xff };
         if (unit == JF_ADDR) { tele_ii_tx(JF_ADDR_2, d, 6); }
-        else {
-            tele_ii_tx(JF_ADDR, d, 6);
-        }
+        else { tele_ii_tx(JF_ADDR, d, 6); }
     }
     else {
         uint8_t d[] = { JF_PITCH, a, b >> 8, b & 0xff };

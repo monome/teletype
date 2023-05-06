@@ -317,9 +317,7 @@ static int16_t volts_to_note_number(int16_t v_in) {
                 if ((target - table_n[mid - 1]) >= (table_n[mid] - target)) {
                     return (v_in < 0) ? -mid : mid;
                 }
-                else {
-                    return (v_in < 0) ? -(mid - 1) : mid - 1;
-                }
+                else { return (v_in < 0) ? -(mid - 1) : mid - 1; }
             }
             j = mid;
         }
@@ -328,9 +326,7 @@ static int16_t volts_to_note_number(int16_t v_in) {
                 if ((target - table_n[mid]) >= (table_n[mid + 1] - target)) {
                     return (v_in < 0) ? -(mid + 1) : mid + 1;
                 }
-                else {
-                    return (v_in < 0) ? -mid : mid;
-                }
+                else { return (v_in < 0) ? -mid : mid; }
             }
             i = mid + 1;
         }
@@ -410,9 +406,7 @@ static int16_t get_degree_in_bitmask_scale(int16_t scale_bits,
     }
     note = note + transpose;
     if (note > 0) { return table_n[note]; }
-    else {
-        return -table_n[-note];
-    }
+    else { return -table_n[-note]; }
 }
 
 static int16_t quantize_to_bitmask_scale(int16_t scale_bits, int16_t transpose,
@@ -1049,9 +1043,7 @@ static void op_HZ_get(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
             hz = table_hzv[note] +
                  (table_hzv[note + 1] - table_hzv[note]) * interpolate;
         }
-        else {
-            hz = table_hzv[note];
-        }
+        else { hz = table_hzv[note]; }
     }
 
     // return hz;
@@ -1182,13 +1174,9 @@ static void op_N_B_set(const void *NOTUSED(data), scene_state_t *ss,
         if (scale_bits > -nb_nbx_scale_presets) {
             scale_bits = bit_reverse(table_n_b[-scale_bits], 12);
         }
-        else {
-            scale_bits = bit_reverse(table_n_b[0], 12);
-        }
+        else { scale_bits = bit_reverse(table_n_b[0], 12); }
     }
-    else {
-        scale_bits = scale_bits & 0b111111111111;
-    }
+    else { scale_bits = scale_bits & 0b111111111111; }
 
     ss->variables.n_scale_bits[0] = scale_bits;
 }
@@ -1221,13 +1209,9 @@ static void op_N_BX_set(const void *NOTUSED(data), scene_state_t *ss,
         if (scale_bits > -nb_nbx_scale_presets) {
             scale_bits = bit_reverse(table_n_b[-scale_bits], 12);
         }
-        else {
-            scale_bits = bit_reverse(table_n_b[0], 12);
-        }
+        else { scale_bits = bit_reverse(table_n_b[0], 12); }
     }
-    else {
-        scale_bits = scale_bits & 0b111111111111;
-    }
+    else { scale_bits = scale_bits & 0b111111111111; }
 
     ss->variables.n_scale_bits[scale_nb] = scale_bits;
 }

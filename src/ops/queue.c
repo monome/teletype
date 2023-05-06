@@ -115,10 +115,12 @@ const tele_op_t op_Q_DIV =
 const tele_op_t op_Q_MOD =
     MAKE_GET_SET_OP(Q.MOD, op_Q_MOD_get, op_Q_MOD_set, 1, false);
 const tele_op_t op_Q_I = MAKE_GET_SET_OP(Q.I, op_Q_I_get, op_Q_I_set, 1, true);
+// clang-format off
 const tele_op_t op_Q_2P =
-    MAKE_GET_SET_OP(Q.2P,  op_Q_2P_get,  op_Q_2P_set, 0, false);
+    MAKE_GET_SET_OP(Q.2P, op_Q_2P_get, op_Q_2P_set, 0, false);
+// clang-format on
 const tele_op_t op_Q_P2 =
-    MAKE_GET_SET_OP(Q.P2,  op_Q_P2_get,  op_Q_P2_set, 0, false);
+    MAKE_GET_SET_OP(Q.P2, op_Q_P2_get, op_Q_P2_set, 0, false);
 
 static void op_Q_get(const void *NOTUSED(data), scene_state_t *ss,
                      exec_state_t *NOTUSED(es), command_state_t *cs) {
@@ -383,9 +385,7 @@ static void op_Q_SH_set(const void *NOTUSED(data), scene_state_t *ss,
     int16_t nb_shifts = cs_pop(cs);
     int16_t tmp[q_n];
     if (nb_shifts > 0) { nb_shifts = nb_shifts % q_n; }
-    else if (nb_shifts < 0) {
-        nb_shifts = q_n - (-nb_shifts % q_n);
-    }
+    else if (nb_shifts < 0) { nb_shifts = q_n - (-nb_shifts % q_n); }
 
     if (!nb_shifts) { return; }
 

@@ -413,9 +413,7 @@ void handler_PollADC(int32_t data) {
         if (!deadzone || abs(preset - get_preset()) > 1)
             process_preset_r_preset(preset);
     }
-    else {
-        ss_set_param(&scene_state, adc[1] << 2);
-    }
+    else { ss_set_param(&scene_state, adc[1] << 2); }
 #ifdef TELETYPE_PROFILE
     profile_update(&prof_ADC);
 #endif
@@ -867,9 +865,7 @@ bool process_global_keys(uint8_t k, uint8_t m, bool is_held_key) {
     else if (match_no_mod(m, k, HID_ESCAPE)) {
         if (mode == M_PRESET_R)
             set_last_mode();
-        else {
-            set_mode(M_PRESET_R);
-        }
+        else { set_mode(M_PRESET_R); }
         return true;
     }
     // alt-<esc>: preset write mode
@@ -886,9 +882,7 @@ bool process_global_keys(uint8_t k, uint8_t m, bool is_held_key) {
     else if (match_shift_alt(m, k, HID_SLASH) || match_alt(m, k, HID_H)) {
         if (mode == M_HELP)
             set_last_mode();
-        else {
-            set_mode(M_HELP);
-        }
+        else { set_mode(M_HELP); }
         return true;
     }
     // <F1> through <F8>: run corresponding script
@@ -955,9 +949,7 @@ bool process_global_keys(uint8_t k, uint8_t m, bool is_held_key) {
         if (mode != M_LIVE) { set_mode(M_LIVE); }
         return true;
     }
-    else {
-        return false;
-    }
+    else { return false; }
 }
 
 
@@ -1068,9 +1060,7 @@ void tele_tr_pulse_time(uint8_t i, int16_t time) {
     u32 time_spent = trPulseTimer[i].ticks - trPulseTimer[i].ticksRemain;
     timer_set(&trPulseTimer[i], time);
     if (time_spent >= time) { timer_manual(&trPulseTimer[i]); }
-    else {
-        trPulseTimer[i].ticksRemain = time - time_spent;
-    }
+    else { trPulseTimer[i].ticksRemain = time - time_spent; }
 }
 
 void trPulseTimer_callback(void* obj) {

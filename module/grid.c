@@ -224,12 +224,8 @@ void grid_set_control_mode(u8 control, u8 mode, scene_state_t *ss) {
         tt_mode = G_EDIT;
         tt_script = get_edit_script();
     }
-    else if (mode == M_PATTERN) {
-        tt_mode = G_TRACKER;
-    }
-    else if (mode == M_PRESET_W || mode == M_PRESET_R) {
-        tt_mode = G_PRESET;
-    }
+    else if (mode == M_PATTERN) { tt_mode = G_TRACKER; }
+    else if (mode == M_PRESET_W || mode == M_PRESET_R) { tt_mode = G_PRESET; }
     control_mode_on = control;
     grid_clear_held_keys();
     ss->grid.grid_dirty = 1;
@@ -509,9 +505,7 @@ static void restore_last_mode(scene_state_t *ss) {
         set_edit_mode_script(tt_script);
         set_mode(M_EDIT);
     }
-    else if (tt_mode == G_PRESET) {
-        set_mode(M_PRESET_R);
-    }
+    else if (tt_mode == G_PRESET) { set_mode(M_PRESET_R); }
     else if (tt_mode == G_LIVE_V) {
         set_mode(M_LIVE);
         set_live_submode(SUB_MODE_VARS);
@@ -578,9 +572,7 @@ static u8 grid_control_process_key(scene_state_t *ss, u8 x, u8 y, u8 z,
                         tracker_last = value;
                         value = 0;
                     }
-                    else {
-                        value = tracker_last ? tracker_last : 1;
-                    }
+                    else { value = tracker_last ? tracker_last : 1; }
                     ss_set_pattern_val(ss, tracker_x - 2, tracker_y + offset,
                                        value);
                 }
@@ -892,9 +884,7 @@ static u8 grid_control_process_key(scene_state_t *ss, u8 x, u8 y, u8 z,
                     variable_last = v[ve];
                     v[ve] = 0;
                 }
-                else {
-                    v[ve] = variable_last ? variable_last : 1;
-                }
+                else { v[ve] = variable_last ? variable_last : 1; }
             }
             variable_edit = 0;
             set_vars_updated();
@@ -987,12 +977,8 @@ static u8 grid_control_process_key(scene_state_t *ss, u8 x, u8 y, u8 z,
         if (!z) return 1;
 
         if (y == 3 && x == 6) { history_prev(); }
-        else if (y == 4 && x == 6) {
-            history_next();
-        }
-        else if (y == 4 && x == 7 && !from_held) {
-            execute_line();
-        }
+        else if (y == 4 && x == 6) { history_next(); }
+        else if (y == 4 && x == 7 && !from_held) { execute_line(); }
 
         return 1;
     }

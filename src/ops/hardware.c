@@ -370,9 +370,7 @@ static void op_TR_POL_set(const void *NOTUSED(data), scene_state_t *ss,
     a--;
     if (a < 0)
         return;
-    else if (a < 4) {
-        ss->variables.tr_pol[a] = b > 0;
-    }
+    else if (a < 4) { ss->variables.tr_pol[a] = b > 0; }
     else if (a < 20) {
         uint8_t d[] = { II_ANSIBLE_TR_POL, a & 0x3, b > 0 };
         uint8_t addr = II_ANSIBLE_ADDR + (((a - 4) >> 2) << 1);
@@ -494,9 +492,7 @@ static void op_MUTE_get(const void *NOTUSED(data), scene_state_t *ss,
                         exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t a = cs_pop(cs) - 1;
     if (a >= 0 && a < TRIGGER_INPUTS) { cs_push(cs, ss_get_mute(ss, a)); }
-    else {
-        cs_push(cs, 0);
-    }
+    else { cs_push(cs, 0); }
 }
 
 static void op_MUTE_set(const void *NOTUSED(data), scene_state_t *ss,
