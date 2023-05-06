@@ -10,6 +10,14 @@ on:
   workflow_dispatch:
 
 jobs:
+  clang-format:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Run clang-format
+      run: |
+        curl -O https://raw.githubusercontent.com/Sarcasm/run-clang-format/master/run-clang-format.py
+        python ./run-clang-format.py -r module simulator src tests --style=file
   run-tests:
     runs-on: ubuntu-latest
     steps:
