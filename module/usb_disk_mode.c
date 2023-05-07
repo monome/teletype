@@ -11,6 +11,7 @@
 // libavr32
 #include "adc.h"
 #include "font.h"
+#include "interrupts.h"
 #include "region.h"
 #include "util.h"
 
@@ -26,7 +27,6 @@
 #include "usb_protocol_msc.h"
 
 // Local declarations
-void draw_usb_menu(void);
 void draw_usb_menu_item(uint8_t item_num, const char* text);
 bool tele_usb_disk_write_operation(uint8_t* plun_state, uint8_t* plun);
 void tele_usb_disk_read_operation(void);
@@ -58,28 +58,19 @@ bool tele_usb_eof(void* self_data) {
 
 
 typedef enum {
-    USB_MENU_COMMAND_WRITE = 0,
-    USB_MENU_COMMAND_READ = 1,
-    USB_MENU_COMMAND_BOTH = 2,
-    USB_MENU_COMMAND_EXIT = 3,
+    USB_MENU_COMMAND_EXIT = 0,
+    USB_MENU_COMMAND_BOTH = 1,
+    USB_MENU_COMMAND_READ = 2,
+    USB_MENU_COMMAND_WRITE = 3,
 } usb_menu_command_t;
 
 usb_menu_command_t usb_menu_command;
-bool usb_menu_waiting;
-
-
-void draw_usb_menu(void) {
-    draw_usb_menu_item(0, "WRITE TO USB");
-    draw_usb_menu_item(1, "READ FROM USB");
-    draw_usb_menu_item(2, "DO BOTH");
-    draw_usb_menu_item(3, "EXIT");
-}
 
 void draw_usb_menu_item(uint8_t item_num, const char* text) {
-    uint8_t line_num = 2 + item_num;
+    uint8_t line_num = 7 - item_num;
     uint8_t fg = usb_menu_command == item_num ? 0 : 0xa;
     uint8_t bg = usb_menu_command == item_num ? 0xa : 0;
-    region_fill(&line[line_num], 0);
+    region_fill(&line[line_num], bg);
     font_string_region_clip_tab(&line[line_num], text, 2, 0, fg, bg);
     region_draw(&line[line_num]);
 }
@@ -92,22 +83,34 @@ void handler_usb_PollADC(int32_t data) {
     cursor >>= 1;
     if (!deadzone || abs(cursor - usb_menu_command) > 1) {
         usb_menu_command = cursor;
-        draw_usb_menu();
     }
 }
 
 void handler_usb_Front(int32_t data) {
-    if (data != 0) { usb_menu_waiting = false; }
+
+    // disable timers
+    u8 flags = irqs_pause();
+
+    if (usb_menu_command != USB_MENU_COMMAND_EXIT) {
+        tele_usb_disk();
+    }
+
+    // renable teletype
+    set_mode(M_LIVE);
+    assign_main_event_handlers();
+    irqs_resume(flags);
 }
+
+void handler_usb_ScreenRefresh(int32_t data) {
+    draw_usb_menu_item(3, "WRITE TO USB");
+    draw_usb_menu_item(2, "READ FROM USB");
+    draw_usb_menu_item(1, "DO BOTH");
+    draw_usb_menu_item(0, "EXIT");
+}
+
 
 // usb disk mode entry point
 void tele_usb_disk() {
-    usb_menu_command = USB_MENU_COMMAND_EXIT;
-    usb_menu_waiting = true;
-    draw_usb_menu();
-
-    while (usb_menu_waiting) {}
-    if (usb_menu_command == USB_MENU_COMMAND_EXIT) { return; }
 
     print_dbg("\r\nusb");
     uint8_t lun_state = 0;

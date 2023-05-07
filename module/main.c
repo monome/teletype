@@ -171,7 +171,7 @@ static void handler_AppCustom(int32_t data);
 
 // event queue
 static void empty_event_handlers(void);
-static void assign_main_event_handlers(void);
+void assign_main_event_handlers(void);
 static void assign_msc_event_handlers(void);
 static void check_events(void);
 
@@ -475,22 +475,11 @@ void handler_MscConnect(int32_t data) {
     // disable event handlers while doing USB write
     assign_msc_event_handlers();
 
-    // disable timers
-    u8 flags = irqs_pause();
-
     // clear screen
     for (size_t i = 0; i < 8; i++) {
         region_fill(&line[i], 0);
         region_draw(&line[i]);
     }
-
-    // do USB
-    tele_usb_disk();
-
-    // renable teletype
-    set_mode(M_LIVE);
-    assign_main_event_handlers();
-    irqs_resume(flags);
 }
 
 void handler_Trigger(int32_t data) {
@@ -748,6 +737,7 @@ static void assign_msc_event_handlers(void) {
 
     app_event_handlers[kEventFront] = &handler_usb_Front;
     app_event_handlers[kEventPollADC] = &handler_usb_PollADC;
+    app_event_handlers[kEventScreenRefresh] = &handler_usb_ScreenRefresh;
 }
 
 // app event loop

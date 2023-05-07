@@ -40,6 +40,8 @@ void set_mode(tele_mode_t mode);
 void set_last_mode(void);
 void clear_delays_and_slews(scene_state_t *ss);
 
+void assign_main_event_handlers(void);
+
 // global copy buffer
 extern char copy_buffer[SCENE_TEXT_LINES][SCENE_TEXT_CHARS];
 extern uint8_t copy_buffer_len;
