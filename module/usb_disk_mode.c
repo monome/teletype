@@ -87,13 +87,10 @@ void handler_usb_PollADC(int32_t data) {
 }
 
 void handler_usb_Front(int32_t data) {
-
     // disable timers
     u8 flags = irqs_pause();
 
-    if (usb_menu_command != USB_MENU_COMMAND_EXIT) {
-        tele_usb_disk();
-    }
+    if (usb_menu_command != USB_MENU_COMMAND_EXIT) { tele_usb_disk(); }
 
     // renable teletype
     set_mode(M_LIVE);
@@ -111,7 +108,6 @@ void handler_usb_ScreenRefresh(int32_t data) {
 
 // usb disk mode entry point
 void tele_usb_disk() {
-
     print_dbg("\r\nusb");
     uint8_t lun_state = 0;
 
