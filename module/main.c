@@ -746,8 +746,8 @@ void assign_main_event_handlers() {
 static void assign_msc_event_handlers(void) {
     empty_event_handlers();
 
-    // one day this could be used to map the front button and pot to be used as
-    // a UI with a memory stick
+    app_event_handlers[kEventFront] = &handler_usb_Front;
+    app_event_handlers[kEventPollADC] = &handler_usb_PollADC;
 }
 
 // app event loop
