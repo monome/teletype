@@ -58,16 +58,16 @@ bool tele_usb_eof(void* self_data) {
 
 
 typedef enum {
-    USB_MENU_COMMAND_EXIT = 0,
-    USB_MENU_COMMAND_BOTH = 1,
-    USB_MENU_COMMAND_READ = 2,
-    USB_MENU_COMMAND_WRITE = 3,
+    USB_MENU_COMMAND_WRITE = 0,
+    USB_MENU_COMMAND_READ = 1,
+    USB_MENU_COMMAND_BOTH = 2,
+    USB_MENU_COMMAND_EXIT = 3,
 } usb_menu_command_t;
 
 usb_menu_command_t usb_menu_command;
 
 void draw_usb_menu_item(uint8_t item_num, const char* text) {
-    uint8_t line_num = 7 - item_num;
+    uint8_t line_num = 4 + item_num;
     uint8_t fg = usb_menu_command == item_num ? 0 : 0xa;
     uint8_t bg = usb_menu_command == item_num ? 0xa : 0;
     region_fill(&line[line_num], bg);
@@ -99,10 +99,10 @@ void handler_usb_Front(int32_t data) {
 }
 
 void handler_usb_ScreenRefresh(int32_t data) {
-    draw_usb_menu_item(3, "WRITE TO USB");
-    draw_usb_menu_item(2, "READ FROM USB");
-    draw_usb_menu_item(1, "DO BOTH");
-    draw_usb_menu_item(0, "EXIT");
+    draw_usb_menu_item(0, "WRITE TO USB");
+    draw_usb_menu_item(1, "READ FROM USB");
+    draw_usb_menu_item(2, "DO BOTH");
+    draw_usb_menu_item(3, "EXIT");
 }
 
 
