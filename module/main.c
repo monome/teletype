@@ -193,6 +193,8 @@ static void update_device_config(u8 refresh);
 ////////////////////////////////////////////////////////////////////////////////
 // timer callbacks
 
+#define u16_swap(x, y) do { uint16_t t = x; x = y; y = t; } while (0)
+
 void cvTimer_callback(void* o) {
 #ifdef TELETYPE_PROFILE
     profile_update(&prof_CV);
@@ -218,37 +220,47 @@ void cvTimer_callback(void* o) {
     set_slew_icon(slewing);
 
     if (updated) {
-        uint16_t a0, a1, a2, a3;
+        uint16_t output[4];
+
+        for (uint8_t i = 0; i < 4; i++) {
+            // Skip calibration if the values are still default linear
+            if (scene_state.cal.cv_scale[i].m == 1 && scene_state.cal.cv_scale[i].b == 0) {
+                output[i] = aout[i].now;
+            } else {
+                // apply the Q15 linear scaling
+                int32_t p = aout[i].now;
+                p = p * scene_state.cal.cv_scale[i].m + scene_state.cal.cv_scale[i].b;
+                output[i] = FROM_Q15(p);
+
+                // re-clamp the output
+                if (output[i] < 0)
+                    output[i] = 0;
+                else if (output[i] > 16383)
+                    output[i] = 16383;
+            }
+        }
 
         if (device_config.flip) {
-            a0 = aout[3].now >> 2;
-            a1 = aout[2].now >> 2;
-            a2 = aout[1].now >> 2;
-            a3 = aout[0].now >> 2;
-        }
-        else {
-            a0 = aout[0].now >> 2;
-            a1 = aout[1].now >> 2;
-            a2 = aout[2].now >> 2;
-            a3 = aout[3].now >> 2;
+            u16_swap(output[3], output[0]);
+            u16_swap(output[2], output[1]);
         }
 
         spi_selectChip(DAC_SPI, DAC_SPI_NPCS);
         spi_write(DAC_SPI, 0x31);
-        spi_write(DAC_SPI, a2 >> 4);
-        spi_write(DAC_SPI, a2 << 4);
+        spi_write(DAC_SPI, output[2] >> 4);
+        spi_write(DAC_SPI, output[2] << 4);
         spi_write(DAC_SPI, 0x31);
-        spi_write(DAC_SPI, a0 >> 4);
-        spi_write(DAC_SPI, a0 << 4);
+        spi_write(DAC_SPI, output[0] >> 4);
+        spi_write(DAC_SPI, output[0] << 4);
         spi_unselectChip(DAC_SPI, DAC_SPI_NPCS);
 
         spi_selectChip(DAC_SPI, DAC_SPI_NPCS);
         spi_write(DAC_SPI, 0x38);
-        spi_write(DAC_SPI, a3 >> 4);
-        spi_write(DAC_SPI, a3 << 4);
+        spi_write(DAC_SPI, output[3] >> 4);
+        spi_write(DAC_SPI, output[3] << 4);
         spi_write(DAC_SPI, 0x38);
-        spi_write(DAC_SPI, a1 >> 4);
-        spi_write(DAC_SPI, a1 << 4);
+        spi_write(DAC_SPI, output[1] >> 4);
+        spi_write(DAC_SPI, output[1] << 4);
         spi_unselectChip(DAC_SPI, DAC_SPI_NPCS);
     }
 #ifdef TELETYPE_PROFILE
@@ -1070,24 +1082,6 @@ void trPulseTimer_callback(void* obj) {
     tele_tr_pulse_end(&scene_state, i);
 }
 
-int16_t tele_cv_apply_calibration(uint8_t i, int16_t v) {
-    // do nothing if calibration is set to default values
-    if (scene_state.cal.cv_scale[i].m == 1 && scene_state.cal.cv_scale[i].b == 0)
-        return v;
-
-    // apply the Q15 linear scaling
-    int32_t p = v;
-    p = p * scene_state.cal.cv_scale[i].m + scene_state.cal.cv_scale[i].b;
-    int16_t t = FROM_Q15(p);
-
-    // re-clamp the output
-    if (t < 0)
-        t = 0;
-    else if (t > 16383)
-        t = 16383;
-    return t;
-}
-
 void tele_cv(uint8_t i, int16_t v, uint8_t s) {
     int16_t t = v + aout[i].off;
     if (t < 0)
@@ -1104,7 +1098,7 @@ void tele_cv(uint8_t i, int16_t v, uint8_t s) {
         aout[i].now = aout[i].target;
     }
 
-    aout[i].a = tele_cv_apply_calibration(i, aout[i].now) << 16;
+    aout[i].a = aout[i].now << 16;
 
     timer_manual(&cvTimer);
 }

@@ -620,16 +620,16 @@ void ss_reset_in_cal(scene_state_t *ss) {
 }
 
 void ss_set_cv_cal(scene_state_t *ss, uint8_t n, int32_t b, int32_t m) {
-    if (n < 0 || n > 3) { return; }
+    if (n > 3) { return; }
     ss->cal.cv_scale[n].b = b;
     ss->cal.cv_scale[n].m = m;
     tele_save_calibration();
 }
 
 void ss_reset_cv_cal(scene_state_t *ss, uint8_t n) {
-    if (n < 0 || n > 3) { return; }
+    if (n > 3) { return; }
     ss->cal.cv_scale[n].b = 0;
-    ss->cal.cv_scale[n].m = 0; // only store the fractional part of the slope, so the default can be 0
+    ss->cal.cv_scale[n].m = 1;
     tele_save_calibration();
 }
 
