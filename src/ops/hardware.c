@@ -255,10 +255,10 @@ static void op_CV_CAL_set(const void *NOTUSED(data), scene_state_t *ss,
     if (n < 0 || n > 3) { return; }
 
     // todo: calc these from vv1v and vv3v
-    int16_t min = 0;
-    int16_t max = 16383;
+    int32_t b = 0;
+    int32_t m = 0;
 
-    ss_set_cv_scale(ss, n, min, max);
+    ss_set_cv_cal(ss, n, b, m);
 }
 
 static void op_CV_CAL_RESET_set(const void *NOTUSED(data), scene_state_t *ss,
@@ -268,7 +268,7 @@ static void op_CV_CAL_RESET_set(const void *NOTUSED(data), scene_state_t *ss,
     n -= 1;
     if (n < 0 || n > 3) { return; }
 
-    ss_set_cv_scale(ss, n, 0, 16383);
+    ss_reset_cv_cal(ss, n);
 }
 
 

@@ -1070,6 +1070,24 @@ void trPulseTimer_callback(void* obj) {
     tele_tr_pulse_end(&scene_state, i);
 }
 
+int16_t tele_cv_apply_calibration(uint8_t i, int16_t v) {
+    // do nothing if calibration is set to default values
+    if (scene_state.cal.cv_scale[i].m == 1 && scene_state.cal.cv_scale[i].b == 0)
+        return v;
+
+    // apply the Q15 linear scaling
+    int32_t p = v;
+    p = p * scene_state.cal.cv_scale[i].m + scene_state.cal.cv_scale[i].b;
+    int16_t t = FROM_Q15(p);
+
+    // re-clamp the output
+    if (t < 0)
+        t = 0;
+    else if (t > 16383)
+        t = 16383;
+    return t;
+}
+
 void tele_cv(uint8_t i, int16_t v, uint8_t s) {
     int16_t t = v + aout[i].off;
     if (t < 0)
@@ -1086,7 +1104,7 @@ void tele_cv(uint8_t i, int16_t v, uint8_t s) {
         aout[i].now = aout[i].target;
     }
 
-    aout[i].a = aout[i].now << 16;
+    aout[i].a = tele_cv_apply_calibration(i, aout[i].now) << 16;
 
     timer_manual(&cvTimer);
 }
@@ -1233,7 +1251,6 @@ int main(void) {
     ss_update_param_scale(&scene_state);
     ss_update_in_scale(&scene_state);
     ss_update_fader_scale_all(&scene_state);
-    ss_update_cv_scale_all(&scene_state);
 
     // load preset from flash
     preset_select = flash_last_saved_scene();

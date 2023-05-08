@@ -86,7 +86,6 @@ void ss_variables_init(scene_state_t *ss) {
     ss_update_param_scale(ss);
     ss_update_in_scale(ss);
     ss_update_fader_scale_all(ss);
-    ss_update_cv_scale_all(ss);
 }
 
 void ss_patterns_init(scene_state_t *ss) {
@@ -506,16 +505,6 @@ void ss_update_fader_scale_all(scene_state_t *ss) {
     }
 }
 
-void ss_update_cv_scale(scene_state_t *ss, int16_t n) {
-    ss->variables.cv_scales[n] = scale_init(
-        ss->cal.cv_min[n], ss->cal.cv_max[n],
-        ss->variables.cv_ranges[n].out_min, ss->variables.cv_ranges[n].out_max);
-}
-
-void ss_update_cv_scale_all(scene_state_t *ss) {
-    for (size_t i = 0; i < 4; i++) { ss_update_cv_scale(ss, i); }
-}
-
 void ss_update_in_scale(scene_state_t *ss) {
     ss->variables.in_scale =
         scale_init(ss->cal.i_min, ss->cal.i_max, ss->variables.in_range.out_min,
@@ -541,11 +530,6 @@ void ss_set_fader_scale(scene_state_t *ss, int16_t fader, int16_t min,
     ss_update_fader_scale(ss, fader);
 }
 
-void ss_set_cv_scale(scene_state_t *ss, int16_t n, int16_t min, int16_t max) {
-    ss->variables.cv_ranges[n].out_min = min;
-    ss->variables.cv_ranges[n].out_max = max;
-    ss_update_cv_scale(ss, n);
-}
 int16_t ss_get_param(scene_state_t *ss) {
     return scale_get(ss->variables.param_scale, ss->variables.param);
 }
@@ -632,6 +616,20 @@ void ss_reset_in_cal(scene_state_t *ss) {
     ss->cal.i_max = 16383;
     ss->cal.i_min = 0;
     ss_update_in_scale(ss);
+    tele_save_calibration();
+}
+
+void ss_set_cv_cal(scene_state_t *ss, uint8_t n, int32_t b, int32_t m) {
+    if (n < 0 || n > 3) { return; }
+    ss->cal.cv_scale[n].b = b;
+    ss->cal.cv_scale[n].m = m;
+    tele_save_calibration();
+}
+
+void ss_reset_cv_cal(scene_state_t *ss, uint8_t n) {
+    if (n < 0 || n > 3) { return; }
+    ss->cal.cv_scale[n].b = 0;
+    ss->cal.cv_scale[n].m = 0; // only store the fractional part of the slope, so the default can be 0
     tele_save_calibration();
 }
 

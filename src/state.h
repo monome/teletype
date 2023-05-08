@@ -115,8 +115,6 @@ typedef struct {
     scale_t param_scale;
     scale_data_t fader_ranges[64];
     scale_t fader_scales[64];
-    scale_data_t cv_ranges[4];
-    scale_t cv_scales[4];
 } scene_variables_t;
 // clang-format on
 
@@ -346,13 +344,10 @@ void ss_set_param_scale(scene_state_t *, int16_t, int16_t);
 void ss_set_in_scale(scene_state_t *, int16_t, int16_t);
 void ss_set_fader_scale(scene_state_t *ss, int16_t fader, int16_t min,
                         int16_t max);
-void ss_set_cv_scale(scene_state_t *ss, int16_t n, int16_t min, int16_t max);
 void ss_update_in_scale(scene_state_t *);
 void ss_update_param_scale(scene_state_t *);
 void ss_update_fader_scale(scene_state_t *ss, int16_t fader);
 void ss_update_fader_scale_all(scene_state_t *ss);
-void ss_update_cv_scale(scene_state_t *ss, int16_t n);
-void ss_update_cv_scale_all(scene_state_t *ss);
 
 int16_t ss_get_param(scene_state_t *);
 int16_t ss_get_in(scene_state_t *);
@@ -371,6 +366,8 @@ int16_t ss_get_fader_max(scene_state_t *ss, int16_t fader);
 void ss_set_fader_min(scene_state_t *ss, int16_t fader, int16_t min);
 void ss_set_fader_max(scene_state_t *ss, int16_t fader, int16_t max);
 void ss_reset_fader_cal(scene_state_t *ss, int16_t fader);
+void ss_set_cv_cal(scene_state_t *ss, int8_t n, int32_t b, int32_t m);
+void ss_reset_cv_cal(scene_state_t *ss, int8_t n);
 
 ////////////////////////////////////////////////////////////////////////////////
 // EXEC STATE //////////////////////////////////////////////////////////////////
