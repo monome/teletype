@@ -225,18 +225,15 @@ void cvTimer_callback(void* o) {
         for (uint8_t i = 0; i < 4; i++) {
             // Skip calibration if the values are still default linear
             if (scene_state.cal.cv_scale[i].m == 1 && scene_state.cal.cv_scale[i].b == 0) {
-                output[i] = aout[i].now;
+                output[i] = aout[i].now >> 2;
             } else {
                 // apply the Q15 linear scaling
                 int32_t p = aout[i].now;
                 p = p * scene_state.cal.cv_scale[i].m + scene_state.cal.cv_scale[i].b;
-                output[i] = FROM_Q15(p);
 
-                // re-clamp the output
-                if (output[i] < 0)
-                    output[i] = 0;
-                else if (output[i] > 16383)
-                    output[i] = 16383;
+                output[i] = (p >= 0) ? FROM_Q15(p) : 0;
+                if (output[i] > 16383) { output[i] = 16383; }
+                output[i] = output[i] >> 2;
             }
         }
 
