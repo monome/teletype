@@ -89,8 +89,8 @@ static void op_PRINT_set(const void *data, scene_state_t *ss, exec_state_t *es,
 const tele_op_t op_CV       = MAKE_GET_SET_OP(CV      , op_CV_get      , op_CV_set     , 1, true);
 const tele_op_t op_CV_OFF   = MAKE_GET_SET_OP(CV.OFF  , op_CV_OFF_get  , op_CV_OFF_set , 1, true);
 const tele_op_t op_CV_SLEW  = MAKE_GET_SET_OP(CV.SLEW , op_CV_SLEW_get , op_CV_SLEW_set, 1, true);
-const tele_op_t op_CV_CAL   = MAKE_GET_OP(CV.CAL , op_CV_CAL_set, 3, true);
-const tele_op_t op_CV_CAL_RESET = MAKE_GET_OP(CV.CAL.RESET , op_CV_CAL_RESET_set, 1, true);
+const tele_op_t op_CV_CAL   = MAKE_GET_OP(CV.CAL , op_CV_CAL_set, 3, false);
+const tele_op_t op_CV_CAL_RESET = MAKE_GET_OP(CV.CAL.RESET , op_CV_CAL_RESET_set, 1, false);
 const tele_op_t op_IN       = MAKE_GET_OP    (IN      , op_IN_get      , 0, true);
 const tele_op_t op_IN_SCALE = MAKE_GET_OP    (IN.SCALE, op_IN_SCALE_set, 2, false);
 const tele_op_t op_PARAM    = MAKE_GET_OP    (PARAM   , op_PARAM_get   , 0, true);
