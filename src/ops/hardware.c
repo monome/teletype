@@ -256,10 +256,10 @@ static void op_CV_CAL_set(const void *NOTUSED(data), scene_state_t *ss,
 
     // using slow software floating point here is okay,
     // this is ideally a one-time op and doesn't need to be fast.
-    double scale = (4915.0 - 1638.0)/((vv3v - vv1v) * 1.6383);
-    double offset = 4915.0/scale - vv3v * 1.6383;
-    int32_t m = (int32_t)(scale * (1<<15));
-    int32_t b = (int32_t)(offset * (1<<15));
+    double scale = (4915.0 - 1638.0) / ((vv3v - vv1v) * 1.6383);
+    double offset = 4915.0 / scale - vv3v * 1.6383;
+    int32_t m = (int32_t)(scale * (1 << 15));
+    int32_t b = (int32_t)(offset * (1 << 15));
 
     ss_set_cv_cal(ss, n, b, m);
 }

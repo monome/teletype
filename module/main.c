@@ -193,7 +193,12 @@ static void update_device_config(u8 refresh);
 ////////////////////////////////////////////////////////////////////////////////
 // timer callbacks
 
-#define u16_swap(x, y) do { uint16_t t = x; x = y; y = t; } while (0)
+#define u16_swap(x, y)  \
+    do {                \
+        uint16_t t = x; \
+        x = y;          \
+        y = t;          \
+    } while (0)
 
 void cvTimer_callback(void* o) {
 #ifdef TELETYPE_PROFILE
@@ -224,12 +229,15 @@ void cvTimer_callback(void* o) {
 
         for (uint8_t i = 0; i < 4; i++) {
             // Skip calibration if the values are still default linear
-            if (scene_state.cal.cv_scale[i].m == 1 && scene_state.cal.cv_scale[i].b == 0) {
+            if (scene_state.cal.cv_scale[i].m == 1 &&
+                scene_state.cal.cv_scale[i].b == 0) {
                 output[i] = aout[i].now >> 2;
-            } else {
+            }
+            else {
                 // apply the Q15 linear scaling
                 int32_t p = aout[i].now;
-                p = p * scene_state.cal.cv_scale[i].m + scene_state.cal.cv_scale[i].b;
+                p = p * scene_state.cal.cv_scale[i].m +
+                    scene_state.cal.cv_scale[i].b;
 
                 output[i] = (p >= 0) ? FROM_Q15(p) : 0;
                 if (output[i] > 16383) { output[i] = 16383; }
