@@ -2,9 +2,7 @@
 
 
 void init_cal_data(cal_data_t* data) {
-    if (!data) {
-        return;
-    }
+    if (!data) { return; }
 
     data->p_min = 0;
     data->p_max = 16383;

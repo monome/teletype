@@ -221,7 +221,8 @@ void cvTimer_callback(void* o) {
         uint16_t output[4];
 
         for (uint8_t hardware_index = 0; hardware_index < 4; hardware_index++) {
-            uint8_t software_index = device_config.flip ? 3 - hardware_index : hardware_index;
+            uint8_t software_index =
+                device_config.flip ? 3 - hardware_index : hardware_index;
 
             // With default CV.CAL settings, skip calibration math
             if (scene_state.cal.cv_scale[hardware_index].m == 1 &&
@@ -235,7 +236,9 @@ void cvTimer_callback(void* o) {
                     scene_state.cal.cv_scale[hardware_index].b;
 
                 output[hardware_index] = (p >= 0) ? FROM_Q15(p) : 0;
-                if (output[hardware_index] > 16383) { output[hardware_index] = 16383; }
+                if (output[hardware_index] > 16383) {
+                    output[hardware_index] = 16383;
+                }
                 output[hardware_index] = output[hardware_index] >> 2;
             }
         }
