@@ -27,6 +27,7 @@
 - **NEW**: new op: `SCALE0` / `SCL0`
 - **NEW**: new ops: `$F`, `$F1`, `$F2`, `$L`, `$L1`, `$L2`, `$S`, `$S1`, `$S2`, `I1`, `I2`, `FR`
 - **NEW**: new op: `CV.GET`
+- **NEW**: new ops: `CV.CAL` and `CV.CAL.RESET` to calibrate CV outputs
 
 ## v4.0.0
 
