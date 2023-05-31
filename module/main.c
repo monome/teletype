@@ -193,13 +193,6 @@ static void update_device_config(u8 refresh);
 ////////////////////////////////////////////////////////////////////////////////
 // timer callbacks
 
-#define u16_swap(x, y)  \
-    do {                \
-        uint16_t t = x; \
-        x = y;          \
-        y = t;          \
-    } while (0)
-
 void cvTimer_callback(void* o) {
 #ifdef TELETYPE_PROFILE
     profile_update(&prof_CV);
@@ -227,27 +220,24 @@ void cvTimer_callback(void* o) {
     if (updated) {
         uint16_t output[4];
 
-        for (uint8_t i = 0; i < 4; i++) {
-            // Skip calibration if the values are still default linear
-            if (scene_state.cal.cv_scale[i].m == 1 &&
-                scene_state.cal.cv_scale[i].b == 0) {
-                output[i] = aout[i].now >> 2;
+        for (uint8_t hardware_index = 0; hardware_index < 4; hardware_index++) {
+            uint8_t software_index = device_config.flip ? 3 - hardware_index : hardware_index;
+
+            // With default CV.CAL settings, skip calibration math
+            if (scene_state.cal.cv_scale[hardware_index].m == 1 &&
+                scene_state.cal.cv_scale[hardware_index].b == 0) {
+                output[hardware_index] = aout[software_index].now >> 2;
             }
             else {
-                // apply the Q15 linear scaling
-                int32_t p = aout[i].now;
-                p = p * scene_state.cal.cv_scale[i].m +
-                    scene_state.cal.cv_scale[i].b;
+                // apply calibration via fixed-point linear scaling
+                int32_t p = aout[software_index].now;
+                p = p * scene_state.cal.cv_scale[hardware_index].m +
+                    scene_state.cal.cv_scale[hardware_index].b;
 
-                output[i] = (p >= 0) ? FROM_Q15(p) : 0;
-                if (output[i] > 16383) { output[i] = 16383; }
-                output[i] = output[i] >> 2;
+                output[hardware_index] = (p >= 0) ? FROM_Q15(p) : 0;
+                if (output[hardware_index] > 16383) { output[hardware_index] = 16383; }
+                output[hardware_index] = output[hardware_index] >> 2;
             }
-        }
-
-        if (device_config.flip) {
-            u16_swap(output[3], output[0]);
-            u16_swap(output[2], output[1]);
         }
 
         spi_selectChip(DAC_SPI, DAC_SPI_NPCS);
