@@ -82,6 +82,8 @@ void flash_prepare() {
             flash_write(i, &scene, &text);
         }
 
+        cal_data_t blank_cal_data;
+        init_cal_data(&blank_cal_data);
         flashc_memcpy((void *)&f.cal, &blank_cal_data, sizeof(blank_cal_data),
                       true);
         device_config_t device_config = { .flip = 0 };

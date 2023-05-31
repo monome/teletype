@@ -202,7 +202,7 @@ void ss_midi_init(scene_state_t *ss) {
 }
 
 void ss_cal_init(scene_state_t *ss) {
-    ss->cal = blank_cal_data;
+    init_cal_data(&ss->cal);
 }
 
 // Hardware
