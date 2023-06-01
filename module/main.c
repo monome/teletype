@@ -1122,9 +1122,7 @@ void tele_cv_cal(uint8_t i, int32_t b, int32_t m) {
     tele_save_calibration();
 
     // force a CV output update if one is not imminent
-    if (aout[i].step == 0) {
-        aout[i].step = 1;
-    }
+    if (aout[i].step == 0) { aout[i].step = 1; }
 }
 
 void tele_update_adc(u8 force) {
@@ -1181,9 +1179,7 @@ void device_flip() {
 
     for (int i = 0; i < 4; i++) {
         // trigger a CV update if one is not imminent
-        if (aout[i].step == 0) {
-            aout[i].step = 1;
-        }
+        if (aout[i].step == 0) { aout[i].step = 1; }
         // update TR state
         tele_tr(i, scene_state.variables.tr[i]);
     }

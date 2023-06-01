@@ -264,7 +264,8 @@ static void op_CV_CAL_set(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
     tele_cv_cal(n, b, m);
 }
 
-static void op_CV_CAL_RESET_set(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+static void op_CV_CAL_RESET_set(const void *NOTUSED(data),
+                                scene_state_t *NOTUSED(ss),
                                 exec_state_t *NOTUSED(es),
                                 command_state_t *cs) {
     int16_t n = cs_pop(cs);
