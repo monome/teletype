@@ -1111,7 +1111,20 @@ void tele_cv_off(uint8_t i, int16_t v) {
 }
 
 uint16_t tele_get_cv(uint8_t i) {
-    return aout[(device_config.flip ? 3 - i : i)].now;
+    return aout[i].now;
+}
+
+void tele_cv_cal(uint8_t i, int32_t b, int32_t m) {
+    if (i > 3) { return; }
+    uint8_t n = device_config.flip ? 3 - i : i;
+    scene_state.cal.cv_scale[n].b = b;
+    scene_state.cal.cv_scale[n].m = m;
+    tele_save_calibration();
+
+    // force a CV output update if one is not imminent
+    if (aout[i].step == 0) {
+        aout[i].step = 1;
+    }
 }
 
 void tele_update_adc(u8 force) {
@@ -1165,6 +1178,15 @@ void grid_key_press(uint8_t x, uint8_t y, uint8_t z) {
 void device_flip() {
     device_config.flip = !device_config.flip;
     update_device_config(1);
+
+    for (int i = 0; i < 4; i++) {
+        // trigger a CV update if one is not imminent
+        if (aout[i].step == 0) {
+            aout[i].step = 1;
+        }
+        // update TR state
+        tele_tr(i, scene_state.variables.tr[i]);
+    }
 }
 
 void reset_midi_counter() {

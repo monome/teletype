@@ -246,7 +246,7 @@ static void op_CV_OFF_set(const void *NOTUSED(data), scene_state_t *ss,
     }
 }
 
-static void op_CV_CAL_set(const void *NOTUSED(data), scene_state_t *ss,
+static void op_CV_CAL_set(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                           exec_state_t *NOTUSED(es), command_state_t *cs) {
     int16_t n = cs_pop(cs);
     int16_t vv1v = cs_pop(cs);
@@ -261,17 +261,17 @@ static void op_CV_CAL_set(const void *NOTUSED(data), scene_state_t *ss,
     int32_t m = (int32_t)(scale * (1 << 15));
     int32_t b = (int32_t)(offset * (1 << 15));
 
-    ss_set_cv_cal(ss, n, b, m);
+    tele_cv_cal(n, b, m);
 }
 
-static void op_CV_CAL_RESET_set(const void *NOTUSED(data), scene_state_t *ss,
+static void op_CV_CAL_RESET_set(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
                                 exec_state_t *NOTUSED(es),
                                 command_state_t *cs) {
     int16_t n = cs_pop(cs);
     n -= 1;
     if (n < 0 || n > 3) { return; }
 
-    ss_reset_cv_cal(ss, n);
+    tele_cv_cal(n, 0, 1);
 }
 
 

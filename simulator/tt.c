@@ -81,6 +81,11 @@ void tele_cv_off(uint8_t i, int16_t v) {
     printf("\n");
 }
 
+void tele_cv_cal(uint8_t i, int32_t b, int32_t m) {
+    printf("CV_CAL  i:%" PRIu8 " b:%" PRId32 " m:%" PRId32, i, b, m);
+    printf("\n");
+}
+
 void tele_ii_tx(uint8_t addr, uint8_t *data, uint8_t l) {
     printf("II_tx  addr:%" PRIu8 " l:%" PRIu8, addr, l);
     printf("\n");

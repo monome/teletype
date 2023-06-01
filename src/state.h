@@ -366,8 +366,7 @@ int16_t ss_get_fader_max(scene_state_t *ss, int16_t fader);
 void ss_set_fader_min(scene_state_t *ss, int16_t fader, int16_t min);
 void ss_set_fader_max(scene_state_t *ss, int16_t fader, int16_t max);
 void ss_reset_fader_cal(scene_state_t *ss, int16_t fader);
-void ss_set_cv_cal(scene_state_t *ss, uint8_t n, int32_t b, int32_t m);
-void ss_reset_cv_cal(scene_state_t *ss, uint8_t n);
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // EXEC STATE //////////////////////////////////////////////////////////////////
