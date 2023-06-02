@@ -158,6 +158,8 @@
         "CV"          => { MATCH_OP(E_OP_CV); };
         "CV.OFF"      => { MATCH_OP(E_OP_CV_OFF); };
         "CV.SLEW"     => { MATCH_OP(E_OP_CV_SLEW); };
+        "CV.CAL"      => { MATCH_OP(E_OP_CV_CAL); };
+        "CV.CAL.RESET" => { MATCH_OP(E_OP_CV_CAL_RESET); };
         "IN"          => { MATCH_OP(E_OP_IN); };
         "IN.SCALE"    => { MATCH_OP(E_OP_IN_SCALE); };
         "IN.CAL.MIN"  => { MATCH_OP(E_OP_IN_CAL_MIN); };

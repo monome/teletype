@@ -40,6 +40,45 @@ Get the slew time in ms associated with CV output `x`. Set the slew time
 associated with CV output `x` to `y` ms.
 """
 
+["CV.CAL"]
+prototype = "CV.CAL n mv1v mv3v"
+short = "Calibrate CV output `n`"
+description = """
+Following a short calibration procedure, you can use `CV.CAL` to more
+precisely match your CV outputs to each other or to an external reference. A
+digital multimeter (or other voltage measuring device) is required.
+
+To calibrate CV 1, first set it to output one volt with `CV 1 V 1`. Using
+a digital multimeter with at least millivolt precision (three digits after
+the decimal point), record the measured output of CV 1 between tip and sleeve
+on a patch cable. Then set CV 1 to three volts with `CV 1 V 3` and measure
+again.
+
+Once you have both measurements, use the observed 1V and 3V values in
+millivolts as the second and third arguments to `CV.CAL`. For example, if you
+measured 0.990V and 2.984V, enter `CV.CAL 1 990 2984`. (If both your
+measurements are within 1 or 2 millivolts already, there's no need to run
+`CV.CAL`.)
+
+Measure the output with `CV 1 V 1` and `CV 1 V 3` again and confirm the values
+are closer to the expected 1.000V and 3.000V.
+
+Repeat the above steps for CV 2-4, if desired. The calibration data is stored
+in flash memory so you only need to go through this process once.
+
+Note: The calibration adjustment is made after `CV.SLEW` and `CV.OFF` are
+applied, and does not affect `CV.GET` or any other scene-visible values. It
+only affects the levels coming out of the DAC.
+"""
+
+["CV.CAL.RESET"]
+prototype = "CV.CAL.RESET n"
+short = "Reset calibration data for CV output `n`"
+description = """
+Clear the calibration data for CV output `n` and return it to its default
+behavior, with no calibration adjustment.
+"""
+
 ["IN"]
 prototype = "IN"
 short = "Get the value of IN jack (0-16383)"

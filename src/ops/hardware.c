@@ -16,6 +16,10 @@ static void op_CV_OFF_get(const void *data, scene_state_t *ss, exec_state_t *es,
                           command_state_t *cs);
 static void op_CV_OFF_set(const void *data, scene_state_t *ss, exec_state_t *es,
                           command_state_t *cs);
+static void op_CV_CAL_set(const void *NOTUSED(data), scene_state_t *ss,
+                          exec_state_t *NOTUSED(es), command_state_t *cs);
+static void op_CV_CAL_RESET_set(const void *NOTUSED(data), scene_state_t *ss,
+                                exec_state_t *NOTUSED(es), command_state_t *cs);
 static void op_IN_get(const void *NOTUSED(data), scene_state_t *ss,
                       exec_state_t *NOTUSED(es), command_state_t *cs);
 static void op_IN_SCALE_set(const void *NOTUSED(data), scene_state_t *ss,
@@ -85,6 +89,8 @@ static void op_PRINT_set(const void *data, scene_state_t *ss, exec_state_t *es,
 const tele_op_t op_CV       = MAKE_GET_SET_OP(CV      , op_CV_get      , op_CV_set     , 1, true);
 const tele_op_t op_CV_OFF   = MAKE_GET_SET_OP(CV.OFF  , op_CV_OFF_get  , op_CV_OFF_set , 1, true);
 const tele_op_t op_CV_SLEW  = MAKE_GET_SET_OP(CV.SLEW , op_CV_SLEW_get , op_CV_SLEW_set, 1, true);
+const tele_op_t op_CV_CAL   = MAKE_GET_OP(CV.CAL , op_CV_CAL_set, 3, false);
+const tele_op_t op_CV_CAL_RESET = MAKE_GET_OP(CV.CAL.RESET , op_CV_CAL_RESET_set, 1, false);
 const tele_op_t op_IN       = MAKE_GET_OP    (IN      , op_IN_get      , 0, true);
 const tele_op_t op_IN_SCALE = MAKE_GET_OP    (IN.SCALE, op_IN_SCALE_set, 2, false);
 const tele_op_t op_PARAM    = MAKE_GET_OP    (PARAM   , op_PARAM_get   , 0, true);
@@ -239,6 +245,36 @@ static void op_CV_OFF_set(const void *NOTUSED(data), scene_state_t *ss,
         tele_ii_tx(addr, d, 4);
     }
 }
+
+static void op_CV_CAL_set(const void *NOTUSED(data), scene_state_t *NOTUSED(ss),
+                          exec_state_t *NOTUSED(es), command_state_t *cs) {
+    int16_t n = cs_pop(cs);
+    int16_t vv1v = cs_pop(cs);
+    int16_t vv3v = cs_pop(cs);
+    n -= 1;
+    if (n < 0 || n > 3) { return; }
+
+    // using slow software floating point here is okay,
+    // this is ideally a one-time op and doesn't need to be fast.
+    double scale = (4915.0 - 1638.0) / ((vv3v - vv1v) * 1.6383);
+    double offset = 4915.0 / scale - vv3v * 1.6383;
+    int32_t m = (int32_t)(scale * (1 << 15));
+    int32_t b = (int32_t)(offset * (1 << 15));
+
+    tele_cv_cal(n, b, m);
+}
+
+static void op_CV_CAL_RESET_set(const void *NOTUSED(data),
+                                scene_state_t *NOTUSED(ss),
+                                exec_state_t *NOTUSED(es),
+                                command_state_t *cs) {
+    int16_t n = cs_pop(cs);
+    n -= 1;
+    if (n < 0 || n > 3) { return; }
+
+    tele_cv_cal(n, 0, 1);
+}
+
 
 static void op_IN_get(const void *NOTUSED(data), scene_state_t *ss,
                       exec_state_t *NOTUSED(es), command_state_t *cs) {

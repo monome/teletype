@@ -218,37 +218,47 @@ void cvTimer_callback(void* o) {
     set_slew_icon(slewing);
 
     if (updated) {
-        uint16_t a0, a1, a2, a3;
+        uint16_t output[4];
 
-        if (device_config.flip) {
-            a0 = aout[3].now >> 2;
-            a1 = aout[2].now >> 2;
-            a2 = aout[1].now >> 2;
-            a3 = aout[0].now >> 2;
-        }
-        else {
-            a0 = aout[0].now >> 2;
-            a1 = aout[1].now >> 2;
-            a2 = aout[2].now >> 2;
-            a3 = aout[3].now >> 2;
+        for (uint8_t hardware_index = 0; hardware_index < 4; hardware_index++) {
+            uint8_t software_index =
+                device_config.flip ? 3 - hardware_index : hardware_index;
+
+            // With default CV.CAL settings, skip calibration math
+            if (scene_state.cal.cv_scale[hardware_index].m == 1 &&
+                scene_state.cal.cv_scale[hardware_index].b == 0) {
+                output[hardware_index] = aout[software_index].now >> 2;
+            }
+            else {
+                // apply calibration via fixed-point linear scaling
+                int32_t p = aout[software_index].now;
+                p = p * scene_state.cal.cv_scale[hardware_index].m +
+                    scene_state.cal.cv_scale[hardware_index].b;
+
+                output[hardware_index] = (p >= 0) ? FROM_Q15(p) : 0;
+                if (output[hardware_index] > 16383) {
+                    output[hardware_index] = 16383;
+                }
+                output[hardware_index] = output[hardware_index] >> 2;
+            }
         }
 
         spi_selectChip(DAC_SPI, DAC_SPI_NPCS);
         spi_write(DAC_SPI, 0x31);
-        spi_write(DAC_SPI, a2 >> 4);
-        spi_write(DAC_SPI, a2 << 4);
+        spi_write(DAC_SPI, output[2] >> 4);
+        spi_write(DAC_SPI, output[2] << 4);
         spi_write(DAC_SPI, 0x31);
-        spi_write(DAC_SPI, a0 >> 4);
-        spi_write(DAC_SPI, a0 << 4);
+        spi_write(DAC_SPI, output[0] >> 4);
+        spi_write(DAC_SPI, output[0] << 4);
         spi_unselectChip(DAC_SPI, DAC_SPI_NPCS);
 
         spi_selectChip(DAC_SPI, DAC_SPI_NPCS);
         spi_write(DAC_SPI, 0x38);
-        spi_write(DAC_SPI, a3 >> 4);
-        spi_write(DAC_SPI, a3 << 4);
+        spi_write(DAC_SPI, output[3] >> 4);
+        spi_write(DAC_SPI, output[3] << 4);
         spi_write(DAC_SPI, 0x38);
-        spi_write(DAC_SPI, a1 >> 4);
-        spi_write(DAC_SPI, a1 << 4);
+        spi_write(DAC_SPI, output[1] >> 4);
+        spi_write(DAC_SPI, output[1] << 4);
         spi_unselectChip(DAC_SPI, DAC_SPI_NPCS);
     }
 #ifdef TELETYPE_PROFILE
@@ -1091,7 +1101,18 @@ void tele_cv_off(uint8_t i, int16_t v) {
 }
 
 uint16_t tele_get_cv(uint8_t i) {
-    return aout[(device_config.flip ? 3 - i : i)].now;
+    return aout[i].now;
+}
+
+void tele_cv_cal(uint8_t i, int32_t b, int32_t m) {
+    if (i > 3) { return; }
+    uint8_t n = device_config.flip ? 3 - i : i;
+    scene_state.cal.cv_scale[n].b = b;
+    scene_state.cal.cv_scale[n].m = m;
+    tele_save_calibration();
+
+    // force a CV output update if one is not imminent
+    if (aout[i].step == 0) { aout[i].step = 1; }
 }
 
 void tele_update_adc(u8 force) {
@@ -1145,6 +1166,13 @@ void grid_key_press(uint8_t x, uint8_t y, uint8_t z) {
 void device_flip() {
     device_config.flip = !device_config.flip;
     update_device_config(1);
+
+    for (int i = 0; i < 4; i++) {
+        // trigger a CV update if one is not imminent
+        if (aout[i].step == 0) { aout[i].step = 1; }
+        // update TR state
+        tele_tr(i, scene_state.variables.tr[i]);
+    }
 }
 
 void reset_midi_counter() {
