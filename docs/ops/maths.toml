@@ -458,7 +458,7 @@ Scales
  - `4` = Dorian
  - `5` = Phrygian
  - `6` = Lydian
- - `7` = Myxolidian
+ - `7` = Mixolydian
  - `8` = Locrian
 """
 
@@ -498,8 +498,8 @@ Chord Scales - Refer to chord indices in `N.C` OP
  - `4` = Dorian `{1, 1, 0, 2, 1, 6, 0}`
  - `5` = Phrygian `{1, 0, 2, 1, 6, 0, 1}`
  - `6` = Lydian `{0, 2, 1, 6, 0, 1, 1}`
- - `7` = Myxolidian `{6, 0, 1, 1, 0, 2, 1}`
- - `8` = Locrian `{6, 0, 1, 1, 0, 2, 1}`
+ - `7` = Locrian `{6, 0, 1, 1, 0, 2, 1}`
+ - `8` = Mixolydian `{2, 1, 6, 0, 1, 1, 0}`
  """
  
 [V]
