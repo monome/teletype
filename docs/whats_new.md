@@ -27,6 +27,7 @@
 - **NEW**: new op: `CV.GET`
 - **NEW**: basic menu for reading/writing scenes when a USB stick is inserted
 - **NEW**: new ops: `CV.CAL` and `CV.CAL.RESET` to calibrate CV outputs
+- **FIX**: in N.CS docs, correctly identify scales 7 (Locrian) and 8 (Mixolydian)
 
 ## v4.0.0
 
