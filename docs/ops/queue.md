@@ -1,18 +1,21 @@
 ## Queue
-These operators manage a first in, first out, queue of values. The queue can 
-hold up to 16 values. The length of the queue can be dynamically changed and 
-the contents will be preserved. There is also an averaging operator which is 
-useful for smoothing input values.
 
-The queue has a maximum size of 64 elements, with a dynamic length marker,
-set by `Q.N`.
+These operators manage a first in, first out, queue of values. The length of
+the queue can be dynamically changed up to a maximum size of 64 elements.
+A fixed length can be set with the `Q.N` operator, or the queue can grow and
+shrink automatically by setting `Q.GRW 1`. The queue contents will be preserved
+when the length is shortened the length.
+
+Queues also offer operators that do math on the entire queue (the `Q.AVG` operator
+is particularly useful for smoothing input values) or copy the queue to and from
+a tracker pattern.
 
 Most operators manipulates the elements up to (and including) length. Exceptions are `Q.I i x` and `Q.P2`.
 
 Examples, only first 8 elements shown for clarity:
 By default all elements of the queue have a value of `0` and the length is set to 1.
 ```
-Q.N "length" ->| 
+Q.N "length" ->|
 element nb: 1  |  2 3 4 5 6 7 8 
 value       0  |  0 0 0 0 0 0 0
 ```
