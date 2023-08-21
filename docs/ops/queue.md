@@ -4,7 +4,7 @@ These operators manage a first in, first out, queue of values. The length of
 the queue can be dynamically changed up to a maximum size of 64 elements.
 A fixed length can be set with the `Q.N` operator, or the queue can grow and
 shrink automatically by setting `Q.GRW 1`. The queue contents will be preserved
-when the length is shortened the length.
+when the length is shortened.
 
 Queues also offer operators that do math on the entire queue (the `Q.AVG` operator
 is particularly useful for smoothing input values) or copy the queue to and from
