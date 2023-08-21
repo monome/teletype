@@ -28,6 +28,7 @@
 - **NEW**: basic menu for reading/writing scenes when a USB stick is inserted
 - **NEW**: new ops: `CV.CAL` and `CV.CAL.RESET` to calibrate CV outputs
 - **FIX**: N.CS scales 7 & 8 were incorrectly swapped; make them consistent with N.S and docs
+- **FIX**: libavr32 update: support CDC grid size detection (e.g. zero), increase HID message buffer
 
 ## v4.0.0
 
