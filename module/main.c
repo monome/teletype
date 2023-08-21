@@ -984,11 +984,13 @@ static void setup_midi(void) {
     midi_behavior.channel_pressure = NULL;
     midi_behavior.pitch_bend = NULL;
     midi_behavior.control_change = &midi_control_change;
+    midi_behavior.program_change = NULL;
     midi_behavior.clock_tick = &midi_clock_tick;
     midi_behavior.seq_start = &midi_seq_start;
     midi_behavior.seq_stop = &midi_seq_stop;
     midi_behavior.seq_continue = &midi_seq_continue;
     midi_behavior.panic = NULL;
+    midi_behavior.aftertouch = NULL;
 }
 
 
