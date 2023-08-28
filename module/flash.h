@@ -10,23 +10,20 @@
 #define SCENE_SLOTS 32
 #define BUTTON_STATE_SIZE (GRID_BUTTON_COUNT >> 3)
 
-typedef struct
-{
+typedef struct {
     uint8_t button_states[BUTTON_STATE_SIZE];
     uint8_t fader_states[GRID_FADER_COUNT];
 } grid_data_t;
 
 // NVRAM data structure located in the flash array.
-typedef struct
-{
-    scene_script_t scripts[EDITABLE_SCRIPT_COUNT]; // Exclude TEMP script
+typedef struct {
+    scene_script_t scripts[EDITABLE_SCRIPT_COUNT];  // Exclude TEMP script
     scene_pattern_t patterns[PATTERN_COUNT];
     grid_data_t grid_data;
     char text[SCENE_TEXT_LINES][SCENE_TEXT_CHARS];
 } nvram_scene_t;
 
-typedef struct
-{
+typedef struct {
     nvram_scene_t scenes[SCENE_SLOTS];
     uint8_t last_scene;
     tele_mode_t last_mode;

@@ -177,7 +177,7 @@ void check_events(void);
 
 // key handling
 void process_keypress(uint8_t key, uint8_t mod_key, bool is_held_key,
-                             bool is_release);
+                      bool is_release);
 static bool process_global_keys(uint8_t key, uint8_t mod_key, bool is_held_key);
 
 // start/stop monome polling/refresh timers
