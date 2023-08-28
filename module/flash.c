@@ -12,33 +12,14 @@
 #include "teletype.h"
 
 #define FIRSTRUN_KEY 0x22
-#define BUTTON_STATE_SIZE (GRID_BUTTON_COUNT >> 3)
 
-typedef struct {
-    uint8_t button_states[BUTTON_STATE_SIZE];
-    uint8_t fader_states[GRID_FADER_COUNT];
-} grid_data_t;
 static grid_data_t grid_data;
 
-// NVRAM data structure located in the flash array.
-typedef const struct {
-    scene_script_t scripts[EDITABLE_SCRIPT_COUNT];
-    scene_pattern_t patterns[PATTERN_COUNT];
-    grid_data_t grid_data;
-    char text[SCENE_TEXT_LINES][SCENE_TEXT_CHARS];
-} nvram_scene_t;
-
-typedef const struct {
-    nvram_scene_t scenes[SCENE_SLOTS];
-    uint8_t last_scene;
-    tele_mode_t last_mode;
-    uint8_t fresh;
-    cal_data_t cal;
-    device_config_t device_config;
-} nvram_data_t;
-
-
+#if defined(__AVR32__)
 static __attribute__((__section__(".flash_nvram"))) nvram_data_t f;
+#else
+nvram_data_t f;
+#endif
 
 static void pack_grid(scene_state_t *scene);
 static void unpack_grid(scene_state_t *scene);
