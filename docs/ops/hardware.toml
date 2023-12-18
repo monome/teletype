@@ -41,6 +41,14 @@ Get the slew time in ms associated with CV output `x`. Set the slew time
 associated with CV output `x` to `y` ms.
 """
 
+[V]
+prototype = "V x"
+short = "converts a voltage to a value usable by the CV outputs (`x` between `0` and `10`)"
+
+[VV]
+prototype = "VV x"
+short = "converts a voltage to a value usable by the CV outputs (`x` between `0` and `1000`, `100` represents 1V)"
+
 ["IN"]
 prototype = "IN"
 short = "Get the value of IN jack (0-16383)"

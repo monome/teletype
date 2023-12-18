@@ -1,0 +1,103 @@
+[RAND]
+prototype = "RAND x"
+aliases = ["RND"]
+short = "generate a random number between `0` and `x` inclusive"
+
+[RRAND]
+prototype = "RRAND x y"
+aliases = ["RRND"]
+short = "generate a random number between `x` and `y` inclusive"
+
+[TOSS]
+prototype = "TOSS"
+short = "randomly return `0` or `1`"
+
+[R]
+prototype = "R"
+prototype_set = "R x"
+short = "get a random number/set `R.MIN` and `R.MAX` to same value `x` (effectively allowing `R` to be used as a global variable)"
+
+["R.MIN"]
+prototype = "R.MIN x"
+short = "set the lower end of the range from -32768 – 32767, default: 0"
+
+["R.MAX"]
+prototype = "R.MAX x"
+short = "set the upper end of the range from -32768 – 32767, default: 16383"
+
+[CHAOS]
+prototype = "CHAOS x"
+short = "get next value from chaos generator, or set the current value"
+
+["CHAOS.R"]
+prototype = "CHAOS.R x"
+short = "get or set the `R` parameter for the `CHAOS` generator"
+
+["CHAOS.ALG"]
+prototype = "CHAOS.ALG x"
+short = "get or set the algorithm for the `CHAOS` generator. 0 = LOGISTIC, 1 = CUBIC, 2 = HENON, 3 = CELLULAR"
+
+[DRUNK]
+prototype = "DRUNK"
+prototype_set = "DRUNK x"
+short = """changes by `-1`, `0`, or `1` upon each read saving its state,
+setting will give it a new value for the next read"""
+description="""
+Changes by `-1`, `0`, or `1` upon each read, saving its state. Setting `DRUNK`
+will give it a new value for the next read, and drunkedness will continue on
+from there with subsequent reads.
+
+Setting `DRUNK.MIN` and `DRUNK.MAX` controls the lower and upper bounds
+(inclusive) that `DRUNK` can reach. `DRUNK.WRAP` controls whether the value can
+wrap around when it reaches it's bounds.
+"""
+
+["DRUNK.MIN"]
+prototype = "DRUNK.MIN"
+prototype_set = "DRUNK.MIN x"
+short = "set the lower bound for `DRUNK`, default `0`"
+
+["DRUNK.MAX"]
+prototype = "DRUNK.MAX"
+prototype_set = "DRUNK.MAX x"
+short = "set the upper bound for `DRUNK`, default `255`"
+
+["DRUNK.WRAP"]
+prototype = "DRUNK.WRAP"
+prototype_set = "DRUNK.WRAP x"
+short = "should `DRUNK` wrap around when it reaches it's bounds, default `0`"
+
+["SEED"]
+prototype = "SEED"
+prototype_set = "SEED x"
+short = "get / set the random number generator seed for all `SEED` ops"
+
+["RAND.SEED"]
+prototype = "RAND.SEED"
+prototype_set = "RAND.SEED x"
+aliases = ["RAND.SD", "R.SD"]
+short = "get / set the random number generator seed for `R`, `RRAND`, and `RAND` ops"
+
+["TOSS.SEED"]
+prototype = "TOSS.SEED"
+prototype_set = "TOSS.SEED x"
+aliases = ["TOSS.SD"]
+short = "get / set the random number generator seed for the `TOSS` op"
+
+["PROB.SEED"]
+prototype = "PROB.SEED"
+prototype_set = "PROB.SEED x"
+aliases = ["PROB.SD"]
+short = "get / set the random number generator seed for the `PROB` mod"
+
+["DRUNK.SEED"]
+prototype = "DRUNK.SEED"
+prototype_set = "DRUNK.SEED x"
+aliases = ["DRUNK.SD"]
+short = "get / set the random number generator seed for the `DRUNK` op"
+
+["P.SEED"]
+prototype = "P.SEED"
+prototype_set = "P.SEED x"
+aliases = ["P.SD"]
+short = "get / set the random number generator seed for the `P.RND` and `PN.RND` ops"

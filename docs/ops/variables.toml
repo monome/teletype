@@ -18,40 +18,10 @@ prototype = "D"
 prototype_set = "D x"
 short = "get / set the variable `D`, default `4`"
 
-[DRUNK]
-prototype = "DRUNK"
-prototype_set = "DRUNK x"
-short = """changes by `-1`, `0`, or `1` upon each read saving its state,
-setting will give it a new value for the next read"""
-description="""
-Changes by `-1`, `0`, or `1` upon each read, saving its state. Setting `DRUNK`
-will give it a new value for the next read, and drunkedness will continue on
-from there with subsequent reads.
-
-Setting `DRUNK.MIN` and `DRUNK.MAX` controls the lower and upper bounds
-(inclusive) that `DRUNK` can reach. `DRUNK.WRAP` controls whether the value can
-wrap around when it reaches it's bounds.
-"""
-
-["DRUNK.MIN"]
-prototype = "DRUNK.MIN"
-prototype_set = "DRUNK.MIN x"
-short = "set the lower bound for `DRUNK`, default `0`"
-
-["DRUNK.MAX"]
-prototype = "DRUNK.MAX"
-prototype_set = "DRUNK.MAX x"
-short = "set the upper bound for `DRUNK`, default `255`"
-
-["DRUNK.WRAP"]
-prototype = "DRUNK.WRAP"
-prototype_set = "DRUNK.WRAP x"
-short = "should `DRUNK` wrap around when it reaches it's bounds, default `0`"
-
 [FLIP]
 prototype = "FLIP"
 prototype_set = "FLIP x"
-short = "returns inverted state (`0` or `1`) on each read (also settable)"
+short = "returns the opposite of its previous state (`0` or `1`) on each read (also settable)"
 
 [I]
 prototype = "I"

@@ -24,20 +24,6 @@ prototype = "MOD x y"
 aliases = ["%"]
 short = "find the remainder after division of `x` by `y`"
 
-[RAND]
-prototype = "RAND x"
-aliases = ["RND"]
-short = "generate a random number between `0` and `x` inclusive"
-
-[RRAND]
-prototype = "RRAND x y"
-aliases = ["RRND"]
-short = "generate a random number between `x` and `y` inclusive"
-
-[TOSS]
-prototype = "TOSS"
-short = "randomly return `0` or `1`"
-
 ["?"]
 prototype = "? x y z"
 short = "if condition `x` is true return `y`, otherwise return `z`"
@@ -245,14 +231,6 @@ prototype = "SCALE a b i"
 aliases = ["SCL0"]
 short = "scale `i` from range `0` to `a` to range `0` to `b`"
 
-[V]
-prototype = "V x"
-short = "converts a voltage to a value usable by the CV outputs (`x` between `0` and `10`)"
-
-[VV]
-prototype = "VV x"
-short = "converts a voltage to a value usable by the CV outputs (`x` between `0` and `1000`, `100` represents 1V)"
-
 [EXP]
 prototype = "EXP x"
 short = "exponentiation table lookup. `0-16383` range (V `0-10`)"
@@ -260,28 +238,3 @@ short = "exponentiation table lookup. `0-16383` range (V `0-10`)"
 [SGN]
 prototype = "SGN x"
 short = "sign function: 1 for positive, -1 for negative, 0 for 0"
-
-[CHAOS]
-prototype = "CHAOS x"
-short = "get next value from chaos generator, or set the current value"
-
-["CHAOS.R"]
-prototype = "CHAOS.R x"
-short = "get or set the `R` parameter for the `CHAOS` generator"
-
-["CHAOS.ALG"]
-prototype = "CHAOS.ALG x"
-short = "get or set the algorithm for the `CHAOS` generator. 0 = LOGISTIC, 1 = CUBIC, 2 = HENON, 3 = CELLULAR"
-
-[R]
-prototype = "R"
-prototype_set = "R x"
-short = "get a random number/set `R.MIN` and `R.MAX` to same value `x` (effectively allowing `R` to be used as a global variable)"
-
-["R.MIN"]
-prototype = "R.MIN x"
-short = "set the lower end of the range from -32768 – 32767, default: 0"
-
-["R.MAX"]
-prototype = "R.MAX x"
-short = "set the upper end of the range from -32768 – 32767, default: 16383"

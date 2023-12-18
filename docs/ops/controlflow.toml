@@ -398,7 +398,7 @@ Does not affect the CV input (IN) or the Parameter knob (PARAM) values.
 
 ["INIT.P"]
 prototype = "INIT.P x"
-short = "clears pattern associated with pattern number x"
+short = "clears pattern number x"
 
 ["INIT.P.ALL"]
 prototype = "INIT.P.ALL"
@@ -422,7 +422,7 @@ short = "clear time on trigger x"
 
 ["INIT.TR"]
 prototype = "INIT.TR x"
-short = "clear all parameters on trigger associated with TR x"
+short = "clear all parameters on trigger x"
 
 ["INIT.TR.ALL"]
 prototype = "INIT.TR.ALL"
