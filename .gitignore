@@ -53,5 +53,5 @@ __pycache__/
 /docs/teletype.pdf
 /docs/teletype.html
 /docs/cheatsheet/*
-!/docs/cheatsheet/cheatsheet.tex
+!/docs/cheatsheet/cheatsheet-common.tex
 /docs/testServe/

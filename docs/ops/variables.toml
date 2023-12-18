@@ -53,17 +53,34 @@ prototype = "FLIP"
 prototype_set = "FLIP x"
 short = "returns inverted state (`0` or `1`) on each read (also settable)"
 
-
 [I]
 prototype = "I"
 prototype_set = "I x"
 short = """get / set the variable `I`"""
 description="""
-Get / set the variable `I`, this variable is overwritten by `L`, but can be used
+Get / set the variable `I`. This variable is overwritten by `L`, but can be used
 freely outside an `L` loop. Each script gets its own `I` variable, so if you call
 a script from another script's loop you can still use and modify `I` without
 affecting the calling loop. In this scenario the script getting called will have
 its `I` value initialized with the calling loop's current `I` value.
+"""
+
+[J]
+prototype = "J"
+prototype_set = "J x"
+short = """get / set the variable `J`"""
+description="""
+get / set the variable `J`, each script gets its own `J` variable, so if you call
+a script from another script you can still use and modify `J` without affecting the calling script.
+"""
+
+[K]
+prototype = "K"
+prototype_set = "K x"
+short = """get / set the variable `K`"""
+description="""
+get / set the variable `K`, each script gets its own `K` variable, so if you call
+a script from another script you can still use and modify `K` without affecting the calling script.
 """
 
 [O]
@@ -94,7 +111,6 @@ O           => 63
 O           => 61
 ```
 """
-
 
 ["O.INC"]
 prototype = "O.INC"
@@ -160,21 +176,3 @@ short = "get / set the variable `Y`, default `0`"
 prototype = "Z"
 prototype_set = "Z x"
 short = "get / set the variable `Z`, default `0`"
-
-[J]
-prototype = "J"
-prototype_set = "J x"
-short = """get / set the variable `J`"""
-description="""
-get / set the variable `J`, each script gets its own `J` variable, so if you call
-a script from another script you can still use and modify `J` without affecting the calling script.
-"""
-
-[K]
-prototype = "K"
-prototype_set = "K x"
-short = """get / set the variable `K`"""
-description="""
-get / set the variable `K`, each script gets its own `K` variable, so if you call
-a script from another script you can still use and modify `K` without affecting the calling script.
-"""

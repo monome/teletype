@@ -1,0 +1,257 @@
+
+[N]
+prototype = "N x"
+short = "converts an equal temperament note number to a value usable by the CV outputs (`x` in the range `-127` to `127`)"
+description = """
+The `N` OP converts an equal temperament note number to a value usable by the CV outputs.
+
+Examples:
+
+```
+CV 1 N 60        => set CV 1 to middle C, i.e. 5V
+CV 1 N RAND 24   => set CV 1 to a random note from the lowest 2 octaves
+```
+"""
+
+[VN]
+prototype = "VN x"
+short = "converts 1V/OCT value `x` to an equal temperament note number"
+
+[HZ]
+prototype = "HZ x"
+short = "converts 1V/OCT value `x` to Hz/Volt value, useful for controlling non-euro synths like Korg MS-20"
+
+[JI]
+prototype = "JI x y"
+short = "just intonation helper, precision ratio divider normalised to 1V"
+
+[BPM]
+prototype = "BPM x"
+short = "milliseconds per beat in BPM `x`"
+
+["N.S"]
+prototype = "N.S r s d"
+short = "Note Scale operator, `r` is the root note (`0-127`), `s` is the scale (`0-8`) and `d` is the degree (`1-7`), returns a value from the `N` table."
+description = """
+The `N.S` OP lets you retrieve `N` table values according to traditional western scales. `s` and `d` wrap to their ranges automatically and support negative indexing.
+
+Scales
+ - `0` = Major
+ - `1` = Natural Minor
+ - `2` = Harmonic Minor
+ - `3` = Melodic Minor
+ - `4` = Dorian
+ - `5` = Phrygian
+ - `6` = Lydian
+ - `7` = Mixolydian
+ - `8` = Locrian
+"""
+
+["QT.S"]
+prototype = "QT.S x r s"
+short = "quantize 1V/OCT signal `x` to scale `s` (0-8, reference N.S scales) with root 1V/OCT pitch `r`"
+
+["QT.CS"]
+prototype = "QT.CS x r s d c"
+short = "quantize 1V/OCT signal `x` to chord `c` (1-7) from scale `s` (0-8, reference N.S scales) at degree `d` (1-7) with root 1V/OCT pitch `r`"
+description = """
+Quantize 1V/OCT signal `x` to chord `c` (1-7) from scale `s` (0-8, reference N.S scales) at degree `d` (1-7) with root 1V/OCT pitch `r`.
+
+Chords (1-7)
+ - `1` = Tonic
+ - `2` = Third
+ - `3` = Triad
+ - `4` = Seventh
+ - etc.
+"""
+
+["N.C"]
+prototype = "N.C r c d"
+short = "Note Chord operator, `r` is the root note (`0-127`), `c` is the chord (`0-12`) and `d` is the degree (`0-3`), returns a value from the `N` table."
+description = """
+The `N.C` OP lets you retrieve `N` table values according to traditional western chords. `c` and `d` wrap to their ranges automatically and support negative indexing.
+
+Chords
+ - `0` = Major 7th `{0, 4, 7, 11}`
+ - `1` = Minor 7th `{0, 3, 7, 10}`
+ - `2` = Dominant 7th `{0, 4, 7, 10}`
+ - `3` = Diminished 7th `{0, 3, 6, 9}`
+ - `4` = Augmented 7th `{0, 4, 8, 10}`
+ - `5` = Dominant 7b5 `{0, 4, 6, 10}`
+ - `6` = Minor 7b5 `{0, 3, 6, 10}`
+ - `7` = Major 7#5 `{0, 4, 8, 11}`
+ - `8` = Minor Major 7th `{0, 3, 7, 11}`
+ - `9` = Diminished Major 7th `{0, 3, 6, 11}`
+ - `10` = Major 6th `{0, 4, 7, 9}`
+ - `11` = Minor 6th `{0, 3, 7, 9}`
+ - `12` = 7sus4 `{0, 5, 7, 10}`
+ """
+ 
+["N.CS"]
+prototype = "N.CS r s d c"
+short = "Note Chord Scale operator, `r` is the root note (`0-127`), `s` is the scale (`0-8`), `d` is the scale degree (`1-7`) and `c` is the chord component (`0-3`), returns a value from the `N` table."
+description = """
+The `N.CS` OP lets you retrieve `N` table values according to traditional western scales and chords. `s`, `c` and `d` wrap to their ranges automatically and support negative indexing.
+
+Chord Scales - Refer to chord indices in `N.C` OP
+ - `0` = Major `{0, 1, 1, 0, 2, 1, 6}`
+ - `1` = Natural Minor `{1, 6, 0, 1, 1, 0, 2}`
+ - `2` = Harmonic Minor `{8, 6, 7, 1, 2, 0, 3}`
+ - `3` = Melodic Minor `{8, 1, 7, 2, 2, 6, 6}`
+ - `4` = Dorian `{1, 1, 0, 2, 1, 6, 0}`
+ - `5` = Phrygian `{1, 0, 2, 1, 6, 0, 1}`
+ - `6` = Lydian `{0, 2, 1, 6, 0, 1, 1}`
+ - `7` = Mixolydian `{2, 1, 6, 0, 1, 1, 0}`
+ - `8` = Locrian `{6, 0, 1, 1, 0, 2, 1}`
+ """
+
+["N.B"]
+prototype = "N.B d"
+prototype_set = "N.B r s"
+short = "get degree `d` of scale/set scale root to `r`, scale to `s`, `s` is either bit mask (`s` >= 1) or scale preset (`s` < 1)"
+description = """
+Converts a degree in a user-defined equal temperament scale to a value usable by the CV outputs. Default values of `r` and  `s` are 0 and R101011010101, corresponding to C-major.
+To make it easier to generate bit-masks in code, LSB (bit 0) represent the first note in the octave. To avoid having to mirror scales in our heads when entering them by hand, we use `R...` (reverse binary) instead of `B...` (binary ).
+
+The bit-masks uses the 12 lower bits.
+
+Note that N.B is using scale at index 0 as used by N.BX ,so N.B and N.BX 0 are equivalent.
+
+Examples:
+```
+CV 1 N.B 1            ==>  set CV 1 to 1st degree of default scale
+                           (C, value corresponding to N 0)
+N.B 0 R101011010101   ==>  set scale to C-major (default)
+CV 1 N.B 1            ==>  set CV 1 get 1st degree of scale
+                           (C, value corresponding to N 0)
+N.B 2 R101011010101   ==>  set scale to D-major
+CV 1 N.B 3            ==>  set CV 1 to 3rd degree of scale
+                           (F#, value corresponding to N 6)
+N.B 3 R100101010010   ==>  set scale to Eb-minor pentatonic
+CV 1 N.B 2            ==>  set CV 1 to 2nd degree of scale 
+                           (Gb, value corresponding to N 6)
+N.B 5 -3              ==>  set scale to F-lydian using preset
+```
+Values of `s` less than 1 sets the bit mask to a preset scale:
+```
+0:   Ionian (major)
+-1:  Dorian
+-2:  Phrygian
+-3:  Lydian
+-4:  Mixolydian
+-5:  Aeolean (natural minor)
+-6:  Locrian
+-7:  Melodic minor
+-8:  Harmonic minor
+-9:  Major pentatonic
+-10: Minor pentatonic
+-11  Whole note (1st Messiaen mode)
+-12  Octatonic (half-whole, 2nd Messiaen mode)
+-13  Octatonic (whole-half)
+-14  3rd Messiaen mode
+-15  4th Messiaen mode
+-16  5th Messiaen mode
+-17  6th Messiaen mode
+-18  7th Messiaen mode
+-19  Augmented
+```
+"""
+
+["N.BX"]
+prototype = "N.BX i d"
+prototype_set = "N.BX i r s"
+short = "multi-index version of N.B, scale at `i` (index) 0 is shared with N.B"
+description = """
+Multi-index version of N.B. Index `i` in the range 0-15, allows working with 16 independent scales. Scale at `i` 0 is shared with N.B.
+
+Examples:
+```
+N.BX 0 0 R101011010101   ==>  set scale at index 0 to C-major (default)
+CV 1 N.BX 0 1            ==>  set CV 1 to 1st degree of scale
+                              (C, value corresponding to N 0)
+N.BX 1 3 R100101010010   ==>  set scale at index 1 to Eb-minor pentatonic
+CV 1 N.BX 1 2            ==>  set CV 1 to 2nd degree of scale
+                              (Gb, value corresponding to N 6)
+N.BX 2 5 -3              ==>  set scale at index 2 to F-lydian using preset
+```
+
+"""
+
+["QT.B"]
+prototype = "QT.B x"
+short = "quantize 1V/OCT signal `x` to scale defined by `N.B`"
+
+["QT.BX"]
+prototype = "QT.BX i x"
+short = "quantize 1V/OCT signal `x` to scale defined by `N.BX` in scale index `i`"
+
+[ER]
+prototype = "ER f l i"
+short = "Euclidean rhythm, `f` is fill (`1-32`), `l` is length (`1-32`) and `i` is step (any value), returns `0` or `1`"
+description="""
+Euclidean rhythm helper, as described by Godfried Toussaint in his 2005 paper ["The Euclidean Algorithm Generates Traditional Musical Rhythms"][euclidean_rhythm_paper][^euclidean_rhythm_citation]. From the abstract:
+
+ - `f` is fill (`1-32`) and should be less then or equal to length
+ - `l` is length (`1-32`)
+ - `i` is the step index, and will work with negative as well as positive numbers
+
+If you wish to add rotation as well, use the following form:
+
+```
+ER f l SUB i r
+```
+
+where `r` is the number of step of _forward_ rotation you want.
+
+For more info, see the post on [samdoshi.com][samdoshi_com_euclidean]
+
+[samdoshi_com_euclidean]: http://samdoshi.com/post/2016/03/teletype-euclidean/
+[euclidean_rhythm_paper]: http://cgm.cs.mcgill.ca/~godfried/publications/banff.pdf
+[^euclidean_rhythm_citation]: Toussaint, G. T. (2005, July). The Euclidean algorithm generates traditional musical rhythms. _In Proceedings of BRIDGES: Mathematical Connections in Art, Music and Science_ (pp. 47-56).
+"""
+
+[NR]
+prototype = "NR p m f s"
+short = "Numeric Repeater, `p` is prime pattern (`0-31`), `m` is & mask (`0-3`), `f` is variation factor (`0-16`) and `s` is step (`0-15`), returns `0` or `1`"
+description = """
+Numeric Repeater is similar to ER, except it generates patterns using the binary arithmetic process found in ["Noise Engineering's Numeric Repetitor"][numeric_repetitor]. From the description:
+
+Numeric Repetitor is a rhythmic gate generator based on binary arithmetic. A core pattern forms the basis and variation is achieved by treating this pattern as a binary number and multiplying it by another. NR contains 32 prime rhythms derived by examining all possible rhythms and weeding out bad ones via heuristic.
+
+All parameters wrap around their specified ranges automatically and support negative indexing.
+
+Masks
+ - `0` is no mask
+ - `1` is `0x0F0F`
+ - `2` is `0xF003`
+ - `3` is `0x1F0`
+
+For further detail ["see the manual"][nr_manual].
+
+[numeric_repetitor]: https://www.noiseengineering.us/shop/numeric-repetitor
+[nr_manual]: https://static1.squarespace.com/static/58c709192e69cf2422026fa6/t/5e6041ad4cbc0979d6d793f2/1583366574430/NR_manual.pdf
+"""
+
+["DR.P"]
+prototype = "DR.P b p s"
+short = "Drum pattern helper, `b` is the drum bank (`0-4`), `p` is the pattern (0-215) and step is the step number (0-15), returns `0` or `1`"
+description = """
+The drum helper uses preset drum patterns to give 16-step gate patterns. Gates wrap after step 16. Bank 0 is a set of pseudo random gates increasing in density at higher numbered patterns, where pattern 0 is empty,
+and pattern 215 is 1s. Bank 1 is bass drum patterns. Bank 2 is snare drum patterns. Bank 3 is closed hi-hats. Bank 4 is open hi-hits and in some cases cymbals. Bank 1-4 patterns are related to each other (bank 1 pattern 1's bass drum pattern fits bank 2 pattern 1's snare drum pattern). 
+The patterns are from [Paul Wenzel's "Pocket Operations" book](https://shittyrecording.studio/).
+"""
+
+["DR.T"]
+prototype = "DR.T b p q l s"
+short = "Tresillo helper, `b` is the drum bank (`0-4`), `p` is first pattern (0-215), `q` is the second pattern (0-215), `l` is length (`1-64`), and step is the step number (0-length-1), returns `0` or `1`"
+description = """
+The Tresillo helper uses the preset drum patterns described in the drum pattern help function in a 3, 3, 2 rythmic formation. In the tresillo, pattern 1 will be repeated twice for a number of steps determined by the overall length of the pattern. A pattern of length 8 will play the first three steps of your selected pattern 1 twice, and 
+the first two steps of pattern 2 once. A pattern length of 16 will play the first six steps of selected pattern 1 twice, and the first four steps of pattern 2 once. And so on. The max length is 64. Length will be rounded down to the nearest multiple of 8. The step number wraps at the given length.
+"""
+
+["DR.V"]
+prototype = "DR.V p s"
+short = "Velocity helper. `p` is the pattern (0-19). `s` is the step number (0-15)"
+description = """
+The velocity helper gives velocity values (0-16383) at each step. The values are intended to be used for drum hit velocities. There are 16 steps, which wrap around. Divide by 129 to convert to midi cc values.
+"""

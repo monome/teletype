@@ -6,6 +6,7 @@ description = """
 Get the value of CV associated with output `x`, or set the CV output of `x` to 
 `y`.
 """
+see_also = "`V` and `VV` in Maths, `N` in Musical Maths, `CV.CAL` in Hardware Setup"
 
 ["CV.OFF"]
 prototype = "CV.OFF x"
@@ -40,51 +41,13 @@ Get the slew time in ms associated with CV output `x`. Set the slew time
 associated with CV output `x` to `y` ms.
 """
 
-["CV.CAL"]
-prototype = "CV.CAL n mv1v mv3v"
-short = "Calibrate CV output `n`"
-description = """
-Following a short calibration procedure, you can use `CV.CAL` to more
-precisely match your CV outputs to each other or to an external reference. A
-digital multimeter (or other voltage measuring device) is required.
-
-To calibrate CV 1, first set it to output one volt with `CV 1 V 1`. Using
-a digital multimeter with at least millivolt precision (three digits after
-the decimal point), record the measured output of CV 1 between tip and sleeve
-on a patch cable. Then set CV 1 to three volts with `CV 1 V 3` and measure
-again.
-
-Once you have both measurements, use the observed 1V and 3V values in
-millivolts as the second and third arguments to `CV.CAL`. For example, if you
-measured 0.990V and 2.984V, enter `CV.CAL 1 990 2984`. (If both your
-measurements are within 1 or 2 millivolts already, there's no need to run
-`CV.CAL`.)
-
-Measure the output with `CV 1 V 1` and `CV 1 V 3` again and confirm the values
-are closer to the expected 1.000V and 3.000V.
-
-Repeat the above steps for CV 2-4, if desired. The calibration data is stored
-in flash memory so you only need to go through this process once.
-
-Note: The calibration adjustment is made after `CV.SLEW` and `CV.OFF` are
-applied, and does not affect `CV.GET` or any other scene-visible values. It
-only affects the levels coming out of the DAC.
-"""
-
-["CV.CAL.RESET"]
-prototype = "CV.CAL.RESET n"
-short = "Reset calibration data for CV output `n`"
-description = """
-Clear the calibration data for CV output `n` and return it to its default
-behavior, with no calibration adjustment.
-"""
-
 ["IN"]
 prototype = "IN"
 short = "Get the value of IN jack (0-16383)"
 description = """
 Get the value of the IN jack. This returns a valuue in the range 0-16383.
 """
+see_also = "`IN.CAL` ops in Hardware Setup"
 
 ["IN.SCALE"]
 prototype = "IN.SCALE min max"
@@ -97,55 +60,11 @@ short = "Get the value of PARAM knob (0-16383)"
 description = """
 Get the value of the PARAM knob. This returns a valuue in the range 0-16383.
 """
+see_also = "`PARAM.CAL` ops in Hardware Setup"
 
 ["PARAM.SCALE"]
 prototype = "PARAM.SCALE min max"
 short = "Set static scaling of the PARAM knob to between `min` and `max`."
-
-["IN.CAL.MIN"]
-prototype = "IN.CAL.MIN"
-short = "Reads the input CV and assigns the voltage to the zero point"
-description = """
-    1. Connect a patch cable from a calibrated voltage source
-    2. Set the voltage source to 0 volts
-    3. Execute IN.CAL.MIN from the live terminal
-    4. Call IN and confirm the 0 result
-"""
-
-["IN.CAL.MAX"]
-prototype = "IN.CAL.MAX"
-short = "Reads the input CV and assigns the voltage to the max point"
-description = """
-    5. Set the voltage source to target maximum voltage (10V)
-    6. Execute IN.CAL.MAX from the live terminal
-    7. Call IN and confirm that the result is 16383
-"""
-
-["IN.CAL.RESET"]
-prototype = "IN.CAL.RESET"
-short = "Resets the input CV calibration"
-
-["PARAM.CAL.MIN"]
-prototype = "PARAM.CAL.MIN"
-short = "Reads the Parameter Knob minimum position and assigns a zero value"
-description = """
-    1. Turn the PARAM knob all the way to the left
-    2. Execute PARAM.CAL.MIN from the live terminal
-    3. Call PARAM and confirm the 0 result
-"""
-
-["PARAM.CAL.MAX"]
-prototype = "PARAM.CAL.MAX"
-short = "Reads the Parameter Knob maximum position and assigns the maximum point"
-description = """
-    4. Turn the knob all the way to the right
-    5. Execute PARAM.CAL.MAX from the live terminal
-    6. Call PARAM and verify that the result is 16383
-"""
-
-["PARAM.CAL.RESET"]
-prototype = "PARAM.CAL.RESET"
-short = "Resets the Parameter Knob calibration"
 
 ["TR"]
 prototype = "TR x"
@@ -203,14 +122,6 @@ prototype = "STATE x"
 short = "Read the current state of input x"
 description = """
 Read the current state of trigger input `x` (0=low, 1=high). 
-"""
-
-["DEVICE.FLIP"]
-prototype = "DEVICE.FLIP"
-short = "Flip the screen/inputs/outputs"
-description = """
-Flip the screen, the inputs and the outputs. This op is useful if you want to mount your Teletype upside down.
-The new state will be saved to flash. 
 """
 
 ["LIVE.OFF"]

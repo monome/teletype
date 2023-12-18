@@ -46,41 +46,46 @@ env = jinja2.Environment(
 
 # determines the order in which sections are displayed,
 # final column indicates that a new page is inserted _after_ that section
-OPS_SECTIONS = [
-    ("variables",     "Variables",     False),
-    ("hardware",      "Hardware",      False),
-    ("patterns",      "Patterns",      False),
-    ("controlflow",   "Control flow",  False),
-    ("maths",         "Maths",         False),
-    ("metronome",     "Metronome",     False),
-    ("delay",         "Delay",         False),
-    ("stack",         "Stack",         False),
-    ("queue",         "Queue",         False),
-    ("seed",          "Seed",          False),
-    ("turtle",        "Turtle",        True),
-    ("grid",          "Grid",          True),
-    ("midi_in",       "MIDI In",       True),
-    ("i2c",           "Generic I2C",   True),
-    ("ansible",       "Ansible",       False),
-    ("whitewhale",    "Whitewhale",    False),
-    ("meadowphysics", "Meadowphysics", False),
-    ("earthsea",      "Earthsea",      False),
-    ("orca",          "Orca",          True),
-    ("justfriends",   "Just Friends",  False),
-    ("wslash",        "W/",            False),
-    ("er301",         "ER-301",        False),
-    ("fader",         "Fader",         False),
-    ("matrixarchate", "Matrixarchate", True),
-    ("telex_i",       "TELEXi",        False),
-    ("telex_o",       "TELEXo",        False),
-    ("disting",       "Disting EX",    True),
-    ("wslashdelay",   "W/2.0 delay",   False),
-    ("wslashsynth",   "W/2.0 synth",   False),
-    ("wslashtape",    "W/2.0 tape",    False),
-    ("crow",          "Crow",          True),
-    ("i2c2midi",      "I2C2MIDI",      True)
-]
-
+OPS_SECTIONS = {
+    "core": [
+        ("variables",     "Variables",     False),
+        ("hardware",      "Hardware",      False),
+        ("patterns",      "Patterns",      False),
+        ("controlflow",   "Control flow",  False),
+        ("maths",         "Maths",         False),
+        ("music",         "Musical Maths", False),
+        ("metronome",     "Metronome",     False),
+        ("delay",         "Delay",         False),
+        ("stack",         "Stack",         False),
+        ("queue",         "Queue",         False),
+        ("seed",          "Seed",          False),
+        ("turtle",        "Turtle",        False),
+        ("grid",          "Grid",          False),
+        ("midi_in",       "MIDI In",       False),
+        ("hardware_setup", "Hardware Setup", True)
+    ],
+    "i2c": [
+        ("i2c",           "Generic I2C",   False),
+        ("ansible",       "Ansible",       False),
+        ("whitewhale",    "Whitewhale",    False),
+        ("meadowphysics", "Meadowphysics", False),
+        ("earthsea",      "Earthsea",      False),
+        ("orca",          "Orca",          False),
+        ("justfriends",   "Just Friends",  False),
+        ("wslash",        "W/",            False),
+        ("er301",         "ER-301",        False),
+        ("fader",         "Fader",         False),
+        ("matrixarchate", "Matrixarchate", False),
+        ("telex_i",       "TELEXi",        False),
+        ("telex_o",       "TELEXo",        False),
+        ("disting",       "Disting EX",    False),
+        ("wslashdelay",   "W/2.0 delay",   False),
+        ("wslashsynth",   "W/2.0 synth",   False),
+        ("wslashtape",    "W/2.0 tape",    False),
+        ("crow",          "Crow",          False),
+        ("i2c2midi",      "I2C2MIDI",      False)
+    ]
+}
 
 def latex_safe(s):
     # backslash must be first, otherwise it will duplicate itself
@@ -92,13 +97,13 @@ def latex_safe(s):
     return s
 
 
-def cheatsheet_tex():
+def cheatsheet_tex(sections):
     print(f"Using docs directory:     {DOCS_DIR}")
     print(f"Using ops docs directory: {OP_DOCS_DIR}")
     print()
 
     output = VERSION_STR + "\n\n"
-    for (section, title, new_page) in OPS_SECTIONS:
+    for (section, title, new_page) in sections:
         toml_file = Path(OP_DOCS_DIR, section + ".toml")
         if toml_file.exists() and toml_file.is_file():
             output += f"\\group{{{ title }}}\n\n"
@@ -125,12 +130,12 @@ def cheatsheet_tex():
 
 
 def main():
-    if len(sys.argv) != 2:
-        sys.exit("Please supply a filename")
+    if len(sys.argv) != 3:
+        sys.exit("Please supply a cheatsheet category and filename")
 
-    p = Path(sys.argv[1]).resolve()
-    p.write_text(cheatsheet_tex())
-
+    category = sys.argv[1]
+    p = Path(sys.argv[2]).resolve()
+    p.write_text(cheatsheet_tex(OPS_SECTIONS[category]))
 
 if __name__ == "__main__":
     main()
