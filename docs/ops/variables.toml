@@ -26,7 +26,7 @@ short = "returns the opposite of its previous state (`0` or `1`) on each read (a
 [I]
 prototype = "I"
 prototype_set = "I x"
-short = """get / set the variable `I`"""
+short = """get / set the per-script variable `I`. *See also `L:` in control flow*"""
 description="""
 Get / set the variable `I`. This variable is overwritten by `L`, but can be used
 freely outside an `L` loop. Each script gets its own `I` variable, so if you call
@@ -38,7 +38,7 @@ its `I` value initialized with the calling loop's current `I` value.
 [J]
 prototype = "J"
 prototype_set = "J x"
-short = """get / set the variable `J`"""
+short = """get / set the per-script variable `J`"""
 description="""
 get / set the variable `J`, each script gets its own `J` variable, so if you call
 a script from another script you can still use and modify `J` without affecting the calling script.
@@ -47,7 +47,7 @@ a script from another script you can still use and modify `J` without affecting 
 [K]
 prototype = "K"
 prototype_set = "K x"
-short = """get / set the variable `K`"""
+short = """get / set the per-script variable `K`"""
 description="""
 get / set the variable `K`, each script gets its own `K` variable, so if you call
 a script from another script you can still use and modify `K` without affecting the calling script.
