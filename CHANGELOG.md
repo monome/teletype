@@ -35,6 +35,7 @@
 - **NEW**: apply VCV Rack compatibility patches, so branches off main can be used in both hardware and software
 - **FIX**: update Disting EX looper ops to work with Disting EX firmware 1.23+
 - **NEW**: new dual W/ ops: `W/.SEL`, `W/S.POLY`, `W/S.POLY.RESET`, `W/1`, `W/2`
+- **NEW**: split cheatsheets into separate PDFs for core ops and i2c
 
 ## v4.0.0
 
