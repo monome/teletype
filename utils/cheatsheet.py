@@ -79,6 +79,7 @@ OPS_SECTIONS = {
         ("telex_i",       "TELEXi",         False, False),
         ("telex_o",       "TELEXo",          True, False),
         ("wslash",        "W/1.0",          False, False),
+        ("wslash_shared", "W/2.0",          False, False),
         ("wslashdelay",   "W/2.0 delay",    False, False),
         ("wslashsynth",   "W/2.0 synth",    False, False),
         ("wslashtape",    "W/2.0 tape",      True, False),

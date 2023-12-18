@@ -61,6 +61,7 @@ OPS_SECTIONS = [
     "telex_i",
     "telex_o",
     "wslash",
+    "wslash_shared",
     "wslashdelay",
     "wslashsynth",
     "wslashtape",

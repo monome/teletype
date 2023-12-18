@@ -2,6 +2,7 @@
 #define _OPS_WSLASH_TAPE_H_
 
 #include "ops/op.h"
+
 extern const tele_op_t op_WS_T_RECORD;
 extern const tele_op_t op_WS_T_PLAY;
 extern const tele_op_t op_WS_T_REV;

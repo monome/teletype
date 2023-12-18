@@ -32,6 +32,7 @@
 #include "ops/variables.h"
 #include "ops/whitewhale.h"
 #include "ops/wslash.h"
+#include "ops/wslash_shared.h"
 #include "ops/wslashdelay.h"
 #include "ops/wslashsynth.h"
 #include "ops/wslashtape.h"
@@ -166,13 +167,13 @@ const tele_op_t *tele_ops[E_OP__LENGTH] = {
     &op_JF_POLY_RESET, &op_JF_SEL,
 
     // W/
-    &op_WS_PLAY, &op_WS_REC, &op_WS_CUE, &op_WS_LOOP,
+    &op_WS_PLAY, &op_WS_REC, &op_WS_CUE, &op_WS_LOOP, &op_WS_SEL,
 
     // W/S
     &op_WS_S_PITCH, &op_WS_S_VEL, &op_WS_S_VOX, &op_WS_S_NOTE, &op_WS_S_AR_MODE,
     &op_WS_S_LPG_TIME, &op_WS_S_LPG_SYMMETRY, &op_WS_S_CURVE, &op_WS_S_RAMP,
     &op_WS_S_FM_INDEX, &op_WS_S_FM_RATIO, &op_WS_S_FM_ENV, &op_WS_S_VOICES,
-    &op_WS_S_PATCH,
+    &op_WS_S_PATCH, &op_WS_S_POLY, &op_WS_S_POLY_RESET,
 
     // W/D
     &op_WS_D_FEEDBACK, &op_WS_D_MIX, &op_WS_D_LOWPASS, &op_WS_D_FREEZE,
@@ -345,6 +346,9 @@ const tele_mod_t *tele_mods[E_MOD__LENGTH] = {
 
     // just friends
     &mod_JF0, &mod_JF1, &mod_JF2,
+
+    // w/
+    &mod_WS1, &mod_WS2,
 
     // crow
     &mod_CROWN, &mod_CROW1, &mod_CROW2, &mod_CROW3, &mod_CROW4

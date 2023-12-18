@@ -2,6 +2,7 @@
 #define _OPS_WSLASH_DELAY_H_
 
 #include "ops/op.h"
+
 extern const tele_op_t op_WS_D_FEEDBACK;
 extern const tele_op_t op_WS_D_MIX;
 extern const tele_op_t op_WS_D_LOWPASS;

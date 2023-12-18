@@ -14,6 +14,14 @@ short = "set `voice` (s8) to `pitch` (s16V) and strike the vactrol at `velocity`
 prototype = "W/S.NOTE pitch level"
 short = "dynamically assign a voice, set to `pitch` (s16V), strike with `velocity`(s16V)"
 
+["W/S.POLY"]
+prototype = "W/S.POLY pitch level"
+short = "As `W/S.NOTE` but across dual W/. Switches between primary and secondary units every 4 notes or until reset using `W/S.POLY.RESET`."
+
+["W/S.POLY.RESET"]
+prototype = "W/S.POLY.RESET"
+short = "Resets `W/S.POLY` note count."
+
 ["W/S.AR.MODE"]
 prototype = "W/S.AR.MODE is_ar"
 short = "in attack-release mode, all notes are `plucked` and no `release` is required'"

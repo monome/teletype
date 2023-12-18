@@ -1,0 +1,11 @@
+["W/.SEL"]
+prototype = "W/.SEL x"
+short = "Sets target W/2.0 unit (`1` = primary, `2` = secondary)."
+
+["W/1"]
+prototype = "W/1: ..."
+short = "Send following W/2.0 OPs to unit 1 ignoring the currently selected unit."
+
+["W/2"]
+prototype = "W/2: ..."
+short = "Send following W/2.0 OPs to unit 2 ignoring the currently selected unit."

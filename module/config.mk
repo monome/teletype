@@ -114,6 +114,7 @@ CSRCS = \
 	../src/ops/variables.c					\
 	../src/ops/whitewhale.c					\
 	../src/ops/wslash.c					\
+	../src/ops/wslash_shared.c				\
 	../src/ops/wslashsynth.c				\
 	../src/ops/wslashdelay.c				\
 	../src/ops/wslashtape.c					\
