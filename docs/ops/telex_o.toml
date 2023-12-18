@@ -272,12 +272,16 @@ You will find that the offset is now zero, but the output is at the value that y
 
 ["TO.CV.RESET"]
 prototype = "TO.CV.RESET x"
-short = "Clears the calibration offset for output `x`."
+short = "Clears the calibration offset for output `x`"
 
 ["TO.OSC"]
 prototype = "TO.OSC x y"
-short = "targets oscillation for CV output `x` to `y` with the portamento rate determined by the `TO.OSC.SLEW` value; `y` is 1v/oct translated from the standard range (1-16384); a value of `0` disables oscillation; `CV` amplitude is used as the peak for oscillation and needs to be `> 0` for it to be perceivable"
+short = "Targets oscillation for CV output `x` to `y`"
 description = """
+Targets oscillation for CV output `x` to `y` with the portamento rate determined by the `TO.OSC.SLEW` value.
+`y` is 1V/oct translated from the standard range (1-16384).
+A value of `0` disables oscillation; `CV` amplitude is used as the peak for oscillation and needs to be `> 0` for it to be perceivable.
+
 Setting an `OSC` frequency greater than zero for a `CV` output will start that output oscillating. It will swing its voltage between to the current `CV` value and its polar opposite. For example:
 
 ```
@@ -302,39 +306,79 @@ If you want to go back to regular `CV` behavior, you need to set the oscillation
 
 ["TO.OSC.SET"]
 prototype = "TO.OSC.SET x y"
-short = "set oscillation for CV output `x` to `y` (ignores `CV.OSC.SLEW`); `y` is 1v/oct translated from the standard range (1-16384); a value of `0` disables oscillation; `CV` amplitude is used as the peak for oscillation and needs to be `> 0` for it to be perceivable"
+short = "set oscillation for CV output `x` to `y` (ignores slew)"
+description = """
+Set oscillation for CV output `x` to `y` (ignores `CV.OSC.SLEW`.) `y` is 1V/oct translated from the standard range (1-16384); 
+a value of `0` disables oscillation. `CV` amplitude is used as the peak for oscillation and needs to be `> 0` for it to be perceivable.
+"""
 
 ["TO.OSC.QT"]
 prototype = "TO.OSC.QT x y"
-short = "targets oscillation for CV output `x` to `y` with the portamento rate determined by the `TO.OSC.SLEW` value; `y` is 1v/oct translated from the standard range (1-16384) and quantized to current `OSC.SCALE`; a value of `0` disables oscillation; `CV` amplitude is used as the peak for oscillation and needs to be `> 0` for it to be perceivable"
+short = "targets oscillation for CV output `x` to `y`"
+description = """
+Targets oscillation for CV output `x` to `y` with the portamento rate determined by the `TO.OSC.SLEW` value. 
+`y` is 1V/oct translated from the standard range (1-16384) and quantized to current `OSC.SCALE`. 
+A value of `0` disables oscillation; `CV` amplitude is used as the peak for oscillation and needs to be `> 0` for it to be perceivable.
+"""
 
 ["TO.OSC.QT.SET"]
 prototype = "TO.OSC.QT.SET x y"
-short = "set oscillation for CV output `x` to `y` (ignores `CV.OSC.SLEW`); `y` is 1v/oct translated from the standard range (1-16384) and quantized to current `OSC.SCALE`; a value of `0` disables oscillation; `CV` amplitude is used as the peak for oscillation and needs to be `> 0` for it to be perceivable"
+short = "set oscillation for CV output `x` to `y`, quantized to the current scale (ignores slew)"
+description = """
+Set oscillation for CV output `x` to the 1V/oct value `y` (ignores `CV.OSC.SLEW`.) 
+`y` is 1v/oct translated from the standard range (1-16384) and quantized to current `OSC.SCALE`.
+A value of `0` disables oscillation; `CV` amplitude is used as the peak for oscillation and needs to be `> 0` for it to be perceivable.
+"""
 
 ["TO.OSC.N"]
 prototype = "TO.OSC.N x y"
-short = "targets oscillation for CV output `x` to note `y` with the portamento rate determined by the `TO.OSC.SLEW` value; see quantization scale reference for `y`; `CV` amplitude is used as the peak for oscillation and needs to be `> 0` for it to be perceivable"
+short = "targets oscillation for CV output `x` to note `y`"
+description = """
+Targets oscillation for CV output `x` to note `y` with the portamento rate determined by the `TO.OSC.SLEW` value.
+See quantization scale reference for `y`; `CV` amplitude is used as the peak for oscillation and needs to be `> 0` for it to be perceivable.
+"""
 
 ["TO.OSC.N.SET"]
 prototype = "TO.OSC.N.SET x y"
-short = "sets oscillation for CV output `x` to note `y` (ignores `CV.OSC.SLEW`); see quantization scale reference for `y`; `CV` amplitude is used as the peak for oscillation and needs to be `> 0` for it to be perceivable"
+short = "sets oscillation for CV output `x` to note `y` (ignores slew)"
+description = """
+Sets oscillation for CV output `x` to note `y` (ignores `CV.OSC.SLEW`.) 
+See quantization scale reference for `y`; `CV` amplitude is used as the peak for oscillation and needs to be `> 0` for it to be perceivable.
+"""
 
 ["TO.OSC.FQ"]
 prototype = "TO.OSC.FQ x y"
-short = "targets oscillation for CV output `x` to frequency `y` with the portamento rate determined by the `TO.OSC.SLEW` value; `y` is in Hz; a value of `0` disables oscillation; `CV` amplitude is used as the peak for oscillation and needs to be `> 0` for it to be perceivable"
+short = "targets oscillation for CV output `x` to frequency `y` in Hertz"
+description = """
+Targets oscillation for CV output `x` to frequency `y` with the portamento rate determined by the `TO.OSC.SLEW` value.
+`y` is in Hz; a value of `0` disables oscillation. `CV` amplitude is used as the peak for oscillation and needs to be `> 0` for it to be perceivable.
+"""
 
 ["TO.OSC.FQ.SET"]
 prototype = "TO.OSC.FQ.SET x y"
-short = "sets oscillation for CV output `x` to frequency `y` (ignores `CV.OSC.SLEW`); `y` is in Hz; a value of `0` disables oscillation; `CV` amplitude is used as the peak for oscillation and needs to be `> 0` for it to be perceivable"
+short = "targets oscillation for CV output `x` to frequency `y` in Hertz (ignores slew)"
+description = """
+Sets oscillation for CV output `x` to frequency `y` (ignores `CV.OSC.SLEW`.) 
+`y` is in Hz; a value of `0` disables oscillation. `CV` amplitude is used as the peak for oscillation and needs to be `> 0` for it to be perceivable.
+"""
 
 ["TO.OSC.LFO"]
 prototype = "TO.OSC.LFO x y"
-short = "targets oscillation for CV output `x` to LFO frequency `y` with the portamento rate determined by the `TO.OSC.SLEW` value; `y` is in mHz (millihertz: 10^-3 Hz); a value of `0` disables oscillation; `CV` amplitude is used as the peak for oscillation and needs to be `> 0` for it to be perceivable"
+short = "Targets oscillation for CV output `x` to LFO frequency `y` in millihertz"
+description = """
+Targets oscillation for CV output `x` to LFO frequency `y` with the portamento rate determined by the `TO.OSC.SLEW` value.
+`y` is in mHz (millihertz: 10^-3 Hz); a value of `0` disables oscillation.
+`CV` amplitude is used as the peak for oscillation and needs to be `> 0` for it to be perceivable.
+"""
 
 ["TO.OSC.LFO.SET"]
 prototype = "TO.OSC.LFO.SET x y"
-short = "sets oscillation for CV output `x` to LFO frequency `y` (ignores `CV.OSC.SLEW`); `y` is in mHz (millihertz: 10^-3 Hz); a value of `0` disables oscillation; `CV` amplitude is used as the peak for oscillation and needs to be `> 0` for it to be perceivable"
+short = "Targets oscillation for CV output `x` to LFO frequency `y` in millihertz (ignores slew)"
+description = """
+Sets oscillation for CV output `x` to LFO frequency `y` (ignores `CV.OSC.SLEW`.)
+`y` is in mHz (millihertz: 10^-3 Hz); a value of `0` disables oscillation.
+`CV` amplitude is used as the peak for oscillation and needs to be `> 0` for it to be perceivable.
+"""
 
 ["TO.OSC.CYC"]
 prototype = "TO.OSC.CYC x y"
@@ -386,11 +430,15 @@ description = """
 
 ["TO.OSC.WAVE"]
 prototype = "TO.OSC.WAVE x y"
-short = "set the waveform for output `x` to `y`; `y` values range `0-4500`. There are 45 different waveforms, values translate to sine (0), triangle (100), saw (200), pulse (300) all the way to random/noise (4500); oscillator shape between values is a blend of the pure waveforms"
+short = "set the waveform for output `x` to `y`; `y` range is `0-4500`, blending between 45 waveforms"
+description = """
+There are 45 different waveforms, values translate to sine (0), triangle (100), saw (200), pulse (300) all the way to random/noise (4500).
+Oscillator shape between values is a blend of the pure waveforms.
+"""
 
 ["TO.OSC.RECT"]
 prototype = "TO.OSC.RECT x y"
-short = "rectifies the polarity of the oscillator for output `x` to `y`; range for `y` is -2 to 2; default is 0 (no rectification); 1 & -1 are partial rectification - omitting all values on the other side of the sign; 2 & -2 are full rectification - inverting values from the other pole"
+short = "rectifies the polarity of the oscillator for output `x` to `y`; 0 is no rectification, +/-1 is partial rectification, +/-2 is full rectification"
 description = """
 The rectification command performs a couple of levels of rectification based on how you have it set. The following values for `y` work as follows:
 
@@ -470,7 +518,12 @@ To return your `CV` output to normal function, either deactivate the envelope (`
 
 ["TO.ENV"]
 prototype = "TO.ENV x y"
-short = "This parameter essentially allows output `x` to act as a gate between the 0 and 1 state. Changing this value from 0 to 1 causes the envelope to trigger the attack phase and hold at the peak CV value; changing this value from 1 to 0 causes the decay stage of the envelope to be triggered."
+short = "trigger the attack stage of output `x` when `y` changes to 1, or decay stage when it changes to 0"
+description = """
+This parameter essentially allows output `x` to act as a gate between the 0 and 1 state. Changing this value from 0 to 1
+causes the envelope to trigger the attack phase and hold at the peak CV value; changing this value from 1 to 0 causes the
+decay stage of the envelope to be triggered.
+"""
 
 ["TO.ENV.TRIG"]
 prototype = "TO.ENV.TRIG x"
@@ -502,8 +555,11 @@ short = "set the envelope decay time to `y` for `CV` output `x`; `y` in minutes"
 
 ["TO.ENV.EOR"]
 prototype = "TO.ENV.EOR x n"
-short = "fires a `PULSE` at the End of Rise to the unit-local trigger output 'n' for the envelope on `CV` output `x`; `n` refers to trigger output 1-4 on the same TXo as CV output 'y'"
+short = "at the end of rise of `CV` output `x`, fires a `PULSE` to the trigget output `n`"
 description = """
+Fires a `PULSE` at the End of Rise to the unit-local trigger output `n` for the envelope on `CV` output `x`; 
+`n` refers to trigger output 1-4 on the same TXo as CV output `x`.
+
 The most important thing to know with this operator is that you can only cause the EOR trigger to fire on the same device as the TXo with the envelope. For this command, the outputs are numbered LOCALLY to the unit with the envelope.
 
 For example, if you have an envelope running on your second TXo, you can only send the EOR pulse to the four outputs on that device:
@@ -517,8 +573,11 @@ This will cause the first output on TXo #2 (`TO.TR 5`) to pulse after the envelo
 
 ["TO.ENV.EOC"]
 prototype = "TO.ENV.EOC x n"
-short = "fires a `PULSE` at the End of Cycle to the unit-local trigger output 'n' for the envelope on `CV` output `x`; `n` refers to trigger output 1-4 on the same TXo as CV output 'y'"
+short = "at the end of cycle of `CV` output `x`, fires a `PULSE` to the trigget output `n`"
 description = """
+Fires a `PULSE` at the End of Cycle to the unit-local trigger output `n` for the envelope on `CV` output `x`.
+`n` refers to trigger output 1-4 on the same TXo as CV output 'y'.
+
 The most important thing to know with this operator is that you can only cause the EOC trigger to fire on the same device as the TXo with the envelope. For this command, the outputs are numbered LOCALLY to the unit with the envelope.
 
 For example, if you have an envelope running on your second TXo, you can only send the EOC pulse to the four outputs on that device:
@@ -532,7 +591,12 @@ This will cause the first output on TXo #2 (`TO.TR 5`) to pulse after the envelo
 
 ["TO.ENV.LOOP"]
 prototype = "TO.ENV.LOOP x y"
-short = "causes the envelope on `CV` output `x` to loop for `y` times; a `y` of `0` will cause the envelope to loop infinitely; setting `y` to 1 (default) disables looping and (if currently looping) will cause it to finish its current cycle and cease"
+short = "causes the envelope on `CV` output `x` to loop for `y` times"
+description = """
+Causes the envelope on `CV` output `x` to loop for `y` times.
+A `y` of `0` will cause the envelope to loop infinitely; setting `y` to 1 (default) disables looping and (if currently looping) will
+cause it to finish its current cycle and cease.
+"""
 
 ["TO.TR.INIT"]
 prototype = "TO.TR.INIT x"

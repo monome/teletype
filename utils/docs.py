@@ -57,16 +57,16 @@ OPS_SECTIONS = [
     "justfriends",
     "fader",
     "er301",
-    "matrixarchate",
     "telex_i",
     "telex_o",
+    "crow",
     "wslash",
     "wslash_shared",
+    "wslashtape",
     "wslashdelay",
     "wslashsynth",
-    "wslashtape",
-    "crow",
     "disting",
+    "matrixarchate",
     "i2c2midi"
 ]
 
