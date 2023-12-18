@@ -5,7 +5,7 @@ build: teletype.pdf teletype.html cheatsheet/cheatsheet-core.pdf cheatsheet/chea
 clean:
 	rm -f teletype.pdf && \
 		rm -f teletype.html && \
-		rm -f cheatsheet/include.tex && \
+		rm -f cheatsheet/cheatsheet-*.tex && \
 		cd cheatsheet && \
 			latexmk -xelatex -c && \
 			rm -f cheatsheet.pdf
@@ -18,12 +18,8 @@ teletype.html: $(wildcard *.md ops/*.md ops/*.toml) \
 		../utils/docs.py ../CHANGELOG.md $(wildcard ../utils/templates/*)
 	../utils/docs.py teletype.html
 
-cheatsheet/cheatsheet-%.pdf: $(wildcard ops/*.toml) ../utils/cheatsheet.py cheatsheet/cheatsheet.tex
-	../utils/cheatsheet.py $* "cheatsheet/include.tex"
-	cd cheatsheet && latexmk -xelatex cheatsheet.tex -jobname=cheatsheet-$*
+cheatsheet/cheatsheet-%.tex: $(wildcard ops/*.toml) ../utils/cheatsheet.py
+	../utils/cheatsheet.py $* "cheatsheet/cheatsheet-$*.tex"
 
-cheatsheet/%.tex: $(wildcard ops/*.toml) ../utils/cheatsheet.py
-	../utils/cheatsheet.py $* "cheatsheet/$*.tex"
-
-cheatsheet/%.pdf: cheatsheet/cheatsheet.tex cheatsheet/include.tex
-	cd cheatsheet && latexmk -xelatex cheatsheet-common.tex -jobname=$*
+cheatsheet/cheatsheet-%.pdf: cheatsheet/cs-common.tex cheatsheet/cheatsheet-%.tex
+	cd cheatsheet && latexmk -xelatex cs-common.tex -jobname=cheatsheet-$*

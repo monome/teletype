@@ -45,45 +45,45 @@ env = jinja2.Environment(
 )
 
 # determines the order in which sections are displayed,
-# final column indicates that a new page is inserted _after_ that section
+# last two columns indicates when a column break or page break is inserted _after_ that section
 OPS_SECTIONS = {
     "core": [
-        ("variables",     "Variables",     False),
-        ("hardware",      "Hardware",      False),
-        ("patterns",      "Patterns",      False),
-        ("controlflow",   "Control flow",  False),
-        ("maths",         "Maths",         False),
-        ("music",         "Musical Maths", False),
-        ("metronome",     "Metronome",     False),
-        ("delay",         "Delay",         False),
-        ("stack",         "Stack",         False),
-        ("queue",         "Queue",         False),
-        ("seed",          "Seed",          False),
-        ("turtle",        "Turtle",        False),
-        ("grid",          "Grid",          False),
-        ("midi_in",       "MIDI In",       False),
-        ("hardware_setup", "Hardware Setup", True)
+        ("variables",     "Variables",       False, False),
+        ("hardware",      "Hardware",        False, False),
+        ("patterns",      "Patterns",         True, False),
+        ("controlflow",   "Control flow",    False, False),
+        ("maths",         "Maths",           False, False),
+        ("music",         "Musical Maths",   False, False),
+        ("metronome",     "Metronome",       False, False),
+        ("delay",         "Delay",           False, False),
+        ("stack",         "Stack",           True, False),
+        ("queue",         "Queue",           True, False),
+        ("seed",          "Seed",            True, False),
+        ("turtle",        "Turtle",          False, True),
+        ("grid",          "Grid",            False, False),
+        ("midi_in",       "MIDI In",         False, False),
+        ("hardware_setup", "Hardware Setup", False, False)
     ],
     "i2c": [
-        ("i2c",           "Generic I2C",   False),
-        ("ansible",       "Ansible",       False),
-        ("whitewhale",    "Whitewhale",    False),
-        ("meadowphysics", "Meadowphysics", False),
-        ("earthsea",      "Earthsea",      False),
-        ("orca",          "Orca",          False),
-        ("justfriends",   "Just Friends",  False),
-        ("wslash",        "W/",            False),
-        ("er301",         "ER-301",        False),
-        ("fader",         "Fader",         False),
-        ("matrixarchate", "Matrixarchate", False),
-        ("telex_i",       "TELEXi",        False),
-        ("telex_o",       "TELEXo",        False),
-        ("disting",       "Disting EX",    False),
-        ("wslashdelay",   "W/2.0 delay",   False),
-        ("wslashsynth",   "W/2.0 synth",   False),
-        ("wslashtape",    "W/2.0 tape",    False),
-        ("crow",          "Crow",          False),
-        ("i2c2midi",      "I2C2MIDI",      False)
+        ("i2c",           "Generic I2C",    False, False),
+        ("ansible",       "Ansible",        False, False),
+        ("whitewhale",    "Whitewhale",     True, False),
+        ("meadowphysics", "Meadowphysics",  False, False),
+        ("earthsea",      "Earthsea",       False, False),
+        ("orca",          "Orca",           False, False),
+        ("justfriends",   "Just Friends",   True, False),
+        ("er301",         "ER-301",         False, False),
+        ("fader",         "Faderbank",      False, False),
+        ("matrixarchate", "Matrixarchate",  False, False),
+        ("telex_i",       "TELEXi",         False, False),
+        ("telex_o",       "TELEXo",         False, False),
+        ("disting",       "Disting EX",     False, False),
+        ("wslash",        "W/1.0",          False, False),
+        ("wslashdelay",   "W/2.0 delay",    False, False),
+        ("wslashsynth",   "W/2.0 synth",    False, False),
+        ("wslashtape",    "W/2.0 tape",     False, False),
+        ("crow",          "Crow",           False, True),
+        ("i2c2midi",      "I2C2MIDI",       False, False)
     ]
 }
 
@@ -103,7 +103,7 @@ def cheatsheet_tex(sections):
     print()
 
     output = VERSION_STR + "\n\n"
-    for (section, title, new_page) in sections:
+    for (section, title, new_col, new_page) in sections:
         toml_file = Path(OP_DOCS_DIR, section + ".toml")
         if toml_file.exists() and toml_file.is_file():
             output += f"\\group{{{ title }}}\n\n"
@@ -126,6 +126,8 @@ def cheatsheet_tex(sections):
                 output += "\n\n"
             if new_page:
                 output += "\\pagebreak\n\n"
+            if new_col:
+                output += "\\vfill\\null\n\\columnbreak\n"
     return output
 
 

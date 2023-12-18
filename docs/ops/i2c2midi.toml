@@ -418,7 +418,7 @@ Set strumming of chord `x` (0..8) to `x` ms (0..32767). Strumming plays the note
 
 ["I2M.C.VCUR"]  
 prototype = "I2M.C.VCUR w x y z"  
-alias = ["I2M.C.V~"]
+aliases = ["I2M.C.V~"]
 short = "Set velocity curve for chord `w` (0..8) with curve type `x` (0..5), start value `y`% (0..32767) and end value `z`% (0..32767), use `w = 0` to set for all chords, use `x = 0` to turn off"   
 description = """
 Set velocity curve for chord `w` (0..8) with curve type `x` (0..5), start value `y`% (0..32767) and end value `z`% (0..32767). This will affect the velocity of the notes in the order they are defined in the chord. Start and end percentages refer to the velocity with which the chord is played via `I2M.C`. Use `x = 0` to turn velocity curve off. The following curves are available: 0) Off 1) Linear 2) Exponential 3) Triangle 4) Square 5) Random. Use `w = 0` to set velocity curve for all chords. Try a random curve with subtle values for a humanizing effect.
@@ -426,7 +426,7 @@ Set velocity curve for chord `w` (0..8) with curve type `x` (0..5), start value 
 
 ["I2M.C.TCUR"]  
 prototype = "I2M.C.TCUR w x y z"  
-alias = ["I2M.C.T~"]
+aliases = ["I2M.C.T~"]
 short = "Set time curve to strumming for chord `w` (0..8) with curve type `x` (0..5), start value `y`% (0..32767) and end value `z`% (0..32767), use `w = 0` to set for all chords, use `x = 0` to turn off"   
 description = """
 Set time curve for chord `w` (0..8) with curve type `x` (0..5), start value `y`% (0..32767) and end value `z`% (0..32767). This will affect the time interval between the notes in the order they are defined in the chord. Start and end percentages refer to the current strumming setting of the chord, set via `I2M.C.STR`. Use `x = 0` to turn time curve off. The following curves are available: 0) Off 1) Linear 2) Exponential 3) Triangle 4) Square 5) Random. Use `w = 0` to set time curve for all chords. Try a square curve with similar values to create swing. Try a random curve with subtle values for a humanizing effect.
