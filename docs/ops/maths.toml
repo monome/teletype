@@ -48,7 +48,10 @@ short = "limit the value `x` to the range `y` to `z` inclusive, but with wrappin
 [QT]
 prototype = "QT x y"
 short = "round `x` to the closest multiple of `y` (quantise)"
-see_also = "`QT.S`, `QT.CS`, `QT.B`, `QT.BX` in Musical Maths"
+description = """
+Round `x` to the closest multiple of `y`.
+*See also: `QT.S`, `QT.CS`, `QT.B`, `QT.BX` in the Pitch section*.
+"""
 
 [AVG]
 prototype = "AVG x y"

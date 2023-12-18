@@ -6,7 +6,6 @@ description = """
 Get the value of CV associated with output `x`, or set the CV output of `x` to 
 `y`.
 """
-see_also = "`V` and `VV` in Maths, `N` in Musical Maths, `CV.CAL` in Hardware Setup"
 
 ["CV.OFF"]
 prototype = "CV.OFF x"
@@ -55,7 +54,6 @@ short = "Get the value of IN jack (0-16383)"
 description = """
 Get the value of the IN jack. This returns a valuue in the range 0-16383.
 """
-see_also = "`IN.CAL` ops in Hardware Setup"
 
 ["IN.SCALE"]
 prototype = "IN.SCALE min max"
@@ -68,7 +66,6 @@ short = "Get the value of PARAM knob (0-16383)"
 description = """
 Get the value of the PARAM knob. This returns a valuue in the range 0-16383.
 """
-see_also = "`PARAM.CAL` ops in Hardware Setup"
 
 ["PARAM.SCALE"]
 prototype = "PARAM.SCALE min max"
