@@ -49,7 +49,7 @@ env = jinja2.Environment(
 OPS_SECTIONS = {
     "core": [
         ("variables",     "Variables",        True, False),
-        ("hardware",      "Hardware",        False, False),
+        ("hardware",      "Hardware I/O",     False, False),
         ("pitch",         "Pitch",            True, False),
         ("rhythm",        "Rhythm",          False, False),
         ("metronome",     "Metronome",       False, False),
