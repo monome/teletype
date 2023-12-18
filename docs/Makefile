@@ -5,7 +5,7 @@ build: teletype.pdf teletype.html cheatsheet/cheatsheet-core.pdf cheatsheet/chea
 clean:
 	rm -f teletype.pdf && \
 		rm -f teletype.html && \
-		rm -f cheatsheet/cheatsheet-*.tex && \
+		rm -f cheatsheet/cheatsheet-*.* && \
 		cd cheatsheet && \
 			latexmk -xelatex -c && \
 			rm -f cheatsheet.pdf
