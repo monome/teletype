@@ -94,3 +94,14 @@ jobs:
         with:
           path: docs/teletype.pdf
           name: teletype.pdf
+      - name: Upload cheatsheet to artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          path: docs/cheatsheet/cheatsheet.pdf
+          name: cheatsheet.pdf
+      - name: Upload i2c cheatsheet to artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          path: docs/cheatsheet/cheatsheet-i2c.pdf
+          name: cheatsheet-i2c.pdf
+
