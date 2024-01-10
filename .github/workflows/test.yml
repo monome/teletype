@@ -69,7 +69,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: module/teletype.hex
-          name: teletype firmware
+          name: teletype (firmware only)
   build-docs:
     runs-on: ubuntu-latest
     steps:
@@ -92,7 +92,7 @@ jobs:
       - name: Create documentation artifact
         uses: actions/upload-artifact@v4
         with:
-          name: teletype docs
+          name: teletype (docs only)
           path: |
             docs/teletype.pdf
             docs/teletype.html
@@ -102,20 +102,21 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build-firmware, build-docs]
     steps:
-      - name: Download artifacts from previous steps
-        uses: actions/download-artifact@v4
-        with:
-          path: release
-          merge-multiple: true
       - uses: actions/checkout@v4
         with:
           sparse-checkout: module
       - name: Add firmware update scripts to release 
         run: |
+          mkdir release
           cp module/update_firmware.command release
           cp module/flash.sh release
+      - name: Download artifacts from previous steps
+        uses: actions/download-artifact@v4
+        with:
+          path: release
+          merge-multiple: true
       - name: Add release zip to artifacts
         uses: actions/upload-artifact@v4
         with:
           path: release
-          name: teletype.zip
+          name: teletype
