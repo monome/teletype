@@ -13,7 +13,7 @@ jobs:
   clang-format:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Run clang-format
       run: |
         curl -O https://raw.githubusercontent.com/Sarcasm/run-clang-format/master/run-clang-format.py
@@ -21,7 +21,7 @@ jobs:
   run-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
       - name: Install ragel
@@ -33,7 +33,7 @@ jobs:
   build-simulator:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
       - name: Install ragel
@@ -45,7 +45,7 @@ jobs:
   build-firmware:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
       - name: Install ragel
@@ -73,7 +73,7 @@ jobs:
   build-docs:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 0
@@ -96,8 +96,8 @@ jobs:
           path: |
             docs/teletype.pdf
             docs/teletype.html
-            docs/cheatsheet/cheatsheet.pdf
-            docs/cheatsheet/cheatsheet-i2c.pd
+            docs/cheatsheet.pdf
+            docs/cheatsheet-i2c.pdf
   create-release-zip:
     runs-on: ubuntu-latest
     needs: [build-firmware, build-docs]
@@ -107,6 +107,9 @@ jobs:
         with:
           path: release
           merge-multiple: true
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: module
       - name: Add firmware update scripts to release 
         run: |
           cp module/update_firmware.command release
