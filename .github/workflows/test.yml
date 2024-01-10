@@ -94,10 +94,8 @@ jobs:
         with:
           name: teletype (docs only)
           path: |
-            docs/teletype.pdf
-            docs/teletype.html
-            docs/cheatsheet.pdf
-            docs/cheatsheet-i2c.pdf
+            docs/*.pdf
+            docs/*.html
   create-release-zip:
     runs-on: ubuntu-latest
     needs: [build-firmware, build-docs]
