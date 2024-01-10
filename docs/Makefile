@@ -1,6 +1,6 @@
 .PHONY: build clean
 
-build: teletype.pdf teletype.html cheatsheet/cheatsheet.pdf cheatsheet/cheatsheet-i2c.pdf
+build: teletype.pdf teletype.html cheatsheet.pdf cheatsheet-i2c.pdf
 
 clean:
 	rm -f teletype.pdf && \
@@ -24,5 +24,8 @@ cheatsheet/cheatsheet-%.tex: $(wildcard ops/*.toml) ../utils/cheatsheet.py
 cheatsheet/cheatsheet-%.pdf: cheatsheet/cs-common.tex cheatsheet/cheatsheet-%.tex
 	cd cheatsheet && latexmk -xelatex cs-common.tex -jobname=cheatsheet-$*
 
-cheatsheet/cheatsheet.pdf: cheatsheet/cheatsheet-core.pdf
-	cd cheatsheet && cp cheatsheet-core.pdf cheatsheet.pdf
+cheatsheet.pdf: cheatsheet/cheatsheet-core.pdf
+	cp cheatsheet/cheatsheet-core.pdf cheatsheet.pdf
+
+cheatsheet-i2c.pdf: cheatsheet/cheatsheet-i2c.pdf
+	cp cheatsheet/cheatsheet-i2c.pdf .
