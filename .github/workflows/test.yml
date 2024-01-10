@@ -65,11 +65,11 @@ jobs:
         run: |
           cd module
           make
-      - name: Upload teletype.hex to artifacts
-        uses: actions/upload-artifact@v2
+      - name: Create firmware artifact
+        uses: actions/upload-artifact@v4
         with:
           path: module/teletype.hex
-          name: teletype.hex
+          name: teletype firmware
   build-docs:
     runs-on: ubuntu-latest
     steps:
@@ -89,19 +89,30 @@ jobs:
         run: |
           cd docs
           make
-      - name: Upload docs to artifacts
-        uses: actions/upload-artifact@v2
+      - name: Create documentation artifact
+        uses: actions/upload-artifact@v4
         with:
-          path: docs/teletype.pdf
-          name: teletype.pdf
-      - name: Upload cheatsheet to artifacts
-        uses: actions/upload-artifact@v2
+          name: teletype docs
+          path: |
+            docs/teletype.pdf
+            docs/teletype.html
+            docs/cheatsheet/cheatsheet.pdf
+            docs/cheatsheet/cheatsheet-i2c.pd
+  create-release-zip:
+    runs-on: ubuntu-latest
+    needs: [build-firmware, build-docs]
+    steps:
+      - name: Download artifacts from previous steps
+        uses: actions/download-artifact@v4
         with:
-          path: docs/cheatsheet/cheatsheet.pdf
-          name: cheatsheet.pdf
-      - name: Upload i2c cheatsheet to artifacts
-        uses: actions/upload-artifact@v2
+          path: release
+          merge-multiple: true
+      - name: Add firmware update scripts to release 
+        run: |
+          cp module/update_firmware.command release
+          cp module/flash.sh release
+      - name: Add release zip to artifacts
+        uses: actions/upload-artifact@v4
         with:
-          path: docs/cheatsheet/cheatsheet-i2c.pdf
-          name: cheatsheet-i2c.pdf
-
+          path: release
+          name: teletype.zip
