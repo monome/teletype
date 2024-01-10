@@ -50,8 +50,8 @@ __pycache__/
 /simulator/tt
 /module/gitversion.c
 /tests/tests
-/docs/teletype.pdf
-/docs/teletype.html
+/docs/*.pdf
+/docs/*.html
 /docs/cheatsheet/*
 !/docs/cheatsheet/cs-common.tex
 /docs/testServe/
