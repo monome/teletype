@@ -1,5 +1,9 @@
 # Updates
 
+## v5.0.x
+
+- **FIX**: fix risk of crash/corruption in help mode reverse search
+
 ## v5.0.0
 
 - **FIX**: fix off-by-one error in `P.ROT` understanding of pattern length
