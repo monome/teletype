@@ -378,7 +378,7 @@ Set reverse of notes in chord `x` (0..8) to `y`. `y = 0` or an even number means
 prototype = "I2M.C.ROT x y"  
 short = "Set rotation of notes in chord `x` (0..8) to `y` steps (-127..127), use `x = 0` to set for all chords"  
 description = """
-Set rotation of notes in chord `x` (0..8) to `y` steps (-127..127). E.g. `y = 1` of chord `0,3,7` will lead to `3,7,0`, `y = 2 will lead to `7,0,3`, `y = -1` will lead to `7,0,3`. Default is `y = 0`. Use `x = 0` to set rotation for all chords.
+Set rotation of notes in chord `x` (0..8) to `y` steps (-127..127). E.g. `y = 1` of chord `0,3,7` will lead to `3,7,0`, `y = 2` will lead to `7,0,3`, `y = -1` will lead to `7,0,3`. Default is `y = 0`. Use `x = 0` to set rotation for all chords.
 """
 
 ["I2M.C.TRP"]  
