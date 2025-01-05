@@ -1692,9 +1692,7 @@ bool text_search_forward(search_state_t* state, const char* needle,
 bool text_search_reverse(search_state_t* state, const char* needle,
                          const char** haystack, int haystack_len) {
     const int needle_len = strlen(needle);
-    if (state->line >= haystack_len) {
-        state->line = haystack_len - 1;
-    }
+    if (state->line >= haystack_len) { state->line = haystack_len - 1; }
     for (; state->line >= 0; state->line--) {
         const int haystack_line_len = strlen(haystack[state->line]);
         for (state->ch = haystack_line_len - needle_len; state->ch >= 0;
