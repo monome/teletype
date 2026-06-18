@@ -478,9 +478,11 @@ void handler_HidTimer(int32_t data) {
         }
 
         set_old_frame(frame);
+
+        //moved inside the if block to avoid potential race conditions.
+        hid_clear_frame_dirty(); 
     }
 
-    hid_clear_frame_dirty();
 }
 
 void handler_MscConnect(int32_t data) {
