@@ -3,6 +3,7 @@
 ## v5.0.x:
 
 - **FIX**: fix risk of crash/corruption in help mode reverse search
+- **NEW**: op_enums.py runs automatically during build
 
 ## v5.0.0
 

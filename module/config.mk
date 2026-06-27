@@ -64,7 +64,6 @@ CSRCS = \
 	../module/main.c					\
 	../module/edit_mode.c   				\
 	../module/flash.c					\
-	../module/gitversion.c					\
 	../module/grid.c						\
 	../module/help_mode.c  					\
 	../module/line_editor.c					\
@@ -77,8 +76,9 @@ CSRCS = \
 	../src/every.c					\
 	../src/helpers.c					\
 	../src/drum_helpers.c					\
-	../src/match_token.c					\
-	../src/scanner.c					\
+	../src/gen/match_token.c					\
+	../src/gen/scanner.c					\
+	../src/gen/gitversion.c					\
 	../src/scale.c						\
 	../src/scene_serialization.c				\
 	../src/state.c						\
@@ -264,3 +264,6 @@ LDFLAGS = -Wl,-e,_trampoline,--defsym=__flash_nvram_size__=200K
 # Pre- and post-build commands
 PREBUILD_CMD =
 POSTBUILD_CMD =
+
+# Make GCC-produced header dependency infomation visible to the Makefile
+-include $(OBJS:.o=.d)

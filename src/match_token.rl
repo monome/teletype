@@ -5,7 +5,7 @@
 #include <stdio.h>
 
 #include "ops/op.h"
-#include "ops/op_enum.h"
+#include "gen/op_enum.h"
 #include "helpers.h"
 
 %%{

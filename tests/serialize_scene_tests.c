@@ -3,9 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "gen/op_enum.h"
 #include "greatest/greatest.h"
 #include "log.h"
-#include "ops/op_enum.h"
 #include "scene_serialization.h"
 #include "serializer.h"
 #include "state.h"

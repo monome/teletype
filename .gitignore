@@ -45,10 +45,8 @@
 __pycache__/
 
 # Build outputs
-/src/match_token.c
-/src/scanner.c
+/src/gen/*
 /simulator/tt
-/module/gitversion.c
 /tests/tests
 /docs/*.pdf
 /docs/*.html

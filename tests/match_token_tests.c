@@ -2,10 +2,10 @@
 
 #include <string.h>
 
+#include "gen/op_enum.h"
 #include "greatest/greatest.h"
 #include "match_token.h"
 #include "ops/op.h"
-#include "ops/op_enum.h"
 
 // This test asserts that match_token always returns the correct op, it does
 // this by starting with the op in question, extracting the name and running

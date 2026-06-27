@@ -41,8 +41,7 @@
 /////////////////////////////////////////////////////////////////
 // OPS //////////////////////////////////////////////////////////
 
-// If you edit this array, you need to run 'utils/op_enums.py' to update the
-// values in 'op_enum.h' so that the order matches.
+
 const tele_op_t *tele_ops[E_OP__LENGTH] = {
     // variables
     &op_A, &op_B, &op_C, &op_D, &op_DRUNK, &op_DRUNK_MAX, &op_DRUNK_MIN,

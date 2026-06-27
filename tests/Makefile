@@ -1,7 +1,9 @@
 .PHONY: clean test
 CFLAGS = -std=c99 -g -Wall -fno-common -DSIM -I../src -I../libavr32/src
 
-tests: main.o \
+DEPS = ../src/gen/op_enum.h
+
+OBJ = main.o \
 	log.o \
 	match_token_tests.o op_mod_tests.o \
 	parser_tests.o process_tests.o \
@@ -9,7 +11,7 @@ tests: main.o \
 	drum_helpers_tests.o \
 	serialize_scene_tests.o \
 	../src/teletype.o ../src/command.o ../src/helpers.o ../src/drum_helpers.o \
-	../src/every.o ../src/match_token.o ../src/scanner.o \
+	../src/every.o ../src/gen/match_token.o ../src/gen/scanner.o \
 	../src/state.o ../src/table.o ../src/turtle.o ../src/chaos.o \
 	../src/scale.o ../src/scene_serialization.o \
 	../src/ops/op.o ../src/ops/ansible.o ../src/ops/controlflow.o \
@@ -28,13 +30,15 @@ tests: main.o \
 	../libavr32/src/euclidean/data.o ../libavr32/src/euclidean/euclidean.o \
 	../libavr32/src/music.o ../libavr32/src/util.o ../libavr32/src/random.o
 
+
+%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+tests: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
-../src/match_token.c: ../src/match_token.rl
-	ragel -C -G2 ../src/match_token.rl -o ../src/match_token.c
 
-../src/scanner.c: ../src/scanner.rl
-	ragel -C -G2 ../src/scanner.rl -o ../src/scanner.c
+include ../codegen.mk
 
 test: tests
 	@./tests | greatest/greenest
@@ -50,5 +54,4 @@ clean:
 	rm -f ../src/ops/*.o
 	rm -f ../libavr32/src/euclidean/*.o
 	rm -f ../libavr32/src/*.o
-	rm -f ../src/match_token.c
-	rm -f ../src/scanner.c
+	rm -f ../src/gen/*

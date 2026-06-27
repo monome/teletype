@@ -616,7 +616,7 @@ static void op_G_BTN_X_set(const void *NOTUSED(data), scene_state_t *ss,
     s16 y = GBC.y;
     s16 w = GBC.w;
     s16 h = GBC.h;
-    CLAMP_X_Y_W_H(return );
+    CLAMP_X_Y_W_H(return);
 
     GBC.x = x;
     GBC.y = y;
@@ -640,7 +640,7 @@ static void op_G_BTN_Y_set(const void *NOTUSED(data), scene_state_t *ss,
     s16 x = GBC.x;
     s16 w = GBC.w;
     s16 h = GBC.h;
-    CLAMP_X_Y_W_H(return );
+    CLAMP_X_Y_W_H(return);
 
     GBC.x = x;
     GBC.y = y;
@@ -691,7 +691,7 @@ static void op_G_BTNX_set(const void *NOTUSED(data), scene_state_t *ss,
     s16 y = GBC.y;
     s16 w = GBC.w;
     s16 h = GBC.h;
-    CLAMP_X_Y_W_H(return );
+    CLAMP_X_Y_W_H(return);
 
     GBC.x = x;
     GBC.y = y;
@@ -713,7 +713,7 @@ static void op_G_BTNY_set(const void *NOTUSED(data), scene_state_t *ss,
     s16 x = GBC.x;
     s16 w = GBC.w;
     s16 h = GBC.h;
-    CLAMP_X_Y_W_H(return );
+    CLAMP_X_Y_W_H(return);
 
     GBC.x = x;
     GBC.y = y;
@@ -1138,7 +1138,7 @@ static void op_G_FDR_X_set(const void *NOTUSED(data), scene_state_t *ss,
     s16 y = GFC.y;
     s16 w = GFC.w;
     s16 h = GFC.h;
-    CLAMP_X_Y_W_H(return );
+    CLAMP_X_Y_W_H(return);
 
     GFC.x = x;
     GFC.y = y;
@@ -1162,7 +1162,7 @@ static void op_G_FDR_Y_set(const void *NOTUSED(data), scene_state_t *ss,
     s16 x = GFC.x;
     s16 w = GFC.w;
     s16 h = GFC.h;
-    CLAMP_X_Y_W_H(return );
+    CLAMP_X_Y_W_H(return);
 
     GFC.x = x;
     GFC.y = y;
@@ -1252,7 +1252,7 @@ static void op_G_FDRX_set(const void *NOTUSED(data), scene_state_t *ss,
     s16 y = GFC.y;
     s16 w = GFC.w;
     s16 h = GFC.h;
-    CLAMP_X_Y_W_H(return );
+    CLAMP_X_Y_W_H(return);
 
     GFC.x = x;
     GFC.y = y;
@@ -1274,7 +1274,7 @@ static void op_G_FDRY_set(const void *NOTUSED(data), scene_state_t *ss,
     s16 x = GFC.x;
     s16 w = GFC.w;
     s16 h = GFC.h;
-    CLAMP_X_Y_W_H(return );
+    CLAMP_X_Y_W_H(return);
 
     GFC.x = x;
     GFC.y = y;
@@ -1398,7 +1398,7 @@ static void op_G_XYP_get(const void *NOTUSED(data), scene_state_t *ss,
 
     if (i < (s16)0 || i >= (s16)GRID_XYPAD_COUNT) return;
     if (script < 0 || script > INIT_SCRIPT) script = -1;
-    CLAMP_X_Y_W_H(return );
+    CLAMP_X_Y_W_H(return);
 
     GXYC.enabled = true;
     GXYC.group = SG.current_group;

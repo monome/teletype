@@ -1,8 +1,8 @@
 .PHONY: clean
 CFLAGS=-std=c99 -g -Wall -fno-common -DSIM -I. -I../src -I../libavr32/src
-DEPS =
+DEPS = ../src/gen/op_enum.h
 OBJ = tt.o ../src/teletype.o ../src/command.o ../src/helpers.o ../src/drum_helpers.o \
-	../src/every.o ../src/match_token.o ../src/scanner.o \
+	../src/every.o ../src/gen/match_token.o ../src/gen/scanner.o \
 	../src/scale.o ../src/scene_serialization.o \
 	../src/state.o ../src/table.o ../src/turtle.o ../src/chaos.o \
 	../src/ops/op.o ../src/ops/ansible.c ../src/ops/controlflow.o \
@@ -18,7 +18,7 @@ OBJ = tt.o ../src/teletype.o ../src/command.o ../src/helpers.o ../src/drum_helpe
 	../src/ops/wslash_shared.o ../src/ops/crow.o ../src/ops/i2c2midi.o\
 	../libavr32/src/euclidean/euclidean.o ../libavr32/src/euclidean/data.o \
 	../libavr32/src/music.o ../libavr32/src/util.o ../libavr32/src/random.o \
-        ../src/ops/midi.o
+	../src/ops/midi.o
 
 %.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
@@ -26,11 +26,7 @@ OBJ = tt.o ../src/teletype.o ../src/command.o ../src/helpers.o ../src/drum_helpe
 tt: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
 
-../src/match_token.c: ../src/match_token.rl
-	ragel -C -G2 ../src/match_token.rl -o ../src/match_token.c
-
-../src/scanner.c: ../src/scanner.rl
-	ragel -C -G2 ../src/scanner.rl -o ../src/scanner.c
+include ../codegen.mk
 
 clean:
 	rm -f tt
@@ -40,5 +36,4 @@ clean:
 	rm -f ../src/ops/*.o
 	rm -f ../libavr32/src/euclidean/*.o
 	rm -f ../libavr32/src/*.o
-	rm -f ../src/match_token.c
-	rm -f ../src/scanner.c
+	rm -f ../src/gen/*

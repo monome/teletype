@@ -5,7 +5,7 @@
 #include <stddef.h>
 
 #include "command.h"
-#include "op_enum.h"
+#include "gen/op_enum.h"
 #include "state.h"
 
 typedef struct {
